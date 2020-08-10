@@ -27,8 +27,8 @@ class WP_Posts_Carousel_Carousels {
      * manage carousels
      */
     public static function manage() {
-        include_once( 'class-admin-carousels-table.php' );
-        $table = new WP_Posts_Carousel_Table();
+        //include_once( 'class-admin-carousels-table.php' );
+        //$table = new WP_Posts_Carousel_Table();
 
         include_once( 'views/html-carousels-page.php' );
     }

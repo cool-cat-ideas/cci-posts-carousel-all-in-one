@@ -1,0 +1,734 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Wp Posts Carousel 1.3.7\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-posts-"
+"carousel\n"
+"POT-Creation-Date: 2020-06-16T15:06:57+00:00\n"
+"PO-Revision-Date: 2020-06-16 17:13+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pl_PL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3.1\n"
+"X-Domain: wp-posts-carousel\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
+"|| n%100>14) ? 1 : 2);\n"
+"X-Poedit-KeywordsList: _;_e\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#. Plugin Name of the plugin
+msgid "Wp Posts Carousel"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "http://www.teastudio.pl/en/product/wp-posts-carousel/"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"WP Posts Carousel is a widget and a shortcode generator to displays posts in "
+"carousel by <a href=\"http://www.owlcarousel.owlgraphic.com/\" target="
+"\"_blank\" title=\"OWL Carousel homepage\">OWL Carousel</a>."
+msgstr ""
+
+#. Author of the plugin
+msgid "Marcin Gierada"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://www.teastudio.pl/"
+msgstr ""
+
+#: includes/admin/class-admin-carousels-table.php:28
+msgid "carousel"
+msgstr ""
+
+#: includes/admin/class-admin-carousels-table.php:29
+msgid "carousels"
+msgstr ""
+
+#: includes/admin/class-admin-carousels-table.php:40
+#: includes/admin/class-admin-shortcodes-table.php:30
+msgid "Name"
+msgstr ""
+
+#: includes/admin/class-admin-carousels-table.php:41
+#: includes/admin/class-admin-shortcodes-table.php:31
+msgid "Shortcode"
+msgstr ""
+
+#: includes/admin/class-admin-menu.php:55
+#: includes/admin/class-admin-menu.php:56
+#: includes/admin/views/html-settings-page.php:25
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class-admin-menu.php:64
+msgid "Add-Ons"
+msgstr ""
+
+#: includes/admin/class-admin-menu.php:65
+msgid "Add-ons"
+msgstr ""
+
+#: includes/admin/class-admin-meta-boxes.php:65
+msgid "Post Selection Criteria"
+msgstr ""
+
+#: includes/admin/class-admin-meta-boxes.php:68
+msgid "Display options"
+msgstr ""
+
+#: includes/admin/class-admin-meta-boxes.php:71
+msgid "Carousel options"
+msgstr ""
+
+#: includes/admin/class-admin-shortcodes-table.php:91
+msgid "Insert this carousel to the post"
+msgstr ""
+
+#: includes/admin/class-admin-shortcodes-table.php:91
+#: includes/admin/views/html-editor-carousels-page.php:16
+msgid "Insert Carousel"
+msgstr ""
+
+#: includes/admin/class-admin.php:56
+msgid "Error detected."
+msgstr ""
+
+#: includes/admin/class-admin.php:57
+msgid "Please correct your form and try again"
+msgstr ""
+
+#: includes/admin/class-admin.php:58
+msgid "Please choose one of the available templates for this carousel"
+msgstr ""
+
+#: includes/admin/class-admin.php:59
+msgid "Please correct your breakpoints and try again"
+msgstr ""
+
+#: includes/admin/class-admin.php:61
+msgid "Could not find the shortcode. Please try again"
+msgstr ""
+
+#: includes/admin/class-admin.php:62
+msgid "Carousel shortcode has been placed"
+msgstr ""
+
+#: includes/admin/class-admin.php:63
+msgid "hide in"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:5
+msgid "Items to show on different devices"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:6
+msgid ""
+"If you need you can create more breakpoints. See <a href=\"%s\" target="
+"\"_blank\" title=\"See how to create custom breakpoints\">FAQ</a>"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:24
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:52
+msgid "items"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:37
+msgid ""
+"Ups, make sure that you defined correctly breakpints in your filter "
+"\"wp_posts_carousel_breakpoints\"."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:48
+msgid "Slide by"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:49
+msgid "Number of items to slide."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:57
+msgid "RTL"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:58
+msgid "Change direction from Right to Left."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:66
+msgid "Stage padding"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:67
+msgid "Padding left and right on stage (can see prev and next posts)."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:75
+msgid "Margin"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:76
+msgid "Margin between items."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:84
+msgid "Inifnity loop"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:85
+msgid "Duplicate last and first items to get loop illusion."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:93
+msgid "Pause on mouse hover"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:101
+msgid "Auto play"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:109
+msgid "Autoplay interval timeout"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:117
+msgid "Show \"next\" and \"prev\" buttons"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:125
+msgid "Navigation speed"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:133
+msgid "Show dots navigation"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:141
+msgid "Dots speed"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:149
+msgid "Delays loading of images"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:150
+msgid ""
+"Images outside of viewport won't be loaded before user scrolls to them. "
+"Great for mobile devices to speed up page loadings."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:151
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:201
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:211
+msgid ""
+"With some themes or servers it might cause problems. If you have problem "
+"with your carousel (e.g: one of the images did not show, etc.), please "
+"uncheck this option."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:159
+msgid "Mouse events"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:167
+msgid "Mousewheel scrolling"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:168
+msgid ""
+"With some themes or servers it might cause problems. If you have problem "
+"with your carousel or site (e.g: you can't scroll the page, etc.), please "
+"uncheck this option."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:176
+msgid "Touch events"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:184
+msgid "Animation"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:199
+msgid "Auto width"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:200
+msgid ""
+"It's recommended to set width on divs, but sometimes you may want this "
+"option :)"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:209
+msgid "Auto height"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-carousel-meta-box.php:210
+msgid "Height adjusted dynamically to highest displayed item."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:5
+msgid "Template"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:13
+msgid "Show title"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:21
+msgid "Show author"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:29
+msgid "Show created date"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:37
+msgid "Show description"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:52
+msgid "Allow shortcodes in full content"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:60
+msgid "Show category"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:68
+msgid "Show tags"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:76
+msgid "Show more button"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:84
+msgid "Show featured image"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:92
+msgid "Image source"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:107
+msgid "Image width"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-display-meta-box.php:123
+msgid "Image height"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-info-meta-box.php:17
+msgid "Version"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-info-meta-box.php:22
+msgid "New update is available"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-info-meta-box.php:23
+msgid "There is a new version (%s) available to download"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-info-meta-box.php:26
+msgid "See details"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-info-meta-box.php:30
+msgid "Good job!"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-info-meta-box.php:31
+msgid "You have the latest version"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-support-meta-box.php:16
+msgid "Need support?"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-support-meta-box.php:20
+msgid "If you are having problems with this plugin, please contact by"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-support-meta-box.php:23
+msgid "For more information about this plugin, please visit"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-support-meta-box.php:23
+msgid "plugin's homepage"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-support-meta-box.php:30
+msgid "Need custom modification, plugin or theme?"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-support-meta-box.php:34
+msgid ""
+"If you like this plugin, but need something a bit more custom or completely "
+"new, you can hire me to work for you!"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-plugin-support-meta-box.php:37
+msgid ""
+"Email me at <a href=\"mailto:m.gierada@teastudio.pl\" title=\"Hire me\">m."
+"gierada@teastudio.pl</a> for more information!"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:8
+msgid "Post types"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:9
+msgid "You can select multiple post types."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:25
+msgid "Show posts"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:30
+msgid "Order by"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:44
+msgid "Show Posts with IDs"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:45
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:54
+msgid "Please enter Post IDs with comma seperated."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:53
+msgid "Exclude Posts with IDs"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:62
+msgid "Posts with Category IDs"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:63
+msgid "Please enter Category IDs with comma seperated."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:84
+msgid "Posts with Tag names"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:85
+msgid "Please enter Tag names with comma seperated."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:101
+msgid "Posts limit"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/html-post-criteria-meta-box.php:110
+msgid "Ordering"
+msgstr ""
+
+#: includes/admin/views/html-carousels-page.php:16
+msgid "Carousels"
+msgstr ""
+
+#: includes/admin/views/html-editor-carousels-page.php:17
+#: includes/admin/views/html-settings-page.php:124
+msgid "or"
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:31
+msgid "General"
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:32
+msgid "Support"
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:49
+msgid "Include \"%s\" library"
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:55
+msgid "Include \"%s\" library in Admin panel"
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:58
+msgid ""
+"Select this option if you would like to include this font and stylesheet, or "
+"uncheck if you are already using it.<br />Learn more about %s."
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:62
+msgid "Scripts"
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:66
+msgid "Include plugin's scripts in \"footer\" section"
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:68
+msgid ""
+"Select if you want to include plugin's scripts in \"footer\" section, "
+"otherwise they will be included in \"head\" section."
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:72
+#: includes/admin/views/html-settings-page.php:76
+msgid "Debug mode"
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:78
+msgid ""
+"Select if you have problems with carousels and you want to show plugin's "
+"error messages on your site source code."
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:118
+msgid "Need help?"
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:120
+msgid ""
+"If you need any help with this plugin or with Wordpress, check out our "
+"support options"
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:123
+msgid "Plugin support forum (free)"
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:125
+msgid "Premium support"
+msgstr ""
+
+#: includes/admin/views/html-settings-page.php:133
+msgid ""
+"This data may be needed to solve your problem, so please copy and share with "
+"technical support."
+msgstr ""
+
+#: includes/class-init.php:60 includes/class-init.php:62
+#: includes/class-init.php:69
+msgid "WP Posts Carousel"
+msgstr ""
+
+#: includes/class-init.php:61 includes/class-init.php:63
+#: includes/class-widget.php:60
+msgid "Carousel"
+msgstr ""
+
+#: includes/class-init.php:64
+msgid "Add Carousel"
+msgstr ""
+
+#: includes/class-init.php:65
+msgid "Add new Carousel"
+msgstr ""
+
+#: includes/class-init.php:66
+msgid "New Carousel"
+msgstr ""
+
+#: includes/class-init.php:67
+msgid "Edit Carousel"
+msgstr ""
+
+#: includes/class-init.php:68
+msgid "View "
+msgstr ""
+
+#: includes/class-init.php:70
+msgid "Search Carousels"
+msgstr ""
+
+#: includes/class-init.php:71
+msgid "Not found any Carousels"
+msgstr ""
+
+#: includes/class-init.php:72
+msgid "Not found in trash"
+msgstr ""
+
+#: includes/class-init.php:105 includes/class-init.php:108
+msgid "Carousel updated."
+msgstr ""
+
+#: includes/class-init.php:109
+msgid "Carousel restored to revision from %s"
+msgstr ""
+
+#: includes/class-init.php:110
+msgid "Carousel published."
+msgstr ""
+
+#: includes/class-init.php:111
+msgid "Carousel saved."
+msgstr ""
+
+#: includes/class-init.php:112
+msgid "Carousel submitted."
+msgstr ""
+
+#: includes/class-init.php:114
+msgid "Carousel scheduled for: <strong>%1$s</strong>."
+msgstr ""
+
+#: includes/class-init.php:117
+msgid "Carousel draft updated."
+msgstr ""
+
+#: includes/class-integration.php:77
+msgid ""
+"This integration '%s' is not compatible with the current version of this "
+"plugin"
+msgstr ""
+
+#: includes/class-template.php:85
+msgid ""
+"This template '%s' is not compatible with the current version of this plugin"
+msgstr ""
+
+#: includes/class-templates.php:133
+msgid "Template name is not valid: \"%s\""
+msgstr ""
+
+#: includes/class-templates.php:151
+msgid "The template file \"%s\" is missing in plugin folder"
+msgstr ""
+
+#: includes/class-templates.php:156
+msgid "The template stylesheet \"%s\" is missing in plugin folder"
+msgstr ""
+
+#: includes/class-templates.php:166
+msgid "The template file \"%s\" is missing in your themes folder"
+msgstr ""
+
+#: includes/class-templates.php:171
+msgid "The template stylesheet \"%s\" is missing in your themes folder"
+msgstr ""
+
+#: includes/class-templates.php:180
+msgid "The template with the name \"%s\" is missing"
+msgstr ""
+
+#: includes/class-templates.php:194
+msgid "Could not read the template info \"%s\""
+msgstr ""
+
+#: includes/class-templates.php:234
+msgid "Ups, something is wrong, couldn't get the templates list."
+msgstr ""
+
+#: includes/class-templates.php:245
+msgid "Template screenshot"
+msgstr ""
+
+#: includes/class-templates.php:286
+msgid "Could not found the template: \"%s\""
+msgstr ""
+
+#: includes/class-utils.php:95
+msgid "By id"
+msgstr ""
+
+#: includes/class-utils.php:96
+msgid "By title"
+msgstr ""
+
+#: includes/class-utils.php:97
+msgid "Newest"
+msgstr ""
+
+#: includes/class-utils.php:105
+msgid "Ascending"
+msgstr ""
+
+#: includes/class-utils.php:106
+msgid "Descending"
+msgstr ""
+
+#: includes/class-utils.php:107
+msgid "Random"
+msgstr ""
+
+#: includes/class-utils.php:115
+msgid "No"
+msgstr ""
+
+#: includes/class-utils.php:116
+msgid "Excerpt"
+msgstr ""
+
+#: includes/class-utils.php:117
+msgid "Full content"
+msgstr ""
+
+#: includes/class-utils.php:125
+msgid "Thumbnail"
+msgstr ""
+
+#: includes/class-utils.php:126
+msgid "Medium"
+msgstr ""
+
+#: includes/class-utils.php:127
+msgid "Large"
+msgstr ""
+
+#: includes/class-utils.php:128
+msgid "Full"
+msgstr ""
+
+#: includes/class-utils.php:175
+msgid "And"
+msgstr ""
+
+#: includes/class-utils.php:176
+msgid "Or"
+msgstr ""
+
+#: includes/class-utils.php:203
+msgid "Hint"
+msgstr ""
+
+#: includes/class-widget.php:27
+msgid "Show posts in Wp Posts Carousel"
+msgstr ""
+
+#: includes/frontend/class-carousel-generator.php:277
+#: includes/frontend/class-carousel-generator.php:288
+#: includes/frontend/class-carousel-generator.php:349
+msgid "Read more about"
+msgstr ""
+
+#: includes/frontend/class-carousel-generator.php:300
+msgid "View all items in %s"
+msgstr ""
+
+#: includes/frontend/class-carousel-generator.php:349 wp-posts-carousel.php:157
+msgid "read more"
+msgstr ""
+
+#: includes/frontend/class-carousel-generator.php:390
+msgid ""
+"WP Posts Carousel plugin require jQuery library. Please make sure you have "
+"the latest version on your website."
+msgstr ""
+
+#: includes/frontend/class-carousel-generator.php:422
+msgid "previous"
+msgstr ""
+
+#: includes/frontend/class-carousel-generator.php:422
+msgid "next"
+msgstr ""
+
+#: assets/js/admin.js:409
+msgid "hello world"
+msgstr "cześć123"

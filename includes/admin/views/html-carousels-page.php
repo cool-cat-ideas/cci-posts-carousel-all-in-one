@@ -11,7 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 ?>
+
+<div id="wp-posts-carousel-react-admin" style="position:relative;margin-left:-20px;"></div>
+<?php /*
 <div class="wrap">
+
+
     <h1>
         <?php _e( 'Carousels', 'wp-posts-carousel' ); ?>
         <a href="<?php echo admin_url() ?>post-new.php?post_type=wp-posts-carousel" class="page-title-action"><?php _e( 'Add New' ); ?></a>
@@ -29,4 +34,6 @@ if ( ! defined( 'ABSPATH' ) ) {
             <?php WP_Posts_Carousel_Plugin_Support_Meta_Box::output(); ?>
         </div>
     </div>
+   
 </div>
+ */ ?>
