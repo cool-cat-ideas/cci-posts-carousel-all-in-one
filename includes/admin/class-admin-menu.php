@@ -42,31 +42,31 @@ class WP_Posts_Carousel_Menu {
         );
 
 
-        add_submenu_page(
-            'wp-posts-carousel',
-            'Add Carousel',
-            'Add Carousel',
-            'edit_wp_posts_carousels',
-            'post-new.php?post_type=wp-posts-carousel'
-        );
+        // add_submenu_page(
+        //     'wp-posts-carousel',
+        //     'Add Carousel',
+        //     'Add Carousel',
+        //     'edit_wp_posts_carousels',
+        //     'post-new.php?post_type=wp-posts-carousel'
+        // );
 
-        add_submenu_page(
-            'wp-posts-carousel',
-            __( 'Settings', 'wp-posts-carousel' ),
-            __( 'Settings', 'wp-posts-carousel' ),
-            'manage_wp_posts_carousel_options',
-            'settings',
-            array( 'WP_Posts_Carousel_Settings', 'manage_settings' )
-        );
+        // add_submenu_page(
+        //     'wp-posts-carousel',
+        //     __( 'Settings', 'wp-posts-carousel' ),
+        //     __( 'Settings', 'wp-posts-carousel' ),
+        //     'manage_wp_posts_carousel_options',
+        //     'settings',
+        //     array( 'WP_Posts_Carousel_Settings', 'manage_settings' )
+        // );
 
-        add_submenu_page(
-            'wp-posts-carousel',
-            'WP Posts Carousel ' . __( 'Add-Ons', 'wp-posts-carousel' ),
-            __( 'Add-ons', 'wp-posts-carousel' ),
-            'manage_wp_posts_carousel_options',
-            'templates',
-            array( 'WP_Posts_Carousel_Templates', 'manage_templates' )
-        );
+        // add_submenu_page(
+        //     'wp-posts-carousel',
+        //     'WP Posts Carousel ' . __( 'Add-Ons', 'wp-posts-carousel' ),
+        //     __( 'Add-ons', 'wp-posts-carousel' ),
+        //     'manage_wp_posts_carousel_options',
+        //     'templates',
+        //     array( 'WP_Posts_Carousel_Templates', 'manage_templates' )
+        // );
 
     }
 

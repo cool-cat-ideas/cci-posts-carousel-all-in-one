@@ -84,19 +84,19 @@ class WP_Posts_Carousel {
 		include_once 'includes/class-widget.php';
 
 		include_once 'includes/class-templates.php';
-		$WP_Posts_Carousel_Templates = new WP_Posts_Carousel_Templates();
-		$this->templates             = $WP_Posts_Carousel_Templates->get_templates();
+		// $WP_Posts_Carousel_Templates = new WP_Posts_Carousel_Templates();
+		// $this->templates             = $WP_Posts_Carousel_Templates->get_templates();
 
 		include_once 'includes/class-integrations.php';
-		$WP_Posts_Carousel_Integrations = new WP_Posts_Carousel_Integrations();
-		$this->integrations             = $WP_Posts_Carousel_Integrations->get_integrations();
+		// $WP_Posts_Carousel_Integrations = new WP_Posts_Carousel_Integrations();
+		// $this->integrations             = $WP_Posts_Carousel_Integrations->get_integrations();
 
-		include_once( 'includes/admin/class-admin-settings.php' );
+		include_once 'includes/admin/class-admin-settings.php';
 		$WP_Posts_Carousel_Settings = new WP_Posts_Carousel_Settings();
-		$this->settings = $WP_Posts_Carousel_Settings->get_settings();
+		// $this->settings = $WP_Posts_Carousel_Settings->get_settings();
 
-		$is_debug_mode = array_key_exists( 'debug', $this->settings ) ? true : false;
-		$this->define( 'WP_POSTS_CAROUSEL_DEBUG', $is_debug_mode );
+		// $is_debug_mode = array_key_exists( 'debug', $this->settings ) ? true : false;
+		// $this->define( 'WP_POSTS_CAROUSEL_DEBUG', $is_debug_mode );
 
 		if ( is_admin() ) {
 			include_once 'includes/admin/class-admin.php';

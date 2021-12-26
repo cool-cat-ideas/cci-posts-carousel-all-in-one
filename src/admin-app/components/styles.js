@@ -1,8 +1,11 @@
 import {
-	createMuiTheme
-} from '@material-ui/core';
+	createTheme
+} from '@mui/material/styles';
+import {
+    makeStyles
+} from '@mui/styles';
 
-export const theme = createMuiTheme( {
+export const theme = createTheme( {
     typography: {
         fontSize: 12,
         lineHeight: 1.4,
@@ -13,14 +16,32 @@ export const theme = createMuiTheme( {
             'sans-serif',
         ].join( ',' ),
     },
+    palette: {
+        primary: {
+          light: '#a2cf6e',
+          main: '#0073AA',
+          dark: '#006BA1',
+          contrastText: '#fff',
+        },
+        secondary: {
+          light: '#ff7961',
+          main: '#f44336',
+          dark: '#ba000d',
+          contrastText: '#fff',
+        },
+        dark: {
+            main: '#23282D'
+        }
+      },
 } );
 
 const drawerWidth = 200;
+const rightDrawerWidth = 280;
 
 export const styles = ( theme ) => ( {
     root: {
         display: 'flex',
-        minHeight: '1000px',
+        minHeight: '87vh',
         "& .MuiInputBase-input:focus": {
             border: 'none',
             boxShadow: 'none',
@@ -35,23 +56,23 @@ export const styles = ( theme ) => ( {
         alignItems: 'center',
         justifyContent: 'flex-end',
         padding: '0 8px',
-        ...theme.mixins.toolbar,
+        // ...theme.mixins.toolbar,
     },
     appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create( [ 'width', 'margin' ], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        } ),
+        // zIndex: theme.zIndex.drawer + 1,
+        // transition: theme.transitions.create( [ 'width', 'margin' ], {
+        //     easing: theme.transitions.easing.sharp,
+        //     duration: theme.transitions.duration.leavingScreen,
+        // } ),
         boxShadow: 'none',
     },
     appBarShift: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${ drawerWidth }px)`,
-        transition: theme.transitions.create( [ 'width', 'margin' ], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        } ),
+        // marginLeft: drawerWidth,
+        // width: `calc(100% - ${ drawerWidth }px)`,
+        // transition: theme.transitions.create( [ 'width', 'margin' ], {
+        //     easing: theme.transitions.easing.sharp,
+        //     duration: theme.transitions.duration.enteringScreen,
+        // } ),
     },
     menuButton: {
         marginRight: 36,
@@ -66,30 +87,46 @@ export const styles = ( theme ) => ( {
         position: 'relative',
         whiteSpace: 'nowrap',
         width: drawerWidth,
-        transition: theme.transitions.create( 'width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        } ),
         borderRight: '0 none',
+    },
+    sticky: {
+        position: 'fixed',
+        display: 'grid',
     },
     drawerPaperClose: {
         overflowX: 'hidden',
         display: 'none',
-        transition: theme.transitions.create( 'width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        } ),
-        width: theme.spacing( 7 ),
-        [ theme.breakpoints.up( 'sm' ) ]: {
-            width: theme.spacing( 9 ),
+        width: '50px',
+        '& .Dashboard-drawerPaperFixed-10': {
+            width: '50px',
+            overflow: 'hidden'
         },
+        '& .MuiListSubheader-root': {
+            visibility: 'hidden'
+        },
+        '& .MuiListItemText-root': {
+            display: 'none'
+        },
+        '& .MuiBadge-root': {
+            display: 'none'
+        },
+        '& .Dashboard-premiumSupportButton-18': {
+            minWidth: 'auto',
+            width: '33px',
+            padding: '0',
+            paddingLeft: '15px'
+        },
+        '& .premiumSupportButtonText': {
+            display: 'none'
+        }
+
     },
     appBarSpacer: {
         display: 'flex',
         alignItems: 'center',
         padding: theme.spacing( 0, 1 ),
         // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
+        // ...theme.mixins.toolbar,
         justifyContent: 'flex-start',
     },
     appBarDivider: {
@@ -100,11 +137,11 @@ export const styles = ( theme ) => ( {
         overflow: 'auto',
     },
     container: {
-        paddingTop: theme.spacing( 4 ),
-        paddingBottom: theme.spacing( 4 ),
+        // paddingTop: theme.spacing( 4 ),
+        // paddingBottom: theme.spacing( 4 ),
     },
     paper: {
-        padding: theme.spacing( 2 ),
+        // padding: theme.spacing( 2 ),
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
@@ -112,7 +149,7 @@ export const styles = ( theme ) => ( {
     fixedHeight: {
         height: 240,
     },
-    button: {
+    premiumSupportButton: {
         background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
         border: 0,
         borderRadius: 3,
@@ -122,4 +159,15 @@ export const styles = ( theme ) => ( {
         padding: '0 30px',
         margin: '10px',
     },
+    menuIcon: {
+        minWidth: '30px',
+    },    
+    snackbarContainer: {
+        zIndex: 9999
+    },
+    required: {
+        color: 'red',
+        paddingLeft: '5px'
+    }
 } );
+

@@ -72,18 +72,19 @@ class WP_Posts_Carousel_Admin {
 		wp_enqueue_style( 'wp-posts-carousel-css' );
 
 		// include Font Awesome library from Bootstrap's CDN
-		if ( property_exists( $WP_Posts_Carousel->settings, 'include_admin_font_awesome' ) && $WP_Posts_Carousel->settings['include_admin_font_awesome'] == 1 ) {
+	//	if ( property_exists( $WP_Posts_Carousel->settings, 'include_admin_font_awesome' ) && $WP_Posts_Carousel->settings['include_admin_font_awesome'] == 1 ) {
 			wp_register_style( 'wp-font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' );
 			wp_enqueue_style( 'wp-font-awesome' );
-		}
+		//}
 
 		wp_register_script( 'wp-posts-carousel-js-react', WP_POSTS_CAROUSEL_DIR_URL . 'assets/js/admin.js', array( 'wp-i18n' ), '1.0.0', true );
 		wp_localize_script(
 			'wp-posts-carousel-js-react',
-			'pluginData',
+			'wpPostsCarouselPluginData',
 			array(
 				'pluginUrl' => 'admin.php?page=wp-posts-carousel',
 				'permalinkStructure' => get_option('permalink_structure'),
+				'nonce' => wp_create_nonce( 'wp_rest' )
 			)
 		);
 

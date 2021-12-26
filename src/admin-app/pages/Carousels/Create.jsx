@@ -1,59 +1,92 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-// import CssBaseline from "@material-ui/core/CssBaseline";
-import { useEffect, useState } from 'react';
-import Typography from '@material-ui/core/Typography';
-// import { makeStyles } from "@material-ui/core/styles";
-import Container from '@material-ui/core/Container';
-
-// import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 
 import Form from './Components/FormView';
 import { CarouselModel } from './Models/CarouselModel';
-import { CreateCarouselSchema } from './Models/Schemas/CreateCarouselSchema';
+import { CarouselSchema } from './Models/Schemas/CarouselSchema';
+import api from '../../components/Api';
 
-import useFetch from './../../components/useFetch';
 import MyForm from './../../components/myForm';
 
 const { __ } = wp.i18n;
+const pluginUrl = wpPostsCarouselPluginData.pluginUrl;
 
 const Create = ( props ) => {
-	function getDefaultValues() {
+	const [ carousel, setCarousel ] = useState( );
+
+	useEffect( async () => {
 		let values = [];
-		let response = useFetch( '/wp-json/wp-posts-carousel/v1/defaultSettings', {} );
 
-		if ( response.isLoading == false && response.data ) {
-			values.data = response.data;
-			values.values = response.data.default_values ? response.data.default_values : [];
-		}
+		await api.get( '/wp-json/wp-posts-carousel/v1/admin/defaultSettings', {} )
+			.then( ( response ) => {
+				if ( response.status == 200 && response.data ) {
+					values.data = response.data;
+					values.values = response.data.default_values ? response.data.default_values : [];
+					setCarousel( values );
+					props.store.setFormValues( {
+						options: values.data.dictionaries,
+						values: values.values
+					} );
+				}
+			} )
+			.catch( ( error ) => {
+				props.store.enqueueSnackbar( {
+					message: __( 'Failed fetching data.', 'wp-posts-carousel' ),
+					options: {
+						variant: 'error',
+					},
+				} );
+			} );
+		return;
+	}, [] );
 
-		return values;
-	}
-	const response = getDefaultValues();
-
-	const { classes, handleSubmit } = props;
 	return (
 		<Container component="main">
-			<div>
-				<Typography component="h1" variant="h5">
-					{ __( 'Add new carousel', 'wp-posts-carousel' ) }
-				</Typography>
+			<Typography component="h1" variant="h5">
+				{ __( 'Add new carousel', 'wp-posts-carousel' ) }
+			</Typography>
 
+			{ carousel && (
 				<MyForm
 					model={ CarouselModel }
-					schema={ CreateCarouselSchema }
-					response={ response }
+					schema={ CarouselSchema }
+					response={ carousel }
 					enableReinitialize={ true }
 					onSubmit={ ( values ) => {
-						console.log( 'submit' );
-						console.log( values );
+						api.post( '/wp-json/wp-posts-carousel/v1/admin/carousel', values )
+							.then( ( response ) => {
+								if ( response.status == 200 && response.data ) {
+									props.store.enqueueSnackbar( {
+										message: __( 'Carousel was saved', 'wp-posts-carousel' ),
+										options: {
+											variant: 'success',
+											autoHideDuration: 1000,
+											onExit: () => {
+												props.history.push(
+													`${ pluginUrl }&subpage=carousels&action=edit&id=${ response.data.ID }`
+												);
+											},
+										},
+									} );
+								}
+							} )
+							.catch( ( error ) => {
+								props.store.enqueueSnackbar( {
+									message: __( 'Failed save carousel', 'wp-posts-carousel' ),
+									options: {
+										variant: 'error',
+									},
+								} );
+							} );
 					} }
 					props={ props }
 					form={ Form }
 				/>
-			</div>
+			) }
 		</Container>
 	);
 };
 
-export default Create;
+export default observer( Create );

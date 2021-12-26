@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
 const { __ } = wp.i18n;
 

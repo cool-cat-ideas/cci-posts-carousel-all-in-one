@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Wp_Posts_Carousel_Settings class
  */
 class WP_Posts_Carousel_Settings {
-    public $settings = array();
+    static $settings = array();
 
     /**
      * constructor
@@ -22,7 +22,7 @@ class WP_Posts_Carousel_Settings {
     public function __construct() {
         add_action( 'admin_init', array( $this, 'register_settings' ) );
 
-        $this->set_settings();
+        self::get_settings();
     }
 
     /**
@@ -35,7 +35,7 @@ class WP_Posts_Carousel_Settings {
     /**
      * get default settings
      */
-    public function get_default_settings() {
+    public static function get_default_settings() {
         return array(
             'include_font_awesome'       => false,
             'include_admin_font_awesome' => false,
@@ -47,26 +47,42 @@ class WP_Posts_Carousel_Settings {
     /**
      * set settings
      */
-    public function set_settings() {
-        $this->settings = array_merge( $this->get_default_settings(), get_option( 'wp-posts-carousel_settings' ) ? get_option( 'wp-posts-carousel_settings' ) : array() );
+    public static function get_settings() {
+        return self::$settings = array_merge( self::get_default_settings(), get_option( 'wp-posts-carousel_settings' ) ? get_option( 'wp-posts-carousel_settings' ) : array() );
     }
+	/**
+	 * Save settings
+	 *
+	 * Array keys must be whitelisted (IE must be keys of self::$defaults
+	 *
+	 * @param array $settings
+	 */
+	public static function save_settings( array  $settings ){
+		//remove any non-allowed indexes before save
+		foreach ( $settings as $i => $setting ){
+			if( ! array_key_exists( $setting, self::$get_default_settings ) ){
+				unset( $settings[ $i ] );
+			}
+		}
+		update_option( self::$option_key, $settings );
+	}
 
-    /**
-     * get settings
-     */
-    public function get_settings() {
-        return $this->settings;
-    }
+    // /**
+    //  * get settings
+    //  */
+    // public function get_settings() {
+    //     return $this->settings;
+    // }
 
     /**
      * manage settings
      */
-    public static function manage_settings() {
-        global $WP_Posts_Carousel;
-        $settings = $WP_Posts_Carousel->settings;
+    // public static function manage_settings() {
+    //     global $WP_Posts_Carousel;
+    //     $settings = $WP_Posts_Carousel->settings;
 
-	    $current_tab = in_array( isset( $_GET[ 'tab' ] ), array( 'general', 'support' ) ) ? sanitize_key( $_GET[ 'tab' ] ) : 'general';
+	//     $current_tab = in_array( isset( $_GET[ 'tab' ] ), array( 'general', 'support' ) ) ? sanitize_key( $_GET[ 'tab' ] ) : 'general';
 
-        include_once( 'views/html-settings-page.php' );
-    }
+    //     include_once( 'views/html-settings-page.php' );
+    // }
 }

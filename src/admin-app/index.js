@@ -1,5 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from './App'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'mobx-react';
+import App from './App';
+import store from './store';
 
-ReactDOM.render(<App {...pluginData} />, document.getElementById('wp-posts-carousel-react-admin'));
+ReactDOM.render(
+	<Provider store={ store }>
+		<App { ...wpPostsCarouselPluginData } />
+	</Provider>,
+	document.getElementById( 'wp-posts-carousel-react-admin' )
+);

@@ -1,154 +1,291 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import queryString from 'queryString';
+import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
+import { withStyles, makeStyles } from '@mui/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import Button from '@mui/material/Button';
+// import AddIcon from '@material-ui/icons/Add';
+// import EditIcon from '@material-ui/icons/Edit';
+// import DeleteIcon from '@material-ui/icons/Delete';
 
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Chip from '@mui/material/Chip';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+import api from '../../components/Api';
+import { CustomTooltip } from '../../components/Tooltip';
+
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const { __ } = wp.i18n;
+const pluginUrl = wpPostsCarouselPluginData.pluginUrl;
 
-class Carousels extends React.Component {
-	constructor( props ) {
-		super( props );
-	}
+const List = ( props ) => {
+	const [ list, setList ] = useState( [] );
+	const [ hoveringOver, setHoveringOver ] = useState( '' );
+	const handleRowHover = ( event, id ) => setHoveringOver( id );
+	const handleRowHoverLeave = ( event, id ) => setHoveringOver( '' );
 
-	render() {
-		const { classes } = this.props;
-		const columns = [
-			{ id: 'name', label: 'Name', minWidth: 170 },
-			{ id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-			{
-				id: 'population',
-				label: 'Population',
-				minWidth: 170,
-				align: 'right',
-				format: ( value ) => value.toLocaleString( 'en-US' ),
-			},
-			{
-				id: 'size',
-				label: 'Size\u00a0(km\u00b2)',
-				minWidth: 170,
-				align: 'right',
-				format: ( value ) => value.toLocaleString( 'en-US' ),
-			},
-			{
-				id: 'density',
-				label: 'Density',
-				minWidth: 170,
-				align: 'right',
-				format: ( value ) => value.toFixed( 2 ),
-			},
-		];
+	const [ openDeleteDialog, setOpenDeleteDialog ] = useState( false );
+	const [ selectedCarousel, setSelectedCarousel ] = useState( null );
+	const handleOpenDeleteDialog = ( event, item ) => {
+		setOpenDeleteDialog( true );
+		setSelectedCarousel( item );
+	};
 
-		const rows = [
-			{
-				name: 'India',
-				code: 'IN',
-				population: 1324171354,
-				size: 3287263,
-				density: 67,
-			},
-		];
+	const handleCloseDeleteDialog = () => {
+		setOpenDeleteDialog( false );
+		setSelectedCarousel( null );
+	};
 
-		return (
-			<>
-				<Button
-					size="small"
-					variant="contained"
-					color="primary"
-					startIcon={ <AddIcon /> }
-					component={ Link }
-					to={ `admin.php?page=wp-posts-carousel&subpage=carousels&action=add-new` }
-				>
-					{ __( 'Add new carousel', 'wp-posts-carousel' ) }
-				</Button>
-				<Grid container spacing={ 3 }>
-					{ /* Chart */ }
-					<Grid item xs={ 12 } md={ 12 } lg={ 12 }>
-						<Paper className={ this.props.fixedHeightPaper }>
-							<TableContainer>
-								<Table stickyHeader aria-label="sticky table">
-									<TableHead>
-										<TableRow>
-											{ columns.map( ( column ) => (
-												<TableCell
-													key={ column.id }
-													align={ column.align }
-													style={ {
-														minWidth:
-															column.minWidth,
-													} }
-												>
-													{ column.label }
-												</TableCell>
-											) ) }
-										</TableRow>
-									</TableHead>
-									<TableBody>
-										{ rows.map( ( row ) => {
+	const [ copiedShortcode, setCopiedShortcode ] = useState( false );
+
+	const handleCopyShortcode = () => {
+		setCopiedShortcode( true );
+		props.store.enqueueSnackbar( {
+			message: __(
+				'Skopiowano krótki kod,\nMożesz wkleić go w dowolnym miejscu na stronie',
+				'wp-posts-carousel'
+			),
+			options: {
+				variant: 'success',
+			},
+		} );
+	};
+
+	const handleGetCarousels = () => {
+		let values = [];
+		//const query = queryString.parse( props.location.search );
+
+		api.get( '/wp-json/wp-posts-carousel/v1/admin/carousels', {} )
+			.then( ( response ) => {
+				if ( response.status == 200 && response.data ) {
+					setList( response.data );
+				}
+			} )
+			.catch( ( error ) => {
+				props.store.enqueueSnackbar( {
+					message: __( 'Failed fetching data', 'wp-posts-carousel' ),
+					options: {
+						variant: 'error',
+					},
+				} );
+			} );
+	};
+
+	useEffect( () => {
+		return handleGetCarousels();
+	}, [] );
+
+	const handleDeleteCarousel = () => {
+		api.delete( `/wp-json/wp-posts-carousel/v1/admin/carousel/${ selectedCarousel.ID }`, {} )
+			.then( ( response ) => {
+				handleCloseDeleteDialog();
+
+				if ( response.status == 200 && response.data ) {
+					props.store.enqueueSnackbar( {
+						message: __( 'Carousel was deleted', 'wp-posts-carousel' ),
+						options: {
+							variant: 'success',
+						},
+					} );
+					handleGetCarousels();
+				}
+			} )
+			.catch( ( error ) => {
+				props.store.enqueueSnackbar( {
+					message: __( 'Failed delete carousel', 'wp-posts-carousel' ),
+					options: {
+						variant: 'error',
+					},
+				} );
+			} );
+	};
+
+	const CustomTableRow = withStyles( ( theme ) => ( {
+		root: {
+			verticalAlign: 'top',
+		},
+	} ) )( TableRow );
+
+	return (
+		<>
+			<Button
+				size="small"
+				variant="contained"
+				color="primary"
+				// startIcon={ /*<AddIcon />*/ }
+				component={ Link }
+				to={ `admin.php?page=wp-posts-carousel&subpage=carousels&action=add-new` }
+			>
+				{ __( 'Add new carousel', 'wp-posts-carousel' ) }
+			</Button>
+
+			<Grid container spacing={ 3 } style={ { marginTop: '20px' } }>
+				{ /* Chart */ }
+				<Grid item xs={ 12 } md={ 12 } lg={ 12 }>
+					<Paper>
+						<TableContainer>
+							<Table stickyHeader aria-label=" table">
+								<TableHead>
+									<TableRow>
+										<TableCell key={ 'post_title' }>
+											{ __( 'Title', 'wp-posts-carousel' ) }
+										</TableCell>
+										<TableCell
+											key={ 'user_nicename' }
+											style={ {
+												width: 250,
+											} }
+										>
+											{ __( 'Author', 'wp-posts-carousel' ) }
+										</TableCell>
+										<TableCell
+											key={ 'shortcode' }
+											style={ {
+												width: 250,
+												maxWidth: 300,
+											} }
+										>
+											Shortcode
+										</TableCell>
+										<TableCell
+											key={ 'post_date' }
+											style={ {
+												width: 150,
+												maxWidth: 200,
+											} }
+										>
+											{ __( 'Date', 'wp-posts-carousel' ) }
+										</TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{ list.length > 0 &&
+										list.map( ( row ) => {
 											return (
-												<TableRow
+												<CustomTableRow
 													hover
 													role="checkbox"
 													tabIndex={ -1 }
-													key={ row.code }
+													key={ row.ID }
+													onMouseEnter={ ( e ) => handleRowHover( e, row.ID ) }
+													onMouseLeave={ ( e ) => handleRowHoverLeave( e, row.ID ) }
 												>
-													{ columns.map(
-														( column ) => {
-															const value =
-																row[
-																	column.id
-																];
-															return (
-																<TableCell
-																	key={
-																		column.id
-																	}
-																	align={
-																		column.align
+													<TableCell key={ 'post_title' }>
+														<span>{ row.post_title }</span>
+														<br />
+														{ hoveringOver === row.ID && (
+															<>
+																<Button
+																	size="small"
+																	variant="contained"
+																	color="primary"
+																	// startIcon={ /*<EditIcon />*/ }
+																	component={ Link }
+																	to={ `${ pluginUrl }&subpage=carousels&action=edit&id=${ row.ID }` }
+																>
+																	{ __( 'Edytuj', 'wp-posts-carousel' ) }
+																</Button>
+																{ ' | ' }
+																<Button
+																	size="small"
+																	variant="contained"
+																	color="secondary"
+																	// startIcon={ /*<DeleteIcon />*/ }
+																	onClick={ ( e ) =>
+																		handleOpenDeleteDialog( e, row )
 																	}
 																>
-																	{ column.format &&
-																	typeof value ===
-																		'number'
-																		? column.format(
-																				value
-																		  )
-																		: value }
-																</TableCell>
-															);
-														}
-													) }
-												</TableRow>
+																	{ __( 'Usuń', 'wp-posts-carousel' ) }
+																</Button>
+															</>
+														) }
+													</TableCell>
+													<TableCell key={ 'user_nicename' }>
+														{ row.user_nicename }
+													</TableCell>
+													<TableCell key={ 'shortcode' }>
+														<CustomTooltip
+															title={ __(
+																'Kliknij aby skopiować kod',
+																'wp-posts-carousel'
+															) }
+														>
+															{ /* <CopyToClipboard
+															text={ `[wp_posts_carousel id=${ row.ID }]` }
+															onCopy={ handleCopyShortcode }
+														> */ }
+															<Chip
+																color="default"
+																label={ `[wp_posts_carousel id=${ row.ID }]` }
+																clickable={ true }
+															/>
+															{ /* </CopyToClipboard> */ }
+														</CustomTooltip>
+													</TableCell>
+													<TableCell key={ 'post_date' }>
+														<span>
+															{ __( row.post_status, 'wp-posts-carousel' ) }
+														</span>
+														<br />
+														{ row.post_date }
+													</TableCell>
+												</CustomTableRow>
 											);
 										} ) }
-									</TableBody>
-								</Table>
-							</TableContainer>
-							{ /* <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      /> */ }
-						</Paper>
-					</Grid>
+								</TableBody>
+							</Table>
+						</TableContainer>
+
+						<Dialog
+							open={ openDeleteDialog }
+							onClose={ handleCloseDeleteDialog }
+							aria-labelledby="alert-dialog-title"
+							aria-describedby="alert-dialog-description"
+						>
+							<DialogTitle id="alert-dialog-title">
+								{ __( 'Czy na pewno chcesz ununąć ten element?', 'wp-posts-carousel' ) }
+							</DialogTitle>
+							<DialogContent>
+								{ selectedCarousel ? selectedCarousel.post_title : '' }
+							</DialogContent>
+							<DialogActions>
+								<Button
+									onClick={ handleCloseDeleteDialog }
+									variant="contained"
+									color="default"
+								>
+									{ __( 'Anuluj', 'wp-posts-carousel' ) }
+								</Button>
+								<Button
+									onClick={ handleDeleteCarousel }
+									variant="contained"
+									color="secondary"
+									autoFocus
+								>
+									{ __( 'Tak', 'wp-posts-carousel' ) }
+								</Button>
+							</DialogActions>
+						</Dialog>
+					</Paper>
 				</Grid>
-			</>
-		);
-	}
-}
-export default Carousels;
+			</Grid>
+		</>
+	);
+};
+export default observer( List );

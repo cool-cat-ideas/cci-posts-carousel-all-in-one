@@ -14,6 +14,14 @@ body.wp-posts-carousel_page_settings #wpcontent {
     background: linear-gradient(146deg, rgba(219,236,171,1) 0%, rgba(173,210,69,1) 16%, rgba(163,199,62,1) 46%, rgba(124,157,36,1) 95%);
 
 }    
+#wp-posts-carousel-main-sidebar {
+    display: grid;
+    overflow: hidden;
+    width: 200px;
+}
+#wp-posts-carousel-right-sidebar {
+    width: 280px;
+}
 /**
   * columns
   */
@@ -97,10 +105,7 @@ select.wp-posts-carousel-field {
 /**
  * form tables
  */
-table.wp-posts-carousel-table,
-table.wp-posts-carousel-table input[type="text"],
-table.wp-posts-carousel-table input[type="number"],
-table.wp-posts-carousel-table select {
+ table.wp-posts-carousel-table {
     width: 100%;
 }
 
