@@ -26,10 +26,10 @@ class WP_Posts_Carousel_Utils
 			'wp_posts_carousel_params_defaults',
 			array(
 				'template'            => 'default',
-				'post_types'          => ['post'],
+				'post_types'          => array(array('value' => 'post', 'label' => __('Posts'))),
 				'order_by'            => 'id',
 				'ordering'            => 'asc',
-				'posts'               => [],
+				'posts'               => array(),
 				'exclude'             => '',
 				'categories'          => '',
 				'relation'            => 'or',

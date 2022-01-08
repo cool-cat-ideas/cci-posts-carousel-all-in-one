@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState, lazy } from 'react';
+import { useLocation } from 'react-router-dom';
 import queryString from 'queryString';
-import { observer } from 'mobx-react';
-import  List  from './List'
-import  Create  from './Create'
-import  Edit  from './Edit'
+// import { observer } from 'mobx-react';
 
-function Carousels( props ) {
-	let query = queryString.parse( props.location.search );
+import {formClasses} from '../../components/styles';
+
+import Loadable from '../../ui-component/Loadable';
+
+const List = Loadable( lazy( () => import( './List' ) ) );
+const Create = Loadable( lazy( () => import( './Create' ) ) );
+const Edit = Loadable( lazy( () => import( './Edit' ) ) );
+
+const Carousels = ( props  ) => {
+	let location = useLocation();
+	let query = queryString.parse( location.search );
 	let action = query.action ? query.action : 'List';
 	let ReturnComponent = null;
 
@@ -22,11 +29,11 @@ function Carousels( props ) {
 			break;
 	}
 
-	//const ReturnComponent = require( './' + component ).default;
-
 	return (
-		<ReturnComponent { ...props } page={ props.page } action={ action } />
+		<ReturnComponent { ...props } classes={formClasses()} action={ action } />
 	);
 }
+
+
 
 export default (Carousels);

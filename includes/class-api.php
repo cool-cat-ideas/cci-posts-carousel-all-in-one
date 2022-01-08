@@ -41,6 +41,17 @@ class WP_Posts_Carousel_API
 			)
 		);
 
+		register_rest_route(
+			'wp-posts-carousel/v1/admin',
+			'/categories',
+			array(
+				array(
+					'methods'  => 'post',
+					'callback' => array($this, 'get_custom_categories'),
+					'permission_callback' => $this->checkPermissions(['read_wp_posts_carousel', 'create_wp_posts_carousels']),
+				),
+			)
+		);
 
 		register_rest_route(
 			'wp-posts-carousel/v1/admin',
@@ -164,8 +175,15 @@ class WP_Posts_Carousel_API
 
 	public function get_custom_posts(WP_REST_Request $request)
 	{
+		$post_types = array();
+		if($request['post_types']) {
+			foreach($request['post_types'] as $post_type) {
+				array_push($post_types, $post_type['value']);
+			}
+		}
+
 		$args = array(
-            'post_type' => $request['post_types'],
+            'post_type' => $post_types,
 			'orderby' => 'post_title'		
         );
 
@@ -177,6 +195,41 @@ class WP_Posts_Carousel_API
 		$posts = $query->posts;
 
 		$result = array_map(array($this, 'prepare_post_option'), $posts);
+		wp_reset_postdata();
+
+		return new WP_REST_Response($result, 200);
+	}
+
+
+	public function prepare_category_option($post) {
+		$post_options = array('value' => strval($post->ID), 'label' => $post->post_title, 'post_type' => $post->post_type);
+
+		return apply_filters('wp_posts_carousel_prepare_post_option', $post_options, $post);
+	}
+
+	public function get_custom_categories(WP_REST_Request $request)
+	{
+		$post_types = array();
+		if($request['post_types']) {
+			foreach($request['post_types'] as $post_type) {
+				array_push($post_types, $post_type['value']);
+			}
+		}
+
+		$args = array( 
+				'fields' => 'all',
+				'taxonomy' => array('category','page'),
+				'hide_empty' => false,
+        );
+
+		if( isset($request['s']) && !empty($request['s']) ) {
+			$args['s'] = sanitize_text_field( $request['s'] );
+		}
+
+		$posts = get_terms( $args );
+		//$posts = $query->posts;
+		print_r($posts);exit;
+		$result = array_map(array($this, 'prepare_category_option'), $posts);
 		wp_reset_postdata();
 
 		return new WP_REST_Response($result, 200);

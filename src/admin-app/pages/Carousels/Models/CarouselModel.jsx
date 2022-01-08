@@ -2,7 +2,7 @@ export const CarouselModel = {
         title: '',
         post_types: [],
         order_by: '',
-        posts: '',
+        posts: [],
         exclude: [],
         categories: [],
         relation: '',

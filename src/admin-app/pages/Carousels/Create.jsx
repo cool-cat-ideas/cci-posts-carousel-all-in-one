@@ -25,6 +25,7 @@ const Create = ( props ) => {
 					values.data = response.data;
 					values.values = response.data.default_values ? response.data.default_values : [];
 					setCarousel( values );
+					console.log(values)
 					props.store.setFormValues( {
 						options: values.data.dictionaries,
 						values: values.values
