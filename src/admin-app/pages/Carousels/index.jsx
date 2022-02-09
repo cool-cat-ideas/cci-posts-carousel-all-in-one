@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import queryString from 'queryString';
 // import { observer } from 'mobx-react';
 
-import {formClasses} from '../../components/styles';
+import {formClasses} from '../../themes/customClasses';
 
 import Loadable from '../../ui-component/Loadable';
 

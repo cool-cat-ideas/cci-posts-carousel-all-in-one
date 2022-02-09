@@ -1,20 +1,12 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
-import api from '../../../../components/Api';
-import clsx from 'clsx';
 import Typography from '@mui/material/Typography';
+
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-// import IconButton from '@mui/material/IconButton';
-// import Input from '@mui/material/Input';
-// import FilledInput from '@mui/material/FilledInput';
-// import OutlinedInput from '@mui/material/OutlinedInput';
-// import InputLabel from '@mui/material/InputLabel';
-// import InputAdornment from '@mui/material/InputAdornment';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -44,7 +36,7 @@ const PostSelectionCriteria = ( props ) => {
 		tags: '/wp-json/wp-posts-carousel/v1/admin/tags?s=',
 	};
 
-	const { classes, data, panelName, handleExpand, store } = props;
+	const { data, panelName, handleExpand, store } = props;
 
 	useEffect( () => {
 		let posts = [];
@@ -62,9 +54,9 @@ const PostSelectionCriteria = ( props ) => {
 		<>
 			<Accordion defaultExpanded onChange={ handleExpand( panelName ) }>
 				<AccordionSummary
-					// expandIcon={  }
-					aria-controls="panel1bh-content"
-					id="panel1bh-header"
+					expandIcon={<ExpandMoreIcon />}
+					aria-controls={`${panelName}-content`}
+					id={`${panelName}-header`}
 				>
 					<Typography>{ __( 'Post selection criteria', 'wp-posts-carousel' ) }</Typography>
 				</AccordionSummary>
@@ -147,31 +139,26 @@ const PostSelectionCriteria = ( props ) => {
 								<Paper sx={ { p: 1 } }>
 									<Grid container spacing={ 2 }>
 										<Grid item xs={ 12 } sm={ 3 }>
-											<InputLabel required htmlFor="categories">
-												{ __( 'Posts with Categories', 'wp-posts-carousel' ) }
+											<InputLabel htmlFor="categories">
+												{ __( 'Posts from Categories', 'wp-posts-carousel' ) }
 											</InputLabel>
 										</Grid>
 										<Grid item xs={ 12 } sm={ 9 }>
 											<CustomAutocomplete
 												customProps={ {
 													store: store,
+													endpoint: endpoints.categories
 												} }
 												name="categories"
 												multiple
 												options={ data.dictionaries.categories ?? [] }
-												value={ values[ 'categories' ] }
-												onOpen={ ( searchApi ) => {
-													searchApi( endpoints.categories, '', values );
-												} }
-												onInputChange={ ( event, newValue, values, searchApi ) => {
-													searchApi( endpoints.categories, newValue, values, searchApi );
-												} }
+												value={ values[ 'categories' ] }									
 												noOptionsText={ __( 'No categories', 'wp-posts-carousel' ) }
-												// groupBy={ ( option ) => {
-												// 	return data.dictionaries.taxonomies.find(
-												// 		( item ) => item.value === option.post_type
-												// 	)?.label;
-												// } }
+												groupBy={ ( option ) => {
+													return data.dictionaries.taxonomies.find(
+														( item ) => item.value === option.post_type
+													)?.label;
+												} }
 												disabled={ ! values[ 'post_types' ] }
 											/>
 										</Grid>
@@ -191,7 +178,7 @@ const PostSelectionCriteria = ( props ) => {
 										</Grid>
 
 										<Grid item xs={ 12 } sm={ 3 }>
-											<InputLabel required htmlFor="tags">
+											<InputLabel htmlFor="tags">
 												{ __( 'Posts with Tags', 'wp-posts-carousel' ) }
 											</InputLabel>
 										</Grid>
@@ -199,23 +186,18 @@ const PostSelectionCriteria = ( props ) => {
 											<CustomAutocomplete
 												customProps={ {
 													store: store,
+													endpoint: endpoints.tags
 												} }
 												name="tags"
 												multiple
 												options={ data.dictionaries.tags ?? [] }
-												value={ values[ 'tags' ] }
-												onOpen={ ( searchApi ) => {
-													searchApi( endpoints.tags, '', values );
-												} }
-												onInputChange={ ( event, newValue, values, searchApi ) => {
-													searchApi( endpoints.tags, newValue, values, searchApi );
-												} }
+												value={ values[ 'tags' ] }									
 												noOptionsText={ __( 'No tags', 'wp-posts-carousel' ) }
-												// groupBy={ ( option ) => {
-												// 	return data.dictionaries.taxonomies.find(
-												// 		( item ) => item.value === option.post_type
-												// 	)?.label;
-												// } }
+												groupBy={ ( option ) => {
+													return data.dictionaries.taxonomies.find(
+														( item ) => item.value === option.post_type
+													)?.label;
+												} }
 												disabled={ ! values[ 'post_types' ] }
 											/>
 										</Grid>
@@ -224,7 +206,7 @@ const PostSelectionCriteria = ( props ) => {
 							</Grid>
 
 							<Grid item xs={ 12 } sm={ 3 }>
-								<InputLabel required htmlFor="posts">
+								<InputLabel htmlFor="posts">
 									{ __( 'Posts', 'wp-posts-carousel' ) }
 								</InputLabel>
 							</Grid>
@@ -232,18 +214,23 @@ const PostSelectionCriteria = ( props ) => {
 								<CustomAutocomplete
 									customProps={ {
 										store: store,
+										endpoint: endpoints.posts
 									} }
 									name="posts"
 									multiple
 									options={ data.dictionaries.posts ?? [] }
-									value={ values[ 'posts' ] }
-									onOpen={ ( searchApi ) => {
-										searchApi( endpoints.posts, '', values );
-									} }
-									onInputChange={ ( event, newValue, values, searchApi ) => {
-										searchApi( endpoints.posts, newValue, values, searchApi );
-									} }
+									value={ values[ 'posts' ] }					
 									noOptionsText={ __( 'No posts', 'wp-posts-carousel' ) }
+									onOpen={() => {
+										if(values[ 'posts' ].length >= values['all_items']) {
+											store.enqueueSnackbar( {
+												message: __( 'The article limit has been reached.\nDelete an article or increase the "Posts limit"', 'wp-posts-carousel' ),
+												options: {
+													variant: 'warning',
+												},
+											} );
+										}
+									}}
 									groupBy={ ( option ) => {
 										return data.dictionaries.taxonomies.find(
 											( item ) => item.value === option.post_type
@@ -254,7 +241,7 @@ const PostSelectionCriteria = ( props ) => {
 							</Grid>
 
 							<Grid item xs={ 12 } sm={ 3 }>
-								<InputLabel required htmlFor="exclude">
+								<InputLabel htmlFor="exclude">
 									{ __( 'Exclude Posts', 'wp-posts-carousel' ) }
 								</InputLabel>
 							</Grid>
@@ -262,17 +249,12 @@ const PostSelectionCriteria = ( props ) => {
 								<CustomAutocomplete
 									customProps={ {
 										store: store,
+										endpoint: endpoints.posts
 									} }
 									name="exclude"
 									multiple
 									options={ data.dictionaries.exclude ?? [] }
-									value={ values[ 'exclude' ] }
-									onOpen={ ( searchApi ) => {
-										searchApi( endpoints.posts, '', values );
-									} }
-									onInputChange={ ( event, newValue, values, searchApi ) => {
-										searchApi( endpoints.posts, newValue, values, searchApi );
-									} }
+									value={ values[ 'exclude' ] }						
 									noOptionsText={ __( 'No posts', 'wp-posts-carousel' ) }
 									groupBy={ ( option ) => {
 										return data.dictionaries.taxonomies.find(

@@ -55,6 +55,18 @@ class WP_Posts_Carousel_API
 
 		register_rest_route(
 			'wp-posts-carousel/v1/admin',
+			'/tags',
+			array(
+				array(
+					'methods'  => 'post',
+					'callback' => array($this, 'get_custom_tags'),
+					'permission_callback' => $this->checkPermissions(['read_wp_posts_carousel', 'create_wp_posts_carousels']),
+				),
+			)
+		);		
+
+		register_rest_route(
+			'wp-posts-carousel/v1/admin',
 			'/defaultSettings',
 			array(
 				array(
@@ -201,13 +213,59 @@ class WP_Posts_Carousel_API
 	}
 
 
-	public function prepare_category_option($post) {
-		$post_options = array('value' => strval($post->ID), 'label' => $post->post_title, 'post_type' => $post->post_type);
+	public function prepare_category_option($category) {
+		$post_options = array('value' => strval($category->name), 'label' => $category->label, 'post_type' => $category->object_type[0]);
 
-		return apply_filters('wp_posts_carousel_prepare_post_option', $post_options, $post);
+		return apply_filters('wp_posts_carousel_prepare_category_option', $post_options, $category);
 	}
 
 	public function get_custom_categories(WP_REST_Request $request)
+	{
+
+		$post_types = array();
+		if($request['post_types']) {
+			foreach($request['post_types'] as $post_type) {
+				array_push($post_types, $post_type['value']);
+			}
+		}
+
+		$search = '';
+		if( isset($request['s']) && !empty($request['s']) ) {
+			$search = sanitize_text_field( $request['s'] );
+		}
+
+		$filtered_taxonomies = array();
+		$all_taxonomies = get_object_taxonomies($post_types, 'objects');
+
+		if($all_taxonomies) {
+			foreach($all_taxonomies as $item) {
+				$search_pos = strpos(strtolower($item->label), strtolower($search));	
+				$tag_pos = strpos($item->name, '_tag');
+				
+				if($item->public === true && $item->show_ui === true && $tag_pos === false) {
+			
+					if($search !== '' && $search_pos !== false)	{				
+						array_push($filtered_taxonomies, $item);
+					} else {
+						array_push($filtered_taxonomies, $item);
+					}
+					
+				}	
+			}
+		}
+		
+		$result = array_map(array($this, 'prepare_category_option'), $filtered_taxonomies);
+
+		return new WP_REST_Response($result, 200);
+	}
+
+	public function prepare_tag_option($tag) {
+		$post_options = array('value' => strval($tag->term_id), 'label' => $tag->name, 'post_type' => $tag->taxonomy);
+
+		return apply_filters('wp_posts_carousel_prepare_tag_option', $post_options, $tag);
+	}
+
+	public function get_custom_tags(WP_REST_Request $request)
 	{
 		$post_types = array();
 		if($request['post_types']) {
@@ -216,20 +274,30 @@ class WP_Posts_Carousel_API
 			}
 		}
 
-		$args = array( 
-				'fields' => 'all',
-				'taxonomy' => array('category','page'),
-				'hide_empty' => false,
+		$filtered_taxonomies = array();
+		$all_taxonomies = get_object_taxonomies($post_types, 'objects');
+
+		if($all_taxonomies) {
+			foreach($all_taxonomies as $item) {				
+				$tag_pos = strpos($item->name, '_tag');
+
+				if($item->public === true && $item->show_ui === true && $tag_pos !== false) {					
+					array_push($filtered_taxonomies, $item->name);	
+				}	
+			}
+		}
+
+		$args = array(
+            'taxonomy' => $filtered_taxonomies,
+			'hide_empty' => false,	
         );
 
 		if( isset($request['s']) && !empty($request['s']) ) {
 			$args['s'] = sanitize_text_field( $request['s'] );
 		}
+		$tags = get_terms($args);	
 
-		$posts = get_terms( $args );
-		//$posts = $query->posts;
-		print_r($posts);exit;
-		$result = array_map(array($this, 'prepare_category_option'), $posts);
+		$result = array_map(array($this, 'prepare_tag_option'), $tags);
 		wp_reset_postdata();
 
 		return new WP_REST_Response($result, 200);
@@ -239,11 +307,11 @@ class WP_Posts_Carousel_API
 	public function get_default_settings(WP_REST_Request $request, $post = null)
 	{
 		$dictionaries = array(
-			'taxonomies' => WP_Posts_Carousel_Utils::get_taxonomies(),
+			'taxonomies' => WP_Posts_Carousel_Utils::get_post_types(),
 			'order_by' =>  WP_Posts_Carousel_Utils::get_orders_by(),
 			'ordering' => WP_Posts_Carousel_Utils::get_orderings(),
 			'description' =>  WP_Posts_Carousel_Utils::get_descriptions(),
-			'image_sourses' => WP_Posts_Carousel_Utils::get_image_sources(),
+			'image_sources' => WP_Posts_Carousel_Utils::get_image_sources(),
 			'image_units' => WP_Posts_Carousel_Utils::get_units(),
 			'relations' => WP_Posts_Carousel_Utils::get_relations(),
 			'breakpoints' => WP_Posts_Carousel_Utils::get_breakpoints(),

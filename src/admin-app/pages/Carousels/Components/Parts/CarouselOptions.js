@@ -1,55 +1,78 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 
-
-import clsx from 'clsx';
 import Typography from '@mui/material/Typography';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Switch from '@mui/material/Switch';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Switch from '@mui/material/Switch';
+
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
+
+import { CustomAutocomplete } from '../../../../components/Forms';
+
+import { useFormikContext } from 'formik';
 
 const { __ } = wp.i18n;
 
 const CarouselOptions = ( props ) => {
-	const {
-		classes,
-		data,
-		values,
-		touched,
-		errors,
-		isSubmitting,
-		handleChange,
-		handleBlur,
-		handleSubmit,
-		handleReset,
+	const { values, handleChange } = useFormikContext();
 
-		panelName,
-		expanded,
-		handleExpand,
-	} = props;
+	const { data, panelName, handleExpand, store } = props;
 
-	//console.log(values)
 	return (
 		<>
 			<Accordion defaultExpanded onChange={ handleExpand( panelName ) }>
 				<AccordionSummary
-					// expandIcon={  }
-					aria-controls="panel1bh-content"
-					id="panel1bh-header"
+					expandIcon={ <ExpandMoreIcon /> }
+					aria-controls={ `${ panelName }-content` }
+					id={ `${ panelName }-header` }
 				>
-					<Typography className={ classes.heading }>
-						{ __( 'Carousel options', 'wp-posts-carousel' ) }
-					</Typography>
+					<Typography>{ __( 'Carousel options', 'wp-posts-carousel' ) }</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
+					<Box sx={ { flexGrow: 1 } }>
+						<Grid container spacing={ 2 }>
+							{ /* <?php do_action( 'wp_posts_carousel_post_criteria_meta_box_before_post_types', array() ) ?> */ }
+							<Grid item xs={ 12 } sm={ 3 }>
+								{/* <InputLabel required htmlFor="template">
+									{ __( 'Theme', 'wp-posts-carousel' ) }
+								</InputLabel> */}
+							</Grid>
+							<Grid item xs={ 12 } sm={ 9 }></Grid>
+
+							<Grid item xs={ 12 } sm={ 3 }>
+								{/* <InputLabel htmlFor="show_title">
+									{ __( 'Show title', 'wp-posts-carousel' ) }
+								</InputLabel> */}
+							</Grid>
+							<Grid item xs={ 12 } sm={ 9 }>
+								{/* <FormControlLabel
+									label=""
+									control={
+										<Switch
+											name={ 'show_title' }
+											checked={ values[ 'show_title' ] }
+											onChange={ handleChange }
+											value={ true }
+											inputProps={ {
+												'aria-label': __( 'Show title', 'wp-posts-carousel' ),
+											} }
+										/>
+									}
+								/> */}
+							</Grid>
+						</Grid>
+					</Box>
+
 					<table cellSpacing="0" cellPadding="0" className="wp-posts-carousel-table">
 						<tbody>
 							<tr>
@@ -65,62 +88,93 @@ const CarouselOptions = ( props ) => {
 									>
 										<tbody>
 											{ data &&
-												data.default_values.items_to_show &&
-												data.dictionaries.breakpoints ?
-												Object.keys(data.dictionaries.breakpoints).map( ( device, index ) => {
-													return (
-														<tr key={`device-${device}`}>
-															<th className={`wp-posts-carousel-rwd-table-device wp-posts-carousel-rwd-table-device-${device}`}>
-																<i className={`fa fa-${device}`}></i>
-															</th>
-															<td>
-																<table cellSpacing="0" cellPadding="0">
-																	<tbody>
-																		{ Object.entries(data.dictionaries.breakpoints[device]).map( (deviceDetails, index) => {						
-																			return (
-																				<tr key={`deviceWidth-${deviceDetails[0]}`}>
-																					<th>
-																						{deviceDetails[0]}px
-																					</th>
-																					<td>
-																						<FormControl
-																							className={ clsx( classes.margin, classes.textField ) }
-																							variant="outlined"
+											data.default_values.items_to_show &&
+											data.dictionaries.breakpoints ? (
+												Object.keys( data.dictionaries.breakpoints ).map(
+													( device, index ) => {
+														return (
+															<tr key={ `device-${ device }` }>
+																<th
+																	className={ `wp-posts-carousel-rwd-table-device wp-posts-carousel-rwd-table-device-${ device }` }
+																>
+																	<i className={ `fa fa-${ device }` }></i>
+																</th>
+																<td>
+																	<table cellSpacing="0" cellPadding="0">
+																		<tbody>
+																			{ Object.entries(
+																				data.dictionaries.breakpoints[
+																					device
+																				]
+																			).map(
+																				( deviceDetails, index ) => {
+																					return (
+																						<tr
+																							key={ `deviceWidth-${ deviceDetails[ 0 ] }` }
 																						>
-																							<OutlinedInput
-																								id={`outlined-items_to_show_${deviceDetails[0]}`}
-																								name={`items_to_show[${deviceDetails[0]}]`}
-																								value={ values.items_to_show[deviceDetails[0]] }
-																								onChange={ handleChange }
-																								aria-describedby="outlined-items_to_show-helper-text"
-																								type="number"
-																								endAdornment={<InputAdornment position="end">{ __( 'items', 'wp-posts-carousel' ) }</InputAdornment>}
-																								inputProps={{ min: 1 }}
-																							/>
-																						</FormControl>
-																					</td>
-																				</tr>
-																			);
-																		})}
-																	</tbody>
-																</table>
-															</td>
-														</tr>
-													);
-												} ) :
-													<tr>
-														<td>
-															<div className="wp-posts-carousel-message wp-posts-carousel-message-eror">
-																<p>
-																	{ __(
-																		'Ups, make sure that you defined correctly breakpints in your filter "wp_posts_carousel_breakpoints".',
-																		'wp-posts-carousel'
-																	) }
-																</p>
-															</div>
-														</td>
-													</tr>
-										}
+																							<th>
+																								{
+																									deviceDetails[ 0 ]
+																								}
+																								px
+																							</th>
+																							<td>
+																								<FormControl																									
+																									variant="outlined"
+																								>
+																									<OutlinedInput
+																										id={ `outlined-items_to_show_${ deviceDetails[ 0 ] }` }
+																										name={ `items_to_show[${ deviceDetails[ 0 ] }]` }
+																										value={
+																											values
+																												.items_to_show[
+																												deviceDetails[ 0 ]
+																											]
+																										}
+																										onChange={
+																											handleChange
+																										}
+																										aria-describedby="outlined-items_to_show-helper-text"
+																										type="number"
+																										endAdornment={
+																											<InputAdornment position="end">
+																												{ __(
+																													'items',
+																													'wp-posts-carousel'
+																												) }
+																											</InputAdornment>
+																										}
+																										inputProps={ {
+																											min: 1,
+																										} }
+																									/>
+																								</FormControl>
+																							</td>
+																						</tr>
+																					);
+																				}
+																			) }
+																		</tbody>
+																	</table>
+																</td>
+															</tr>
+														);
+													}
+												)
+											) : (
+												<tr>
+													<td>
+														<div className="wp-posts-carousel-message wp-posts-carousel-message-eror">
+															<p>
+																{ __(
+																	'Ups, make sure that you defined correctly breakpints in your filter "wp_posts_carousel_breakpoints".',
+																	'wp-posts-carousel'
+																) }
+															</p>
+														</div>
+													</td>
+												</tr>
+											) }
 										</tbody>
 									</table>
 								</td>
@@ -132,7 +186,6 @@ const CarouselOptions = ( props ) => {
 								</th>
 								<td>
 									<FormControl
-										className={ clsx( classes.margin, classes.textField ) }
 										variant="outlined"
 									>
 										<OutlinedInput
@@ -142,8 +195,12 @@ const CarouselOptions = ( props ) => {
 											onChange={ handleChange }
 											aria-describedby="outlined-slide_by-helper-text"
 											type="number"
-											endAdornment={<InputAdornment position="end">{ __( 'items', 'wp-posts-carousel' ) }</InputAdornment>}
-											inputProps={{ min: 1 }}
+											endAdornment={
+												<InputAdornment position="end">
+													{ __( 'items', 'wp-posts-carousel' ) }
+												</InputAdornment>
+											}
+											inputProps={ { min: 1 } }
 										/>
 									</FormControl>
 									{ /* <input className="wp-posts-carousel-field field-validate" type="number" name="wp_posts_carousel[slide_by]" id="slide_by" value="<?php echo esc_attr( $data['slide_by'] ); ?>" size="5" min="1" required pattern="^\d+$" />[<?php _e( 'items', 'wp-posts-carousel' ); ?>] */ }
@@ -156,7 +213,15 @@ const CarouselOptions = ( props ) => {
 								</th>
 								<td>
 									<FormControlLabel
-										control={ <Switch color="primary" name="rtl" checked={ values.rtl } onChange={ handleChange } /> }
+									label=""
+										control={
+											<Switch
+												color="primary"
+												name="rtl"
+												checked={ values.rtl }
+												onChange={ handleChange }
+											/>
+										}
 									/>
 									{ /* <input className="checkbox wp-posts-carousel-field" type="checkbox" value="1" name="wp_posts_carousel[rtl]" id="rtl" <?php checked( ( bool ) $data['rtl'], false ); ?> /> */ }
 								</td>
@@ -168,7 +233,6 @@ const CarouselOptions = ( props ) => {
 								</th>
 								<td>
 									<FormControl
-										className={ clsx( classes.margin, classes.textField ) }
 										variant="outlined"
 									>
 										<OutlinedInput
@@ -178,10 +242,12 @@ const CarouselOptions = ( props ) => {
 											onChange={ handleChange }
 											aria-describedby="outlined-stage_padding-helper-text"
 											type="number"
-											endAdornment={<InputAdornment position="end">px</InputAdornment>}
-											inputProps={{ min: 1 }}
+											endAdornment={
+												<InputAdornment position="end">px</InputAdornment>
+											}
+											inputProps={ { min: 1 } }
 										/>
-									</FormControl>							
+									</FormControl>
 									{ /* <input className="wp-posts-carousel-field field-validate" type="number" name="wp_posts_carousel[stage_padding]" id="stage_padding" value="<?php echo esc_attr( $data['stage_padding'] ); ?>" size="5" min="0" required pattern="^\d+$" />[px] */ }
 								</td>
 							</tr>
@@ -192,7 +258,6 @@ const CarouselOptions = ( props ) => {
 								</th>
 								<td>
 									<FormControl
-										className={ clsx( classes.margin, classes.textField ) }
 										variant="outlined"
 									>
 										<OutlinedInput
@@ -200,11 +265,13 @@ const CarouselOptions = ( props ) => {
 											name="margin"
 											value={ values.stage_padding }
 											onChange={ handleChange }
-											aria-describedby="outlined-margin-helper-text"											
+											aria-describedby="outlined-margin-helper-text"
 											type="number"
-											endAdornment={<InputAdornment position="end">px</InputAdornment>}
+											endAdornment={
+												<InputAdornment position="end">px</InputAdornment>
+											}
 										/>
-									</FormControl>									
+									</FormControl>
 									{ /* <input className="wp-posts-carousel-field field-validate" type="number" name="wp_posts_carousel[margin]" id="margin" value="<?php echo esc_attr( $data['margin'] ); ?>" size="5" min="0" required pattern="^\d+$" />[px] */ }
 								</td>
 							</tr>
@@ -215,7 +282,15 @@ const CarouselOptions = ( props ) => {
 								</th>
 								<td>
 									<FormControlLabel
-										control={ <Switch color="primary" name="loop" checked={ values.loop } onChange={ handleChange } /> }
+									label=""
+										control={
+											<Switch
+												color="primary"
+												name="loop"
+												checked={ values.loop }
+												onChange={ handleChange }
+											/>
+										}
 									/>
 									{ /* <input className="checkbox wp-posts-carousel-field" type="checkbox" value="1" name="wp_posts_carousel[loop]" id="loop" <?php checked( ( bool ) $data['loop'], true ); ?> /> */ }
 								</td>
@@ -224,27 +299,42 @@ const CarouselOptions = ( props ) => {
 								<th>{ __( 'Pause on mouse hover', 'wp-posts-carousel' ) }</th>
 								<td>
 									<FormControlLabel
-										control={ <Switch color="primary" name="stop_on_hover" checked={ values.stop_on_hover } onChange={ handleChange } /> }
+									label=""
+										control={
+											<Switch
+												color="primary"
+												name="stop_on_hover"
+												checked={ values.stop_on_hover }
+												onChange={ handleChange }
+											/>
+										}
 									/>
 									{ /* <input className="checkbox wp-posts-carousel-field" type="checkbox" value="1" name="wp_posts_carousel[stop_on_hover]" id="stop_on_hover" <?php checked( ( bool ) $data['stop_on_hover'], true ); ?> /> */ }
 								</td>
 							</tr>
-							
+
 							<tr>
 								<th>{ __( 'Auto play', 'wp-posts-carousel' ) }</th>
 								<td>
 									<FormControlLabel
-										control={ <Switch color="primary" name="auto_play" checked={ values.auto_play } onChange={ handleChange } /> }
+									label=""
+										control={
+											<Switch
+												color="primary"
+												name="auto_play"
+												checked={ values.auto_play }
+												onChange={ handleChange }
+											/>
+										}
 									/>
 									{ /* <input className="checkbox wp-posts-carousel-field" type="checkbox" value="1" name="wp_posts_carousel[auto_play]" id="auto_play" <?php checked( ( bool ) $data['auto_play'], true ); ?> /> */ }
 								</td>
 							</tr>
-							{values.auto_play &&
+							{ values.auto_play && (
 								<tr>
 									<th>{ __( 'Autoplay interval timeout', 'wp-posts-carousel' ) }</th>
 									<td>
 										<FormControl
-											className={ clsx( classes.margin, classes.textField ) }
 											variant="outlined"
 										>
 											<OutlinedInput
@@ -254,30 +344,39 @@ const CarouselOptions = ( props ) => {
 												onChange={ handleChange }
 												aria-describedby="outlined-auto_play_timeout-helper-text"
 												type="number"
-												endAdornment={<InputAdornment position="end">ms</InputAdornment>}
-												inputProps={{ min: 1 }}
+												endAdornment={
+													<InputAdornment position="end">ms</InputAdornment>
+												}
+												inputProps={ { min: 1 } }
 											/>
 										</FormControl>
 										{ /* <input className="wp-posts-carousel-field field-validate" type="number" name="wp_posts_carousel[auto_play_timeout]" id="auto_play_timeout" value="<?php echo esc_attr( $data['auto_play_timeout'] ); ?>" size="5" min="1" required pattern="^\d+$" />[ms] */ }
 									</td>
 								</tr>
-							}
+							) }
 
 							<tr>
 								<th>{ __( 'Show "next" and "prev" buttons', 'wp-posts-carousel' ) }</th>
 								<td>
 									<FormControlLabel
-										control={ <Switch color="primary" name="nav" checked={ values.nav } onChange={ handleChange } /> }
+									label=""
+										control={
+											<Switch
+												color="primary"
+												name="nav"
+												checked={ values.nav }
+												onChange={ handleChange }
+											/>
+										}
 									/>
 									{ /* <input className="checkbox wp-posts-carousel-field" type="checkbox" value="1" name="wp_posts_carousel[nav]" id="nav" <?php checked( ( bool ) $data['nav'], true ); ?> /> */ }
 								</td>
 							</tr>
-							{values.nav &&
+							{ values.nav && (
 								<tr>
 									<th>{ __( 'Navigation speed', 'wp-posts-carousel' ) }</th>
 									<td>
 										<FormControl
-											className={ clsx( classes.margin, classes.textField ) }
 											variant="outlined"
 										>
 											<OutlinedInput
@@ -287,30 +386,39 @@ const CarouselOptions = ( props ) => {
 												onChange={ handleChange }
 												aria-describedby="outlined-nav_speed-helper-text"
 												type="number"
-												endAdornment={<InputAdornment position="end">ms</InputAdornment>}
-												inputProps={{ min: 1 }}
+												endAdornment={
+													<InputAdornment position="end">ms</InputAdornment>
+												}
+												inputProps={ { min: 1 } }
 											/>
-										</FormControl>									
+										</FormControl>
 										{ /* <input className="wp-posts-carousel-field field-validate" type="number" name="wp_posts_carousel[nav_speed]" id="nav_speed" value="<?php echo esc_attr( $data['nav_speed'] ); ?>" size="5" min="1" required pattern="^\d+$" />[ms] */ }
 									</td>
 								</tr>
-							}
+							) }
 
 							<tr>
 								<th>{ __( 'Show dots navigation', 'wp-posts-carousel' ) }</th>
 								<td>
 									<FormControlLabel
-										control={ <Switch color="primary" name="dots" checked={ values.dots } onChange={ handleChange } /> }
+									label=""
+										control={
+											<Switch
+												color="primary"
+												name="dots"
+												checked={ values.dots }
+												onChange={ handleChange }
+											/>
+										}
 									/>
 									{ /* <input className="checkbox wp-posts-carousel-field" type="checkbox" value="1" name="wp_posts_carousel[dots]" id="dots" <?php checked( ( bool ) $data['dots'], true ); ?> /> */ }
 								</td>
 							</tr>
-							{values.dots &&
+							{ values.dots && (
 								<tr>
 									<th>{ __( 'Dots speed', 'wp-posts-carousel' ) }</th>
 									<td>
 										<FormControl
-											className={ clsx( classes.margin, classes.textField ) }
 											variant="outlined"
 										>
 											<OutlinedInput
@@ -320,15 +428,17 @@ const CarouselOptions = ( props ) => {
 												onChange={ handleChange }
 												aria-describedby="outlined-dots_speed-helper-text"
 												type="number"
-												endAdornment={<InputAdornment position="end">ms</InputAdornment>}
-												inputProps={{ min: 1 }}
+												endAdornment={
+													<InputAdornment position="end">ms</InputAdornment>
+												}
+												inputProps={ { min: 1 } }
 											/>
 										</FormControl>
 
 										{ /* <input className="wp-posts-carousel-field field-validate" type="number" name="wp_posts_carousel[dots_speed]" id="dots_speed" value="<?php echo esc_attr( $data['dots_speed'] ); ?>" size="5" min="1" required pattern="^\d+$" />[ms] */ }
 									</td>
 								</tr>
-							}
+							) }
 
 							<tr>
 								<th>
@@ -338,7 +448,15 @@ const CarouselOptions = ( props ) => {
 								</th>
 								<td>
 									<FormControlLabel
-										control={ <Switch color="primary" name="lazy_load" checked={ values.lazy_load } onChange={ handleChange } /> }
+									label=""
+										control={
+											<Switch
+												color="primary"
+												name="lazy_load"
+												checked={ values.lazy_load }
+												onChange={ handleChange }
+											/>
+										}
 									/>
 									{ /* <input className="checkbox wp-posts-carousel-field" type="checkbox" value="1" name="wp_posts_carousel[lazy_load]" id="lazy_load" <?php checked( ( bool ) $data['lazy_load'], false ); ?> /> */ }
 								</td>
@@ -347,7 +465,15 @@ const CarouselOptions = ( props ) => {
 								<th>{ __( 'Mouse events', 'wp-posts-carousel' ) }</th>
 								<td>
 									<FormControlLabel
-										control={ <Switch color="primary" name="mouse_drag" checked={ values.mouse_drag } onChange={ handleChange } /> }
+									label=""
+										control={
+											<Switch
+												color="primary"
+												name="mouse_drag"
+												checked={ values.mouse_drag }
+												onChange={ handleChange }
+											/>
+										}
 									/>
 									{ /* <input className="checkbox wp-posts-carousel-field" type="checkbox" value="1" name="wp_posts_carousel[mouse_drag]" id="mouse_drag" <?php checked( ( bool ) $data['mouse_drag'], true ); ?> /> */ }
 								</td>
@@ -359,7 +485,15 @@ const CarouselOptions = ( props ) => {
 								</th>
 								<td>
 									<FormControlLabel
-										control={ <Switch color="primary" name="mouse_wheel" checked={ values.mouse_wheel } onChange={ handleChange } /> }
+									label=""
+										control={
+											<Switch
+												color="primary"
+												name="mouse_wheel"
+												checked={ values.mouse_wheel }
+												onChange={ handleChange }
+											/>
+										}
 									/>
 									{ /* <input className="checkbox wp-posts-carousel-field" type="checkbox" value="1" name="wp_posts_carousel[mouse_wheel]" id="mouse_wheel" <?php checked( ( bool ) $data['mouse_wheel'], true ); ?> /> */ }
 								</td>
@@ -368,7 +502,15 @@ const CarouselOptions = ( props ) => {
 								<th>{ __( 'Touch events', 'wp-posts-carousel' ) }</th>
 								<td>
 									<FormControlLabel
-										control={ <Switch color="primary" name="touch_drag" checked={ values.touch_drag } onChange={ handleChange } /> }
+									label=""
+										control={
+											<Switch
+												color="primary"
+												name="touch_drag"
+												checked={ values.touch_drag }
+												onChange={ handleChange }
+											/>
+										}
 									/>
 									{ /* <input className="checkbox wp-posts-carousel-field" type="checkbox" value="1" name="wp_posts_carousel[touch_drag]" id="touch_drag" <?php checked( ( bool ) $data['touch_drag'], true ); ?> /> */ }
 								</td>
@@ -394,7 +536,15 @@ const CarouselOptions = ( props ) => {
 								</th>
 								<td>
 									<FormControlLabel
-										control={ <Switch color="primary" name="auto_width" checked={ values.auto_width } onChange={ handleChange } /> }
+									label=""
+										control={
+											<Switch
+												color="primary"
+												name="auto_width"
+												checked={ values.auto_width }
+												onChange={ handleChange }
+											/>
+										}
 									/>
 									{ /* <input className="checkbox wp-posts-carousel-field" type="checkbox" value="1" name="wp_posts_carousel[auto_width]" id="auto_width" <?php checked( ( bool ) $data['auto_width'], false ); ?> /> */ }
 								</td>
@@ -407,7 +557,15 @@ const CarouselOptions = ( props ) => {
 								</th>
 								<td>
 									<FormControlLabel
-										control={ <Switch color="primary" name="auto_height" checked={ values.auto_height } onChange={ handleChange } /> }
+									label=""
+										control={
+											<Switch
+												color="primary"
+												name="auto_height"
+												checked={ values.auto_height }
+												onChange={ handleChange }
+											/>
+										}
 									/>
 									{ /* <input className="checkbox wp-posts-carousel-field" type="checkbox" value="1" name="wp_posts_carousel[auto_height]" id="auto_height" <?php checked( ( bool ) $data['auto_height'], true ); ?> /> */ }
 								</td>

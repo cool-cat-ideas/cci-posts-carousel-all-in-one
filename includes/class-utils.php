@@ -26,7 +26,7 @@ class WP_Posts_Carousel_Utils
 			'wp_posts_carousel_params_defaults',
 			array(
 				'template'            => 'default',
-				'post_types'          => array(array('value' => 'post', 'label' => __('Posts'))),
+				'post_types'          => array(array('value' => 'post', 'label' => __('Posts'), 'post_type' => 'post')),
 				'order_by'            => 'id',
 				'ordering'            => 'asc',
 				'posts'               => array(),
@@ -90,9 +90,9 @@ class WP_Posts_Carousel_Utils
 		return array_merge($params, $breakpoints);
 	}
 
-	public static function get_taxonomies()
+	public static function get_post_types()
 	{
-		$taxonomies = array();
+		$post_types = array();
 
 		$array = get_post_types(
 			array(
@@ -104,14 +104,14 @@ class WP_Posts_Carousel_Utils
 
 		if ($array) {
 			foreach ($array as $key => $item) {
-				$taxonomies[] = array(
+				$post_types[] = array(
 					'value'   => $key,
 					'label' => $item->label,
 				);
 			}
 		}
 
-		return $taxonomies;
+		return $post_types;
 	}
 
 	public static function get_orders_by()

@@ -43,7 +43,7 @@ export const formClasses = makeStyles( {
 // const drawerWidth = 200;
 // const rightDrawerWidth = 280;
 
-// export const styles = makeStyles(( theme ) => ( {
+ export const customClasses = makeStyles({
 //     root: {
 //         display: 'flex',
 //         minHeight: '87vh',
@@ -167,11 +167,11 @@ export const formClasses = makeStyles( {
 //     menuIcon: {
 //         minWidth: '30px',
 //     },
-//     snackbarContainer: {
-//         zIndex: 9999
-//     },
+    // snackbarContainer: {
+    //     zIndex: 9999
+    // },
 //     required: {
 //         color: 'red',
 //         paddingLeft: '5px'
 //     }
-// } ));
+} );

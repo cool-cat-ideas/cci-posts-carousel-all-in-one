@@ -1,35 +1,70 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer, inject } from 'mobx-react';
+import { SnackbarProvider } from 'notistack';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
+
+import api from './components/Api';
 
 // routing
 import Routes from './routes';
 
 // defaultTheme
-import themes from './themes';
+import theme from './themes';
 
 // project imports
 import NavigationScroll from './layout/NavigationScroll';
 
-const App = (props) => {
+import Notifier from './components/Notifier';
+import Loader from './components/Loader';
 
-    return (
-        <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={themes()}>
-                <CssBaseline />
-                <NavigationScroll>
-                    <Routes  { ...props } />
-                </NavigationScroll>
-            </ThemeProvider>
-        </StyledEngineProvider>
-    );
+const App = ( props ) => {
+	useEffect( () => {
+		api.interceptors.request.use(
+			function ( config ) {
+				props.store.setLoading( true );
+				return config;
+			},
+			function ( error ) {
+				return Promise.reject( error );
+			}
+		);
+
+		api.interceptors.response.use(
+			function ( response ) {
+				props.store.setLoading( false );
+				return response;
+			},
+			function ( error ) {
+				props.store.setLoading( false );
+				return Promise.reject( error );
+			}
+		);
+	})
+
+	return (
+		<StyledEngineProvider injectFirst>
+			<ThemeProvider theme={ theme() }>
+				<CssBaseline />
+				<SnackbarProvider
+					maxSnack={ 3 }
+					dense={ true }
+					autoHideDuration={ 5000 }
+					anchorOrigin={ { horizontal: 'left', vertical: 'bottom' } }
+				>
+					<Notifier />
+					<Loader { ...props } />
+					<NavigationScroll>
+						<Routes { ...props } />
+					</NavigationScroll>
+				</SnackbarProvider>
+			</ThemeProvider>
+		</StyledEngineProvider>
+	);
 };
 
-export default inject( 'store' )( observer ( App ) );
-
-
+export default inject( 'store' )( observer( App ) );
 
 // import React from 'react';
 // import { BrowserRouter as Router, Route } from 'react-router-dom';

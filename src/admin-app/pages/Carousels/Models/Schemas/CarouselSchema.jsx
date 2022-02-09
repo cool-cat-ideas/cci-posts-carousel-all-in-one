@@ -4,13 +4,14 @@ export const CarouselSchema = Yup.object().shape( {
 	title: Yup.string().required(),
 	post_types: Yup.array().min(1).required(),
 	order_by: Yup.string().required(),
-	posts: Yup.array(),
-	exclude: Yup.array(),
+	ordering: Yup.string().required(),
+	all_items: Yup.number().positive().required(),
 	categories: Yup.array(),
 	relation: Yup.string(),
 	tags: Yup.array(),
-	all_items: Yup.number().positive().required(),
-	ordering: Yup.string().required(),
+	posts: Yup.array(),
+	exclude: Yup.array(),	
+	
 
 	// template: '',
 	// show_title: false,

@@ -24,7 +24,7 @@ import LeftMenu from './components/LeftMenu';
 import Loader from './components/Loader';
 import Notifier from './components/Notifier';
 
-import { theme, styles } from './components/styles';
+import { theme, styles } from './themes/styles';
 
 const { __ } = wp.i18n;
 const wpadminbarPosition = document.getElementById( 'wpadminbar' ).getBoundingClientRect();

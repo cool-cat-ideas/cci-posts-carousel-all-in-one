@@ -14,9 +14,13 @@ export const customAutocompleteDefaultValue = ( options, value ) => {
 	}
 
 	if ( typeof value === 'object' ) {
-		const selectedIds = value.map( ( option ) => option.value );
+		if ( Array.isArray( value ) ) {
+			const selectedIds = value.length > 0 ? value.map( ( option ) => option.value ) : value.value;
 
-		output = options.filter( ( option ) => selectedIds.includes( option.value ) );
+			output = options.filter( ( option ) => selectedIds.includes( option.value ) );
+		} else {
+			output = options.find( ( option ) => option.value.toLowerCase() === value.value.toLowerCase() );
+		}
 		//v = options.filter( ( option ) => value.includes( option.value ) );
 	} else {
 		output = options.find( ( option ) => option.value.toLowerCase() === value.toLowerCase() );
@@ -27,6 +31,10 @@ export const customAutocompleteDefaultValue = ( options, value ) => {
 
 export const CustomAutocomplete = ( props ) => {
 	const { __ } = wp.i18n;
+	const [ open, setOpen ] = useState( false );
+	const [ endpoint, setEndpoint ] = useState( false );
+	const [ searchText, setSearchText ] = useState( '' );
+
 	const { values, errors, touched, setFieldValue } = useFormikContext();
 
 	const [ field ] = useField( props );
@@ -35,11 +43,11 @@ export const CustomAutocomplete = ( props ) => {
 	customProps.customProps && delete customProps.customProps;
 
 	const [ postsOptions, setPostsOptions ] = useState( [] );
-	const [ loading, setLoading ] = useState( false );
+	//const [ loading, setLoading ] = useState( false );
+	const loading = open && postsOptions.length === 0;
 
 	const searchApi = async ( endpoint, searchText = '', values = [] ) => {
 		if ( endpoint ) {
-			setLoading( true );
 			await api
 				.post( endpoint + searchText, values )
 				.then( ( response ) => {
@@ -56,7 +64,6 @@ export const CustomAutocomplete = ( props ) => {
 					} );
 				} );
 		}
-		setLoading( false );
 	};
 
 	useEffect( () => {
@@ -66,6 +73,32 @@ export const CustomAutocomplete = ( props ) => {
 			setPostsOptions( [] );
 		}
 	}, [ options ] );
+
+	useEffect( () => {
+		if ( ! open && endpoint !== false ) {
+			setPostsOptions( [] );
+		}
+	}, [ open ] );
+
+	useEffect( () => {
+		if ( props.customProps && props.customProps.endpoint !== undefined ) {
+			setEndpoint( props.customProps.endpoint );
+		}
+	}, [ props.customProps ] );
+
+	useEffect( () => {
+		let active = true;
+
+		if ( ! loading ) {
+			return undefined;
+		}
+
+		searchApi( endpoint, searchText, values );
+
+		return () => {
+			active = false;
+		};
+	}, [ loading ] );
 
 	const {
 		name,
@@ -93,37 +126,36 @@ export const CustomAutocomplete = ( props ) => {
 				size={ size ?? 'small' }
 				fullWidth={ fullWidth ?? true }
 				multiple={ multiple ?? false }
-				disableClearable={disableClearable ?? true}
-				openOnFocus={true}
-				autoComplete={false}
+				disableClearable={ disableClearable ?? true }
+				autoComplete={ false }
 				noOptionsText={ noOptionsText ?? __( 'No values', 'wp-posts-carousel' ) }
-				value={ customAutocompleteDefaultValue( postsOptions, value ) }
+				value={
+					endpoint !== false
+						? values[ name ]
+						: customAutocompleteDefaultValue( postsOptions, value )
+				}
 				isOptionEqualToValue={ ( option, value ) => option.value === value.value }
 				onInputChange={ ( event, newValue ) => {
+					setSearchText( newValue );
 					if ( onInputChange && typeof onInputChange === 'function' ) {
-						onInputChange( event, newValue, options, searchApi );
+						onInputChange( event, newValue );
 					}
 				} }
 				onOpen={ () => {
+					setOpen( true );
+
 					if ( onOpen && typeof onOpen === 'function' ) {
-						onOpen( searchApi );
+						onOpen();
 					}
 				} }
+				onClose={ () => {
+					setOpen( false );
+				} }
 				onChange={ ( event, newValue ) => {
-					let newFormikValue = props.multiple ? [] : '';
+					setFieldValue( field.name, newValue );
 
-					if ( props.multiple ) {
-						newFormikValue = newValue;
-						//newValue.map( ( value ) => newFormikValue.push( value.value ) );
-					} else {
-						newFormikValue = newValue;
-						//newFormikValue = newValue.value;
-					}
-
-					if ( onChange && typeof props.onChange === 'function' ) {
-						props.onChange( event, newFormikValue, options );
-					} else {
-						setFieldValue( field.name, newFormikValue );
+					if ( onChange && typeof onChange === 'function' ) {
+						onChange( event, newValue );
 					}
 				} }
 				getOptionLabel={ ( option ) => {
@@ -149,10 +181,10 @@ export const CustomAutocomplete = ( props ) => {
 									{ loading && <CircularProgress color="inherit" size={ 20 } /> }
 									{ params.InputProps.endAdornment }
 								</>
-							)
+							),
 						} }
-						fullWidth
-						required
+		
+						
 					/>
 				) }
 			/>

@@ -44,13 +44,14 @@ export const theme = (customization) => {
                 }
             }
         },
-        typography: themeTypography(themeOption)
+        zIndex: {
+            snackbar: 9999,
+        },
+        typography: themeTypography(themeOption),
+        components: componentStyleOverrides(themeOption)
     };
 
-    const themes = createTheme(themeOptions);
-    themes.components = componentStyleOverrides(themeOption);
-
-    return themes;
+    return createTheme(themeOptions);
 };
 
 export default theme;
