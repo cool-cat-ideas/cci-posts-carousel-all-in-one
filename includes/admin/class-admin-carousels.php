@@ -1,8 +1,8 @@
 <?php
 /**
  * Author: Marcin Gierada
- * Author URI: http://www.teastudio.pl/
- * Author Email: m.gierada@teastudio.pl
+ * Author URI: https://coolcatideas.com/
+ * Author Email: info@coolcatideas.com
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -19,47 +19,48 @@ class WP_Posts_Carousel_Carousels {
      * constructor
      */
     public function __construct() {
-        // save plugin's data
-        add_action( 'save_post', array( $this, 'save_carousel' ) );
+        add_action( 'load-edit.php', array( $this, 'redirect_native_editor' ) );
+        add_action( 'load-post-new.php', array( $this, 'redirect_native_editor' ) );
+        add_action( 'load-post.php', array( $this, 'redirect_native_editor' ) );
     }
 
     /**
      * manage carousels
      */
     public static function manage() {
-        //include_once( 'class-admin-carousels-table.php' );
-        //$table = new WP_Posts_Carousel_Table();
-
         include_once( 'views/html-carousels-page.php' );
     }
 
     /**
-     * save carousel data
+     * Send legacy native post screens to the React administration page.
      */
-    public function save_carousel( $post_ID ) {
-        // verify if this is an auto save
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
-            return;
+    public function redirect_native_editor() {
+        global $pagenow;
 
-        // check user credentals
-        if ( ! current_user_can( 'edit_wp_posts_carousel', $post_ID ) ) {
-            return;
+        $post_type = isset( $_GET['post_type'] )
+            ? sanitize_key( wp_unslash( $_GET['post_type'] ) )
+            : '';
+        $post_id = isset( $_GET['post'] ) ? absint( $_GET['post'] ) : 0;
+
+        if ( $post_id ) {
+            $post_type = get_post_type( $post_id );
         }
 
-        // check if the user intended to change this value
-        if ( ! isset( $_POST['wp_posts_carousel'] ) ) {
-          return;
-        }
-
-        // check the post type
-        if ( get_post_type( $post_ID ) !== 'wp-posts-carousel' ) {
+        if ( 'wp-posts-carousel' !== $post_type ) {
             return;
         }
 
-        $carousel_params = wp_json_encode( $_POST['wp_posts_carousel'] );
+        $query_args = array( 'page' => 'wp-posts-carousel' );
 
-        // save
-        update_post_meta( $post_ID, 'wp_posts_carousel', $carousel_params);
+        if ( 'post-new.php' === $pagenow ) {
+            $query_args['action'] = 'add-new';
+        } elseif ( 'post.php' === $pagenow && $post_id ) {
+            $query_args['action'] = 'edit';
+            $query_args['id'] = $post_id;
+        }
+
+        wp_safe_redirect( add_query_arg( $query_args, admin_url( 'admin.php' ) ) );
+        exit;
     }
 }
 

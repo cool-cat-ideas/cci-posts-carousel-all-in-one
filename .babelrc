@@ -1,19 +1,31 @@
 {
   "presets": [
-    "@babel/env",
-    "@babel/react"
-  ],
-  "plugins": [
     [
-      "@babel/plugin-proposal-decorators",
+      "@babel/preset-env",
       {
-        "legacy": true
+        "targets": {
+          "browsers": [
+            ">0.5%",
+            "last 2 versions",
+            "not dead",
+            "not ie <= 11"
+          ]
+        }
       }
     ],
     [
-      "@babel/plugin-proposal-class-properties",
+      "@babel/preset-react",
       {
-        "loose": true
+        "runtime": "classic"
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "helpers": true,
+        "regenerator": true
       }
     ]
   ]

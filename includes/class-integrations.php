@@ -1,8 +1,8 @@
 <?php
 /**
  * Author: Marcin Gierada
- * Author URI: http://www.teastudio.pl/
- * Author Email: m.gierada@teastudio.pl
+ * Author URI: https://coolcatideas.com/
+ * Author Email: info@coolcatideas.com
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -86,7 +86,7 @@ class WP_Posts_Carousel_Integrations {
     }
 
     /**
-     * get plugin's integrations from teastudio.pl API
+     * get integrations from the Cool Cat Ideas API
      */
     public function get_others_integrations() {
         $integrations = array();
@@ -97,66 +97,5 @@ class WP_Posts_Carousel_Integrations {
         }
         return $integrations;
     }
-
-
-
-
-
-    // public static function render_integrations_list() {
-    //     $WP_Posts_Carousel = WP_Posts_Carousel();
-    //     $integrations_list = $WP_Posts_Carousel->integrations;
-
-    //     $out = '';
-
-    //     if ( empty( $integrations_list ) ) {
-    //         $out .= '<div class="wp-posts-carousel-message wp-posts-carousel-message-eror">';
-    //             $out .= '<p>';
-    //                 $out .= __( "Ups, something is wrong, couldn't get the templates list.", 'wp-posts-carousel' );
-    //             $out .= '</p>';
-    //         $out .= '</div>';
-    //     }
-
-    //     $out .= '<ul id="wp-posts-carousel-templates">';
-    //         if ( ! empty( $templates_list ) ) {
-    //             foreach ( $templates_list as $name => $file_info) {
-    //                 $out .= '<li>';
-    //                     $out .= '<div class="wp-posts-carousel-template ' . ( $file_info['compatible'] === false ? 'wp-posts-carousel-template-warning' : null ) . '">';
-    //                         $out .= '<div class="wp-posts-carousel-template-screenshot">';
-    //                             $out .= '<img src="' . esc_attr( $file_info['screenshot'] ) . '" alt="' . __( 'Template screenshot', 'wp-posts-carousel' ) . '" />';
-    //                         $out .= '</div>';
-
-    //                         $out .= '<p class="wp-posts-carousel-template-details">';
-    //                             $out .= __( 'Author' ) . ': ';
-    //                             if ( $file_info['author_url'] != '' ) {
-    //                                 $out .= '<a href="' . ( $file_info['author_url'] != '' ? $file_info['author_url'] : null ) . '" target="_blank">' . $file_info['author'] . '</a>';
-    //                             } else {
-    //                                 $out .= $file_info['author'];
-    //                             }
-    //                             $out .= ( $file_info['description'] != '' ? WP_Posts_Carousel_Utils::getTooltip( $file_info['description'] ) : null );
-    //                         $out .= '</p>';
-
-    //                         $out .= '<label for="template-' . esc_attr( $name ) . '">';
-    //                             if ( $file_info['compatible']['status'] === true ) {
-    //                                 $out .= '<input type="radio" name="wp_posts_carousel[template]" id="template-' . esc_attr( $name ) . '" value="' . esc_attr( $name ) . '" class="checkbox wp-posts-carousel-field" />';
-    //                             }
-    //                             $out .= esc_html( $file_info['template_name'] );
-
-    //                             if ( $file_info['compatible']['status'] === true ) {
-    //                                 $out .= WP_Posts_Carousel_Utils::getTooltip( $file_info['compatible']['error'], 'warning' );
-    //                             }
-    //                         $out .= '</label>';
-    //                     $out .= '</div>';
-    //                 $out .= '</li>';
-    //             }
-    //         }
-    //         $out .= '<li class="promotion">';
-    //             $out .= '<div class="wp-posts-carousel-template">';
-    //                 $out .= '';
-    //             $out .= '</div>';
-    //         $out .= '</li>';
-    //     $out .= '</ul>';
-
-    //     return $out;
-    // }
 }
 ?>

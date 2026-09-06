@@ -1,8 +1,8 @@
 <?php
 /**
  * Author: Marcin Gierada
- * Author URI: http://www.teastudio.pl/
- * Author Email: m.gierada@teastudio.pl
+ * Author URI: https://coolcatideas.com/
+ * Author Email: info@coolcatideas.com
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */

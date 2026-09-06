@@ -1,0 +1,61 @@
+@tailwind components;
+@tailwind utilities;
+
+.cci-wpc-support-brand-image {
+    display: block;
+    width: min(100%, 260px);
+    height: auto;
+    margin-inline: auto;
+}
+
+#wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell {
+  align-items: stretch;
+}
+
+#wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell > .cci-wpc-admin-sidebar {
+  align-self: stretch;
+  height: auto;
+  min-height: 100%;
+}
+
+@media (max-width: 960px) {
+  #wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell {
+    grid-template-columns: 1fr !important;
+    margin-left: 0 !important;
+  }
+
+  #wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell > .cci-wpc-admin-sidebar {
+    height: auto !important;
+    min-height: 0 !important;
+    grid-template-rows: auto auto !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid #dfe5ec !important;
+    padding: 1rem !important;
+  }
+
+  #wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell > .cci-wpc-admin-sidebar > div:first-child {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: .5rem !important;
+  }
+
+  #wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell > .cci-wpc-admin-sidebar > div:nth-child(2) {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding-right: 0 !important;
+  }
+
+  #wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell > .cci-wpc-admin-sidebar nav {
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: 42px !important;
+    grid-template-columns: none !important;
+    justify-content: center !important;
+    gap: .375rem !important;
+  }
+
+  #wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell > main {
+    padding: 1.5rem 1.25rem 2.125rem !important;
+  }
+}

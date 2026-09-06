@@ -1,8 +1,8 @@
 <?php
 /**
  * Author: Marcin Gierada
- * Author URI: http://www.teastudio.pl/
- * Author Email: m.gierada@teastudio.pl
+ * Author URI: https://coolcatideas.com/
+ * Author Email: info@coolcatideas.com
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -52,26 +52,33 @@ class WP_Posts_Carousel_Integration {
 
         if ( count( $integration ) > 0 ) {
             $integration['dir']        = dirname( $path );
-            $integration['name']       = end( explode( '/', $integration['dir'] ) );
+            $integration['name']       = basename( $integration['dir'] );
             $integration['dir_url']    = plugin_dir_url( $path );
             $integration['compatible'] = $this->check_integration( $integration );
 
             if ( file_exists( $integration['dir'] . '/' . $screenshot_file ) ) {
                 $integration['screenshot'] = $integration['dir_url'] . $screenshot_file;
             } else {
-                $integration['screenshot'] = WP_POSTS_CAROUSEL_DIR_URL . 'assets/images/integration-placeholder.png';
+                $integration['screenshot'] = WP_POSTS_CAROUSEL_DIR_URL . 'assets/images/template-placeholder.png';
             }
         }
 
-        $integration_details[$integration['name']] = $integration;
-        return $integration_details;
+        if ( empty( $integration['name'] ) ) {
+            return array();
+        }
+
+        $this->integration_details[$integration['name']] = $integration;
+
+        return $this->integration_details;
     }
 
     /**
      * check compatibility with plugin version
      */
     public function check_integration( $integration_details ) {
-        if ( $integration_details['requires_wp_posts_carousel_at_least'] < WP_POSTS_CAROUSEL_VERSION ) {
+        $required_version = trim( (string) $integration_details['requires_wp_posts_carousel_at_least'] );
+
+        if ( $required_version && version_compare( WP_POSTS_CAROUSEL_VERSION, $required_version, '<' ) ) {
             return array(
                 'status' => false,
                 'error'  => sprintf( __( "This integration '%s' is not compatible with the current version of this plugin", 'wp-posts-carousel' ), $integration_details['integration_name'] ),

@@ -1,297 +1,107 @@
-=== WP Posts Carousel ===
-Contributors: teastudio.pl
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2SQA4FL25Y73W
-Tags: carousel, slider, posts carousel, posts slider, custom post type, wordpress carousel, wordpress posts slider, wordpress owl carousel, owl carousel
-Requires at least: 3.6
-Tested up to: 4.5
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+=== WP Posts Carousel All In One ===
+Contributors: coolcatideas
+Tags: carousel, slider, posts carousel, swiper, owl carousel, gutenberg block, frontend filters, acf
+Requires at least: 6.0
+Tested up to: 7.1
+Requires PHP: 7.4
+Stable tag: 2.0.0
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-WP Posts Carousel is a widget and a shortcode generator to displays posts or custom post types in carousel by Owl Carousel.
+Create a carousel from posts, pages, products or manual slides, then reuse it with Gutenberg or a shortcode.
+
 == Description ==
 
-**WP Posts Carousel** allows to view the list of selected post types in a carousel. The plugin offers rich parameters of carousel display and post information, and provides better support for mobile devices. The plugin is equipped with a code generator (allows to insert the carousel into content) and a dedicated widget.
-This plugin uses [OWL Carousel](http://www.owlcarousel.owlgraphic.com/) in new version 2.0.0-beta.2.4.
+Use WP Posts Carousel All In One for recent posts, selected pages, custom post types, product links or slides you arrange by hand. The visual editor shows the chosen content and layout while you work. When you update a saved carousel, every place that uses it receives the change.
 
+= What you can do without a license =
 
-= This plugin may require some others plugins or libraries: =
-* **Font Awesome** - this library is included but you can disable it on the plugin's settings page
-* **WordPress Popular Posts** - this plugin is required only if you want to display popular posts in the carousel
+* Create unlimited carousel definitions.
+* Choose a saved carousel in the Gutenberg block or copy its generated shortcode from the carousel list.
+* Display posts and custom post types with taxonomy-aware queries.
+* Select WooCommerce products as a custom post type and display them as standard linked content cards. Prices, sale state and buying actions require Pro.
+* Add frontend taxonomy filters above a carousel.
+* Map post meta or ACF fields into badges, CTA labels, custom URLs, image URLs, accents and video data.
+* Tune lazy images, first-image priority and image size override.
+* Use manual slide order for editorial sequences, featured cards and visual compositions.
+* Choose Owl Carousel or Swiper rendering.
+* Control bundled Owl/Swiper assets when the theme already loads its own libraries.
+* Use the bundled carousel templates.
+* Order a carousel by statistics already collected by WordPress Popular Posts.
+* Extend queries and output through the documented developer API.
 
+= What Pro adds =
 
-= Now available in the following Languages =
+Install the Pro plugin next to the base plugin when you need current WooCommerce prices, sale labels, ratings and add-to-cart actions. The same Pro package also adds bestseller and top-rated sources, Commerce Luxe, Story Commerce, Video Showcase, Elementor, engagement reports, a progress bar or seconds countdown before the next autoplay slide, and WordPress Multisite tools. You do not need a separate WooCommerce or template purchase.
 
-* English (en_EN)
-* Polish (pl_PL)
+Product and Pro information:
+https://coolcatideas.com/products/wp-posts-carousel-all-in-one
 
+Full documentation is published online at https://coolcatideas.com/docs/wp-posts-carousel-all-in-one/2.0.0/.
 
-If you need other translation or you would like to create some, please visit [crowdin.com](https://crowdin.com/project/wp-posts-carousel) project page.
+= Support =
 
+Use the product repository under https://github.com/orgs/cool-cat-ideas/repositories for public questions and bug reports. This channel has no guaranteed response time. When you need a private request with an agreed scope, buy a support service on the product page; the request and further messages are then handled in the Cool Cat Ideas customer panel.
 
+= Marketplace =
 
-For more information, check out [PLUGIN HOMEPAGE](http://www.teastudio.pl/en/product/wp-posts-carousel/).
-
-= DEMO =
-You can see the plugin in action on [DEMO PAGE](http://wordpress.teastudio.pl/category/product/wp-posts-carousel/)
-
-
-I will be grateful for opinions and reviews.
-
-== Translations: ==
-
-* English - by Marcin Gierada
-* Polish - by Marcin Gierada
-
-
-[Help translate **WP Posts Carousel** itself](https://crowdin.com/project/wp-posts-carousel)
+The admin can load product news, templates and integrations from the official Cool Cat Ideas marketplace. If the marketplace is unavailable, the plugin keeps working and shows empty store/news lists instead of blocking carousel management.
 
 == Installation ==
 
-1. Upload plugin either via the your's WordPress installation, or by uploading to the /wp-content/plugins/ by FTP client
-2. Install the plugin through the 'Plugins' menu in WordPress.
-3. Activate "WP Posts Carousel" in the "Plugins" using the "Activate" link.
-4. Go to the plugin settings page in the "Settings" menu.
+1. Open **Plugins > Add New > Upload Plugin**.
+2. Upload the ZIP and activate **WP Posts Carousel All In One**.
+3. Open **WP Posts Carousel > Carousels**.
+4. Click **Add New**, choose a content source and check the preview.
+5. Save the carousel.
+6. Insert the **WP Posts Carousel** block on a page and choose the saved carousel.
+7. Open the page on desktop and mobile.
+
+If the carousel is empty, check that the selected posts are published, the chosen category has content and the item limit is greater than zero.
 
 == Frequently Asked Questions ==
-If you've got any questions, don't hesitate to ask.
 
-= I made a update from a previous version. What now? =
+= Does it work if my theme already loads Owl Carousel or Swiper? =
 
-* If you're using on your website shortcode from this plugin, the best way is to delete old code and generate it again.
-* If you're using widget, you must update its options.
-* **Go to the plugin settings page and see if there are any notifications**
+Yes. Compatibility settings can disable bundled Owl assets, use a global Swiper instance and show warnings when another Owl/Swiper asset is detected.
 
+= Is Pro required? =
 
-= How can I add custom theme? =
+No. The base plugin creates and renders content carousels, including linked cards for the WooCommerce `product` post type. Pro is needed for current store data, buying actions and the other paid tools listed above.
 
-1. Now, you can add your custom template in your's theme directory.
-2. Create a new folder in your WordPress theme direcotry. You must name it "wp-posts-carousel".
+= Can templates and integrations be installed as add-ons? =
 
-Folders path should looks like this:
-`/themes/my_wordpress_theme/wp-posts-carousel/`
+Other no-cost plugins can add templates or content sources. The paid WPC tools are already part of the single Pro plugin and are not bought as separate packages.
 
-3. The best way is to copy one of a default templates from this plugin, e.g.: "simple"
-4. Next, paste it into your new directory (created before at point 2)
-5. Rename the folder that you pasted - it'll be your template name, so it should be unique, e.g.: "my-template"
-6. Open "style.css" file. Find and replace the string ".simple-theme" to your folder name, e.g.: ".my-template-theme". Save the file.
-7. Open "template.php" file. Please edit template info:
+= Does the WordPress Popular Posts integration require another CCI add-on? =
 
-* Template Name
-* Description
-* Author
-* Author URI
-* Tags
-* Requires at least - fill the plugin version, not WordPress
-* Tested up to - fill the plugin version, not WordPress
+No. The integration is built into the base plugin. Activate WordPress Popular Posts, then choose one of its ordering options in the carousel editor.
 
-8. Now you can modify your new template as you wish :)
+= Can developers change queries and output? =
 
-
-
-
-= How can I use custom actions or filters? =
-From 1.1.1 version you can use your own actions and filters to overwrite values or HTML code.
-
-
-Lists of filters:
-** filters for developers**
-* wp_posts_carousel_get_shows (1 parameter - $value)
-* wp_posts_carousel_get_orderings (1 parameter - $value)
-* wp_posts_carousel_get_descriptions (1 parameter - $value)
-* wp_posts_carousel_get_sources (1 parameter - $value)
-* wp_posts_carousel_get_defaults (1 parameter - $value)
-* wp_posts_carousel_get_breakpoints (1 parameter - $value)
-
-**standard filters**
-* wp_posts_carousel_query (2 parameters - $value, $params)
-* wp_posts_carousel_item_featured_image_placeholder (1 parameter - $value)
-* wp_posts_carousel_item_featured_image (2 parameters - $value, $params)
-* wp_posts_carousel_item_title (2 parameters - $value, $params)
-* wp_posts_carousel_item_created_date (2 parameters - $value, $params)
-* wp_posts_carousel_item_author (2 parameters - $value, $params)
-* wp_posts_carousel_item_categories (2 parameters - $value, $params)
-* wp_posts_carousel_item_description (2 parameters - $value, $params)
-* wp_posts_carousel_item_tags (2 parameters - $value, $params)
-* wp_posts_carousel_item_buttons (2 parameters - $value, $params)
-* wp_posts_carousel_query_popular_posts_interval (2 parameters - $value, $params)
-
-Variable **$params** includes all plugin's values and other variables that are required to display.
-
-
-e.g:
-To overwrite HTML of the title, you can create function in your functions.php file:
-[See "Overwrite title by filters from WP Posts Carousel"](http://pastebin.com/kZs3bDh1)
-
-
-For more info visit [WordPress Function Reference/add filter](https://codex.wordpress.org/Function_Reference/add_filter)
-
+Yes. The online developer documentation describes supported actions and filters for queries, templates and integrations.
 
 == Screenshots ==
-1. Widget configuration
-2. Shortcode generator
-3. WYSIWYG button
-4. Settings page
-5. Example of usage
+
+1. Dashboard with saved carousels and publishing actions.
+2. Carousel editor with renderer, responsive and manual slide settings.
+3. Template library with bundled and store-ready layouts.
+4. Compatibility settings for Owl Carousel and Swiper assets.
 
 == Changelog ==
-= 1.3.7 =
-* updated Owl Carousel library to stable version - 2.1.4
-* rewrited the main methods
-* changed prefix from name of all the filters from "wpc..." to "wp_posts_carousel..."
-* added option to overwrite the default values for the plugin, by using a filter "wp_posts_carousel_get_defaults"
-* changed the option to create breakpoints for better responsiveness, now you can overwrite default breakpoints by using a filter "wp_posts_carousel_get_breakpoints"
-* added option to display post author
-* added option to overwrite the display of post author, by using a filter "wp_posts_carousel_item_author"
-* added a new parameters to a Owl Carousel settings - "stagePadding" and "autoWidth"
-* added option to include "Font Awesome" library to the WordPress Admin Panel
-* added RTL option
-* added a new intervals for display popular posts: Popular all the time, Popular from 2 days, Popular from 2 weeks, Popular from month, Popular from 2 months and Popular from custom interval (by using "wp_posts_carousel_query_popular_posts_interval" filter)
-* added option to create the custom translation for the plugin (see FAQ)
-* added a new view of available templates for carousels
-* added a new template's structure and requirements
-* fixed a few problems in stylesheets
-* general bug fixes and optimalizations
 
-= 1.3.6 =
-* fixed problem with query
-
-= 1.3.5 =
-* added params value to the "wp_posts_carousel_query" filter
-* added a new filters for custom modifications
-* added option to set the relation method between categories and tags
-
-= 1.3.4 =
-* fixed bug with params in "wp_posts_carousel_item_categories" filter
-
-= 1.3.3 =
-* fixed small bug on generating js for the carousel (thanks to tehpopulator from wordpress.org)
-* fixed small bug on the plugin settings page (thanks to studiokb from wordpress.org)
-
-= 1.3.2 =
-* added skipped "Show created date" option to the widget (thanks to Luca Franchini)
-* check if some of the new variables is exists (thanks to Weronika Rudnicka)
-
-= 1.3.1 =
-* fixed filters: "wp_posts_carousel_item_categories" and "wp_posts_carousel_item_tags"
-
-= 1.3.0 =
-* fixed HTML5 validation
-* added option to exclude posts from display
-* added option to select where it should include plugin's scripts (head or footer section)
-* added option to display many post types in one carousel
-
-= 1.2.9 =
-* fixed the problem with non existing variables
-* added the "wp_posts_carousel_query" filter to overwrite query parameters
-
-= 1.2.8 =
-* fixed the code structure
-
-= 1.2.7 =
-* fixed conditions to display categories and tags
-
-= 1.2.6 =
-* again, fixed the problem with custom taxonomies on WordPress 4.4
-
-= 1.2.5 =
-* fixed the problem with custom taxonomies on WordPress 4.4
-
-= 1.2.4 =
-* fixed custom taxonomy queries
-* added inputs validation
-* added donate link
-
-= 1.2.3 =
-* fixed carousel loading - hide before load
-
-= 1.2.2 =
-* fixed custom stylesheet loading (thanks to CotswoldPhoto)
-
-= 1.2.1 =
-* fixed auto height display
-
-= 1.2.0 =
-* improved WordPress 4.3 capatible
-* fixed query for custom post types
-* added option to setup visible items on mobile, tablets and desktop devices
-* translation update
-* added new filter "wp_posts_carousel_item_featured_image_placeholder" for the featured image placeholder
-* fixed problem with lazy loading images
-
-= 1.1.9 =
-* fixed display one item carousel
-
-= 1.1.8 =
-* added option to disable auto height
-
-= 1.1.7 =
-* added autoplay speed option
-* improved lazy load for large images
-
-= 1.1.6 =
-* updated Polish language translation
-
-= 1.1.5 =
-* fixed problem with jQuery UI Effects library
-
-= 1.1.4 =
-* fixed problem with duplicate posts
-
-= 1.1.3 =
-* fixed problem with animation variable in shortcode generator
-
-= 1.1.2 =
-* replaced display the excerpt from directly field's value to automatically gererate excerpt by get_the_excerpt() function
-
-= 1.1.1 =
-* added actions and filters to overwrite html and values
-* added option to select posts or custom post types by IDs
-
-Remember to rebuild your shortcodes and update widgets options.
-
-= 1.1.0 =
-* fixed problem with WordPress queries
-* added option to allow shortcodes in post content
-
-= 1.0.9 =
-* fixed problem with loading owl.carousel script
-
-= 1.0.8 =
-* fixed problem with carousel height in Safari browser
-
-= 1.0.7 =
-* fixed problem with carousel height in Safari browser
-* changed way to enter tags, from ids to names
-
-= 1.0.6 =
-* new option to sort - by post views (required external plugin - Wordpress Popular Posts)
-* new option to sort - by id
-* new option to sort - by title
-* new option to sort - by date
-* new option to order - random lists
-
-= 1.0.5 =
-* fixed FontAwesome include method
-
-= 1.0.4 =
-* new way to display posts - by full content
-**Important** Before update read FAQ.
-* new option to set margin between items
-
-= 1.0.3 =
-* new option to display posts or other taxonomies with selected tags
-
-= 1.0.2 =
-* changed custom stylesheet directory
-
-= 1.0.1 =
-* new option to display post tags
-* new way to include FontAwesome - from official Bootstrap CDN
-
-= 1.0.0 =
-Initial release
+= 2.0.0 =
+* Added a redesigned visual administration experience.
+* Added dedicated carousel storage instead of relying on post meta.
+* Added visual carousel editor with responsive settings and manual slide order.
+* Added Owl Carousel and Swiper renderer support.
+* Added compatibility controls for bundled Owl/Swiper assets.
+* Added bundled templates and an add-on-ready template registry.
+* Added Gutenberg block with saved-carousel selector, frontend filters, performance controls and custom field mapping.
+* Added marketplace endpoint support for official Cool Cat Ideas product feeds.
+* Added Pro-ready feature and license gating hooks.
 
 == Upgrade Notice ==
 
-= 1.3.7 =
-1.3.7 is a major update so it is important that you have to regenerate all shortcodes and/or update widgets settings, form this plugin.
+= 2.0.0 =
+Initial public release of the rebuilt carousel editor and rendering system.

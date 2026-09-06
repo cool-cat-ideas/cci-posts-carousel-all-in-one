@@ -1,0 +1,298 @@
+{
+  "packageType": "new_product",
+  "openSourceLicense": "GPL-2.0-or-later",
+  "parentProductSlug": "wp-posts-carousel-all-in-one",
+  "localeCoverage": ["pl", "en"],
+  "summary": {
+    "pl": "Twórz dopracowane karuzele wpisów, produktów i kampanii, a potem wykorzystuj je w wielu miejscach bez układania sekcji od początku.",
+    "en": "Create polished carousels for posts, products and campaigns, then reuse them without rebuilding each section."
+  },
+  "product": {
+    "slug": "wp-posts-carousel-all-in-one",
+    "title": {
+      "pl": "WP Posts Carousel All In One",
+      "en": "WP Posts Carousel All In One"
+    },
+    "tagline": {
+      "pl": "Zamień wpisy, produkty i kampanie w dopracowane karuzele, które wykorzystasz w całym WordPressie.",
+      "en": "Turn posts, products and campaigns into polished carousel sections you can reuse across WordPress."
+    },
+    "description": {
+      "pl": "Buduj karuzele wpisów, stron, własnych typów treści i kampanii bez pisania kodu. Wersja podstawowa może wyświetlać produkty jako zwykłe karty z linkiem oraz korzystać ze statystyk WordPress Popular Posts. Jedna paczka Pro dodaje aktualne ceny, promocje, oceny i akcje zakupowe WooCommerce, źródła bestsellerów, Commerce Luxe, Story Commerce, Video Showcase, Elementora, analitykę i Multisite.",
+      "en": "Build carousels for posts, pages, custom post types and campaigns without code. The base edition can display products as linked content cards and use WordPress Popular Posts statistics. One Pro package adds current WooCommerce prices, sale states, ratings and buying actions, merchandising sources, Commerce Luxe, Story Commerce, Video Showcase, Elementor, analytics and Multisite."
+    },
+    "productTypeCodeName": "digital",
+    "categories": ["wordpress-plugins"],
+    "tags": ["wordpress", "carousel", "posts", "swiper", "owl-carousel", "shortcode", "gutenberg-block", "frontend-filters", "acf"],
+    "isDigitalProduct": true,
+    "licenseRequired": true,
+    "pluginCatalogEnabled": true,
+    "status": "published",
+    "freeVersionAvailable": true,
+    "freeVersion": "2.0.0",
+    "freeCompatibility": "WordPress 6.0-7.1, PHP 7.4+",
+    "freeDownloadUrl": null,
+    "wordpressMarketplaceUrl": null,
+    "freeVersionLabel": {
+      "pl": "Wersja podstawowa",
+      "en": "Base edition"
+    },
+    "freeVersionDescription": {
+      "pl": "Zbuduj pierwszą karuzelę na podglądzie, wybierz treści i opublikuj ją w Gutenbergu lub shortcodem. Otrzymujesz też gotowe szablony, filtry, własne pola, ręczną kolejność slajdów, integrację z WordPress Popular Posts oraz silniki Owl Carousel i Swiper.",
+      "en": "Use the base edition to create and embed post carousels with bundled templates, Gutenberg selection, shortcode publishing, frontend filters, custom field mapping, WordPress Popular Posts ordering, Owl Carousel, Swiper and manual slide ordering."
+    },
+    "proVersionAvailable": true,
+    "proVersion": "2.0.0",
+    "proUrl": "/products/wp-posts-carousel-all-in-one",
+    "proVersionLabel": {
+      "pl": "Wersja Pro",
+      "en": "Pro edition"
+    },
+    "proVersionDescription": {
+      "pl": "Jedna paczka i licencja Pro zawiera WooCommerce Products, Commerce Luxe, Story Commerce, Video Showcase, Elementora, analitykę, wskaźniki autoplay i Multisite. Nie trzeba instalować ani kupować osobnych dodatków komercyjnych.",
+      "en": "One Pro package and license include WooCommerce Products, Commerce Luxe, Story Commerce, Video Showcase, Elementor, analytics, autoplay indicators and Multisite. No separate commercial WPC add-ons are required."
+    },
+    "documentationUrl": "/docs/wp-posts-carousel-all-in-one/2.0.0/"
+  },
+  "licenseTypes": [
+    {
+      "codeName": "standard",
+      "title": {
+        "pl": "Standard",
+        "en": "Standard"
+      },
+      "siteLimit": 1,
+      "stagingSiteLimit": 1,
+      "updatesPeriodMonths": 12,
+      "supportPeriodMonths": 12,
+      "supportResponseDays": 5,
+      "maxOpenTickets": 1,
+      "renewalDiscountPercent": 35,
+      "prices": {
+        "PLN": 399,
+        "EUR": null,
+        "USD": 79
+      }
+    },
+    {
+      "codeName": "business",
+      "title": {
+        "pl": "Business",
+        "en": "Business"
+      },
+      "siteLimit": 3,
+      "stagingSiteLimit": 3,
+      "updatesPeriodMonths": 12,
+      "supportPeriodMonths": 12,
+      "supportResponseDays": 3,
+      "maxOpenTickets": 3,
+      "renewalDiscountPercent": 35,
+      "prices": {
+        "PLN": 699,
+        "EUR": null,
+        "USD": 149
+      }
+    },
+    {
+      "codeName": "agency",
+      "title": {
+        "pl": "Agency",
+        "en": "Agency"
+      },
+      "siteLimit": 0,
+      "stagingSiteLimit": 0,
+      "updatesPeriodMonths": 12,
+      "supportPeriodMonths": 12,
+      "supportResponseDays": 2,
+      "maxOpenTickets": 5,
+      "renewalDiscountPercent": 35,
+      "prices": {
+        "PLN": 1299,
+        "EUR": null,
+        "USD": 299
+      }
+    }
+  ],
+  "checkoutAddons": [
+    {
+      "codeName": "installation",
+      "productTypeCodeName": "service",
+      "title": {
+        "pl": "Instalacja i uruchomienie",
+        "en": "Installation and launch"
+      },
+      "description": {
+        "pl": "Wgrywamy plugin, aktywujemy produkt, sprawdzamy podstawowe dzialanie i konfigurujemy jedna testowa karuzele.",
+        "en": "We upload the plugin, activate the product, check basic operation and configure one test carousel."
+      },
+      "prices": {
+        "PLN": 199,
+        "EUR": null,
+        "USD": 49
+      },
+      "status": "published"
+    },
+    {
+      "codeName": "technical-intervention-2-hours",
+      "productTypeCodeName": "service",
+      "title": {
+        "pl": "Dodatkowa interwencja techniczna do 2 godzin",
+        "en": "Additional technical intervention up to 2 hours"
+      },
+      "description": {
+        "pl": "Jedna odrębna interwencja dotycząca konfiguracji lub problemu technicznego, realizowana do limitu 2 godzin. Jeżeli po diagnozie zakres okaże się większy, dalsza praca wymaga nowej wyceny; tego samego zadania nie dzielimy automatycznie na kolejne zakupy.",
+        "en": "One separate configuration or technical intervention up to 2 hours. If diagnosis shows a larger scope, further work requires a new quote; the same task is not automatically split into repeated purchases."
+      },
+      "prices": {
+        "PLN": 599,
+        "EUR": null,
+        "USD": 149
+      },
+      "status": "published"
+    }
+  ],
+  "versions": [
+    {
+      "version": "2.0.0",
+      "compatibility": "WordPress 6.0-7.1, PHP 7.4+",
+      "filename": "wp-posts-carousel-2.0.0.zip",
+      "changelog": {
+        "pl": [
+          "Przebudowano panel administracyjny w React.",
+          "Dodano dedykowany zapis konfiguracji karuzel poza post meta.",
+          "Dodano obsluge Owl Carousel i Swiper z kontrola konfliktow assetow.",
+          "Dodano szablony bazowe, reczne ulozenie slajdow, globalne breakpointy i diagnostyke.",
+          "Dodano Gutenberg block, frontend filters, performance controls i mapowanie custom fields."
+        ],
+        "en": [
+          "Rebuilt the admin interface with React.",
+          "Added dedicated carousel configuration storage outside post meta.",
+          "Added Owl Carousel and Swiper support with asset conflict controls.",
+          "Added bundled templates, manual slide ordering, global breakpoints and diagnostics.",
+          "Added Gutenberg block, frontend filters, performance controls and custom field mapping."
+        ]
+      },
+      "channel": "stable",
+      "released": true,
+      "releaseDate": "2026-06-14T00:00:00.000Z",
+      "status": "published"
+    }
+  ],
+  "catalogItems": [
+    {
+      "codeName": "light-template",
+      "itemKind": "template",
+      "availability": "free",
+      "requiresPro": false,
+      "requiresProductVersion": "2.0.0",
+      "version": "2.0.0",
+      "title": {
+        "pl": "Light Template",
+        "en": "Light Template"
+      },
+      "description": {
+        "pl": "Minimalny, redakcyjny szablon dla sekcji, ktore maja wygladac spokojnie i premium: polecane artykuly, aktualnosci, poradniki i firmowe wpisy bez wizualnego szumu.",
+        "en": "A minimal editorial template for calm, premium-feeling sections: featured articles, news, guides and company posts without visual noise."
+      },
+      "tags": {
+        "pl": ["Szablon", "Blog", "Redakcyjny", "Minimalny"],
+        "en": ["Template", "Blog", "Editorial", "Minimal"]
+      },
+      "documentationUrl": "/docs/wp-posts-carousel-all-in-one/2.0.0/template-development/",
+      "demoUrl": null,
+      "downloadUrl": null,
+      "marketplaceUrl": null,
+      "status": "published"
+    },
+    {
+      "codeName": "simple-template",
+      "itemKind": "template",
+      "availability": "free",
+      "requiresPro": false,
+      "requiresProductVersion": "2.0.0",
+      "version": "2.0.0",
+      "title": {
+        "pl": "Simple Template",
+        "en": "Simple Template"
+      },
+      "description": {
+        "pl": "Czytelny szablon kart tresci, ktory szybko porzadkuje wpisy, newsy i rekomendacje w karuzele gotowa do osadzenia na stronie glownej, blogu albo landing page.",
+        "en": "A readable content card template that quickly turns posts, news and recommendations into a carousel ready for a homepage, blog or landing page."
+      },
+      "tags": {
+        "pl": ["Szablon", "Prosty", "Wpisy"],
+        "en": ["Template", "Simple", "Posts"]
+      },
+      "documentationUrl": "/docs/wp-posts-carousel-all-in-one/2.0.0/template-development/",
+      "demoUrl": null,
+      "downloadUrl": null,
+      "marketplaceUrl": null,
+      "status": "published"
+    },
+    {
+      "codeName": "default-template",
+      "itemKind": "template",
+      "availability": "free",
+      "requiresPro": false,
+      "requiresProductVersion": "2.0.0",
+      "version": "2.0.0",
+      "title": {
+        "pl": "Default Template",
+        "en": "Default Template"
+      },
+      "description": {
+        "pl": "Uniwersalny wizualny szablon kart dla wpisow, produktow, materialow redakcyjnych i recznie ulozonych slajdow. Dobry jako pierwszy wybor, gdy karuzela ma wygladac nowoczesnie bez dodatkowego projektowania.",
+        "en": "A universal visual card template for posts, products, editorial content and manually arranged slides. A strong first choice when a carousel needs to look modern without extra design work."
+      },
+      "tags": {
+        "pl": ["Szablon", "Uniwersalny", "Karty"],
+        "en": ["Template", "Universal", "Cards"]
+      },
+      "documentationUrl": "/docs/wp-posts-carousel-all-in-one/2.0.0/template-development/",
+      "demoUrl": null,
+      "downloadUrl": null,
+      "marketplaceUrl": null,
+      "status": "published"
+    }
+  ],
+  "announcements": [
+    {
+      "slug": "wp-posts-carousel-2-0-0-release",
+      "kind": "release",
+      "version": "2.0.0",
+      "publishedAt": "2026-06-14T12:00:00.000Z",
+      "important": true,
+      "title": {
+        "pl": "WP Posts Carousel All In One 2.0.0 jest gotowy",
+        "en": "WP Posts Carousel All In One 2.0.0 is ready"
+      },
+      "excerpt": {
+        "pl": "Nowa linia pluginu dodaje panel React, dedykowany zapis karuzel, szablony, Swiper, Owl Carousel i przygotowanie pod dodatki Pro.",
+        "en": "The new plugin line adds a React admin, dedicated carousel storage, templates, Swiper, Owl Carousel and Pro extension foundations."
+      },
+      "content": {
+        "pl": "WP Posts Carousel All In One 2.0.0 rozpoczyna publiczna linie produktu. Wersja podstawowa tworzy responsywne karuzele, wspiera wielokrotne wykorzystanie zapisanych ukladow i pozwala rozbudowac je o szablony oraz integracje.",
+        "en": "WP Posts Carousel All In One 2.0.0 starts the public product line. The base edition creates responsive carousels, reuses saved layouts and can be expanded with templates and integrations."
+      },
+      "status": "published"
+    }
+  ],
+  "filesRequired": [
+    {
+      "type": "public_free_zip",
+      "filename": "wp-posts-carousel-2.0.0.zip",
+      "requiredFor": "free version 2.0.0",
+      "note": "Confirm the final ZIP filename during the release packaging step."
+    }
+  ],
+  "openQuestions": [
+    "Potwierdzic finalne ceny planow Standard, Business i Agency.",
+    "Potwierdzic finalny publiczny URL wersji podstawowej: WordPress.org, sklep, direct download albo wszystkie te kanaly.",
+    "Potwierdzic URL demo dla strony produktu."
+  ],
+  "notesForDeveloper": [
+    "Ten pakiet tworzy glowny rekord produktu i podstawowe elementy katalogu bundlowane w wersji podstawowej.",
+    "Dokumentacja wszystkich komercyjnych funkcji znajduje sie w produkcie i dokumentacji WP Posts Carousel Pro.",
+    "Jedynym platnym artefaktem WPC jest wp-posts-carousel-pro-2.0.0.zip; nie tworz osobnych ZIP-ow Commerce Luxe, Story Commerce ani WooCommerce Products."
+  ]
+}

@@ -1,0 +1,34 @@
+const element = window.wp && window.wp.element ? window.wp.element : {};
+
+export default element;
+
+export const Children = element.Children;
+export const Component = element.Component;
+export const Fragment = element.Fragment;
+export const PureComponent = element.PureComponent;
+export const StrictMode = element.StrictMode;
+export const Suspense = element.Suspense;
+export const cloneElement = element.cloneElement;
+export const createContext = element.createContext;
+export const createElement = element.createElement;
+export const createRef = element.createRef;
+export const forwardRef = element.forwardRef;
+export const isValidElement = element.isValidElement;
+export const lazy = element.lazy;
+export const memo = element.memo;
+export const startTransition = element.startTransition;
+export const useCallback = element.useCallback;
+export const useContext = element.useContext;
+export const useDebugValue = element.useDebugValue;
+export const useDeferredValue = element.useDeferredValue;
+export const useEffect = element.useEffect;
+export const useId = element.useId;
+export const useImperativeHandle = element.useImperativeHandle;
+export const useInsertionEffect = element.useInsertionEffect;
+export const useLayoutEffect = element.useLayoutEffect;
+export const useMemo = element.useMemo;
+export const useReducer = element.useReducer;
+export const useRef = element.useRef;
+export const useState = element.useState;
+export const useSyncExternalStore = element.useSyncExternalStore;
+export const useTransition = element.useTransition;

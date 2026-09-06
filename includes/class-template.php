@@ -1,34 +1,37 @@
 <?php
+
 /**
  * Author: Marcin Gierada
- * Author URI: http://www.teastudio.pl/
- * Author Email: m.gierada@teastudio.pl
+ * Author URI: https://coolcatideas.com/
+ * Author Email: info@coolcatideas.com
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
 /**
  * WP_Posts_Carousel_Template class
  */
-class WP_Posts_Carousel_Template {
+class WP_Posts_Carousel_Template
+{
 
     public $template_details = array();
 
     /**
      * constructor
      */
-    public function __construct() {
-
+    public function __construct()
+    {
     }
 
     /**
      * set template details from file
      */
-    public function set_template_details( $path ) {
-        if ( ! $path || ! file_exists( $path ) ) {
+    public function set_template_details($path)
+    {
+        if (!$path || !file_exists($path)) {
             return;
         }
 
@@ -48,41 +51,42 @@ class WP_Posts_Carousel_Template {
             'license_url'                         => 'License URI',
         );
 
-        $template = get_file_data( $path, $template_headers );
+        $template = get_file_data($path, $template_headers);
 
-        if ( count( $template ) > 0 ) {
-            $template['dir']        = dirname( $path );
-            $tmp_template_name_array = explode( '/', $template['dir'] );
+        if (count($template) > 0) {
+            $template['dir']        = dirname($path);
+            $tmp_template_name_array = explode('/', $template['dir']);
 
-            $template['name']       = end( $tmp_template_name_array );
-            $template['dir_url']    = plugin_dir_url( $path );
-            $template['compatible'] = $this->check_template( $template );
+            $template['name']       = end($tmp_template_name_array);
+            $template['dir_url']    = plugin_dir_url($path);
+            $template['compatible'] = $this->check_template($template);
 
-            if ( file_exists( $template['dir'] . '/' . $screenshot_file ) ) {
+            if (file_exists($template['dir'] . '/' . $screenshot_file)) {
                 $template['screenshot'] = $template['dir_url'] . $screenshot_file;
             } else {
                 $template['screenshot'] = WP_POSTS_CAROUSEL_DIR_URL . 'assets/images/template-placeholder.png';
             }
         }
 
-        $template_details[$template['name']] = $template;
-        return $template_details;
+        // $template_details[$template['name']] = $template;
+        return $template;
     }
 
     /**
      * check compatibility with plugin version
      */
-    public function check_template( $template_details ) {
+    public function check_template($template_details)
+    {
         // $output = array(
         //     'status' => null,
         //     'error'  => null,
         // );
         $current_version = WP_POSTS_CAROUSEL_VERSION;
 
-        if ( $template_details['requires_wp_posts_carousel_at_least'] < $current_version ) {
+        if ($template_details['requires_wp_posts_carousel_at_least'] < $current_version) {
             return array(
                 'status' => false,
-                'error'  => sprintf( __( "This template '%s' is not compatible with the current version of this plugin", 'wp-posts-carousel' ), $template_details['template_name'] ),
+                'error'  => sprintf(__("This template '%s' is not compatible with the current version of this plugin", 'wp-posts-carousel'), $template_details['template_name']),
             );
         }
 
@@ -92,4 +96,3 @@ class WP_Posts_Carousel_Template {
         );
     }
 }
-?>

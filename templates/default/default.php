@@ -1,14 +1,13 @@
 <?php
 /**
  * Plugin Name: Default Template for WP Posts Carousel
- * Plugin URI: http://www.teastudio.pl/en/product/wp-posts-carousel/
+ * Plugin URI: https://coolcatideas.com/products/wp-posts-carousel-all-in-one
  * Description: Free, default template
  * Tags: carousel, posts carousel, wordpress carousel, wordpress owl carousel, owl carousel, wp posts carousel compact, compact theme, clean theme, flat theme
- * Author: Marcin Gierada
- * Author URI: http://www.teastudio.pl/
- * Author Email: m.gierada@teastudio.pl
- * Version: 1.1.0
- * Requires WP Posts Carousel at least: 1.3.7
+ * Author: Cool Cat Ideas
+ * Author URI: https://coolcatideas.com/
+ * Version: 2.0.0
+ * Requires WP Posts Carousel at least: 2.0.0
  * Requires at least: 4.1
  * Tested up to: 4.3
  * License: GPLv2 or later

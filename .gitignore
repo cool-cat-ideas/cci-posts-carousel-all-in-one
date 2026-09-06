@@ -1,10 +1,39 @@
-$ cat .gitignore
-# exclude node_modules 
-/node_modules
+node_modules/
+_cacache/
+.cleanup-trash/
 
-# exclude build
-/build
+tmp/
+temp/
+logs/
+log/
+_logs/
+test-results/
+*.log
+*.tmp
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+_update-notifier-last-checked
 
-# exclude built js
-#/assets/js/*
-/vendor
+dist/
+build/
+releases/
+
+vendor/
+
+.DS_Store
+Thumbs.db
+*.Zone.Identifier
+
+/node_modules/
+/releases/
+/.release-stage/
+/tmp-*
+/test-results/
+/playwright-report/
+.DS_Store
+*Zone.Identifier
+
+/*.sql
+/site/*.sql
+/site/.user.ini
