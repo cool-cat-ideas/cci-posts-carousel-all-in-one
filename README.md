@@ -4,11 +4,15 @@
 
 # WP Posts Carousel All In One
 
-Create reusable WordPress carousels from posts, pages, custom post types or manually arranged slides. Build a carousel once, then place it with the Gutenberg block or its generated shortcode.
+Your latest articles, your favourite guides, the pages you wish more people would discover. Bring them together in a carousel that invites visitors to keep exploring.
 
-[Product page](https://coolcatideas.com/products/wp-posts-carousel-all-in-one) · [Live demos](https://wordpress-demo.coolcatideas.com/) · [Documentation](https://coolcatideas.com/docs/wp-posts-carousel-all-in-one/2.0.0/)
+[See it in action](https://wordpress-demo.coolcatideas.com/) · [Explore the product](https://coolcatideas.com/products/wp-posts-carousel-all-in-one/) · [Read the guide](https://coolcatideas.com/docs/wp-posts-carousel-all-in-one/2.0.0/) · [Get help](https://github.com/cool-cat-ideas/wp-posts-carousel-all-in-one/issues)
 
-## Included in Free
+Choose your content, arrange your slides and preview the result in the visual editor. Place your saved carousel with a Gutenberg block or shortcode, then reuse it across your site. Change it once and every place using it stays in sync.
+
+We're **Cool Cat Ideas**, and we're proud of this plugin. We built it for the enjoyable part of putting a page together: choosing what deserves attention and finding the right way to present it. We'd love to see what you create.
+
+## Plenty to create with, right from the start
 
 - Unlimited saved carousels with a visual editor and manual slide ordering.
 - Post and taxonomy queries, frontend taxonomy filters, and custom field mapping.
@@ -20,9 +24,11 @@ Create reusable WordPress carousels from posts, pages, custom post types or manu
 
 WooCommerce products can appear as standard linked content cards in Free. Current prices, sale information and buying actions require the separate Pro plugin.
 
-## Optional Pro features and extensions
+## Take it further with Pro
 
 WP Posts Carousel Pro adds WooCommerce buying actions, Commerce Luxe, Video Showcase, Story Commerce, Elementor integration, engagement reports, autoplay progress indicators and Multisite tools. It is installed alongside the Free plugin.
+
+[Explore Pro and compare editions](https://coolcatideas.com/products/wp-posts-carousel-all-in-one/)
 
 Aurora Cards is a separate, no-cost template extension. Its product example below uses Pro for WooCommerce prices and Add to cart actions; Aurora Cards is not one of the three templates bundled with Free.
 
@@ -216,7 +222,7 @@ Commerce Luxe presents product images, sale prices, quantity controls and Add to
 
 ## Support and license
 
-Use the product repository under the [Cool Cat Ideas organization](https://github.com/orgs/cool-cat-ideas/repositories) for public questions and bug reports. Public support has no guaranteed response time. Private support services are available on the product page.
+Need a hand, spotted a bug or have an idea? [Open an issue](https://github.com/cool-cat-ideas/wp-posts-carousel-all-in-one/issues) and tell us what you're trying to build. Include your WordPress and plugin versions, but keep passwords and license keys private. For help with an agreed scope, [contact Cool Cat Ideas](https://coolcatideas.com/contact/) about a private support service.
 
 The Free plugin is licensed under [GPL-2.0-or-later](LICENSE).
 
