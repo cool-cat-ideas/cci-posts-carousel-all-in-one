@@ -226,11 +226,15 @@ class WP_Posts_Carousel_Query_Builder
             return array();
         }
 
-        $raw = wp_unslash($_GET[$param]);
+        $raw = map_deep(wp_unslash($_GET[$param]), 'sanitize_text_field');
         $values = is_array($raw) ? $raw : explode(',', (string) $raw);
         $terms = array();
 
         foreach ($values as $value) {
+            if (!is_scalar($value)) {
+                continue;
+            }
+
             $term_id = absint($value);
 
             if ($term_id) {

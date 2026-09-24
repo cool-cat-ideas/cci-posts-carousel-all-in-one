@@ -32,16 +32,18 @@ class WP_Posts_Carousel_Widget extends WP_Widget {
     public function widget( $args, $instance ) {
         $title = apply_filters( 'widget_title', isset( $instance['title'] ) ? $instance['title'] : '' );
 
-        echo $args['before_widget'];
+        echo wp_kses_post( $args['before_widget'] );
 
         if ( $title ) {
-            echo $args['before_title'] . $title . $args['after_title'];
+            echo wp_kses_post( $args['before_title'] );
+            echo wp_kses_post( $title );
+            echo wp_kses_post( $args['after_title'] );
         }
         if ( ! empty( $instance['carousel'] ) ) {
             echo do_shortcode( '[wp_posts_carousel id="' . absint( $instance['carousel'] ) . '"]' );
         }
 
-        echo $args['after_widget'];
+        echo wp_kses_post( $args['after_widget'] );
     }
 
     /*
@@ -52,13 +54,13 @@ class WP_Posts_Carousel_Widget extends WP_Widget {
     ?>
         <div class="cci-wpc-widget-form">
             <p>
-                <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title' ); ?>:</label>
-                <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( array_key_exists( 'title', $instance ) ? $instance['title'] : '' ); ?>" />
+                <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title', 'wp-posts-carousel' ); ?>:</label>
+                <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( array_key_exists( 'title', $instance ) ? $instance['title'] : '' ); ?>" />
             </p>
             <p>
-                <label for="<?php echo $this->get_field_id( 'carousel' ); ?>"><?php _e( 'Carousel', 'wp-posts-carousel' ); ?>:</label>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'carousel' ) ); ?>"><?php esc_html_e( 'Carousel', 'wp-posts-carousel' ); ?>:</label>
                 <br />
-                <select class="select widefat cci-wpc-field cci-wpc-field-required" name="<?php echo $this->get_field_name( 'carousel' ); ?>" id="<?php echo $this->get_field_id( 'carousel' ); ?>" size="1" required>
+                <select class="select widefat cci-wpc-field cci-wpc-field-required" name="<?php echo esc_attr( $this->get_field_name( 'carousel' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'carousel' ) ); ?>" size="1" required>
                     <option value=""></option>
                 <?php
                     $carousels = WP_Posts_Carousel_Repository::all();

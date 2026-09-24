@@ -26,7 +26,7 @@ class WP_Posts_Carousel_Utils
             'wp_posts_carousel_params_defaults',
             array(
                 'post_selection_options' => array(
-                    'post_types'          => array(array('value' => 'post', 'label' => __('Posts'), 'post_type' => 'post')),
+                    'post_types'          => array(array('value' => 'post', 'label' => __('Posts', 'wp-posts-carousel'), 'post_type' => 'post')),
                     'taxonomies'          => array(),
                     'order_by'            => 'id',
                     'ordering'            => 'asc',

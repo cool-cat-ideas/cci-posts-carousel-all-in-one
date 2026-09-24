@@ -40,7 +40,7 @@ class WP_Posts_Carousel_Admin
    */
   public function wp_head()
   {
-    echo '<script>var wp_posts_carousel_url="' . WP_POSTS_CAROUSEL_DIR_URL . '";</script>';
+    echo '<script>var wp_posts_carousel_url="' . esc_js(WP_POSTS_CAROUSEL_DIR_URL) . '";</script>';
   }
 
   /**
@@ -79,6 +79,7 @@ class WP_Posts_Carousel_Admin
       array(
         'pluginUrl' => 'admin.php?page=wp-posts-carousel',
         'assetsUrl' => esc_url_raw(WP_POSTS_CAROUSEL_DIR_URL),
+        'restRoot' => esc_url_raw(rest_url()),
         'pluginVersion' => WP_POSTS_CAROUSEL_VERSION,
         'adminDate' => array(
           'locale' => function_exists('get_user_locale') ? get_user_locale() : get_locale(),
@@ -116,22 +117,22 @@ class WP_Posts_Carousel_Admin
         'reviewEndpoint' => esc_url_raw(rest_url('wp-posts-carousel/v1/admin/review-feedback')),
         'reviewUrl' => esc_url_raw(apply_filters('wp_posts_carousel_review_url', 'https://wordpress.org/support/plugin/wp-posts-carousel/reviews/#new-post')),
         'i18n' => array(
-          'actions' => __('Actions'),
-          'addNew' => __('Add New'),
-          'dashboard' => __('Dashboard'),
-          'date' => __('Date'),
-          'delete' => __('Delete'),
-          'draft' => __('Draft'),
+          'actions' => __('Actions', 'wp-posts-carousel'),
+          'addNew' => __('Add New', 'wp-posts-carousel'),
+          'dashboard' => __('Dashboard', 'wp-posts-carousel'),
+          'date' => __('Date', 'wp-posts-carousel'),
+          'delete' => __('Delete', 'wp-posts-carousel'),
+          'draft' => __('Draft', 'wp-posts-carousel'),
           'duplicate' => __('Duplicate', 'wp-posts-carousel'),
-          'edit' => __('Edit'),
+          'edit' => __('Edit', 'wp-posts-carousel'),
           'reviewConsentContent' => __('I agree to send this rating and review to Cool Cat Ideas for moderation and possible publication on the product page. The review will not be published automatically.', 'wp-posts-carousel'),
-          'loading' => __('Loading...'),
-          'menu' => __('Menu'),
-          'published' => __('Published'),
-          'settings' => __('Settings'),
-          'status' => __('Status'),
-          'title' => __('Title'),
-          'tools' => __('Tools'),
+          'loading' => __('Loading...', 'wp-posts-carousel'),
+          'menu' => __('Menu', 'wp-posts-carousel'),
+          'published' => __('Published', 'wp-posts-carousel'),
+          'settings' => __('Settings', 'wp-posts-carousel'),
+          'status' => __('Status', 'wp-posts-carousel'),
+          'title' => __('Title', 'wp-posts-carousel'),
+          'tools' => __('Tools', 'wp-posts-carousel'),
         ),
       )
     );
@@ -173,7 +174,8 @@ class WP_Posts_Carousel_Admin
 
     if (
       isset($_REQUEST['action']) &&
-      false !== strpos(sanitize_text_field((string) $_REQUEST['action']), 'elementor')
+      is_string($_REQUEST['action']) &&
+      false !== strpos(sanitize_text_field(wp_unslash($_REQUEST['action'])), 'elementor')
     ) {
       return true;
     }
@@ -215,7 +217,7 @@ class WP_Posts_Carousel_Admin
     }
 
     if ($load_owl_css && $owl_style_handle) {
-      wp_register_style($owl_style_handle, WP_POSTS_CAROUSEL_DIR_URL . 'libraries/owl.carousel/assets/owl.carousel.min.css');
+      wp_register_style($owl_style_handle, WP_POSTS_CAROUSEL_DIR_URL . 'libraries/owl.carousel/assets/owl.carousel.min.css', array(), $this->asset_version('libraries/owl.carousel/assets/owl.carousel.min.css'));
       wp_enqueue_style($owl_style_handle);
     }
 
@@ -317,13 +319,13 @@ class WP_Posts_Carousel_Admin
     $stale_cache_key = $cache_key . '_stale';
     $cached = get_transient($cache_key);
 
-    if (is_array($cached)) {
+    if (WP_Posts_Carousel_API::is_valid_marketplace_feed($cached)) {
       return $this->prepare_marketplace_initial_feed($cached, 'bootstrap-cache', true, false);
     }
 
     $stale = get_transient($stale_cache_key);
 
-    if (is_array($stale)) {
+    if (WP_Posts_Carousel_API::is_valid_marketplace_feed($stale)) {
       return $this->prepare_marketplace_initial_feed($stale, 'bootstrap-stale-cache', true, true);
     }
 
@@ -342,6 +344,7 @@ class WP_Posts_Carousel_Admin
   private function prepare_marketplace_initial_feed($feed, $source, $cached, $stale)
   {
     $feed = is_array($feed) ? $feed : array();
+    $feed = WP_Posts_Carousel_API::normalize_marketplace_feed_urls($feed);
     $feed['_meta'] = array_merge(
       isset($feed['_meta']) && is_array($feed['_meta']) ? $feed['_meta'] : array(),
       array(
@@ -364,6 +367,7 @@ class WP_Posts_Carousel_Admin
         $endpoint,
         array(
           'timeout' => 2,
+          'user-agent' => 'WP Posts Carousel product feed',
           'headers' => array(
             'Accept' => 'application/json',
           ),
@@ -377,7 +381,8 @@ class WP_Posts_Carousel_Admin
       $code = (int) wp_remote_retrieve_response_code($response);
       $data = json_decode(wp_remote_retrieve_body($response), true);
 
-      if ($code >= 200 && $code < 300 && is_array($data)) {
+      if ($code >= 200 && $code < 300 && WP_Posts_Carousel_API::is_valid_marketplace_feed($data)) {
+        $data = WP_Posts_Carousel_API::normalize_marketplace_feed_urls($data);
         $data['_meta'] = array_merge(
           isset($data['_meta']) && is_array($data['_meta']) ? $data['_meta'] : array(),
           array(

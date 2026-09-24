@@ -1,9 +1,14 @@
 import React, { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { BookOpen } from 'lucide-react';
+import { InfoCallout } from '@cci/admin-ui/wp-carousel';
 import { pluginData } from './api';
-import { __, coreString } from './i18n';
+import { __ } from './i18n';
 import { useQueryParam } from './utils';
 import { Button } from './components/ui/button';
+import { CheckboxField } from './components/ui/checkbox';
+import { Field, FieldLabel } from './components/ui/field';
+import { Select } from './components/ui/select';
+import ProBadge from './components/ProBadge';
 import ConfirmDialog from './components/ConfirmDialog';
 import DashboardSidebar from './components/DashboardSidebar';
 import LoadingState from './components/LoadingState';
@@ -20,6 +25,7 @@ const VisualBuilder = lazy(() => import('./components/VisualBuilder'));
 const ReviewPrompt = lazy(() => import('./components/ReviewPrompt'));
 
 const SIDEBAR_STORAGE_KEY = 'wp_posts_carousel_admin_sidebar_collapsed';
+const ANALYTICS_ADMIN_UI = { Button, CheckboxField, Field, FieldLabel, ProBadge, Select, InfoCallout, LoadingState };
 
 function getInitialSidebarCollapsed() {
     if (typeof window === 'undefined') {
@@ -44,8 +50,8 @@ export default function App() {
     const [license, setLicense] = useState(pluginData.license || {});
     const [sidebarCollapsed, setSidebarCollapsed] = useState(getInitialSidebarCollapsed);
     const isBuilder = currentAction === 'add-new' || currentAction === 'edit';
-    const pageHeader = getPageHeader(activeSection);
     const isPro = license.status === 'active' || Boolean(pluginData.isPro);
+    const pageHeader = getPageHeader(activeSection, Boolean(isPro && window.wpPostsCarouselProAdmin?.AnalyticsPanel));
     const shellStyle = {
         gridTemplateColumns: sidebarCollapsed ? '76px minmax(0, 1fr)' : '270px minmax(0, 1fr)',
     };
@@ -163,10 +169,7 @@ export default function App() {
                 {!isBuilder && (
                     <header className='tw-mb-5 tw-flex tw-items-end tw-justify-between tw-gap-4'>
                         <div>
-                            <span className='tw-text-[11px] tw-font-bold tw-uppercase tw-leading-none tw-tracking-normal tw-text-cci-wpc-brand'>
-                                {pageHeader.label}
-                            </span>
-                            <h1 className='tw-mb-0 tw-mt-1 tw-text-3xl tw-font-medium tw-leading-tight tw-text-cci-wpc-text'>
+                            <h1 className='tw-mb-0 tw-mt-0 tw-text-3xl tw-font-medium tw-leading-tight tw-text-cci-wpc-text'>
                                 {pageHeader.title}
                             </h1>
                             {pageHeader.description && (
@@ -196,7 +199,6 @@ export default function App() {
                             <VisualBuilder setNotice={setNotice} confirmAction={confirmAction} />
                             <ReviewPrompt
                                 section={currentAction === 'edit' ? 'builder-edit' : 'builder-add-new'}
-                                compact
                                 setNotice={setNotice}
                             />
                         </div>
@@ -222,30 +224,27 @@ export default function App() {
     );
 }
 
-function getPageHeader(activeSection) {
+function getPageHeader(activeSection, hasProAnalytics) {
     const pages = {
         dashboard: {
-            label: coreString('dashboard', 'Dashboard'),
             title: __('WP Posts Carousel All In One', 'wp-posts-carousel'),
             description: __('Create, manage and embed carousel definitions.', 'wp-posts-carousel'),
         },
         integrations: {
-            label: __('Integrations', 'wp-posts-carousel'),
             title: __('Carousel data integrations', 'wp-posts-carousel'),
             description: __('Connect add-ons that extend carousel sources and ordering.', 'wp-posts-carousel'),
         },
         templates: {
-            label: __('Templates', 'wp-posts-carousel'),
             title: __('Carousel template library', 'wp-posts-carousel'),
             description: __('Manage installed layouts and browse templates from your store.', 'wp-posts-carousel'),
         },
         analytics: {
-            label: __('Analytics', 'wp-posts-carousel'),
-            title: __('Carousel usage overview', 'wp-posts-carousel'),
-            description: __('Review local configuration insights without visitor tracking.', 'wp-posts-carousel'),
+            title: hasProAnalytics ? __('Carousel engagement analytics', 'wp-posts-carousel') : __('Carousel usage overview', 'wp-posts-carousel'),
+            description: hasProAnalytics
+                ? __('Review tracked carousel views, clicks and click rates.', 'wp-posts-carousel')
+                : __('Review local configuration insights without visitor tracking.', 'wp-posts-carousel'),
         },
         settings: {
-            label: coreString('settings', 'Settings'),
             title: __('Carousel settings', 'wp-posts-carousel'),
             description: __('Configure compatibility, assets and global carousel defaults.', 'wp-posts-carousel'),
         },
@@ -266,9 +265,6 @@ function DashboardSection({ activeSection, setNotice, confirmAction, isPro, lice
                 <aside className='tw-grid tw-content-start tw-gap-4 tw-self-start'>
                     <LicensePanel
                         license={license}
-                        onLicenseChange={onLicenseChange}
-                        setNotice={setNotice}
-                        showManage={false}
                     />
                     <ReviewPrompt section='settings' setNotice={setNotice} compact />
                 </aside>
@@ -305,8 +301,8 @@ function DashboardSection({ activeSection, setNotice, confirmAction, isPro, lice
 
         return (
             <div className='tw-grid tw-content-start tw-gap-4 tw-self-start'>
-                <AnalyticsComponent setNotice={setNotice} />
-                <ReviewPrompt section='analytics' setNotice={setNotice} compact />
+                <AnalyticsComponent setNotice={setNotice} adminUi={ANALYTICS_ADMIN_UI} />
+                <ReviewPrompt section='analytics' setNotice={setNotice} />
             </div>
         );
     }
@@ -323,9 +319,6 @@ function DashboardSection({ activeSection, setNotice, confirmAction, isPro, lice
             <aside className='tw-grid tw-content-start tw-gap-4 tw-self-start'>
                 <LicensePanel
                     license={license}
-                    onLicenseChange={onLicenseChange}
-                    setNotice={setNotice}
-                    showManage={false}
                 />
                 <NewsPanel />
             </aside>

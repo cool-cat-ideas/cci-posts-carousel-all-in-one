@@ -94,6 +94,7 @@ class WP_Posts_Carousel_Settings {
             self::detect_registered_asset_library( wp_styles(), 'style', 'owl', array( 'owl.carousel', 'owl-carousel', 'owlcarousel' ) ),
             self::detect_registered_asset_library( wp_scripts(), 'script', 'swiper', array( 'swiper' ) ),
             self::detect_registered_asset_library( wp_styles(), 'style', 'swiper', array( 'swiper' ) ),
+            // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Detects an asset registered by another plugin or theme; this string is never requested or enqueued.
             self::detect_registered_asset_library( wp_scripts(), 'script', 'fontawesome', array( 'font-awesome', 'fontawesome', 'font awesome', 'kit.fontawesome' ) ),
             self::detect_registered_asset_library( wp_styles(), 'style', 'fontawesome', array( 'font-awesome', 'fontawesome', 'font awesome' ) ),
             self::detect_registered_asset_library( wp_scripts(), 'script', 'tabler', array( 'tabler-icons', 'tabler.icons', '@tabler/icons' ) ),

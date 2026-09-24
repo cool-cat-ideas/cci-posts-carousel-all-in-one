@@ -6,7 +6,7 @@ for version 2.0.0; release ZIP packages do not include this `docs/` directory.
 
 ## Start here
 
-- [User guide](./USER_GUIDE.md) — create and publish a saved carousel.
+- [User guide](./2.0.0/user-guide.md) — create and publish a saved carousel.
 - [Practical recipes](./2.0.0/recipes.md) — latest posts, category rows,
   curated products, frontend filters and theme overrides.
 - [WooCommerce product carousels](./2.0.0/woocommerce-products.md) — understand
@@ -17,16 +17,19 @@ for version 2.0.0; release ZIP packages do not include this `docs/` directory.
   existing template or create a new one.
 - [Extension cookbook](./2.0.0/extension-cookbook.md) — change queries and
   slide data, insert markup and package an extension.
-- [Related Content example](../../wp-posts-carousel-related-content/docs/1.0.0/developer.md)
-  — a working no-cost query/source extension with public filters.
-- [Aurora Cards example](../../wp-posts-carousel-aurora-cards/docs/1.0.0/template-guide.md)
-  — a working no-cost universal template for posts and products.
+- [Maintained extensions](./2.0.0/extensions.md#maintained-standalone-examples)
+  — how the separate Related Content and Aurora Cards products use the public
+  query and template contracts.
 - [Developer guide](./2.0.0/developer-guide.md) — architecture, saved data
   flow and supported customization paths.
 - [Filters and actions](./2.0.0/hooks-and-api.md) — descriptions, arguments and
   examples for the public filters and actions.
 - [PHP API](./2.0.0/method-reference.md) — lower-level PHP services and method
   contracts.
+- [Extension contract](./2.0.0/extensions.md) — register templates, integrations
+  and optional features through the public API.
+- [Frontend extension contract](./2.0.0/frontend-extension-contract.md) — register
+  JavaScript renderers and respond to browser events.
 
 ## Common paths
 
@@ -45,24 +48,11 @@ Choose the shortest path for the job:
   `wp_posts_carousel_after_item_content`.
 - Distribute the change to many sites: package it as an extension plugin.
 
-## Product and maintenance documents
+## Working with the source
 
-- [Free/Pro and extension contract](./EXTENSIONS.md)
 - [Publishing and versioning](./publishing-and-versioning.md)
-- [Store product copy](./store-product-copy.md)
-- [Pricing strategy](./pricing-strategy.md)
-- [Core changelog](../CHANGELOG.md)
-- [Pro documentation](../../wp-posts-carousel-pro/docs/INDEX.md)
+- [Release notes](../readme.txt)
+- [Building from source](./building-from-source.md)
 
-License transport, marketplace feed internals and release encoding are
-maintenance topics. They belong in developer or Pro maintenance documents and
-must not replace the task-based guides above.
-
-## Documentation rules
-
-- Document only behavior that exists in the current code.
-- Explain each public filter/action with its use case, parameters and return
-  contract, then show a minimal working example.
-- Prefer short sections and lists over wide API tables.
-- Keep the published Payload documents under
-  `docs/products/wp-posts-carousel-*` synchronized with these source files.
+Guides under `2.0.0/` describe that version of the plugin. The source build and
+publishing guides apply to the repository and are kept outside the version folder.

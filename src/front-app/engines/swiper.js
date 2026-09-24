@@ -15,6 +15,7 @@ const swiperEngine = {
 			}
 
 			const options = context.options || {};
+			const preview = context.root.closest( '[data-wpc-preview-viewport]' );
 			const previousDirection = context.root.getAttribute( 'dir' );
 			const {
 				Autoplay,
@@ -55,6 +56,7 @@ const swiperEngine = {
 				autoHeight: truthy( options.auto_height, true ),
 				autoplay: autoplayOptions( options ),
 				breakpoints: singleSlideEffect || truthy( options.auto_width, false ) ? {} : breakpoints( options ),
+				breakpointsBase: preview ? `#${ CSS.escape( preview.id ) }` : 'window',
 				cardsEffect: {
 					slideShadows: false,
 				},

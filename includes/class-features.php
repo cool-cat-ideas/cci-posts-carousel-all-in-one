@@ -113,9 +113,11 @@ class WP_Posts_Carousel_Features
         $features = self::all();
         $enabled = isset($features[$feature]) && !empty($features[$feature]['enabled']);
 
-        $message = $enabled
-            ? ''
-            : sprintf(__('Requires feature: %s', 'wp-posts-carousel'), isset($features[$feature]['label']) ? $features[$feature]['label'] : $feature);
+        $message = '';
+        if (!$enabled) {
+            /* translators: %s: required product feature name. */
+            $message = sprintf(__('Requires feature: %s', 'wp-posts-carousel'), isset($features[$feature]['label']) ? $features[$feature]['label'] : $feature);
+        }
 
         if (!$enabled && isset($features[$feature]['plan']) && $features[$feature]['plan'] === 'paid') {
             $message = __('Requires an active WP Posts Carousel Pro license for this domain.', 'wp-posts-carousel');

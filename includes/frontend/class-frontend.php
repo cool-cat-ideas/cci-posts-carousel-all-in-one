@@ -212,6 +212,7 @@ class WP_Posts_Carousel_Frontend
                     'labels' => array(
                         'previousSlide' => __('Previous slide', 'wp-posts-carousel'),
                         'nextSlide' => __('Next slide', 'wp-posts-carousel'),
+                        /* translators: %d: slide number. */
                         'goToSlide' => __('Go to slide %d', 'wp-posts-carousel'),
                     ),
                 ),
@@ -220,7 +221,7 @@ class WP_Posts_Carousel_Frontend
         );
 
         if ($load_owl_css && $owl_style_handle) {
-            wp_register_style($owl_style_handle, WP_POSTS_CAROUSEL_DIR_URL . 'libraries/owl.carousel/assets/owl.carousel.min.css');
+            wp_register_style($owl_style_handle, WP_POSTS_CAROUSEL_DIR_URL . 'libraries/owl.carousel/assets/owl.carousel.min.css', array(), '2.3.4');
             wp_enqueue_style($owl_style_handle);
         }
 

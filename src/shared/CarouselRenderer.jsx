@@ -76,7 +76,7 @@ function itemsForWidth( options, width ) {
 	return Math.max( 1, normalizeItemsValue( source[ matched ] ) );
 }
 
-function useResponsiveItems( options ) {
+function useResponsiveItems( options, rootRef ) {
 	const [ width, setWidth ] = useState( () =>
 		typeof window === 'undefined' ? 1024 : window.innerWidth
 	);
@@ -86,11 +86,19 @@ function useResponsiveItems( options ) {
 			return undefined;
 		}
 
+		const preview = rootRef.current?.closest( '[data-wpc-preview-viewport]' );
+		if ( preview ) {
+			const updateWidth = () => setWidth( preview.clientWidth );
+			const observer = new ResizeObserver( updateWidth );
+			updateWidth();
+			observer.observe( preview );
+			return () => observer.disconnect();
+		}
 		const updateWidth = () => setWidth( window.innerWidth );
 		window.addEventListener( 'resize', updateWidth );
 
 		return () => window.removeEventListener( 'resize', updateWidth );
-	}, [] );
+	}, [ rootRef ] );
 
 	return useMemo( () => itemsForWidth( options, width ), [ options, width ] );
 }
@@ -350,11 +358,11 @@ export default function CarouselRenderer( {
 	const normalizedTemplateName = templateClassName( templateName );
 	const rawOptions = carousel?.engine?.options || {};
 	const options = useMemo( () => rawOptions, [ rawOptions ] );
-	const responsiveItems = useResponsiveItems( options );
+	const rootRef = useRef( null );
+	const responsiveItems = useResponsiveItems( options, rootRef );
 	const reducedMotion = usePrefersReducedMotion();
 	const paginationRef = useRef( null );
 	const prevRef = useRef( null );
-	const rootRef = useRef( null );
 	const nextRef = useRef( null );
 	const engineInstanceRef = useRef( null );
 	const [ activeIndex, setActiveIndex ] = useState( 0 );

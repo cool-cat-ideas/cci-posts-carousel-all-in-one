@@ -20,15 +20,8 @@ const includeRoots = [
 	'languages',
 	'libraries',
 	'templates',
-	'CHANGELOG',
-	'CHANGELOG.md',
 	'LICENSE',
 	'readme.txt',
-	'screenshot-1.png',
-	'screenshot-2.png',
-	'screenshot-3.png',
-	'screenshot-4.png',
-	'screenshot-5.png',
 	'wp-posts-carousel.php',
 ];
 
@@ -76,6 +69,34 @@ function shouldExclude(relativePath) {
 	const normalized = relativePath.replaceAll('\\', '/');
 
 	return excludePatterns.some((pattern) => pattern.test(normalized));
+}
+
+function listPackageFiles() {
+	const files = [];
+
+	function visit(relativePath) {
+		const source = join(pluginDir, relativePath);
+
+		if (!existsSync(source) || shouldExclude(relativePath)) {
+			return;
+		}
+
+		if (statSync(source).isDirectory()) {
+			for (const entry of readdirSync(source)) {
+				visit(join(relativePath, entry));
+			}
+
+			return;
+		}
+
+		files.push(relativePath.replaceAll('\\', '/'));
+	}
+
+	for (const root of includeRoots) {
+		visit(root);
+	}
+
+	return files.sort();
 }
 
 function cleanGeneratedAssets() {
@@ -160,6 +181,8 @@ function validatePackage() {
 	const forbiddenPaths = [
 		'node_modules',
 		'docs',
+		'.wordpress-org',
+		'README.md',
 		'src',
 		'.git',
 		'vendor',
@@ -270,6 +293,11 @@ function toWindowsPath(path) {
 }
 
 function main() {
+	if (process.argv.includes('--list-files')) {
+		console.log(JSON.stringify(listPackageFiles(), null, 2));
+		return;
+	}
+
 	const version = readVersion();
 
 	if (!version) {

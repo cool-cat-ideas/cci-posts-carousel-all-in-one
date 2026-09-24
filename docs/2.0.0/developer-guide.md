@@ -65,7 +65,7 @@ purchase actions and merchandising sources together with Commerce Luxe, Story
 Commerce, Video Showcase, Elementor, analytics, autoplay indicators and
 Multisite. These are internal Pro modules, not separate add-ons.
 
-An external extension may register an independent template, source or renderer. It cannot unlock reserved Pro capabilities or replace the encoded Pro license decision.
+An external extension may register an independent template, source or renderer. It cannot unlock reserved Pro capabilities or replace the Pro license decision.
 
 ## Build a site-specific query customization
 
@@ -106,7 +106,7 @@ my-wpc-extension/
   assets/
 ```
 
-Register only public paths and hooks from the bootstrap. Keep renderer logic, data integration and admin metadata in their own classes. See [External extension API](../frontend-extension-contract.md) and [Extensions](../EXTENSIONS.md).
+Register only public paths and hooks from the bootstrap. Keep renderer logic, data integration and admin metadata in their own classes. See [External extension API](./frontend-extension-contract.md) and [Extensions](./extensions.md).
 
 ## Compatibility and safety
 

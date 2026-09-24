@@ -22,12 +22,17 @@ class WP_Posts_Carousel_Repository
         $table = self::table_name();
 
         return $wpdb->get_results(
-            "SELECT p.*, wpc.params, wpc.post_modified AS carousel_modified, u.user_nicename
-            FROM {$posts_table} p
-            INNER JOIN {$table} wpc ON p.ID = wpc.post_id
-            INNER JOIN {$users_table} u ON p.post_author = u.ID
-            WHERE p.post_type = 'wp-posts-carousel'
-            ORDER BY p.ID DESC",
+            $wpdb->prepare(
+                "SELECT p.*, wpc.params, wpc.post_modified AS carousel_modified, u.user_nicename
+                FROM %i p
+                INNER JOIN %i wpc ON p.ID = wpc.post_id
+                LEFT JOIN %i u ON p.post_author = u.ID
+                WHERE p.post_type = 'wp-posts-carousel' AND p.post_status NOT IN ('trash', 'auto-draft', 'inherit')
+                ORDER BY p.ID DESC",
+                $posts_table,
+                $table,
+                $users_table
+            ),
             ARRAY_A
         );
     }
@@ -48,11 +53,14 @@ class WP_Posts_Carousel_Repository
         return $wpdb->get_row(
             $wpdb->prepare(
                 "SELECT p.*, wpc.params, wpc.post_modified AS carousel_modified, u.user_nicename
-                FROM {$posts_table} p
-                INNER JOIN {$table} wpc ON p.ID = wpc.post_id
-                INNER JOIN {$users_table} u ON p.post_author = u.ID
+                FROM %i p
+                INNER JOIN %i wpc ON p.ID = wpc.post_id
+                LEFT JOIN %i u ON p.post_author = u.ID
                 WHERE p.ID = %d AND p.post_type = 'wp-posts-carousel'
                 LIMIT 1",
+                $posts_table,
+                $table,
+                $users_table,
                 $post_id
             ),
             ARRAY_A
@@ -168,6 +176,7 @@ class WP_Posts_Carousel_Repository
         $config['status'] = 'draft';
 
         return self::create(
+            /* translators: %s: original carousel title. */
             sprintf(__('%s copy', 'wp-posts-carousel'), $carousel['post_title']),
             $config
         );
@@ -192,7 +201,8 @@ class WP_Posts_Carousel_Repository
         } else {
             $exists = (int) $wpdb->get_var(
                 $wpdb->prepare(
-                    'SELECT COUNT(*) FROM ' . self::table_name() . ' WHERE post_id = %d',
+                    'SELECT COUNT(*) FROM %i WHERE post_id = %d',
+                    self::table_name(),
                     absint($post_id)
                 )
             );

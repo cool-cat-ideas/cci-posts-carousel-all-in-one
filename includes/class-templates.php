@@ -67,6 +67,7 @@ class WP_Posts_Carousel_Templates
         if (!$template) {
             return array(
                 'status' => false,
+                /* translators: %s: carousel template name. */
                 'error' => sprintf(__('Could not find template: %s', 'wp-posts-carousel'), $template_name),
             );
         }
@@ -74,6 +75,7 @@ class WP_Posts_Carousel_Templates
         if (empty($template['render']) || !file_exists($template['render'])) {
             return array(
                 'status' => false,
+                /* translators: %s: carousel template name. */
                 'error' => sprintf(__('Template view file is missing: %s', 'wp-posts-carousel'), $template_name),
             );
         }

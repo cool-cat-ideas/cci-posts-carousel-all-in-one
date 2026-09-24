@@ -39,6 +39,7 @@ class WP_Posts_Carousel_Icons
                     ),
                     'cdn' => array(
                         'handle' => 'wp-posts-carousel-font-awesome-cdn',
+                        // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Optional, documented icon-font inclusion; directory guideline 8 permits font CDNs. Local files are the default.
                         'url' => 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css',
                         'version' => '4.3.0',
                     ),
@@ -63,6 +64,7 @@ class WP_Posts_Carousel_Icons
                     ),
                     'cdn' => array(
                         'handle' => 'wp-posts-carousel-tabler-icons-cdn',
+                        // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Optional, documented icon-font inclusion; directory guideline 8 permits font CDNs. Local files are the default.
                         'url' => 'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.44.0/dist/tabler-icons.min.css',
                         'version' => '3.44.0',
                     ),

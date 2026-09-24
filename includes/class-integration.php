@@ -81,6 +81,7 @@ class WP_Posts_Carousel_Integration {
         if ( $required_version && version_compare( WP_POSTS_CAROUSEL_VERSION, $required_version, '<' ) ) {
             return array(
                 'status' => false,
+                /* translators: %s: carousel integration name. */
                 'error'  => sprintf( __( "This integration '%s' is not compatible with the current version of this plugin", 'wp-posts-carousel' ), $integration_details['integration_name'] ),
             );
         }

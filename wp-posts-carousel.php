@@ -5,6 +5,9 @@
  * Plugin URI: https://coolcatideas.com/products/wp-posts-carousel-all-in-one
  * Description: Create reusable carousels for posts, pages, products and manual slides, then place them with Gutenberg or a shortcode. Pro adds live WooCommerce data, buying actions, sales templates, Elementor and reports.
  * Version: 2.0.0
+ * Requires at least: 6.2
+ * Tested up to: 7.1.2
+ * Requires PHP: 7.4
  * Author: Cool Cat Ideas
  * Author URI: https://coolcatideas.com/
  * License: GPL v2 or later

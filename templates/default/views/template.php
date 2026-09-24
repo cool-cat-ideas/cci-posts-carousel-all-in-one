@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Author: Marcin Gierada
  * Author URI: https://coolcatideas.com/

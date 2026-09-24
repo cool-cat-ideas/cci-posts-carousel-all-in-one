@@ -304,7 +304,7 @@ add_filter('wp_posts_carousel_features', function (array $features): array {
 });
 ```
 
-The encoded Pro plugin remains the license authority. Do not force a paid key
+The Pro plugin remains the license authority. Do not force a paid key
 to enabled.
 
 ## Create a browser renderer

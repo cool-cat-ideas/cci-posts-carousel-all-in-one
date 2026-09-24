@@ -211,6 +211,7 @@ class WP_Posts_Carousel_Blocks
         }
 
         return sprintf(
+            /* translators: %s: comma-separated required product feature names. */
             __('Missing required features: %s.', 'wp-posts-carousel'),
             implode(', ', array_map('esc_html', $messages))
         );
@@ -249,8 +250,8 @@ class WP_Posts_Carousel_Blocks
             'action',
         );
         foreach ($editor_request_args as $arg_name) {
-            if (isset($_REQUEST[$arg_name])) {
-                $arg_value = sanitize_text_field((string) $_REQUEST[$arg_name]);
+            if (isset($_REQUEST[$arg_name]) && is_scalar($_REQUEST[$arg_name])) {
+                $arg_value = sanitize_text_field(wp_unslash((string) $_REQUEST[$arg_name]));
                 if ($arg_name === 'action' && strpos($arg_value, 'elementor') !== false) {
                     return true;
                 }
@@ -261,22 +262,22 @@ class WP_Posts_Carousel_Blocks
             }
         }
 
-        $request_uri = isset($_SERVER['REQUEST_URI']) ? (string) $_SERVER['REQUEST_URI'] : '';
+        $request_uri = isset($_SERVER['REQUEST_URI']) && is_string($_SERVER['REQUEST_URI']) ? esc_url_raw(wp_unslash($_SERVER['REQUEST_URI'])) : '';
         if (
             strpos($request_uri, '/wp/v2/block-renderer/') !== false
-            || (isset($_REQUEST['rest_route']) && strpos((string) $_REQUEST['rest_route'], '/wp/v2/block-renderer/') !== false)
+            || (isset($_REQUEST['rest_route']) && is_scalar($_REQUEST['rest_route']) && strpos(sanitize_text_field(wp_unslash((string) $_REQUEST['rest_route'])), '/wp/v2/block-renderer/') !== false)
         ) {
             return true;
         }
 
         if (
-            isset($_REQUEST['context']) &&
-            sanitize_key((string) $_REQUEST['context']) === 'edit'
+            isset($_REQUEST['context']) && is_scalar($_REQUEST['context']) &&
+            sanitize_key(wp_unslash((string) $_REQUEST['context'])) === 'edit'
         ) {
             return true;
         }
 
-        $referer = isset($_SERVER['HTTP_REFERER']) ? (string) $_SERVER['HTTP_REFERER'] : '';
+        $referer = isset($_SERVER['HTTP_REFERER']) && is_string($_SERVER['HTTP_REFERER']) ? esc_url_raw(wp_unslash($_SERVER['HTTP_REFERER'])) : '';
         if (strpos($referer, home_url('/wp-admin/')) === 0) {
             return true;
         }

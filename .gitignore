@@ -8,6 +8,9 @@ logs/
 log/
 _logs/
 test-results/
+/.playwright-cli/
+/output/playwright/
+/tests/visual/screenshots/
 *.log
 *.tmp
 npm-debug.log*
@@ -25,13 +28,9 @@ vendor/
 Thumbs.db
 *.Zone.Identifier
 
-/node_modules/
-/releases/
 /.release-stage/
 /tmp-*
-/test-results/
 /playwright-report/
-.DS_Store
 *Zone.Identifier
 
 /*.sql

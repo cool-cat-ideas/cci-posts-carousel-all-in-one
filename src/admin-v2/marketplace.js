@@ -10,6 +10,7 @@ export function fetchMarketplaceJson( endpoint ) {
 
 	const request = fetch( endpoint, {
 		credentials: 'same-origin',
+		cache: 'no-store',
 		headers: {
 			Accept: 'application/json',
 			'X-WP-Nonce': pluginData.nonce || '',
@@ -31,11 +32,13 @@ export function fetchMarketplaceJson( endpoint ) {
 
 export function useMarketplaceJson( endpoint, { enabled = true, retryDelay = pluginData.marketplaceRetryDelay || 120000 } = {} ) {
 	const initialData = initialMarketplaceDataForEndpoint( endpoint );
+	const initialError = marketplaceFeedError( initialData );
 	const [ data, setData ] = useState( initialData );
-	const [ loading, setLoading ] = useState( Boolean( endpoint && enabled && ! initialData ) );
+	const [ loading, setLoading ] = useState( Boolean( endpoint && enabled && ( ! initialData || initialError ) ) );
 	const [ error, setError ] = useState( '' );
 	const [ retrying, setRetrying ] = useState( false );
 	const timerRef = useRef( null );
+	const requestRef = useRef( 0 );
 
 	const clearRetry = useCallback( () => {
 		if ( timerRef.current ) {
@@ -45,26 +48,29 @@ export function useMarketplaceJson( endpoint, { enabled = true, retryDelay = plu
 	}, [] );
 
 	const load = useCallback(
-		( { silent = false, force = false } = {} ) => {
+		( { silent = false, force = false, retry = false } = {} ) => {
 			if ( ! endpoint || ! enabled ) {
 				setLoading( false );
 				return Promise.resolve( null );
 			}
 
 			const url = force ? withQueryArg( endpoint, 'force', '1' ) : endpoint;
+			const requestId = ++requestRef.current;
+			clearRetry();
 
 			if ( ! silent ) {
 				setLoading( true );
 			}
 
-			setRetrying( silent );
+			// Refreshing hydrated data is routine; it is not a failed request retry.
+			setRetrying( silent && retry );
 
 			return fetchMarketplaceJson( url )
 				.then( ( response ) => {
-					const feedError =
-						( response?._meta?.stale || response?._meta?.ok === false ) && response?._meta?.error
-							? response._meta.error
-							: '';
+					if ( requestId !== requestRef.current ) {
+						return response;
+					}
+					const feedError = marketplaceFeedError( response );
 
 					setData( response || null );
 					clearRetry();
@@ -72,21 +78,27 @@ export function useMarketplaceJson( endpoint, { enabled = true, retryDelay = plu
 
 					if ( feedError ) {
 						timerRef.current = window.setTimeout( () => {
-							load( { silent: true, force: true } );
+							load( { silent: true, force: true, retry: true } );
 						}, retryDelay );
 					}
 
 					return response;
 				} )
 				.catch( ( requestError ) => {
+					if ( requestId !== requestRef.current ) {
+						return null;
+					}
 					setData( ( currentData ) => ( silent && currentData ? currentData : null ) );
 					setError( requestError.message || 'Marketplace request failed.' );
 					timerRef.current = window.setTimeout( () => {
-						load( { silent: true, force: true } );
+						load( { silent: true, force: true, retry: true } );
 					}, retryDelay );
 					return null;
 				} )
 				.finally( () => {
+					if ( requestId !== requestRef.current ) {
+						return;
+					}
 					if ( ! silent ) {
 						setLoading( false );
 					}
@@ -97,10 +109,15 @@ export function useMarketplaceJson( endpoint, { enabled = true, retryDelay = plu
 	);
 
 	useEffect( () => {
-		load( { silent: Boolean( initialData ) } );
+		// A stale bootstrap must bypass the proxy cache on the first request.
+		// Otherwise only clicking Retry (or waiting two minutes) reaches the store.
+		load( { silent: Boolean( initialData ) && ! initialError, force: Boolean( initialError ) } );
 
-		return clearRetry;
-	}, [ clearRetry, initialData, load ] );
+		return () => {
+			++requestRef.current;
+			clearRetry();
+		};
+	}, [ clearRetry, initialData, initialError, load ] );
 
 	const refresh = useCallback( () => {
 		clearRetry();
@@ -108,6 +125,13 @@ export function useMarketplaceJson( endpoint, { enabled = true, retryDelay = plu
 	}, [ clearRetry, load ] );
 
 	return { data, loading, error, retrying, refresh };
+}
+
+function marketplaceFeedError( response ) {
+	if ( response?.success === false || response?._meta?.stale || response?._meta?.ok === false || response?._meta?.source === 'empty' ) {
+		return response?._meta?.error || 'Marketplace feed is temporarily unavailable.';
+	}
+	return '';
 }
 
 function initialMarketplaceDataForEndpoint( endpoint ) {

@@ -1,13 +1,15 @@
+import { formatAdminDateTime, ResourceListHeader } from '@cci/admin-ui';
 import React, { useEffect, useState } from 'react';
-import { CheckCircle2, FilePenLine, Layers3, Plus, Sparkles } from 'lucide-react';
-import { apiFetch } from '../api';
+import { CheckCircle2, FilePenLine, Layers3, Sparkles } from 'lucide-react';
+import { apiFetch, pluginData } from '../api';
 import { __, coreString } from '../i18n';
 import { cn } from '../lib/cn';
 import LoadingState from './LoadingState';
+import { carouselSummary, savedCarousels } from '../lib/carousel-statistics.mjs';
 import MetricCard from './MetricCard';
 import ShortcodeButton from './ShortcodeButton';
 import { Button } from './ui/button';
-import { Card, CardHeader } from './ui/card';
+import { Card } from './ui/card';
 
 export default function CarouselsList({ setNotice, confirmAction, reviewSlot = null }) {
     const [carousels, setCarousels] = useState([]);
@@ -16,7 +18,7 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
     const load = () => {
         setLoading(true);
         apiFetch('/wp-json/wp-posts-carousel/v1/admin/carousels')
-            .then((response) => setCarousels(Array.isArray(response) ? response : []))
+            .then((response) => setCarousels(savedCarousels(response)))
             .catch(() => {
                 setCarousels([]);
                 setNotice({
@@ -85,8 +87,7 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
             });
     };
 
-    const publishedCount = carousels.filter((carousel) => carousel.post_status === 'publish').length;
-    const draftCount = Math.max(0, carousels.length - publishedCount);
+    const { total, published, unpublished } = carouselSummary(carousels);
 
     return (
         <>
@@ -94,39 +95,30 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
                 <MetricCard
                     icon={Layers3}
                     label={__('Total carousels', 'wp-posts-carousel')}
-                    value={loading ? '-' : carousels.length}
+                    value={loading ? '-' : total}
                     description={__('All saved configurations', 'wp-posts-carousel')}
                     tone='primary'
                 />
                 <MetricCard
                     icon={CheckCircle2}
                     label={coreString('published', 'Published')}
-                    value={loading ? '-' : publishedCount}
-                    description={__('Visible on your site', 'wp-posts-carousel')}
+                    value={loading ? '-' : published}
+                    description={__('Published carousel definitions', 'wp-posts-carousel')}
                 />
                 <MetricCard
                     icon={FilePenLine}
-                    label={__('Drafts', 'wp-posts-carousel')}
-                    value={loading ? '-' : draftCount}
-                    description={__('Still being prepared', 'wp-posts-carousel')}
+                    label={__('Unpublished', 'wp-posts-carousel')}
+                    value={loading ? '-' : unpublished}
+                    description={__('Draft, pending, scheduled or private', 'wp-posts-carousel')}
                 />
             </div>
 
             {reviewSlot}
 
             <Card>
-                <CardHeader>
-                    <div>
-                        <h2>{__('Your carousels', 'wp-posts-carousel')}</h2>
-                        <p>{__('Create, edit and copy embed codes for every carousel.', 'wp-posts-carousel')}</p>
-                    </div>
-                    <Button asChild variant='accent'>
-                        <a href='admin.php?page=wp-posts-carousel&action=add-new'>
-                            <Plus aria-hidden='true' />
-                            {coreString('addNew', 'Add New')}
-                        </a>
-                    </Button>
-                </CardHeader>
+                <ResourceListHeader title={__('Carousels', 'wp-posts-carousel')}
+                        description={__('Create, edit and copy embed codes for every carousel.', 'wp-posts-carousel')}
+                        createLabel={__('New carousel', 'wp-posts-carousel')} createHref='admin.php?page=wp-posts-carousel&action=add-new' />
 
                 {loading ? (
                     <LoadingState label={__('Loading carousels...', 'wp-posts-carousel')} variant='table' rows={2} />
@@ -135,16 +127,16 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
                         <table className='tw-w-full tw-min-w-[760px] tw-border-collapse'>
                             <thead className='tw-bg-cci-wpc-surfaceSoft'>
                                 <tr>
-                                    <th className='tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-3 tw-text-left tw-text-[11px] tw-font-bold tw-uppercase tw-text-cci-wpc-muted'>
+                                    <th className='tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-bold tw-uppercase tw-text-cci-wpc-muted'>
                                         {coreString('title', 'Title')}
                                     </th>
-                                    <th className='tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-3 tw-text-left tw-text-[11px] tw-font-bold tw-uppercase tw-text-cci-wpc-muted'>
+                                    <th className='tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-bold tw-uppercase tw-text-cci-wpc-muted'>
                                         {__('Shortcode', 'wp-posts-carousel')}
                                     </th>
-                                    <th className='tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-3 tw-text-left tw-text-[11px] tw-font-bold tw-uppercase tw-text-cci-wpc-muted'>
+                                    <th className='tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-bold tw-uppercase tw-text-cci-wpc-muted'>
                                         {coreString('status', 'Status')}
                                     </th>
-                                    <th className='tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-3 tw-text-left tw-text-[11px] tw-font-bold tw-uppercase tw-text-cci-wpc-muted'>
+                                    <th className='tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-bold tw-uppercase tw-text-cci-wpc-muted'>
                                         {coreString('date', 'Date')}
                                     </th>
                                 </tr>
@@ -210,11 +202,15 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
                                             >
                                                 {carousel.post_status === 'publish'
                                                     ? coreString('published', 'Published')
-                                                    : coreString('draft', 'Draft')}
+                                                    : carousel.post_status === 'draft' ? coreString('draft', 'Draft')
+                                                    : carousel.post_status === 'private' ? __('Private', 'wp-posts-carousel')
+                                                    : carousel.post_status === 'pending' ? __('Pending', 'wp-posts-carousel')
+                                                    : carousel.post_status === 'future' ? __('Scheduled', 'wp-posts-carousel')
+                                                    : __('Unpublished', 'wp-posts-carousel')}
                                             </span>
                                         </td>
                                         <td className='tw-whitespace-nowrap tw-px-4 tw-py-5 tw-align-middle tw-text-cci-wpc-muted'>
-                                            {carousel.post_date}
+                                            {formatAdminDateTime(carousel.post_date, pluginData.adminDate) || '—'}
                                         </td>
                                     </tr>
                                 ))}

@@ -1,33 +1,31 @@
+import { createApiError } from '@cci/admin-ui';
+import { resolveApiUrl } from './api-url.mjs';
 export const pluginData = window.wpPostsCarouselPluginData || {};
 
 export function apiFetch( path, options = {} ) {
-	return fetch( path, {
+	return fetch( resolveApiUrl(path, pluginData.restRoot), {
 		credentials: 'same-origin',
+		...options,
 		headers: {
 			'Content-Type': 'application/json',
 			'X-WP-Nonce': pluginData.nonce || '',
 			...( options.headers || {} ),
 		},
-		...options,
 	} ).then( ( response ) => {
 		if ( ! response.ok ) {
 			return response
 				.json()
 				.catch( () => ( {} ) )
 				.then( ( error ) => {
-					const requestError = new Error(
-						error.message || error.code || `WP Posts Carousel API request failed (${ response.status }).`
-					);
-
-					requestError.code = error.code || '';
-					requestError.status = response.status;
-					requestError.details = error.details || error.data?.details || '';
-					requestError.data = error.data || {};
-
-					throw requestError;
+					throw createApiError(error, response.status, `WP Posts Carousel API request failed (${response.status}).`);
 				} );
 		}
 
-		return response.json();
+		return response.json().then((payload) => {
+            if (payload?.success === false) {
+                throw createApiError(payload, response.status, `WP Posts Carousel API request failed (${response.status}).`);
+            }
+            return payload;
+        });
 	} );
 }

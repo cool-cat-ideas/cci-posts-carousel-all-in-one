@@ -137,7 +137,7 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
                         />
                     </div>
 
-                    <ReviewPrompt source='integrations' variant='hero' setNotice={setNotice} />
+                    <ReviewPrompt section='integrations' setNotice={setNotice} />
 
                     <Tabs value={activeTab} onValueChange={onTabChange}>
                         <TabsList aria-label={__('Integration sections', 'wp-posts-carousel')}>
@@ -185,9 +185,6 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
                 <aside className='tw-grid tw-content-start tw-gap-4 tw-self-start'>
                     <LicensePanel
                         license={license}
-                        onLicenseChange={onLicenseChange}
-                        setNotice={setNotice}
-                        showManage={false}
                     />
                 </aside>
                 <ProUpgradeModal
@@ -232,7 +229,7 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
                         />
                     </div>
 
-                <ReviewPrompt source='integrations' variant='hero' setNotice={setNotice} />
+                <ReviewPrompt section='integrations' setNotice={setNotice} />
 
                 <Tabs value={activeTab} onValueChange={onTabChange}>
                     <TabsList aria-label={__('Integration sections', 'wp-posts-carousel')}>
@@ -280,9 +277,6 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
             <aside className='tw-grid tw-content-start tw-gap-4 tw-self-start'>
                 <LicensePanel
                     license={license}
-                    onLicenseChange={onLicenseChange}
-                    setNotice={setNotice}
-                    showManage={false}
                 />
             </aside>
             <ProUpgradeModal

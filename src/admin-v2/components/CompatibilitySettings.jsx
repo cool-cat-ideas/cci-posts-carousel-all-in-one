@@ -1,6 +1,7 @@
+import { formatAdminDateTime } from '@cci/admin-ui';
 import React, { useEffect, useState } from 'react';
 import { AlertTriangle, Bug, Clipboard, RefreshCw, Plus, Settings, Trash2 } from 'lucide-react';
-import { apiFetch } from '../api';
+import { apiFetch, pluginData } from '../api';
 import { __ } from '../i18n';
 import { Button } from './ui/button';
 import { CheckboxField } from './ui/checkbox';
@@ -693,7 +694,7 @@ function DiagnosticsPanel({ diagnostics, loading, error, onRefresh, onCopy }) {
                                             {log.type || __('Log', 'wp-posts-carousel')}
                                         </strong>
                                         <span className='tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>{log.message}</span>
-                                        {log.date && <small className='tw-text-xs tw-text-cci-wpc-muted'>{log.date}</small>}
+                                        {log.date && <small className='tw-text-xs tw-text-cci-wpc-muted'>{formatAdminDateTime(log.date, pluginData.adminDate)}</small>}
                                     </li>
                                 ))}
                             </ul>

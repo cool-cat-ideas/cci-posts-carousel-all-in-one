@@ -1,0 +1,211 @@
+[
+  {
+    "source": "090622",
+    "title": "Carousel dashboard",
+    "alt": "WP Posts Carousel dashboard with saved carousels and publication status",
+    "altPl": "Panel WP Posts Carousel z zapisanymi karuzelami i statusem publikacji",
+    "caption": "Manage saved carousels, copy their shortcodes and check publication status and product news.",
+    "captionPl": "Zarządzanie zapisanymi karuzelami, kopiowanie shortcode’ów oraz sprawdzanie statusu publikacji i aktualności produktu.",
+    "file": "wp-posts-carousel-screenshot-1.png",
+    "sha256": "f95d4aafd616776c8b78fa8a4c1372107240fcd3579d5f8ab66c3f85c0bf5127",
+    "number": 1
+  },
+  {
+    "source": "090654",
+    "title": "Content integrations",
+    "alt": "WP Posts Carousel content integrations catalog",
+    "altPl": "Katalog integracji treści WP Posts Carousel",
+    "caption": "Browse integrations that extend the available content sources and ordering options.",
+    "captionPl": "Integracje rozszerzające dostępne źródła treści i sposoby sortowania.",
+    "file": "wp-posts-carousel-screenshot-2.png",
+    "sha256": "0b79e8eafc9f3f53e62751c61f8e807a321a977b55f2f9e322d7d4df767236c7",
+    "number": 2
+  },
+  {
+    "source": "090739",
+    "title": "Template library",
+    "alt": "WP Posts Carousel installed templates and template catalog",
+    "altPl": "Zainstalowane szablony i katalog szablonów WP Posts Carousel",
+    "caption": "Compare installed templates and browse additional layouts. The demo includes Pro templates and optional extensions.",
+    "captionPl": "Porównanie zainstalowanych szablonów i przegląd dodatkowych układów. Demo obejmuje szablony Pro i opcjonalne rozszerzenia.",
+    "file": "wp-posts-carousel-screenshot-3.png",
+    "sha256": "96008e1bc018da28be991eb102409959e0c471d4a6ce30c65963033a86570076",
+    "number": 3
+  },
+  {
+    "source": "090830",
+    "title": "Compatibility and responsive defaults",
+    "alt": "WP Posts Carousel asset compatibility settings and responsive breakpoints",
+    "altPl": "Ustawienia zgodności zasobów i breakpointów WP Posts Carousel",
+    "caption": "Control carousel libraries and icon assets, and set the default responsive breakpoints.",
+    "captionPl": "Ustawienia bibliotek karuzeli, zasobów ikon i domyślnych breakpointów responsywnych.",
+    "file": "wp-posts-carousel-screenshot-4.png",
+    "sha256": "2b024348abdb2e46a1cbe7aafba6a241b214a0f86035b306fd91f44e2cf376b4",
+    "number": 4
+  },
+  {
+    "source": "090903",
+    "title": "Carousel behavior and visual ordering",
+    "alt": "Carousel engine settings beside the visual slide order editor",
+    "altPl": "Ustawienia silnika karuzeli obok edytora kolejności slajdów",
+    "caption": "Choose the rendering engine and slide behavior, then drag cards to arrange the carousel sequence.",
+    "captionPl": "Wybór silnika i zachowania karuzeli oraz układanie kolejności kart przez przeciąganie.",
+    "file": "wp-posts-carousel-screenshot-5.png",
+    "sha256": "d38c88592619f838ef1d98ee3aedbcd32cfceff02d46e6e066a6be191633e985",
+    "number": 5
+  },
+  {
+    "source": "090928",
+    "title": "Content query",
+    "alt": "Carousel content query with post types, ordering and taxonomy filters",
+    "altPl": "Zapytanie treści karuzeli z typami wpisów, sortowaniem i filtrami taksonomii",
+    "caption": "Select posts, pages or products, limit the result count and filter the source by taxonomy.",
+    "captionPl": "Wybór wpisów, stron lub produktów, ograniczenie liczby wyników i filtrowanie źródła według taksonomii.",
+    "file": "wp-posts-carousel-screenshot-6.png",
+    "sha256": "3a9a6d506f705b5faab5adf457ba251756f1cdb638eed528ce36ffcdee79ea1b",
+    "number": 6
+  },
+  {
+    "source": "090939",
+    "title": "Card display settings",
+    "alt": "Carousel card visibility controls and text length limits",
+    "altPl": "Ustawienia widoczności elementów kart karuzeli i limitów tekstu",
+    "caption": "Choose which card elements appear and set title and excerpt limits. The price and sale controls shown require Pro.",
+    "captionPl": "Wybór widocznych elementów kart oraz limitów tytułu i zajawki. Widoczne ustawienia ceny i promocji wymagają Pro.",
+    "file": "wp-posts-carousel-screenshot-7.png",
+    "sha256": "db96df93d4fe27bae37580285728faa428a942a1749118eda47d36948dce7126",
+    "number": 7
+  },
+  {
+    "source": "090953",
+    "title": "Manual slide composition",
+    "alt": "Manual carousel composition with content search and custom image slides",
+    "altPl": "Ręczne tworzenie karuzeli z wyszukiwaniem treści i własnymi slajdami obrazkowymi",
+    "caption": "Search for existing content or add a custom image slide, then arrange its position in the sequence.",
+    "captionPl": "Wyszukiwanie istniejącej treści lub dodawanie własnego slajdu obrazkowego i ustawianie jego pozycji w karuzeli.",
+    "file": "wp-posts-carousel-screenshot-8.png",
+    "sha256": "af1b87e04c00c9b99fac4bd48f7fbbfb846a72724e7c30e44552b707bb518351",
+    "number": 8
+  },
+  {
+    "source": "091003",
+    "title": "Frontend filters and image loading",
+    "alt": "Carousel frontend taxonomy filters and performance settings",
+    "altPl": "Filtry taksonomii na stronie i ustawienia wydajności karuzeli",
+    "caption": "Configure visitor-facing taxonomy filters and image loading options for the carousel.",
+    "captionPl": "Konfiguracja filtrów taksonomii dla odwiedzających oraz sposobu ładowania obrazów karuzeli.",
+    "file": "wp-posts-carousel-screenshot-9.png",
+    "sha256": "4c8740cc36ba18c9d4c291b185b424a0524cfbcb8a775e74e1a27ea5c13ac709",
+    "number": 9
+  },
+  {
+    "source": "092526",
+    "title": "Saved carousel shortcodes",
+    "alt": "Saved carousel list with shortcodes, publication badges and update dates",
+    "altPl": "Lista karuzel ze shortcode’ami, oznaczeniami publikacji i datami zmian",
+    "caption": "Each saved carousel has its own shortcode, publication status and last update date.",
+    "captionPl": "Każda zapisana karuzela ma własny shortcode, status publikacji i datę ostatniej zmiany.",
+    "file": "wp-posts-carousel-screenshot-10.png",
+    "sha256": "97b8cb4bab8c997d99700d8fcc9b168be246f0057fc40e80031e508ede6fc6ae",
+    "number": 10
+  },
+  {
+    "source": "100841",
+    "title": "Carousel preview",
+    "alt": "Carousel preview panel with a width selector and product card",
+    "altPl": "Panel podglądu karuzeli z wyborem szerokości i kartą produktu",
+    "caption": "Open the carousel preview in the editor and inspect its layout at a selected width.",
+    "captionPl": "Podgląd karuzeli w edytorze pozwala sprawdzić jej układ przy wybranej szerokości.",
+    "file": "wp-posts-carousel-screenshot-11.png",
+    "sha256": "443cd8367fc9ad20ccd87ea97c1a1aa69be444c699c18b9da6a1610ecd4cc348",
+    "number": 11
+  },
+  {
+    "source": "100915",
+    "title": "Contextual product carousel in an article",
+    "alt": "A narrow product carousel placed beside an article section",
+    "altPl": "Wąska karuzela produktów umieszczona obok sekcji artykułu",
+    "caption": "Place a single-card product carousel beside article text. This example uses Aurora Cards and Pro WooCommerce buying features.",
+    "captionPl": "Karuzela z jedną widoczną kartą produktu obok tekstu artykułu. Przykład korzysta z Aurora Cards i funkcji zakupowych WooCommerce w Pro.",
+    "file": "wp-posts-carousel-screenshot-12.png",
+    "sha256": "3f5503969c5f86aabe23167be57b1174fda6f6e9745ee45484ca6bdc77f7c491",
+    "number": 12
+  },
+  {
+    "source": "101057",
+    "title": "Article cards",
+    "alt": "Three article cards with featured images, excerpts and navigation arrows",
+    "altPl": "Trzy karty artykułów ze zdjęciami, zajawkami i strzałkami nawigacji",
+    "caption": "Present WordPress articles as image cards with excerpts and links to the full posts.",
+    "captionPl": "Artykuły WordPressa jako karty ze zdjęciami, zajawkami i linkami do pełnych wpisów.",
+    "file": "wp-posts-carousel-screenshot-13.png",
+    "sha256": "23aeac9b305a2b7bb986da1aecdc5f39edfb47c2ef13b71959a5219675857e37",
+    "number": 13
+  },
+  {
+    "source": "101108",
+    "title": "Aurora product cards",
+    "alt": "Aurora Cards product carousel with category badges, prices and cart buttons",
+    "altPl": "Karuzela produktów Aurora Cards z kategoriami, cenami i przyciskami koszyka",
+    "caption": "Aurora Cards is an optional template extension. The displayed prices, sale badges and Add to cart actions are supplied by Pro.",
+    "captionPl": "Aurora Cards jest opcjonalnym rozszerzeniem szablonów. Widoczne ceny, oznaczenia promocji i przyciski koszyka dostarcza Pro.",
+    "file": "wp-posts-carousel-screenshot-14.png",
+    "sha256": "c8d466a6b22a021ef35946fc8ea3cf6cbb0a724b4b5c8a7102744159b94bb014",
+    "number": 14
+  },
+  {
+    "source": "101119",
+    "title": "Aurora product navigation and progress",
+    "alt": "Aurora product carousel with navigation arrows and a progress indicator",
+    "altPl": "Karuzela produktów Aurora ze strzałkami nawigacji i wskaźnikiem postępu",
+    "caption": "Product cards combine categories, prices and buying actions with arrow navigation and a progress indicator. Shown with Pro active.",
+    "captionPl": "Karty produktów łączą kategorie, ceny i przyciski zakupowe ze strzałkami i wskaźnikiem postępu. Przykład z aktywnym Pro.",
+    "file": "wp-posts-carousel-screenshot-15.png",
+    "sha256": "800d4cd01e614b16ee210ac16f7ebbedd2c15d8f65c676597fcc6e2adb91b700",
+    "number": 15
+  },
+  {
+    "source": "101131",
+    "title": "Split article layout",
+    "alt": "Article carousel with a large image beside its title and excerpt",
+    "altPl": "Karuzela artykułów z dużym zdjęciem obok tytułu i zajawki",
+    "caption": "A split layout places the featured image beside the article title, excerpt and Read more link.",
+    "captionPl": "Układ dzielony zestawia zdjęcie wyróżniające z tytułem, zajawką i linkiem do pełnego artykułu.",
+    "file": "wp-posts-carousel-screenshot-16.png",
+    "sha256": "3dfad3482adfa6e49f5aac787cc4f1d41d142f75900fdfb2a88e9e763eff3087",
+    "number": 16
+  },
+  {
+    "source": "101140",
+    "title": "Story Commerce — Pro",
+    "alt": "Story Commerce carousel with numbered shopping guide steps",
+    "altPl": "Karuzela Story Commerce z numerowanymi krokami poradnika zakupowego",
+    "caption": "Story Commerce combines a wide opening slide and supporting cards into a numbered shopping story. Included in Pro.",
+    "captionPl": "Story Commerce łączy szeroki slajd otwierający z kolejnymi kartami w numerowaną historię zakupową. Szablon dostępny w Pro.",
+    "file": "wp-posts-carousel-screenshot-17.png",
+    "sha256": "6d8e3e487f331c8601c6b633b4d8862db72051910831391b2de78d37e95f7401",
+    "number": 17
+  },
+  {
+    "source": "101152",
+    "title": "Video Showcase — Pro",
+    "alt": "Video Showcase with a video player and chapter playlist",
+    "altPl": "Video Showcase z odtwarzaczem filmu i playlistą rozdziałów",
+    "caption": "Video Showcase pairs the active video with a playlist of entries and timestamps. Included in Pro.",
+    "captionPl": "Video Showcase łączy aktywny film z playlistą pozycji i oznaczeniami czasu. Szablon dostępny w Pro.",
+    "file": "wp-posts-carousel-screenshot-18.png",
+    "sha256": "4cbede4a786cbc48c2eeff564c61647984be97b5814a57caec5bcb7c8da76b1d",
+    "number": 18
+  },
+  {
+    "source": "101203",
+    "title": "Commerce Luxe — Pro",
+    "alt": "Commerce Luxe product cards with prices, quantity controls and Add to cart buttons",
+    "altPl": "Karty produktów Commerce Luxe z cenami, wyborem ilości i przyciskami koszyka",
+    "caption": "Commerce Luxe presents product images, sale prices, quantity controls and Add to cart buttons on a dark carousel background. Included in Pro.",
+    "captionPl": "Commerce Luxe prezentuje zdjęcia produktów, ceny promocyjne, wybór ilości i przyciski koszyka na ciemnym tle karuzeli. Szablon dostępny w Pro.",
+    "file": "wp-posts-carousel-screenshot-19.png",
+    "sha256": "ee00ae7cabc81b6f7a54a8261d2b4de3d34931c9881f27ef9f585e7a0bbdf5e0",
+    "number": 19
+  }
+]

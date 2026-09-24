@@ -81,11 +81,12 @@ class WP_Posts_Carousel_Template
         //     'status' => null,
         //     'error'  => null,
         // );
-        $current_version = WP_POSTS_CAROUSEL_VERSION;
+        $required_version = trim((string) $template_details['requires_wp_posts_carousel_at_least']);
 
-        if ($template_details['requires_wp_posts_carousel_at_least'] < $current_version) {
+        if ($required_version && version_compare(WP_POSTS_CAROUSEL_VERSION, $required_version, '<')) {
             return array(
                 'status' => false,
+                /* translators: %s: carousel template name. */
                 'error'  => sprintf(__("This template '%s' is not compatible with the current version of this plugin", 'wp-posts-carousel'), $template_details['template_name']),
             );
         }

@@ -1,6 +1,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* WordPress admin has no box-sizing reset; preview templates include padded
+   full-width containers that must fit before the carousel measures its slides. */
+.cci-wpc-saved-preview,
+.cci-wpc-saved-preview *,
+.cci-wpc-saved-preview *::before,
+.cci-wpc-saved-preview *::after {
+    box-sizing: border-box;
+}
+
 .cci-wpc-support-brand-image {
     display: block;
     width: min(100%, 260px);
@@ -54,6 +63,12 @@
     justify-content: center !important;
     gap: .375rem !important;
   }
+
+  #wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell > .cci-wpc-admin-sidebar[data-collapsed="false"] nav {
+    grid-auto-flow: row !important;
+    grid-auto-columns: minmax(0, 1fr) !important;
+  }
+
 
   #wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell > main {
     padding: 1.5rem 1.25rem 2.125rem !important;

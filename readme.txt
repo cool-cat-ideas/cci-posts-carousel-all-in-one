@@ -1,8 +1,8 @@
 === WP Posts Carousel All In One ===
 Contributors: coolcatideas
-Tags: carousel, slider, posts carousel, swiper, owl carousel, gutenberg block, frontend filters, acf
-Requires at least: 6.0
-Tested up to: 7.1
+Tags: carousel, slider, posts, gutenberg, custom post types
+Requires at least: 6.2
+Tested up to: 7.1.2
 Requires PHP: 7.4
 Stable tag: 2.0.0
 License: GPL v2 or later
@@ -45,9 +45,31 @@ Use the product repository under https://github.com/orgs/cool-cat-ideas/reposito
 
 = Marketplace =
 
-The admin can load product news, templates and integrations from the official Cool Cat Ideas marketplace. If the marketplace is unavailable, the plugin keeps working and shows empty store/news lists instead of blocking carousel management.
+The admin loads product news, templates and integrations from the Cool Cat Ideas marketplace. If the service is unavailable, saved carousels keep working; the admin shows cached content or an unavailable state and retries.
+
+== External services ==
+
+= Cool Cat Ideas =
+
+Opening the plugin admin automatically requests the product feed from `https://coolcatideas.com/api/products/wp-posts-carousel-all-in-one/plugin-feed/` when it needs fresh data. The request includes the product identifier, language and news limit. Results are cached; retrying refreshes them. The service receives the server IP address. Feed requests use a product-specific User-Agent without the WordPress version or website URL. Loading remote catalog images also connects the browser to the image host, which receives the browser IP address.
+
+Only after you accept the review consent and click **Save feedback**, the plugin sends a review to `https://coolcatideas.com/api/product-reviews/submit` for moderation and possible publication. It sends the rating, comment, product and plugin version, platform, admin section, website URL, language, environment, Pro status, submission time, WordPress review-page preferences, consent text/version/acceptance and a duplicate-prevention hash. The review is not published automatically. The consent text is included in the plugin; opening the dialog does not fetch it from an external service.
+
+[Privacy policy](https://coolcatideas.com/privacy-policy/) · [Store terms (in Polish)](https://coolcatideas.com/pl/regulamin/)
+
+= Optional icon CDN =
+
+Icon files are local by default. If you select **CDN** in compatibility settings, browsers load Font Awesome from `maxcdn.bootstrapcdn.com` or Tabler Icons from `cdn.jsdelivr.net` on pages that use those icons. The provider receives the visitor's IP address and browser request headers; a referrer may be sent according to the browser's referrer policy. The plugin does not send review or license data with these requests.
+
+[jsDelivr/BootstrapCDN privacy policy](https://www.jsdelivr.com/terms/privacy-policy) · [Terms of use](https://www.jsdelivr.com/terms/terms-of-use)
+
+== Source code ==
+
+Shared CCI Admin UI repository: https://github.com/cool-cat-ideas/cci-admin-ui. Source for the pinned version: https://github.com/cool-cat-ideas/cci-admin-ui/tree/v1.0.0. Product build instructions are in docs/building-from-source.md in the product source repository. Building requires the matching published UI source tag and release archives pinned by the product lockfile.
 
 == Installation ==
+
+Requires WordPress 6.2 or later and PHP 7.4 or later.
 
 1. Open **Plugins > Add New > Upload Plugin**.
 2. Upload the ZIP and activate **WP Posts Carousel All In One**.
@@ -83,10 +105,25 @@ Yes. The online developer documentation describes supported actions and filters 
 
 == Screenshots ==
 
-1. Dashboard with saved carousels and publishing actions.
-2. Carousel editor with renderer, responsive and manual slide settings.
-3. Template library with bundled and store-ready layouts.
-4. Compatibility settings for Owl Carousel and Swiper assets.
+1. Manage saved carousels, copy their shortcodes and check publication status and product news.
+2. Browse integrations that extend the available content sources and ordering options.
+3. Compare installed templates and browse additional layouts. The demo includes Pro templates and optional extensions.
+4. Control carousel libraries and icon assets, and set the default responsive breakpoints.
+5. Choose the rendering engine and slide behavior, then drag cards to arrange the carousel sequence.
+6. Select posts, pages or products, limit the result count and filter the source by taxonomy.
+7. Choose which card elements appear and set title and excerpt limits. The price and sale controls shown require Pro.
+8. Search for existing content or add a custom image slide, then arrange its position in the sequence.
+9. Configure visitor-facing taxonomy filters and image loading options for the carousel.
+10. Each saved carousel has its own shortcode, publication status and last update date.
+11. Open the carousel preview in the editor and inspect its layout at a selected width.
+12. Place a single-card product carousel beside article text. This example uses Aurora Cards and Pro WooCommerce buying features.
+13. Present WordPress articles as image cards with excerpts and links to the full posts.
+14. Aurora Cards is an optional template extension. The displayed prices, sale badges and Add to cart actions are supplied by Pro.
+15. Product cards combine categories, prices and buying actions with arrow navigation and a progress indicator. Shown with Pro active.
+16. A split layout places the featured image beside the article title, excerpt and Read more link.
+17. Story Commerce combines a wide opening slide and supporting cards into a numbered shopping story. Included in Pro.
+18. Video Showcase pairs the active video with a playlist of entries and timestamps. Included in Pro.
+19. Commerce Luxe presents product images, sale prices, quantity controls and Add to cart buttons on a dark carousel background. Included in Pro.
 
 == Changelog ==
 

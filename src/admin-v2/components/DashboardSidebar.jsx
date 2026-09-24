@@ -1,23 +1,21 @@
+import { ActiveLicenseCard, InactiveLicenseCard } from '@cci/admin-ui';
 import React from 'react';
 import {
     BarChart3,
     ChevronLeft,
     ChevronRight,
-    Crown,
     LayoutDashboard,
     LayoutTemplate,
     Plug,
     Settings,
-    ShieldCheck,
 } from 'lucide-react';
 import { apiFetch, pluginData } from '../api';
-import { __, coreString } from '../i18n';
+import { __, coreString, licenseString } from '../i18n';
 import { cn } from '../lib/cn';
 import { compactLicenseError } from '../utils';
 import ProductLogo from './ProductLogo';
 import ConfirmLicenseDeactivateModal from './ConfirmLicenseDeactivateModal';
 import { Button } from './ui/button';
-import { Input } from './ui/input';
 
 const items = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, core: true },
@@ -67,7 +65,7 @@ export default function DashboardSidebar({
                     sidebarItemBase,
                     collapsed && 'tw-justify-center tw-gap-0 tw-px-0',
                     activeSection === item.id
-                        ? '!tw-border-cci-wpc-brandBorder !tw-bg-cci-wpc-brandSoft !tw-text-cci-wpc-brandStrong'
+                        ? '!tw-border-cci-wpc-brandBorder !tw-bg-cci-wpc-brandSoft !tw-text-cci-wpc-brandStrong hover:!tw-border-cci-wpc-brand hover:!tw-bg-white'
                         : '!tw-border-transparent !tw-bg-transparent !tw-text-slate-700 hover:!tw-border-cci-wpc-brandBorder hover:!tw-bg-cci-wpc-brandSoft hover:!tw-text-cci-wpc-brandStrong'
                 )}
                 onClick={() => onSelect(item.id)}
@@ -80,15 +78,17 @@ export default function DashboardSidebar({
 
     return (
         <aside
+            data-collapsed={collapsed ? "true" : "false"}
             className={cn(
                 'cci-wpc-admin-sidebar tw-grid tw-h-auto tw-min-h-full tw-self-stretch tw-grid-rows-[auto_minmax(0,1fr)] tw-overflow-hidden tw-border-0 tw-border-r tw-border-solid tw-border-cci-wpc-border tw-bg-white',
                 collapsed ? 'tw-gap-4 tw-px-3 tw-py-5' : 'tw-gap-5 tw-px-4 tw-py-6'
             )}
         >
-            <div className={cn(collapsed ? 'tw-grid tw-justify-items-center tw-gap-2' : 'tw-flex tw-items-start tw-justify-between tw-gap-2')}>
+            <div className={cn(collapsed ? 'tw-grid tw-justify-items-center tw-gap-2' : 'tw-relative tw-pt-10')}>
                 <ProductLogo
                     compact={collapsed}
-                    className={collapsed ? 'tw-min-h-[42px]' : ''}
+                    expandedWidth={240}
+                    className={collapsed ? 'tw-min-h-[42px]' : 'tw-w-full tw-px-0 tw-pb-0'}
                     onClick={(event) => {
                         event.preventDefault();
                         onSelect('dashboard');
@@ -98,6 +98,7 @@ export default function DashboardSidebar({
                     type='button'
                     variant='builder'
                     size='iconSm'
+                    className={collapsed ? '' : 'tw-absolute tw-right-0 tw-top-0'}
                     aria-label={toggleLabel}
                     title={toggleLabel}
                     onClick={() => onCollapsedChange?.(!collapsed)}
@@ -148,24 +149,12 @@ function SidebarLicenseBox({ isPro, license, onLicenseChange, setNotice }) {
     const [saving, setSaving] = React.useState(false);
     const [touched, setTouched] = React.useState(false);
     const [error, setError] = React.useState('');
+    const [errorTone, setErrorTone] = React.useState('error');
+    const [fieldError, setFieldError] = React.useState('');
     const [deactivateModalOpen, setDeactivateModalOpen] = React.useState(false);
     const apiBase = license?.apiBase || '';
-    const licenseLabel = license?.label || (isPro ? 'PRO' : __('Inactive', 'wp-posts-carousel'));
     const licensedSite = license?.domain || license?.customerEmail || '';
     const environmentLabel = license?.environment ? String(license.environment) : '';
-    const mascotUrl =
-        typeof window !== 'undefined' && window.wp_posts_carousel_url
-            ? `${window.wp_posts_carousel_url}assets/images/license-activation-mascot.png`
-            : '';
-    const boxStyle = mascotUrl
-        ? {
-              backgroundImage: `linear-gradient(115deg, rgba(255,255,255,0.99) 0%, rgba(255,255,255,0.96) 58%, rgba(255,255,255,0.62) 100%), url("${mascotUrl}")`,
-              backgroundPosition: 'right -1.25rem top 3.25rem',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: '6.75rem auto',
-          }
-        : undefined;
-
     const validateLicenseKey = (key) => {
         const value = key.trim();
 
@@ -201,6 +190,7 @@ function SidebarLicenseBox({ isPro, license, onLicenseChange, setNotice }) {
             .then((response) => {
                 applyLicense(response.license);
                 setError(response.warning || '');
+                setErrorTone(response.warning ? 'warning' : 'error');
 
                 if (response.license?.status === 'active') {
                     setLicenseKey('');
@@ -209,8 +199,8 @@ function SidebarLicenseBox({ isPro, license, onLicenseChange, setNotice }) {
                 if (successMessage && setNotice) {
                     setNotice({
                         type: response.warning ? 'warning' : 'success',
-                        message: successMessage,
-                        details: response.warning || '',
+                        message: response.warning || successMessage,
+                        details: '',
                     });
                 }
             })
@@ -218,16 +208,17 @@ function SidebarLicenseBox({ isPro, license, onLicenseChange, setNotice }) {
                 const message = compactLicenseError(
                     requestError,
                     __('License server is temporarily unavailable. Please try again later.', 'wp-posts-carousel'),
-                    __('License request failed.', 'wp-posts-carousel')
+                    __('License request failed.', 'wp-posts-carousel'),
                 );
 
                 setError(message);
+                setErrorTone('error');
 
                 if (setNotice) {
                     setNotice({
                         type: 'error',
-                        message: __('License request failed.', 'wp-posts-carousel'),
-                        details: message,
+                        message,
+                        details: '',
                     });
                 }
             })
@@ -238,16 +229,18 @@ function SidebarLicenseBox({ isPro, license, onLicenseChange, setNotice }) {
         const validationError = validateLicenseKey(licenseKey);
 
         setTouched(true);
-        setError(validationError);
+        setError('');
+        setFieldError(validationError);
 
         if (validationError) {
-            return;
+            setNotice?.({ type: 'error', message: validationError, details: '' });
+            return false;
         }
 
         sendLicenseRequest(
             '/license/activate',
             { licenseKey: licenseKey.trim() },
-            __('Pro license was activated.', 'wp-posts-carousel')
+            __('Pro license was activated.', 'wp-posts-carousel'),
         );
     };
 
@@ -260,116 +253,52 @@ function SidebarLicenseBox({ isPro, license, onLicenseChange, setNotice }) {
         sendLicenseRequest('/license/deactivate', {}, __('Pro license was deactivated.', 'wp-posts-carousel'));
     };
 
-    return (
-        <div
-            className={cn(
-                'tw-relative tw-grid tw-overflow-hidden tw-rounded-md tw-border tw-border-solid tw-bg-white tw-p-3.5',
-                isPro
-                    ? 'tw-border-cci-wpc-brandBorder tw-bg-cci-wpc-brandSoft'
-                    : 'tw-border-amber-200 tw-bg-gradient-to-br tw-from-amber-50 tw-via-white tw-to-white'
-            )}
-            style={boxStyle}
-        >
-            <ConfirmLicenseDeactivateModal
-                open={deactivateModalOpen}
+    if (isPro) {
+        return (
+            <ActiveLicenseCard
+                t={licenseString}
+                productName={__('WP Posts Carousel Pro', 'wp-posts-carousel')}
+                site={licensedSite}
+                environment={environmentLabel}
                 saving={saving}
-                onCancel={() => setDeactivateModalOpen(false)}
-                onConfirm={confirmDeactivateLicense}
-            />
-            <div className='tw-relative tw-z-10 tw-flex tw-items-start tw-gap-2.5'>
-                <span
-                    className={cn(
-                        'tw-inline-flex tw-h-9 tw-w-9 tw-shrink-0 tw-items-center tw-justify-center tw-rounded-md tw-border tw-border-solid [&_svg]:tw-h-4 [&_svg]:tw-w-4',
-                        'tw-border-amber-200 tw-bg-amber-50 tw-text-amber-700'
-                    )}
-                    aria-hidden='true'
-                >
-                    {isPro ? <Crown /> : <ShieldCheck />}
-                </span>
-                <div className='tw-min-w-0'>
-                    <strong className='tw-block tw-text-sm tw-font-semibold tw-leading-tight tw-text-cci-wpc-text'>
-                        {__('WP Posts Carousel Pro', 'wp-posts-carousel')}
-                    </strong>
-                    <span className='tw-mt-1 tw-inline-flex tw-rounded-full tw-border tw-border-solid tw-border-amber-200 tw-bg-white tw-px-2 tw-py-0.5 tw-text-[10px] tw-font-bold tw-uppercase tw-leading-none tw-text-amber-700'>
-                        {isPro ? licenseLabel : __('Pro upgrade', 'wp-posts-carousel')}
-                    </span>
-                </div>
-            </div>
+                onDeactivate={deactivateLicense}
+                error={error}
+                errorTone={errorTone}
+            >
+                <ConfirmLicenseDeactivateModal
+                    open={deactivateModalOpen}
+                    saving={saving}
+                    onCancel={() => setDeactivateModalOpen(false)}
+                    onConfirm={confirmDeactivateLicense}
+                />
+            </ActiveLicenseCard>
+        );
+    }
 
-            {isPro ? (
-                <div className='tw-relative tw-z-10 tw-grid tw-gap-2'>
-                    <p className='tw-m-0 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
-                        {__('Premium features are active on this site.', 'wp-posts-carousel')}
-                    </p>
-                    {(licensedSite || environmentLabel) && (
-                        <div className='tw-grid tw-gap-1.5 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-brandBorder tw-bg-white/70 tw-p-2.5 tw-text-xs'>
-                            {licensedSite && (
-                                <span className='tw-flex tw-justify-between tw-gap-2'>
-                                    <span className='tw-text-cci-wpc-muted'>{__('Site', 'wp-posts-carousel')}</span>
-                                    <strong className='tw-truncate tw-text-cci-wpc-text'>{licensedSite}</strong>
-                                </span>
-                            )}
-                            {environmentLabel && (
-                                <span className='tw-flex tw-justify-between tw-gap-2'>
-                                    <span className='tw-text-cci-wpc-muted'>{__('Environment', 'wp-posts-carousel')}</span>
-                                    <strong className='tw-text-cci-wpc-text'>{environmentLabel}</strong>
-                                </span>
-                            )}
-                        </div>
-                    )}
-                    <Button variant='danger' size='sm' onClick={deactivateLicense} disabled={saving}>
-                        {saving
-                            ? __('Deactivating...', 'wp-posts-carousel')
-                            : __('Deactivate license', 'wp-posts-carousel')}
-                    </Button>
-                </div>
-            ) : (
-                <div className='tw-relative tw-z-10 tw-grid tw-gap-2.5'>
-                    <p className='tw-m-0 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
-                        {__('Enter your license key to unlock Pro add-ons on this domain.', 'wp-posts-carousel')}
-                    </p>
-                    <label className='tw-grid tw-gap-1.5'>
-                        <span className='tw-text-[11px] tw-font-bold tw-uppercase tw-leading-none tw-text-slate-600'>
-                            {__('License key', 'wp-posts-carousel')}
-                        </span>
-                        <Input
-                            type='password'
-                            value={licenseKey}
-                            placeholder='WPC-XXXX-XXXX'
-                            invalid={Boolean(error)}
-                            aria-invalid={Boolean(error)}
-                            onBlur={() => {
-                                setTouched(true);
-                                setError(validateLicenseKey(licenseKey));
-                            }}
-                            onChange={(event) => {
-                                const nextValue = event.target.value;
+    return (
+        <InactiveLicenseCard
+            t={licenseString}
+            productName={__('WP Posts Carousel Pro', 'wp-posts-carousel')}
+            licenseKey={licenseKey}
+            keyPlaceholder="WPC-XXXX-XXXX"
+            saving={saving}
+            onActivate={activateLicense}
+            onKeyBlur={() => {
+                setTouched(true);
+                setFieldError(validateLicenseKey(licenseKey));
+            }}
+            onKeyChange={(nextValue) => {
+                setLicenseKey(nextValue);
+                setError('');
 
-                                setLicenseKey(nextValue);
-
-                                if (touched) {
-                                    setError(validateLicenseKey(nextValue));
-                                }
-                            }}
-                        />
-                    </label>
-                    <Button variant='primary' size='sm' className='cci-wpc-full' onClick={activateLicense} disabled={saving}>
-                        {saving
-                            ? __('Activating...', 'wp-posts-carousel')
-                            : __('Activate license', 'wp-posts-carousel')}
-                    </Button>
-                    <p className='tw-m-0 tw-text-[11px] tw-leading-4 tw-text-cci-wpc-muted'>
-                        {__('Already have a key? Paste it here and activate Pro in seconds.', 'wp-posts-carousel')}
-                    </p>
-                </div>
-            )}
-
-            {error && <p className='tw-relative tw-z-10 tw-m-0 tw-text-xs tw-leading-5 tw-text-cci-wpc-danger'>{error}</p>}
-            {!error && license?.message && (
-                <p className='tw-relative tw-z-10 tw-m-0 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
-                    {license.message}
-                </p>
-            )}
-        </div>
+                if (touched) {
+                    setFieldError(validateLicenseKey(nextValue));
+                }
+            }}
+            error={error}
+            errorTone={errorTone}
+            fieldError={fieldError}
+            message={license?.message}
+        />
     );
 }

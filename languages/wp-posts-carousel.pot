@@ -3516,3 +3516,11 @@ msgstr ""
 #: blocks/carousel/index.js:255
 msgid "Search carousels"
 msgstr ""
+
+#: assets/js/admin-v2.js:2 src/admin-v2/i18n.js:7
+msgid "License active"
+msgstr ""
+
+#: assets/js/admin-v2.js:2 src/admin-v2/i18n.js:11
+msgid "License inactive"
+msgstr ""

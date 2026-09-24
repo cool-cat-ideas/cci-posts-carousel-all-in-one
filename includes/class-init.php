@@ -16,6 +16,8 @@ if (!defined('ABSPATH')) {
  */
 class WP_Posts_Carousel_Init
 {
+    const SCHEMA_VERSION = '1';
+    const SCHEMA_VERSION_OPTION = 'wp_posts_carousel_db_version';
 
     /**
      * constructor
@@ -106,6 +108,12 @@ class WP_Posts_Carousel_Init
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'wp_posts_carousel';
+        $table_exists = $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($table_name))) === $table_name;
+
+        if ($table_exists && get_option(self::SCHEMA_VERSION_OPTION) === self::SCHEMA_VERSION) {
+            return;
+        }
+
         $charset_collate = $wpdb->get_charset_collate();
         $sql = "CREATE TABLE {$table_name} (
             ID integer NOT NULL AUTO_INCREMENT,
@@ -116,13 +124,23 @@ class WP_Posts_Carousel_Init
             KEY post_id (post_id)
         ) $charset_collate;";
 
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-
-        if (dbDelta($sql)) {
-            if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-                return new WP_Error(sprintf(__('Failed create table %s', 'wp-posts-carousel'), $table_name), array('status' => 500));
-            }
+        if (!function_exists('dbDelta')) {
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         }
+
+        dbDelta($sql);
+        $schema_error = $wpdb->last_error;
+
+        if ($schema_error || $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($table_name))) !== $table_name) {
+            return new WP_Error(
+                'wp_posts_carousel_table_create_failed',
+                /* translators: %s: carousel database table name. */
+                sprintf(__('Failed create table %s', 'wp-posts-carousel'), $table_name),
+                array('status' => 500)
+            );
+        }
+
+        update_option(self::SCHEMA_VERSION_OPTION, self::SCHEMA_VERSION, false);
     }
 
 }

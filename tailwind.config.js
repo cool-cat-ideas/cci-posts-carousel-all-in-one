@@ -1,4 +1,6 @@
-const { createAdminTheme, SHARED_UI_SAFELIST } = require('@cci/admin-theme');
+const { createAdminTheme, createSharedUiSafelist, SHARED_UI_SAFELIST, resolveAdminUiContentGlobs } = require('@cci/admin-theme');
+
+const addonSafelist = require('@cci/admin-theme/src/addon-safelist.cjs');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -8,11 +10,10 @@ module.exports = {
     },
     content: [
         './src/admin-v2/**/*.{js,jsx}',
-        '../../cci_admin_framework/packages/admin-ui/src/**/*.{js,jsx}',
-        '../../cci_admin_framework/packages/admin-ui/dist/**/*.js',
+        ...resolveAdminUiContentGlobs(),
     ],
-    safelist: [...SHARED_UI_SAFELIST, 'tw-hidden'],
+    safelist: [...SHARED_UI_SAFELIST, ...addonSafelist, ...createSharedUiSafelist('cci-wpc'), ...createSharedUiSafelist('cci-nm'), 'tw-hidden'],
     theme: {
-        extend: createAdminTheme('cci-wpc'),
+        extend: { ...createAdminTheme('cci-wpc'), colors: { ...createAdminTheme('cci-wpc').colors, ...createAdminTheme('cci-nm').colors } },
     },
 };

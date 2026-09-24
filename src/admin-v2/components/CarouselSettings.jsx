@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { pluginData } from '../api';
 import { __ } from '../i18n';
+import ProBadge from './ProBadge';
 import { TooltipHelp } from './ui/tooltip';
 import { Button } from './ui/button';
 import { CheckboxField } from './ui/checkbox';
@@ -415,9 +416,7 @@ export default function CarouselSettings({
                 <div>
                     <div className='tw-flex tw-items-center tw-gap-2 tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
                         {__('Autoplay progress indicator', 'wp-posts-carousel')}
-                        <span className='tw-rounded-full tw-border tw-border-solid tw-border-cci-wpc-brandBorder tw-bg-cci-wpc-brandSoft tw-px-2 tw-py-0.5 tw-text-[10px] tw-font-bold tw-uppercase tw-leading-none tw-tracking-wide tw-text-cci-wpc-brand'>
-                            {__('Pro', 'wp-posts-carousel')}
-                        </span>
+                        <ProBadge />
                     </div>
                     <p className='tw-m-0 tw-mt-1 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
                         {__(

@@ -984,6 +984,109 @@ class WP_Posts_Carousel_API
     ), 200);
   }
 
+  /** A successful HTTP response must also contain a current, complete product feed. */
+  public static function is_valid_marketplace_feed($feed)
+  {
+    return is_array($feed)
+      && isset($feed['product']) && is_array($feed['product'])
+      && isset($feed['news']) && is_array($feed['news'])
+      && (!isset($feed['success']) || $feed['success'] !== false)
+      && (!isset($feed['_meta']['ok']) || $feed['_meta']['ok'] !== false)
+      && empty($feed['_meta']['stale'])
+      && (!isset($feed['_meta']['source']) || $feed['_meta']['source'] !== 'empty');
+  }
+
+  /** Normalize public links without changing feed content or external destinations. */
+  public static function normalize_marketplace_feed_urls($feed)
+  {
+    if (!is_array($feed)) {
+      return $feed;
+    }
+
+    if (isset($feed['product']['pro']['url'])) {
+      $feed['product']['pro']['url'] = self::normalize_marketplace_public_url($feed['product']['pro']['url']);
+    }
+    if (isset($feed['product']['free']['urls']) && is_array($feed['product']['free']['urls'])) {
+      $feed['product']['free']['urls'] = self::normalize_marketplace_url_set($feed['product']['free']['urls']);
+    }
+    foreach (array('templates', 'extensions') as $collection) {
+      if (!isset($feed[$collection]) || !is_array($feed[$collection])) {
+        continue;
+      }
+      foreach ($feed[$collection] as $index => $item) {
+        if (isset($item['urls']) && is_array($item['urls'])) {
+          $feed[$collection][$index]['urls'] = self::normalize_marketplace_url_set($item['urls']);
+        }
+      }
+    }
+    if (isset($feed['news']) && is_array($feed['news'])) {
+      foreach ($feed['news'] as $index => $item) {
+        foreach (array('url', 'sourceUrl') as $key) {
+          if (isset($item[$key])) {
+            $feed['news'][$index][$key] = self::normalize_marketplace_public_url($item[$key]);
+          }
+        }
+      }
+    }
+
+    return $feed;
+  }
+
+  private static function normalize_marketplace_url_set($urls)
+  {
+    foreach ($urls as $key => $url) {
+      if ($url !== null) {
+        $urls[$key] = self::normalize_marketplace_public_url($url);
+      }
+    }
+
+    return $urls;
+  }
+
+  private static function normalize_marketplace_public_url($url)
+  {
+    if (!is_string($url) || trim($url) === '') {
+      return '';
+    }
+
+    $url = trim($url);
+    $parts = wp_parse_url($url);
+    if (!is_array($parts) || isset($parts['user']) || isset($parts['pass'])) {
+      return '';
+    }
+
+    $scheme = isset($parts['scheme']) ? strtolower($parts['scheme']) : '';
+    if ($scheme !== '' && !in_array($scheme, array('http', 'https'), true)) {
+      return '';
+    }
+
+    $host = isset($parts['host']) ? strtolower(trim($parts['host'], '[]')) : '';
+    $path = isset($parts['path']) ? $parts['path'] : '';
+    $is_catalog_path = (bool) preg_match('#^/(?:products|(?:en/|pl/)?docs)(?:/|$)#', $path);
+    $is_relative = $host === '' && $scheme === '' && strpos($url, '/') === 0;
+    // A server listen address can leak from the API request origin. It is not a public destination.
+    $is_bind_address = in_array($host, array('0.0.0.0', '::'), true);
+
+    if ($is_relative || $is_bind_address) {
+      if (!$is_catalog_path) {
+        return '';
+      }
+      $url = self::MARKETPLACE_API_BASE . $path;
+      if (isset($parts['query'])) {
+        $url .= '?' . $parts['query'];
+      }
+      if (isset($parts['fragment'])) {
+        $url .= '#' . $parts['fragment'];
+      }
+    } elseif ($host === '') {
+      return '';
+    } elseif ($scheme === '') {
+      $url = 'https:' . $url;
+    }
+
+    return esc_url_raw($url, array('http', 'https'));
+  }
+
   public function get_plugin_feed(WP_REST_Request $request)
   {
     $locale = $this->marketplace_locale($request->get_param('locale'));
@@ -996,7 +1099,8 @@ class WP_Posts_Carousel_API
     if (!$force) {
       $cached = get_transient($cache_key);
 
-      if (is_array($cached)) {
+      if (self::is_valid_marketplace_feed($cached)) {
+        $cached = self::normalize_marketplace_feed_urls($cached);
         $cached['_meta'] = array_merge(
           isset($cached['_meta']) && is_array($cached['_meta']) ? $cached['_meta'] : array(),
           array(
@@ -1010,25 +1114,9 @@ class WP_Posts_Carousel_API
         return new WP_REST_Response($cached, 200);
       }
 
-      $stale = get_transient($stale_cache_key);
-
-      if (is_array($stale)) {
-        $stale['_meta'] = array_merge(
-          isset($stale['_meta']) && is_array($stale['_meta']) ? $stale['_meta'] : array(),
-          array(
-            'ok' => false,
-            'source' => 'stale-cache',
-            'cached' => true,
-            'stale' => true,
-            'error' => __('Showing the last cached marketplace feed while store data refreshes.', 'wp-posts-carousel'),
-            'retryAfter' => 120,
-          )
-        );
-
-        return new WP_REST_Response($stale, 200);
-      }
     }
 
+    // Expired data is only a fallback after a real refresh attempt below.
     $endpoints = $this->marketplace_endpoints(
       'plugin-feed',
       array(
@@ -1043,6 +1131,7 @@ class WP_Posts_Carousel_API
         $endpoint,
         array(
           'timeout' => 8,
+          'user-agent' => 'WP Posts Carousel product feed',
           'headers' => array(
             'Accept' => 'application/json',
           ),
@@ -1058,13 +1147,15 @@ class WP_Posts_Carousel_API
       $body = wp_remote_retrieve_body($response);
       $data = json_decode($body, true);
 
-      if ($code < 200 || $code >= 300 || !is_array($data)) {
-        $last_error = $code
+      if ($code < 200 || $code >= 300 || !self::is_valid_marketplace_feed($data)) {
+        $last_error = $code < 200 || $code >= 300
+          /* translators: %d: HTTP response status code. */
           ? sprintf(__('Marketplace feed returned HTTP %d.', 'wp-posts-carousel'), $code)
           : __('Marketplace feed returned an invalid response.', 'wp-posts-carousel');
         continue;
       }
 
+      $data = self::normalize_marketplace_feed_urls($data);
       $data['_meta'] = array_merge(
         isset($data['_meta']) && is_array($data['_meta']) ? $data['_meta'] : array(),
         array(
@@ -1090,7 +1181,8 @@ class WP_Posts_Carousel_API
   {
     $stale = get_transient($stale_cache_key);
 
-    if (is_array($stale)) {
+    if (self::is_valid_marketplace_feed($stale)) {
+      $stale = self::normalize_marketplace_feed_urls($stale);
       $stale['_meta'] = array_merge(
         isset($stale['_meta']) && is_array($stale['_meta']) ? $stale['_meta'] : array(),
         array(

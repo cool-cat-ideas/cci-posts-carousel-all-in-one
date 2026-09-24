@@ -268,14 +268,14 @@ class WP_Posts_Carousel_Generator
             return true;
         }
 
-        if (isset($_REQUEST['context']) && sanitize_key((string) $_REQUEST['context']) === 'edit') {
+        if (isset($_REQUEST['context']) && is_scalar($_REQUEST['context']) && sanitize_key(wp_unslash((string) $_REQUEST['context'])) === 'edit') {
             return true;
         }
 
-        $request_uri = isset($_SERVER['REQUEST_URI']) ? (string) $_SERVER['REQUEST_URI'] : '';
+        $request_uri = isset($_SERVER['REQUEST_URI']) && is_string($_SERVER['REQUEST_URI']) ? esc_url_raw(wp_unslash($_SERVER['REQUEST_URI'])) : '';
         if (
             strpos($request_uri, '/wp/v2/block-renderer/') !== false
-            || (isset($_REQUEST['rest_route']) && strpos((string) $_REQUEST['rest_route'], '/wp/v2/block-renderer/') !== false)
+            || (isset($_REQUEST['rest_route']) && is_scalar($_REQUEST['rest_route']) && strpos(sanitize_text_field(wp_unslash((string) $_REQUEST['rest_route'])), '/wp/v2/block-renderer/') !== false)
         ) {
             return true;
         }
@@ -287,11 +287,11 @@ class WP_Posts_Carousel_Generator
             'action',
         );
         foreach ($editor_request_args as $arg_name) {
-            if (!isset($_REQUEST[$arg_name])) {
+            if (!isset($_REQUEST[$arg_name]) || !is_scalar($_REQUEST[$arg_name])) {
                 continue;
             }
 
-            $arg_value = sanitize_text_field((string) $_REQUEST[$arg_name]);
+            $arg_value = sanitize_text_field(wp_unslash((string) $_REQUEST[$arg_name]));
             if ($arg_name === 'action' && strpos($arg_value, 'elementor') !== false) {
                 return true;
             }
@@ -304,8 +304,8 @@ class WP_Posts_Carousel_Generator
         if (
             function_exists('wp_is_serving_rest_request') &&
             wp_is_serving_rest_request() &&
-            isset($_REQUEST['context']) &&
-            sanitize_key((string) $_REQUEST['context']) === 'edit'
+            isset($_REQUEST['context']) && is_scalar($_REQUEST['context']) &&
+            sanitize_key(wp_unslash((string) $_REQUEST['context'])) === 'edit'
         ) {
             return true;
         }
@@ -318,8 +318,8 @@ class WP_Posts_Carousel_Generator
         }
 
         if (
-            isset($_SERVER['HTTP_REFERER']) &&
-            strpos((string) $_SERVER['HTTP_REFERER'], home_url('/wp-admin/')) === 0
+            isset($_SERVER['HTTP_REFERER']) && is_string($_SERVER['HTTP_REFERER']) &&
+            strpos(esc_url_raw(wp_unslash($_SERVER['HTTP_REFERER'])), home_url('/wp-admin/')) === 0
         ) {
             return true;
         }
@@ -469,11 +469,15 @@ class WP_Posts_Carousel_Generator
             return array();
         }
 
-        $raw = wp_unslash($_GET[$param]);
+        $raw = map_deep(wp_unslash($_GET[$param]), 'sanitize_text_field');
         $values = is_array($raw) ? $raw : explode(',', (string) $raw);
         $terms = array();
 
         foreach ($values as $value) {
+            if (!is_scalar($value)) {
+                continue;
+            }
+
             $term_id = absint($value);
 
             if ($term_id) {
@@ -486,7 +490,7 @@ class WP_Posts_Carousel_Generator
 
     private function filter_url($param, $term_id)
     {
-        $request_uri = isset($_SERVER['REQUEST_URI']) ? wp_unslash($_SERVER['REQUEST_URI']) : '';
+        $request_uri = isset($_SERVER['REQUEST_URI']) && is_string($_SERVER['REQUEST_URI']) ? esc_url_raw(wp_unslash($_SERVER['REQUEST_URI'])) : '';
         $url = home_url($request_uri ?: '/');
 
         if (!$term_id) {

@@ -119,7 +119,7 @@ export default function TemplatesPanel({ license, onLicenseChange, onOpenSetting
                         />
                     </div>
 
-                    <ReviewPrompt source='templates' variant='hero' setNotice={setNotice} />
+                    <ReviewPrompt section='templates' setNotice={setNotice} />
 
                     <Tabs value={activeTab} onValueChange={onTabChange}>
                         <TabsList aria-label={__('Template sections', 'wp-posts-carousel')}>
@@ -167,9 +167,6 @@ export default function TemplatesPanel({ license, onLicenseChange, onOpenSetting
                 <aside className='tw-grid tw-content-start tw-gap-4 tw-self-start'>
                     <LicensePanel
                         license={license}
-                        onLicenseChange={onLicenseChange}
-                        setNotice={setNotice}
-                        showManage={false}
                     />
                 </aside>
                 <ProUpgradeModal
@@ -214,7 +211,7 @@ export default function TemplatesPanel({ license, onLicenseChange, onOpenSetting
                         />
                     </div>
 
-                <ReviewPrompt source='templates' variant='hero' setNotice={setNotice} />
+                <ReviewPrompt section='templates' setNotice={setNotice} />
 
                 <Tabs value={activeTab} onValueChange={onTabChange}>
                     <TabsList aria-label={__('Template sections', 'wp-posts-carousel')}>
@@ -262,9 +259,6 @@ export default function TemplatesPanel({ license, onLicenseChange, onOpenSetting
             <aside className='tw-grid tw-content-start tw-gap-4 tw-self-start'>
                 <LicensePanel
                     license={license}
-                    onLicenseChange={onLicenseChange}
-                    setNotice={setNotice}
-                    showManage={false}
                 />
             </aside>
             <ProUpgradeModal

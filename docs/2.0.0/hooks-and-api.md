@@ -529,7 +529,7 @@ Current lifecycle actions:
 | `wp_posts_carousel_in_admin_after_enqueue_scripts` | `$context` | After admin assets are enqueued. |
 | `wp_posts_carousel_admin_preview_assets` | `$settings` | After admin preview assets are prepared. |
 | `wp_posts_carousel_slide_prepared` | `$generator_slide`, `$post`, `$config`, `$generator` | After a PHP generator slide is prepared. |
-| `wp_posts_carousel_review_feedback_submitted` | `$payload`, `$request`, `$remote_response` | After Payload confirms creation of the pending product review and its consent snapshot. |
+| `wp_posts_carousel_review_feedback_submitted` | `$payload`, `$request`, `$remote_response` | After the review service confirms creation of the pending product review and its consent snapshot. |
 | `wp_posts_carousel_before_item_content` | `$params` | Before PHP template item content. |
 | `wp_posts_carousel_after_item_content` | `$params` | After PHP template item content. |
 
