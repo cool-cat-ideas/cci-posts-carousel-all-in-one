@@ -220,6 +220,16 @@ Commerce Luxe presents product images, sale prices, quantity controls and Add to
 
 </details>
 
+## Configure and customize
+
+- [Configure movement, controls and responsive counts](docs/2.0.0/settings-reference.md).
+- [Change a query or add slide data](docs/2.0.0/recipes.md).
+- [Override card markup and styles](docs/2.0.0/templates-and-addons.md).
+- [Use public PHP methods](docs/2.0.0/method-reference.md) and [filters/actions](docs/2.0.0/hooks-and-api.md).
+- [Diagnose empty output, controls or theme conflicts](docs/2.0.0/troubleshooting.md).
+
+Base plugin **2.0.1** fixes child-theme precedence. Copy the template folder into the active child theme and retain the manifest name to override it. An incomplete override falls back to the next usable template. Pro 2.0.0 remains compatible; this patch does not change the Pro package.
+
 ## Support and license
 
 Need a hand, spotted a bug or have an idea? [Open an issue](https://github.com/cool-cat-ideas/wp-posts-carousel-all-in-one/issues) and tell us what you're trying to build. Include your WordPress and plugin versions, but keep passwords and license keys private. For help with an agreed scope, [contact Cool Cat Ideas](https://coolcatideas.com/contact/) about a private support service.

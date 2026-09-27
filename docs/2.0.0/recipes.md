@@ -1,17 +1,16 @@
-# WP Posts Carousel practical recipes
+# Practical recipes
 
-These recipes use public settings and extension points available in 2.0.0.
 Put PHP snippets in a small site plugin or the child theme's `functions.php`.
-Put CSS in the child theme and enqueue it after the carousel/template styles.
+Put CSS in a child-theme stylesheet loaded after the carousel styles.
 
 ## Latest guides from one category
 
-Create a query carousel with the Posts source, select the Guides category,
-order by date descending and set the limit. This is configuration-only and
-updates automatically when a guide is published.
+Use Query composition with the Posts source, select the Guides category,
+order by date descending and set the item limit. The carousel then updates
+automatically when a guide is published.
 
-Use `wp_posts_carousel_query_args` only when the builder cannot express the
-rule. This example excludes sticky posts for one saved carousel:
+If the builder cannot express an extra condition, change only the target saved
+carousel query:
 
 ```php
 add_filter('wp_posts_carousel_query_args', function (array $args, array $config): array {
@@ -24,13 +23,13 @@ add_filter('wp_posts_carousel_query_args', function (array $args, array $config)
 }, 10, 2);
 ```
 
-## Curated WooCommerce shelf
+## Curated product shelf
 
-Choose Manual composition, add products with the search picker and drag them
-into campaign order. Prefer this over a query when merchandising order must
-not change after new products are published.
+Choose Manual composition, find products with the search picker and drag them
+into campaign order. This changes only the carousel sequence; it does not edit
+or delete the WooCommerce products.
 
-To add a numeric merchandising score as another query order:
+Add a reusable numeric merchandising order:
 
 ```php
 add_filter('wp_posts_carousel_order_by_map', function (array $map): array {
@@ -52,14 +51,15 @@ add_filter('wp_posts_carousel_query_args', function (array $args, array $config)
 
 ## Category filters visitors can bookmark
 
-Enable **Advanced > Frontend filters**, select Categories and keep the default
-`wpcf_` prefix. A selected category is represented by:
+Open **Advanced > Frontend filters**, enable the filter bar and select
+Categories. With the default prefix, the selected state is a normal URL:
 
 ```text
 https://example.com/guides/?wpcf_category=12
 ```
 
-Change only the wrapper markup while preserving links and names:
+The server applies the term to the query, so the link works with PHP output,
+Owl and Swiper. Replace only the wrapper markup when needed:
 
 ```php
 add_filter(
@@ -78,26 +78,26 @@ add_filter(
 );
 ```
 
-## Override colors and typography in a child theme
+## Override colors and typography
 
-Enqueue a stylesheet after the plugin frontend handle:
+For a page using the default template, load a child-theme stylesheet after both the shared and default-template styles. This recipe intentionally depends on that template handle; use the selected template name if your page uses another template:
 
 ```php
 add_action('wp_enqueue_scripts', function (): void {
     wp_enqueue_style(
         'my-site-wpc-overrides',
         get_stylesheet_directory_uri() . '/assets/css/wpc-overrides.css',
-        array('wp-posts-carousel-frontend'),
+        array('wp-posts-carousel-frontend', 'wp-posts-carousel-template-default'),
         wp_get_theme()->get('Version')
     );
 }, 30);
 ```
 
-Scope styles to the selected template instead of changing all carousels:
+Scope the CSS to one template:
 
 ```css
 .cci-wpc-default-template-theme {
-  --wpc-carousel-gap: 24px;
+  /* Set the gap in carousel settings; runtime writes it inline. */
   font-family: var(--wp--preset--font-family--body, sans-serif);
 }
 
@@ -107,9 +107,9 @@ Scope styles to the selected template instead of changing all carousels:
 }
 ```
 
-## Override an existing template
+## Override the complete card template
 
-Copy the complete template directory into the child theme:
+Copy the template to the active child theme:
 
 ```text
 wp-content/themes/my-child-theme/wp-posts-carousel/templates/default/
@@ -119,10 +119,10 @@ wp-content/themes/my-child-theme/wp-posts-carousel/templates/default/
   screenshot.png
 ```
 
-Keep `name: "default"` in `template.json` to replace that template. Give it a
-new name to make both designs selectable. Never edit the plugin copy.
+Keep `name: "default"` to replace the saved template. Use a new manifest name
+to offer both designs in the carousel selector.
 
-## Add reading time to prepared slide data
+## Add data to each post slide
 
 ```php
 add_filter(
@@ -140,13 +140,10 @@ add_filter(
 );
 ```
 
-The template can read `$slide['meta']['reading_time']`. Escape it before
+Read `$slide['meta']['reading_time']` in the template and escape it before
 output.
 
-## Add markup before and after every card
-
-Actions are for side effects and echo output; they do not replace filtered
-values:
+## Add markup around standard card content
 
 ```php
 add_action('wp_posts_carousel_before_item_content', function (array $params): void {
@@ -158,13 +155,12 @@ add_action('wp_posts_carousel_after_item_content', function (array $params): voi
 });
 ```
 
-Use a template override when the markup depends on detailed slide data or
-belongs at a precise point inside the card.
+Use a template override when the new markup belongs at a precise location
+inside a card or requires detailed slide data.
 
-## Create a reusable template or extension
+## Turn the customization into an extension
 
-Use a child-theme template for one project. Use an installable add-on when the
-template must be enabled on multiple sites or must ship with query filters,
-assets or its own update lifecycle. The complete manifest and entrypoint are in
-[Templates and add-ons](./templates-and-addons.md) and
-[Extension cookbook](./extension-cookbook.md).
+Use a child-theme override for one project. Build an installable extension when
+the same template, source or renderer needs its own version and update cycle on
+multiple sites. Continue with [Extensions](extensions.md) and
+[Styles and templates](templates-and-addons.md).

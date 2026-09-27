@@ -84,89 +84,9 @@ add_action('wp_posts_carousel_after_item_content', function (array $params): voi
 });
 ```
 
-## Main PHP classes
+## Supported PHP calls
 
-### `WP_Posts_Carousel_Templates`
-
-Purpose: discovers `template.json` manifests and returns template metadata.
-
-Public methods:
-
-- `get_templates()`
-- `get_defaults_templates()`
-- `find_template($template_name)`
-- `discover_templates()`
-- `get_template($template_name)`
-- `normalize_template_name($template_name)`
-- `template_paths()`
-
-### `WP_Posts_Carousel_Features`
-
-Purpose: registers and gates core, Pro and add-on features.
-
-Public methods:
-
-- `all()`
-- `enabled($key)`
-- `public_data()`
-- `template_status($template)`
-- `license_allows($feature_key, $context)`
-- `paid_feature_keys()`
-
-### `WP_Posts_Carousel_Repository`
-
-Purpose: reads and writes saved carousel definitions.
-
-Public methods:
-
-- `table_name()`
-- `all()`
-- `get($post_id)`
-- `get_config($post_id)`
-- `create($title, $params)`
-- `update($post_id, $title, $params)`
-- `delete($post_id)`
-- `duplicate($post_id)`
-
-### `WP_Posts_Carousel_Data`
-
-Purpose: builds public and preview carousel payloads.
-
-Public methods:
-
-- `get($post_id, $args)`
-- `from_config($config, $args)`
-- `slides($config, $runtime_params)`
-- `runtime_params($config, $instance_id)`
-- `template($config)`
-
-### `WP_Posts_Carousel_Slide_View_Model`
-
-Purpose: normalizes post and custom slide data.
-
-Public methods:
-
-- `from_post($post, $params, $config)`
-- `from_custom_item($item, $params, $config)`
-- `public_data($slide)`
-
-### `WP_Posts_Carousel_Query_Builder`
-
-Purpose: builds `WP_Query` arguments and filter taxonomy metadata.
-
-Public methods:
-
-- `build($config)`
-- `frontend_filter_taxonomies($config)`
-
-### `WP_Posts_Carousel_Generator`
-
-Purpose: renders shortcode and preview HTML.
-
-Public methods:
-
-- `generate($atts, $index)`
-- `generate_from_config($config, $args)`
+Use [PHP API](method-reference.md) for supported callable helpers. Internal bootstrap, repository mutations and admin classes are not extension APIs.
 
 ## Shortcode and block
 
@@ -615,3 +535,84 @@ wp-posts-carousel:engine-error
 
 See [Extension cookbook](./extension-cookbook.md) for registration, cleanup and
 end-to-end examples.
+
+
+
+## Worked examples for builder and asset filters
+
+### Give newly created carousels a site-specific default
+
+wp_posts_carousel_default_values receives the complete values array and the
+current WP_Post (or null for an unsaved entry). It returns the complete array;
+existing saved carousels are not rewritten. Inspect the builder's existing
+shape rather than adding unsupported fields. For a simple navigation rule,
+change the runtime settings for one saved carousel instead:
+
+```php
+add_filter('wp_posts_carousel_runtime_params', function (array $params, array $config): array {
+    if ((int) ($config['id'] ?? 0) === 123) {
+        $params['nav'] = true;
+        $params['dots'] = false;
+    }
+    return $params;
+}, 10, 2);
+```
+
+This affects render parameters, not database settings. Test the configured
+engine. Remove the filter to return to the editor's saved behavior.
+
+### Change the navigation icon markup
+
+wp_posts_carousel_navigation_icon_html receives string $html, string $direction,
+array $params and array $icon and returns HTML. Prefer the menu's icon settings for ordinary changes.
+For a project-wide policy that disables the bundled FontAwesome request, the
+load filter below receives bool $load and array $settings and returns bool:
+
+```php
+add_filter('wp_posts_carousel_load_font_awesome', function (bool $load, array $settings): bool {
+    // Disable only when the theme already enqueues a compatible icon library.
+    return wp_style_is('my-theme-font-awesome', 'enqueued') ? false : $load;
+}, 10, 2);
+```
+
+Disable the force-include FontAwesome setting first; when enabled it overrides this load decision. Replace the handle with the one actually registered by the theme. Returning
+false does not load a replacement and can leave blank arrows. The equivalent
+load_owl_assets filter also receives bool $load, array $settings; do not disable
+Owl unless the configured script/style handle filters point at compatible assets.
+
+### Add data to a manual slide
+
+wp_posts_carousel_custom_slide_view_model receives array $slide, array $item,
+array $params and array $config and returns the entire normalized slide array.
+It runs for manual/custom items, whereas slide_view_model runs for post objects.
+
+```php
+add_filter('wp_posts_carousel_custom_slide_view_model', function (
+    array $slide, array $item, array $params, array $config
+): array {
+    if ((int) ($config['id'] ?? 0) === 123) {
+        $slide['meta']['campaign_label'] = 'Summer guide';
+    }
+    return $slide;
+}, 10, 4);
+```
+
+Read the added value from $this->slide in a PHP template and escape it with
+esc_html(). Adding a data key does not automatically display a new label.
+
+### Add a template alias after renaming a custom layout
+
+wp_posts_carousel_template_aliases receives and returns an array mapping old
+names to current manifest names. It is applied during template-name resolution.
+It does not copy files, register a manifest or change saved carousel IDs.
+
+```php
+add_filter('wp_posts_carousel_template_aliases', function (array $aliases): array {
+    $aliases['old-editorial'] = 'site-editorial';
+    return $aliases;
+});
+```
+
+Keep the target template installed and verify an existing saved carousel using
+the old name. Do not alias a paid template to a base template to change its
+capability requirements.
