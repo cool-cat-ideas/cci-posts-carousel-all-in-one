@@ -1,6 +1,6 @@
 # WP Posts Carousel extension cookbook
 
-This guide turns the public 2.0.0 extension contract into complete, testable
+This guide turns the public 2.0.x extension contract into complete, testable
 recipes. Use it together with [Hooks and API](./hooks-and-api.md) for signatures
 and [Templates and add-ons](./templates-and-addons.md) for the manifest schema.
 

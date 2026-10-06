@@ -268,7 +268,9 @@ Before shipping a template, test:
 
 ## Bundled templates
 
-| Template | Package | Version | Notes |
+Template versions below come from each template manifest. They are separate from the version of the plugin that includes the template.
+
+| Template | Package | Template version | Notes |
 | --- | --- | --- | --- |
 | `default` | Core plugin | 2.0.0 | General card template for posts and products. |
 | `simple` | Core plugin | 2.0.0 | Cleaner content cards. |

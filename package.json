@@ -1,6 +1,6 @@
 {
   "name": "wp-posts-carousel",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Build and manage reusable WordPress carousels.",
   "main": "index.js",
   "scripts": {

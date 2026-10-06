@@ -3,14 +3,17 @@ import { registerDefaultEngines } from './engines';
 
 ( function () {
 	const selector = '.cci-wpc-carousel[data-wpc-api]';
-	const controlRootSelector = '.cci-wpc-carousel, [data-wpc-react-root="true"]';
-	const controlViewportSelector = '.owl-stage-outer, .cci-wpc-render-preview-viewport';
+	const controlRootSelector =
+		'.cci-wpc-carousel, [data-wpc-react-root="true"]';
+	const controlViewportSelector =
+		'.owl-stage-outer, .cci-wpc-render-preview-viewport';
 	const controlDotsSelector = '.owl-dots, .cci-wpc-render-preview-dots';
 	const loaded = new WeakSet();
 	const observedControlRoots = new WeakMap();
 	const observedOwlAccessibilityRoots = new WeakSet();
 	const observedLazyCarousels = new WeakSet();
 	const activeRequests = new WeakMap();
+	const templateStyles = new WeakMap();
 	const owlFocusableTabIndexes = new WeakMap();
 	const owlItemAriaHiddenValues = new WeakMap();
 	const owlKeyboardDots = new WeakSet();
@@ -54,15 +57,18 @@ import { registerDefaultEngines } from './engines';
 			return;
 		}
 
-		const axis = Math.round(
-			Math.max( 0, viewportRect.top - rootRect.top + viewportRect.height / 2 ) * 100
+		const axis =
+			Math.round(
+				Math.max(
+					0,
+					viewportRect.top - rootRect.top + viewportRect.height / 2
+				) * 100
 		) / 100;
 		const axisValue = `${ axis }px`;
 
 		if ( root.style.getPropertyValue( '--wpc-control-axis-y' ) !== axisValue ) {
 			root.style.setProperty( '--wpc-control-axis-y', axisValue );
 		}
-
 	}
 
 	function restoreAttribute( element, attribute, value ) {
@@ -97,7 +103,10 @@ import { registerDefaultEngines } from './engines';
 			const isActive = item.classList.contains( 'active' );
 
 			if ( ! owlItemAriaHiddenValues.has( item ) ) {
-				owlItemAriaHiddenValues.set( item, item.getAttribute( 'aria-hidden' ) );
+				owlItemAriaHiddenValues.set(
+					item,
+					item.getAttribute('aria-hidden')
+				);
 			}
 
 			if ( isActive ) {
@@ -110,9 +119,13 @@ import { registerDefaultEngines } from './engines';
 				item.setAttribute( 'aria-hidden', 'true' );
 			}
 
-			item.querySelectorAll( focusableSelector ).forEach( function ( control ) {
+			item.querySelectorAll(focusableSelector).forEach(
+				function (control) {
 				if ( ! owlFocusableTabIndexes.has( control ) ) {
-					owlFocusableTabIndexes.set( control, control.getAttribute( 'tabindex' ) );
+						owlFocusableTabIndexes.set(
+							control,
+							control.getAttribute('tabindex')
+						);
 				}
 
 				if ( isActive ) {
@@ -124,7 +137,8 @@ import { registerDefaultEngines } from './engines';
 				} else {
 					control.setAttribute( 'tabindex', '-1' );
 				}
-			} );
+				}
+			);
 		} );
 	}
 
@@ -158,7 +172,10 @@ import { registerDefaultEngines } from './engines';
 				}
 
 				control.setAttribute( 'aria-label', item.label );
-				control.setAttribute( 'aria-disabled', isDisabled ? 'true' : 'false' );
+				control.setAttribute(
+					'aria-disabled',
+					isDisabled ? 'true' : 'false'
+				);
 				control.setAttribute( 'tabindex', isDisabled ? '-1' : '0' );
 
 				if ( carouselId ) {
@@ -168,10 +185,14 @@ import { registerDefaultEngines } from './engines';
 		} );
 
 		const goToSlideLabel = runtimeLabel( 'goToSlide', 'Go to slide %d' );
-		root.querySelectorAll( '.owl-dots .owl-dot' ).forEach( function ( dot, index ) {
+		root.querySelectorAll('.owl-dots .owl-dot').forEach(
+			function (dot, index) {
 			dot.setAttribute( 'role', 'button' );
 			dot.setAttribute( 'tabindex', '0' );
-			dot.setAttribute( 'aria-label', goToSlideLabel.replace( '%d', String( index + 1 ) ) );
+				dot.setAttribute(
+					'aria-label',
+					goToSlideLabel.replace('%d', String(index + 1))
+				);
 
 			if ( dot.classList.contains( 'active' ) ) {
 				dot.setAttribute( 'aria-current', 'true' );
@@ -196,7 +217,8 @@ import { registerDefaultEngines } from './engines';
 				event.preventDefault();
 				dot.click();
 			} );
-		} );
+			}
+		);
 	}
 
 	function syncOwlAccessibility( root ) {
@@ -282,7 +304,9 @@ import { registerDefaultEngines } from './engines';
 		}
 
 		const reactRoot =
-			element?.previousElementSibling?.getAttribute( 'data-wpc-react-root' ) === 'true'
+			element?.previousElementSibling?.getAttribute(
+				'data-wpc-react-root'
+			) === 'true'
 				? element.previousElementSibling
 				: null;
 
@@ -298,7 +322,9 @@ import { registerDefaultEngines } from './engines';
 	}
 
 	function syncAllControlRoots() {
-		document.querySelectorAll( controlRootSelector ).forEach( observeControlRoot );
+		document
+			.querySelectorAll(controlRootSelector)
+			.forEach(observeControlRoot);
 	}
 
 	function scheduleObserve() {
@@ -359,10 +385,7 @@ import { registerDefaultEngines } from './engines';
 			return Promise.resolve();
 		}
 
-		if (
-			rendererName === 'react' &&
-			! runtime.getRenderer( 'react' )
-		) {
+		if (rendererName === 'react' && !runtime.getRenderer('react')) {
 			return import( './react-renderer' ).then( function ( renderer ) {
 				runtime.registerRenderer( 'react', renderer );
 				runtime.mountRenderer( 'react', element, data );
@@ -387,11 +410,13 @@ import { registerDefaultEngines } from './engines';
 		const prefix = filterPrefix( element );
 		const params = new URLSearchParams();
 
-		new URLSearchParams( window.location.search ).forEach( function ( value, key ) {
+		new URLSearchParams(window.location.search).forEach(
+			function (value, key) {
 			if ( key.indexOf( prefix ) === 0 ) {
 				params.set( key, value );
 			}
-		} );
+			}
+		);
 
 		return params;
 	}
@@ -439,7 +464,10 @@ import { registerDefaultEngines } from './engines';
 
 	function executeScripts( scripts, ownerDocument = document ) {
 		const targetDocument = ownerDocument || document;
-		const target = targetDocument.body || targetDocument.head || targetDocument.documentElement;
+		const target =
+			targetDocument.body ||
+			targetDocument.head ||
+			targetDocument.documentElement;
 
 		if ( ! target ) {
 			return;
@@ -470,8 +498,10 @@ import { registerDefaultEngines } from './engines';
 		const nextElement = Array.from(
 			template.content.querySelectorAll( '.cci-wpc-carousel[data-wpc-id]' )
 		).find( function ( candidate ) {
-			return candidate.id === element.id ||
-				candidate.dataset.wpcId === element.dataset.wpcId;
+			return (
+				candidate.id === element.id ||
+				candidate.dataset.wpcId === element.dataset.wpcId
+			);
 		} );
 
 		if ( ! nextElement ) {
@@ -480,10 +510,12 @@ import { registerDefaultEngines } from './engines';
 
 		const scripts = Array.from( template.content.querySelectorAll( 'script' ) );
 		if ( element.dataset.wpcEditorOwlInit ) {
-			nextElement.dataset.wpcEditorOwlInit = element.dataset.wpcEditorOwlInit;
+			nextElement.dataset.wpcEditorOwlInit =
+				element.dataset.wpcEditorOwlInit;
 		}
 		if ( element.dataset.wpcEditorOwlAttempts ) {
-			nextElement.dataset.wpcEditorOwlAttempts = element.dataset.wpcEditorOwlAttempts;
+			nextElement.dataset.wpcEditorOwlAttempts =
+				element.dataset.wpcEditorOwlAttempts;
 		}
 
 		destroyOwlCarousel( element );
@@ -494,9 +526,11 @@ import { registerDefaultEngines } from './engines';
 	}
 
 	function isFullReactElement( element ) {
-		return element &&
+		return (
+			element &&
 			element.dataset.wpcRenderer === 'react' &&
-			[ 'full', 'render' ].includes( element.dataset.wpcReactMode || '' );
+			['full', 'render'].includes(element.dataset.wpcReactMode || '')
+		);
 	}
 
 	function reactRootForElement( element ) {
@@ -525,7 +559,11 @@ import { registerDefaultEngines } from './engines';
 				attempts += 1;
 
 				if ( attempts >= 6 ) {
-					reject( new Error( 'WP Posts Carousel React preview did not mount.' ) );
+					reject(
+						new Error(
+							'WP Posts Carousel React preview did not mount.'
+						)
+					);
 					return;
 				}
 
@@ -573,10 +611,7 @@ import { registerDefaultEngines } from './engines';
 		const shouldReplaceHtml = Boolean(
 			data.html &&
 			rendererName !== 'react' &&
-			(
-				options.replaceHtml ||
-				currentElementNeedsHtml( element )
-			)
+			(options.replaceHtml || currentElementNeedsHtml(element))
 		);
 		const currentElement = shouldReplaceHtml
 			? replaceCarouselHtml( element, data )
@@ -609,13 +644,64 @@ import { registerDefaultEngines } from './engines';
 					return fallbackToHtml( currentElement, data, error );
 				}
 
+				loaded.delete(currentElement);
 				handleMountError( currentElement, error );
 				throw error;
 			} );
 	}
 
 	function currentElementNeedsHtml( element ) {
-		return element?.dataset?.wpcLazyRender === 'true' || ! element?.childElementCount;
+		return (
+			element?.dataset?.wpcLazyRender === 'true' ||
+			!element?.childElementCount
+		);
+	}
+
+	function ensureTemplateStyle(element, data) {
+		const style = data?.template?.stylesheet;
+		const ownerDocument = element.ownerDocument || document;
+		if (!style?.handle || !style?.url) {
+			return Promise.resolve();
+		}
+		const url = new URL(style.url, ownerDocument.baseURI);
+		if (!['http:', 'https:'].includes(url.protocol)) {
+			return Promise.reject(
+				new Error(
+					'WP Posts Carousel template stylesheet URL is invalid.'
+				)
+			);
+		}
+		url.searchParams.set('ver', style.version || '');
+		let styles = templateStyles.get(ownerDocument);
+		if (!styles) {
+			styles = new Map();
+			templateStyles.set(ownerDocument, styles);
+		}
+		if (styles.has(style.handle)) {
+			return styles.get(style.handle);
+		}
+		if (ownerDocument.getElementById(`${style.handle}-css`)) {
+			return Promise.resolve();
+		}
+		const link = ownerDocument.createElement('link');
+		link.id = `${style.handle}-css`;
+		link.rel = 'stylesheet';
+		link.href = url.toString();
+		const promise = new Promise(function (resolve, reject) {
+			link.onload = resolve;
+			link.onerror = function () {
+				styles.delete(style.handle);
+				link.remove();
+				reject(
+					new Error(
+						'WP Posts Carousel template stylesheet failed to load.'
+					)
+				);
+			};
+		});
+		styles.set(style.handle, promise);
+		ownerDocument.head.appendChild(link);
+		return promise;
 	}
 
 	function loadCarousel( element, options ) {
@@ -654,9 +740,27 @@ import { registerDefaultEngines } from './engines';
 				return response.json();
 			} )
 			.then( function ( data ) {
+				if (
+					controller.signal.aborted ||
+					activeRequests.get(element) !== controller
+				) {
+					return element;
+				}
+				return ensureTemplateStyle(element, data).then(function () {
+					if (
+						controller.signal.aborted ||
+						activeRequests.get(element) !== controller
+					) {
+						return element;
+					}
 				return renderCarouselData( element, data, options );
+				});
 			} )
 			.catch( function ( error ) {
+				if (activeRequests.get(element) !== controller) {
+					return element;
+				}
+				loaded.delete(element);
 				if ( error && error.name === 'AbortError' ) {
 					return element;
 				}
@@ -710,15 +814,20 @@ import { registerDefaultEngines } from './engines';
 	}
 
 	function syncFilterbarState( filterbar, params ) {
-		filterbar.querySelectorAll( '.cci-wpc-filterbar-option' ).forEach( function ( option ) {
+		filterbar
+			.querySelectorAll('.cci-wpc-filterbar-option')
+			.forEach(function (option) {
 			const param = option.getAttribute( 'data-wpc-filter-param' );
-			const value = option.getAttribute( 'data-wpc-filter-value' ) || '';
+				const value =
+					option.getAttribute('data-wpc-filter-value') || '';
 
 			if ( ! param ) {
 				return;
 			}
 
-			const active = value ? params.get( param ) === value : ! params.has( param );
+				const active = value
+					? params.get(param) === value
+					: !params.has(param);
 			option.classList.toggle( 'cci-wpc-active', active );
 
 			if ( active ) {
@@ -749,7 +858,11 @@ import { registerDefaultEngines } from './engines';
 			}
 		} );
 
-		window.history.pushState( { wpPostsCarouselFilters: true }, '', url.toString() );
+		window.history.pushState(
+			{ wpPostsCarouselFilters: true },
+			'',
+			url.toString()
+		);
 	}
 
 	function setFilterLoading( filterbar, carousel, loading ) {
@@ -798,7 +911,8 @@ import { registerDefaultEngines } from './engines';
 				window.location.href = option.href;
 			} )
 			.finally( function () {
-				const nextCarousel = carouselForFilterbar( filterbar ) || carousel;
+				const nextCarousel =
+					carouselForFilterbar(filterbar) || carousel;
 				setFilterLoading( filterbar, nextCarousel, false );
 			} );
 	}
@@ -811,7 +925,9 @@ import { registerDefaultEngines } from './engines';
 		filterbarListenerAttached = true;
 		document.addEventListener( 'click', handleFilterbarClick );
 		window.addEventListener( 'popstate', function () {
-			document.querySelectorAll( '.cci-wpc-filterbar' ).forEach( function ( filterbar ) {
+			document
+				.querySelectorAll('.cci-wpc-filterbar')
+				.forEach(function (filterbar) {
 				const carousel = carouselForFilterbar( filterbar );
 
 				if ( ! carousel ) {
@@ -843,9 +959,13 @@ import { registerDefaultEngines } from './engines';
 		}
 
 		if ( ! document.body ) {
-			document.addEventListener( 'DOMContentLoaded', attachDynamicObserver, {
+			document.addEventListener(
+				'DOMContentLoaded',
+				attachDynamicObserver,
+				{
 				once: true,
-			} );
+				}
+			);
 			return;
 		}
 
@@ -853,7 +973,9 @@ import { registerDefaultEngines } from './engines';
 
 		const observer = new MutationObserver( function ( mutations ) {
 			const hasCarousel = mutations.some( function ( mutation ) {
-				return Array.from( mutation.addedNodes ).some( nodeContainsCarousel );
+				return Array.from(mutation.addedNodes).some(
+					nodeContainsCarousel
+				);
 			} );
 
 			if ( hasCarousel ) {
@@ -877,7 +999,7 @@ import { registerDefaultEngines } from './engines';
 		if ( ! ( 'IntersectionObserver' in window ) ) {
 			carousels.forEach( function ( carousel ) {
 				observeControlRoot( carousel );
-				loadCarousel( carousel );
+				loadCarousel(carousel).catch(function () {});
 			} );
 			return;
 		}
@@ -890,7 +1012,7 @@ import { registerDefaultEngines } from './engines';
 							return;
 						}
 
-						loadCarousel( entry.target );
+						loadCarousel(entry.target).catch(function () {});
 						observedLazyCarousels.delete( entry.target );
 						lazyObserver.unobserve( entry.target );
 					} );

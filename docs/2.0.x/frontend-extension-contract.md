@@ -1,4 +1,4 @@
-# WP Posts Carousel 2.0.0 frontend extension contract
+# WP Posts Carousel 2.0.x frontend extension contract
 
 WP Posts Carousel renders SEO-friendly PHP markup first. JavaScript enhancements are progressive and load only when a carousel enters the viewport.
 
@@ -94,6 +94,29 @@ For templates with visible card borders, keep clipping and border buffering loca
 the template scope. A template may add a small internal viewport buffer to avoid
 clipped borders, but it must also prevent inactive Owl/Swiper slides from visibly
 bleeding into the viewport.
+
+## Recover from a loading error
+
+A failed request emits `wp-posts-carousel:error` and sets the placement's
+`data-wpc-lazy-state` to `error`. Once the connection is restored, call
+`window.wpPostsCarouselLazyLoad.load(element)` to retry the same placement.
+It returns a Promise that resolves to the rendered carousel element. Handle a
+rejection in your interface; retries are explicit so an unavailable endpoint
+does not cause an endless request loop.
+
+```js
+const element = document.querySelector('.cci-wpc-carousel[data-wpc-api]');
+if (element && element.dataset.wpcLazyState === 'error') {
+    window.wpPostsCarouselLazyLoad.load(element).catch(() => {
+        // Keep the retry control available until the connection is restored.
+    });
+}
+```
+
+Public pages load styles for the templates they use. A dynamically inserted
+carousel waits for its selected template stylesheet before rendering. Editor
+previews keep all available template styles so changing a template updates the
+preview without reloading the editor.
 
 ## Frontend hooks
 

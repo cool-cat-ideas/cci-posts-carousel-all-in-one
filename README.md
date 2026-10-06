@@ -6,11 +6,19 @@
 
 Your latest articles, your favourite guides, the pages you wish more people would discover. Bring them together in a carousel that invites visitors to keep exploring.
 
-[See it in action](https://wordpress-demo.coolcatideas.com/) · [Explore the product](https://coolcatideas.com/products/wp-posts-carousel-all-in-one/) · [Read the guide](https://coolcatideas.com/docs/wp-posts-carousel-all-in-one/2.0.0/) · [Get help](https://github.com/cool-cat-ideas/wp-posts-carousel-all-in-one/issues)
+[See it in action](https://wordpress-demo.coolcatideas.com/) · [Explore the product](https://coolcatideas.com/products/wp-posts-carousel-all-in-one/) · [Read the guide](https://coolcatideas.com/docs/wp-posts-carousel-all-in-one/) · [Get help](https://github.com/cool-cat-ideas/wp-posts-carousel-all-in-one/issues)
 
 Choose your content, arrange your slides and preview the result in the visual editor. Place your saved carousel with a Gutenberg block or shortcode, then reuse it across your site. Change it once and every place using it stays in sync.
 
 We're **Cool Cat Ideas**, and we're proud of this plugin. We built it for the enjoyable part of putting a page together: choosing what deserves attention and finding the right way to present it. We'd love to see what you create.
+
+## Changes in 2.0.2
+
+Carousels can be loaded again after a temporary API or template stylesheet error. REST responses reuse slide data for JSON and HTML instead of querying the same content twice.
+
+Public pages load the styles for their selected carousel templates. Carousels inserted later load their template stylesheet before rendering. Editor previews keep access to every available template.
+
+This release declares compatibility with WordPress 7.1.3. Existing 2.x carousel settings are preserved.
 
 ## Plenty to create with, right from the start
 
@@ -34,14 +42,16 @@ Aurora Cards is a separate, no-cost template extension. Its product example belo
 
 ## Get started
 
-Declared compatibility: **WordPress 6.2 through 7.1.2** and **PHP 7.4 or later**.
+Declared compatibility: **WordPress 6.2 through 7.1.3** and **PHP 7.4 or later**.
 
 1. Install and activate the packaged plugin ZIP in **Plugins → Add New → Upload Plugin**.
 2. Open **WP Posts Carousel**, create a carousel and choose its content and layout.
 3. Save it, then select it in the **WP Posts Carousel** block or copy its shortcode.
 4. Check the published page on desktop and mobile.
 
-See the [user guide](docs/2.0.0/user-guide.md) for configuration and the [developer guide](docs/2.0.0/developer-guide.md) for extensions.
+See the [user guide](docs/2.0.x/user-guide.md) for configuration and the [developer guide](docs/2.0.x/developer-guide.md) for extensions.
+
+Updating from 1.x? Version 2.x rewrites the carousel data model, widgets and shortcode configuration. Recreate your carousels in the new editor and replace every old placement. Follow the [upgrade guide](docs/2.0.x/upgrading-from-1.x.md) for the steps and a screenshot of the dashboard.
 
 The [external services section in readme.txt](readme.txt) explains marketplace requests, optional review submissions and icon CDN loading.
 
@@ -222,11 +232,11 @@ Commerce Luxe presents product images, sale prices, quantity controls and Add to
 
 ## Configure and customize
 
-- [Configure movement, controls and responsive counts](docs/2.0.0/settings-reference.md).
-- [Change a query or add slide data](docs/2.0.0/recipes.md).
-- [Override card markup and styles](docs/2.0.0/templates-and-addons.md).
-- [Use public PHP methods](docs/2.0.0/method-reference.md) and [filters/actions](docs/2.0.0/hooks-and-api.md).
-- [Diagnose empty output, controls or theme conflicts](docs/2.0.0/troubleshooting.md).
+- [Configure movement, controls and responsive counts](docs/2.0.x/settings-reference.md).
+- [Change a query or add slide data](docs/2.0.x/recipes.md).
+- [Override card markup and styles](docs/2.0.x/templates-and-addons.md).
+- [Use public PHP methods](docs/2.0.x/method-reference.md) and [filters/actions](docs/2.0.x/hooks-and-api.md).
+- [Diagnose empty output, controls or theme conflicts](docs/2.0.x/troubleshooting.md).
 
 Base plugin **2.0.1** fixes child-theme precedence. Copy the template folder into the active child theme and retain the manifest name to override it. An incomplete override falls back to the next usable template. Pro 2.0.0 remains compatible; this patch does not change the Pro package.
 

@@ -8,7 +8,7 @@ of a list maintained by hand.
 
 Install and activate:
 
-1. **WP Posts Carousel All In One 2.0.0**.
+1. **WP Posts Carousel All In One 2.0.0 or later**.
 2. **WordPress Popular Posts**.
 
 There is no separate CCI integration ZIP to install. WP Posts Carousel reads

@@ -3,6 +3,18 @@
 Use this page when a carousel does not render, does not move or looks different
 between admin and frontend.
 
+## Carousels stopped working after updating from 1.x
+
+Version 2.x is a rewrite. Old carousel settings, widgets and shortcode
+configuration are not automatically converted. Create replacement carousels
+in **WP Posts Carousel > Dashboard > New carousel**, save and publish them,
+then replace every old placement with the new shortcode or select the new
+carousel in the current block/widget. Clearing cache alone cannot migrate
+the old configuration.
+
+Follow [Upgrade from 1.x to 2.x](./upgrading-from-1.x.md) for the steps and a
+screenshot of the new dashboard.
+
 ## The carousel is empty
 
 Check:

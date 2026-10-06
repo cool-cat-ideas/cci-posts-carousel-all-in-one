@@ -1,4 +1,4 @@
-# WP Posts Carousel All In One 2.0.0 filters and actions
+# WP Posts Carousel All In One 2.0.x filters and actions
 
 This document explains the public filters, actions, PHP services and browser
 runtime exposed by the Free core. Do not start by scanning every hook. First

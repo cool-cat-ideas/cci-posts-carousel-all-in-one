@@ -1,8 +1,16 @@
-# WP Posts Carousel All In One 2.0.0 user guide
+# WP Posts Carousel All In One 2.0.x user guide
 
 WP Posts Carousel stores each carousel as one reusable definition. Change the
 definition once and every Gutenberg, shortcode, PHP or Elementor placement
 using it receives the new content and layout.
+
+## Updating from 1.x
+
+Version 2.x rewrites the carousel data model, editor, widgets and shortcode
+configuration. Existing 1.x carousels are not automatically converted.
+Recreate them in the new editor, save and publish them, then replace every
+old placement. Follow [Upgrade from 1.x to 2.x](./upgrading-from-1.x.md) for
+the workflow and a screenshot of the dashboard.
 
 ## Install And Publish A First Carousel
 
@@ -23,7 +31,7 @@ Install Pro later when the site needs current WooCommerce data and buying
 actions, Commerce Luxe, Story Commerce, Video Showcase, Elementor, reports or
 Multisite. All of these tools come in one Pro plugin.
 
-Declared compatibility: **WordPress 6.2 through 7.1.2** and **PHP 7.4 or later**. WooCommerce is
+Declared compatibility: **WordPress 6.2 through 7.1.3** and **PHP 7.4 or later**. WooCommerce is
 optional and is needed only for product sources and commerce features.
 
 ## Create a latest-posts carousel

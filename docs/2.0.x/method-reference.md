@@ -33,6 +33,12 @@ wp-posts-carousel_{id}-api. A successful result includes id, title, status,
 config, engine, template and slides. Missing, unpublished or unavailable
 carousels return null, not WP_Error. It does not print markup.
 
+The public template descriptor includes `stylesheet`: either null when the
+template has no stylesheet, or an object with `handle` (string), `url` (public
+stylesheet URL) and `version` (string for cache invalidation). The frontend
+loader uses this descriptor to load the selected template before mounting a
+dynamically inserted carousel. No server filesystem path is exposed.
+
 ```php
 $data = null;
 if (class_exists('WP_Posts_Carousel_Data')) {

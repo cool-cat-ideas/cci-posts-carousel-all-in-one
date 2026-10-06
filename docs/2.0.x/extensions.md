@@ -1,7 +1,7 @@
-# WP Posts Carousel 2.0.0 extension contract
+# WP Posts Carousel 2.0.x extension contract
 
 This document summarizes the extension surfaces implemented by
-`wp-posts-carousel` 2.0.0. Detailed hook tables are in
+`wp-posts-carousel` 2.0.x. Detailed hook tables are in
 [Filters and actions](./hooks-and-api.md); this file is the product-level contract for
 building templates, integrations and commercial add-ons.
 
@@ -279,7 +279,7 @@ add_filter(
 The public, consent-aware event collector limits requests by a hashed client
 fingerprint. These filters run before an accepted batch is stored:
 
-- `wp_posts_carousel_pro_analytics_rate_limit`: maximum requests in the active
+- `wp_posts_carousel_pro_analytics_rate_limit`: maximum events in the active
   window; receives `int $limit` and `WP_REST_Request $request`; return an integer
   greater than zero.
 - `wp_posts_carousel_pro_analytics_rate_window`: window duration in seconds;
