@@ -43,6 +43,56 @@ leave unrelated carousels unchanged. Actions run at a moment in the render or
 asset lifecycle; callbacks normally echo markup or perform a side effect and
 do not return a replacement value.
 
+## Query filter arguments and return value
+
+Use `wp_posts_carousel_query_args` for a data-selection rule the editor cannot
+express. Choosing a category normally needs no code: use **Query > Taxonomy
+filters** as described in [Practical recipes](recipes#latest-guides-from-one-category).
+
+The filter runs after the plugin builds its post query arguments, before
+they are passed to `WP_Query`. It receives two arguments and must return an
+array of query arguments. It changes selected posts, not rendered HTML.
+The query builder is also used to load query results in admin, so keep the
+callback free of output and unintended side effects.
+
+| Argument | Type and useful keys |
+| --- | --- |
+| `$args` | `array<string, mixed>`: WordPress query arguments. Initially includes `post_type` (`string[]`), `post_status` (`'publish'`), `posts_per_page` (`int`), `orderby` (`string`), `order` (`'ASC'` or `'DESC'`), `post__not_in` (`int[]`) and `no_found_rows` (`true`). May include `tax_query` (`array`) and manual selection through `post__in` (`int[]`). |
+| `$config` | `array<string, mixed>`: normalized carousel configuration. `id` identifies a saved carousel when present; unsaved admin queries may not have one. `source` includes `mode` (`'query'` or `'manual'`), `post_types` (`string[]`), `limit` (`int`), `order_by` (`string`), `order` (`'ASC'` or `'DESC'`), `exclude` (`int[]`), `relation` (`'and'` or `'or'`) and `taxonomies` (post-type groups containing taxonomy names, operators and selected terms). `curation.items` holds selected manual items. |
+| Return | `array<string, mixed>`: the final arguments for `WP_Query`. Return `$args` unchanged for other carousels. |
+
+The accepted query parameters are WordPress parameters, not an undocumented
+plugin-only list. See the [WordPress WP_Query reference](https://developer.wordpress.org/reference/classes/wp_query/)
+for category, taxonomy, author, date and custom-field arguments.
+
+For example, require category ID `12` in carousel `123`, preserving existing
+taxonomy conditions. Replace both IDs with values from your own site:
+
+```php
+add_filter('wp_posts_carousel_query_args', function (array $args, array $config): array {
+    if ((int) ($config['id'] ?? 0) !== 123) {
+        return $args;
+    }
+
+    $category = array(
+        'taxonomy' => 'category',
+        'field' => 'term_id',
+        'terms' => array(12),
+        'operator' => 'IN',
+    );
+    $existing = $args['tax_query'] ?? array();
+    $args['tax_query'] = empty($existing)
+        ? array($category)
+        : array('relation' => 'AND', $existing, $category);
+
+    return $args;
+}, 10, 2);
+```
+
+Place the snippet in a small site plugin or the child theme's `functions.php`.
+It also restricts manual selections to that category; use query mode when
+the carousel should follow newly published posts automatically.
+
 ### Example: change one saved carousel query
 
 ```php

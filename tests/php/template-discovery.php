@@ -17,7 +17,7 @@ function apply_filters($name, $value) { return $value; }
 class WP_Posts_Carousel_Features {
     public static function template_status($template) { return array('locked' => false); }
 }
-require dirname(__DIR__, 2) . '/includes/class-templates.php';
+require dirname(__DIR__, 2) . '/includes/templates/class-templates.php';
 $files = array();
 $directories = array();
 function make_template($root, $folder, $name, $with_view = true) {

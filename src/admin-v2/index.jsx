@@ -1,7 +1,7 @@
 import React from 'react';
-import App from './App';
+import App from './app/App';
 import { TooltipProvider } from './components/ui/tooltip';
-import './tailwind.css';
+import './styles/tailwind.css';
 
 const container = document.getElementById('wp-posts-carousel-admin-v2');
 const wpElement = window.wp && window.wp.element ? window.wp.element : {};

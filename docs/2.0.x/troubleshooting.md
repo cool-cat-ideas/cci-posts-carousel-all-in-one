@@ -12,8 +12,45 @@ then replace every old placement with the new shortcode or select the new
 carousel in the current block/widget. Clearing cache alone cannot migrate
 the old configuration.
 
-Follow [Upgrade from 1.x to 2.x](./upgrading-from-1.x.md) for the steps and a
+Follow [Upgrade from 1.x to 2.x](upgrading-from-1.x) for the steps and a
 screenshot of the new dashboard.
+
+## Changing speed does not change the transition
+
+1. Confirm whether you are testing the editor preview or the published page.
+   The fallback preview uses a fixed 260 ms track transition; it does not
+   demonstrate the individual engine duration settings.
+2. Save the carousel and test its actual page. Clear the page/asset cache if
+   the page still uses previous settings.
+3. Check the selected engine. For **Owl**, change Autoplay speed for automatic
+   movement, Navigation speed for arrows, and Dots speed for dot clicks.
+   For **Swiper**, change Navigation speed; the current integration uses it
+   as the shared duration. Dots speed does not apply to Swiper.
+4. Use the standard **Slide** effect and compare 300 ms with 1200 ms. Keep
+   Autoplay timeout at 5000 ms and use more posts than visible items.
+5. If movement is still unchanged on the published page, check for reduced
+   motion preferences and theme CSS overriding `transition` or `animation`.
+   A fade or template animation can have a separate CSS duration.
+
+If the problem persists, send the plugin version, selected engine, template,
+renderer, timing values, whether the test is in preview or on the published
+page, and a public/staging URL if available. Do not send site credentials.
+
+See [timing controls](settings-reference#understand-the-four-timing-controls).
+
+## I cannot find a category selector
+
+Category selection is under **Query > Taxonomy filters**, rather than in
+**Carousel settings**. Choose **Query (automatic)** and select **Posts** first,
+then choose **Categories**, type a name in **Search categories** and select a
+suggestion. Results refresh automatically. Use **×** on a selected chip to
+remove one category. No PHP is required. Follow the
+[category recipe](recipes#latest-guides-from-one-category).
+
+If the taxonomy section is absent even with Posts selected, provide the
+installed version and a screenshot of the Query tab. An unavailable control
+needs investigation; adding PHP is not the normal workaround for a missing
+category selector.
 
 ## The carousel is empty
 

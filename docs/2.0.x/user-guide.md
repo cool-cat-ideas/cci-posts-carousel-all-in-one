@@ -36,18 +36,24 @@ optional and is needed only for product sources and commerce features.
 
 ## Create a latest-posts carousel
 
-1. Click **Add New** and enter an internal name such as `Homepage guides`.
-2. Choose **Query** composition and the **Posts** source.
-3. Select the post type, category or taxonomy terms that should be included.
-4. Order by publication date, descending.
-5. Set the item limit.
-6. Choose `default`, `simple` or `light`.
-7. Choose Owl Carousel or Swiper.
-8. Set the desktop, tablet and mobile item counts and gap.
-9. Check the live preview and save.
+### Select a category in the Query tab
 
-Use query composition for content that should update automatically when new
-posts are published.
+Choose **Query (automatic)** under **Content selection**, then select **Posts**.
+In **Taxonomy filters**, choose **Categories**, type a name in **Search
+categories** and select an autocomplete suggestion. Use the arrow keys and
+Enter for keyboard selection. The post preview updates automatically when
+you change terms, ordering or the limit.
+
+Remove individual terms using **×** on their selected chips. The trash button
+clears an entire taxonomy filter. Query results stay automatic after saving;
+new matching posts can appear without rebuilding a manual selection.
+
+For a fixed list, choose **Use these posts as manual slides** or switch
+**Content selection** to **Manual slides**, then add or arrange slides in
+Content. Switching back to Query asks before clearing that manual selection.
+
+Choose a template, configure the engine and responsive item counts, save or
+publish, then check the embedded page.
 
 ## Create a curated product shelf
 

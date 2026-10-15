@@ -1,16 +1,53 @@
 # Practical recipes
 
-Put PHP snippets in a small site plugin or the child theme's `functions.php`.
-Put CSS in a child-theme stylesheet loaded after the carousel styles.
+Start with the editor workflows below. Selecting posts from a category does
+not require PHP, a paid edition or a developer.
+
+Only the recipes explicitly labelled PHP require code. Put those snippets in
+a small site plugin or the child theme's `functions.php`. Put CSS in a
+child-theme stylesheet loaded after the carousel styles.
 
 ## Latest guides from one category
 
-Use Query composition with the Posts source, select the Guides category,
-order by date descending and set the item limit. The carousel then updates
-automatically when a guide is published.
+This is a no-code workflow in the saved-carousel editor (2.0.3 and later):
 
-If the builder cannot express an extra condition, change only the target saved
-carousel query:
+1. Open **WP Posts Carousel > Dashboard** and create or edit a carousel.
+2. Open the **Query** tab. Set **Content selection** to **Query (automatic)**.
+3. Under **Post types**, select **Posts** (`post`).
+4. Under **Taxonomy filters**, set **Taxonomy** to **Categories** (`category`).
+5. Set **Operator** to the inclusion option (`in`), not exclusion (`not in`).
+6. Click **Search categories** to browse suggestions, or type a category name
+   such as `Guides`. Click the matching suggestion, or use the arrow keys and
+   Enter. Guides is an example; choose a category that exists on your site.
+7. Confirm the category appears as a selected chip. Use the chip's **×** to
+   remove that one category. The trash button removes the entire taxonomy filter.
+8. Set **Order by** to date, **Order** to descending and **Posts limit** to
+   the number of posts you want. The **Query preview** refreshes automatically.
+9. Save or publish the carousel and check its embedded page.
+
+Typing a name searches categories; it does not search post titles and does
+not select a category until you choose a suggestion. New posts matching the
+saved query can appear automatically. Query preview results are not saved as
+manual slide IDs.
+
+For a fixed selection, choose **Use these posts as manual slides** or switch
+**Content selection** to **Manual slides**, then use the Content tab to add
+and arrange items. Switching back to Query clears the manual selection after
+confirmation; it does not delete the original posts or media.
+
+If **Taxonomy filters** is missing, check that **Posts** is selected in
+**Post types**. Only taxonomies for selected post types are available. If
+Categories is still missing, provide your installed version and a screenshot
+of the Query tab.
+
+**Taxonomy filters** choose what the carousel contains. **Advanced > Frontend
+filters** adds visitor-facing controls. A PHP filter is a separate developer
+extension point; none is needed for this category selection.
+
+### Optional PHP: exclude sticky posts
+
+Use a PHP filter only for an extra rule the editor cannot express. For example,
+exclude sticky posts from one saved carousel:
 
 ```php
 add_filter('wp_posts_carousel_query_args', function (array $args, array $config): array {
@@ -162,5 +199,5 @@ inside a card or requires detailed slide data.
 
 Use a child-theme override for one project. Build an installable extension when
 the same template, source or renderer needs its own version and update cycle on
-multiple sites. Continue with [Extensions](extensions.md) and
-[Styles and templates](templates-and-addons.md).
+multiple sites. Continue with [Extensions](extensions) and
+[Styles and templates](template-development).

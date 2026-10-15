@@ -62,7 +62,7 @@ function wp_remote_get($url, $args)
   return array_shift($GLOBALS['feed_test']['responses']);
 }
 
-require dirname(__DIR__, 2) . '/includes/class-api.php';
+require dirname(__DIR__, 2) . '/includes/api/class-api.php';
 require dirname(__DIR__, 2) . '/includes/admin/class-admin.php';
 
 $api = (new ReflectionClass('WP_Posts_Carousel_API'))->newInstanceWithoutConstructor();

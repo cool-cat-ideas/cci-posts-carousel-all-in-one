@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import NewsPanel from '../../../src/admin-v2/components/NewsPanel';
-import { pluginData } from '../../../src/admin-v2/api';
-import { useMarketplaceJson } from '../../../src/admin-v2/marketplace';
+import NewsPanel from '../../../src/admin-v2/components/news/NewsPanel';
+import { pluginData } from '../../../src/admin-v2/api/api';
+import { useMarketplaceJson } from '../../../src/admin-v2/catalog/marketplace';
 
 function FeedState() {
     const feed = useMarketplaceJson(pluginData.newsEndpoint);

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { resolveApiUrl } from '../../src/admin-v2/api-url.mjs';
+import { resolveApiUrl } from '../../src/admin-v2/api/api-url.mjs';
 
 const path = '/wp-json/wp-posts-carousel/v1/admin/posts?search=red%20cat&type=post&type=page';
 

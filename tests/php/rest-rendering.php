@@ -98,3 +98,25 @@ if (is_admin()) {
     echo "PASS: editor keeps all available template styles.\n";
 }
 echo 'PASS: ' . $checked . " public carousels, saved/unsaved editor previews, shared queries, placement IDs, stylesheet data and runtime-filter fallback.\n";
+
+$tests = array();
+$tests['query mode never persists preview posts as manual selection'] = function () {
+    $config = WP_Posts_Carousel_Config::normalize(array('post_selection_options' => array(
+        'mode' => 'query',
+        'post_types' => array(array('value' => 'post', 'label' => 'Posts')),
+        'posts' => array(array('value' => '123', 'label' => 'Preview only')),
+        'all_items' => 4,
+    )));
+    wpc_assert($config['source']['mode'] === 'query', 'Query mode changed to manual.');
+    wpc_assert($config['curation']['items'] === array(), 'Query preview leaked into saved manual items.');
+    wpc_assert(WP_Posts_Carousel_Config::to_form_values($config)['post_selection_options']['mode'] === 'query', 'Query mode did not round-trip.');
+};
+$tests['legacy manual selections retain their mode and IDs'] = function () {
+    $config = WP_Posts_Carousel_Config::normalize(array('post_selection_options' => array(
+        'posts' => array(array('value' => '123', 'label' => 'Existing manual slide')),
+    )));
+    wpc_assert($config['source']['mode'] === 'manual', 'Legacy manual carousel changed to query.');
+    wpc_assert((int) $config['curation']['items'][0]['id'] === 123, 'Legacy manual slide was lost.');
+};
+
+foreach ($tests as $name => $run) { $run(); echo "PASS: " . $name . PHP_EOL; }

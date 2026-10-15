@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { __ } from '../i18n';
+import { __ } from '../i18n/i18n';
 
 const slideSchema = z
 	.object( {
@@ -38,13 +38,21 @@ const carouselSchema = z
 		title: z.string().trim().min( 1, __( 'Carousel title is required.', 'wp-posts-carousel' ) ),
 		status: z.enum( [ 'draft', 'publish' ] ),
 		post_selection_options: z.object( {
-			posts: z.array( slideSchema ).min( 1, __( 'Add at least one slide.', 'wp-posts-carousel' ) ),
+			posts: z.array( slideSchema ),
 		} ).passthrough(),
 		carousel_options: z.object( {} ).passthrough().optional(),
 	} )
 	.passthrough()
 	.superRefine( ( form, context ) => {
-		const options = form.carousel_options || {};
+        const selection = form.post_selection_options;
+        const mode = selection.mode || (selection.posts.length ? 'manual' : 'query');
+        if (mode === 'manual' && !selection.posts.length) {
+            context.addIssue({ code: 'custom', path: ['post_selection_options', 'posts'], message: __('Add at least one slide.', 'wp-posts-carousel') });
+        }
+        if (mode === 'query' && (!selection.post_types?.length || !(Number(selection.all_items) > 0))) {
+            context.addIssue({ code: 'custom', path: ['post_selection_options'], message: __('Choose a post type and a positive posts limit.', 'wp-posts-carousel') });
+        }
+        const options = form.carousel_options || {};
 		const minimums = {
 			slide_by: 1,
 			start_position: 0,

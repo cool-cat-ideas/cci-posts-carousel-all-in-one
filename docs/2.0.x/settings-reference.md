@@ -5,6 +5,11 @@ behavior.
 
 ## Source
 
+To restrict a carousel to one category, use **Query > Taxonomy filters** in
+the saved-carousel editor. Select **Posts**, choose **Categories**, type a name
+and select an autocomplete suggestion. The matching posts refresh automatically. This is not a PHP filter. Follow the
+[one-category recipe](recipes#latest-guides-from-one-category) for every step.
+
 The source controls where slides come from:
 
 | Source | Use when |
@@ -139,7 +144,7 @@ This reads post meta. It does not require the ACF API.
 ## Which setting should solve the problem?
 
 - Use taxonomy/source settings when the carousel should update automatically.
-- Use Manual composition when editorial order is the requirement.
+- Choose **Content selection > Manual slides** when editorial order is the requirement.
 - Use Frontend filters when visitors should narrow the current query.
 - Use field mapping when content already exists in post meta or ACF.
 - Use a template for markup and visual structure.
@@ -164,8 +169,10 @@ preview, save, then check the published page; the editor is not the final theme.
 | Loop | Repeats the sequence continuously | Check with more items than fit in the viewport. |
 | Rewind | Returns to the start at the end of a non-looping sequence | Test separately from Loop. |
 | Autoplay | Advances without a click | Leave off for reading-heavy cards. |
-| Autoplay timeout | Delay before advancing, in milliseconds | 5000 means five seconds. |
-| Autoplay speed / Navigation speed | Transition duration, in milliseconds | These control movement speed, not time available to read. |
+| Autoplay timeout | Interval between automatic advances, in milliseconds | 5000 means five seconds; it does not make the movement itself last five seconds. |
+| Autoplay speed | Owl's duration for an automatic transition | Try 1200 for a visibly slower movement. See the Swiper distinction below. |
+| Navigation speed | Duration for arrow navigation; also Owl's general movement speed and Swiper's shared transition duration | 300 is a short transition; 1200 is a slower one. |
+| Dots speed | Owl's duration when a visitor clicks a pagination dot | Enable Dots and click a different dot. It does not change autoplay or arrow navigation. |
 | Pause on hover | Pauses autoplay while a pointer is over the carousel | Confirm the behavior in the chosen engine; phones have no hover. |
 | Navigation / Dots | Shows arrows / pagination controls | Keep an operable navigation method when autoplay is off. |
 | Stage padding | Visible space beside the carousel stage | Check that partial adjacent cards are intentional. |
@@ -178,6 +185,44 @@ and Pull drag apply to Owl; Touch ratio, Mousewheel sensitivity and Keyboard
 control apply to Swiper. Do not assume the same numeric setting has identical
 behavior in both engines. Autoplay progress indicators require Pro; autoplay
 itself does not.
+
+### Understand the four timing controls
+
+All four fields use milliseconds: **1000 ms = 1 second**. A larger duration
+means a slower transition. A larger timeout means less frequent automatic
+advances. These controls do not select the animation effect or create a
+continuous scrolling ticker.
+
+**Owl Carousel:** Autoplay timeout sets the automatic advance interval;
+Autoplay speed sets automatic transition duration; Navigation speed controls
+arrow transitions and the general/drag-end speed; Dots speed controls dot
+click transitions. Test each control using the interaction it applies to.
+Use positive values when comparing durations. Zero is not a reliable way to
+request an instant transition because Owl can fall back to its general speed.
+
+**Swiper:** the current integration uses Navigation speed as one shared
+transition duration, including autoplay and dot clicks. Autoplay speed is
+used only as a fallback when Navigation speed is zero/unset; it is not an
+independent autoplay duration when Navigation speed is positive. Dots speed
+is Owl-only. Autoplay timeout still sets the autoplay delay.
+
+**Editor/fallback preview:** when the React preview uses the fallback engine,
+its track has a fixed 260 ms CSS transition. Timeout can change there while
+the three duration fields appear ineffective. Check the saved carousel on
+its published page with its actual engine before judging these fields.
+
+### Try a visible timing difference
+
+Use the standard **Slide** effect, at least four matching posts and one
+visible item. Set Autoplay timeout to **5000** and Navigation speed to
+**1200**. For Owl, also set Autoplay speed and Dots speed to **1200**. Enable
+Autoplay, Navigation and Dots, then save and open the embedded page.
+
+Observe an automatic advance without hovering or focusing the carousel;
+then test an arrow and a dot. Compare durations of **300** and **1200** using
+the same interaction. Keep each duration below the autoplay interval for
+this test. If only timeout changes, follow
+[transition troubleshooting](troubleshooting#changing-speed-does-not-change-the-transition).
 
 ## Test a change without changing every page
 

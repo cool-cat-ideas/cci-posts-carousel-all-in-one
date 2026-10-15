@@ -1,5 +1,5 @@
 import runtime from './runtime';
-import { registerDefaultEngines } from './engines';
+import { registerDefaultEngines } from './engines/index';
 
 ( function () {
 	const selector = '.cci-wpc-carousel[data-wpc-api]';

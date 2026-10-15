@@ -37,6 +37,11 @@ const generatedCssPatterns = [
 ];
 
 const excludePatterns = [
+	/(?:^|\/)(?:\.(?:git|github|gitlab|svn|hg|vscode|idea|fleet|playwright(?:-cli)?|cache|turbo|next|release-stage)|node_modules|__pycache__|tests?|test-results|playwright-report|blob-report|coverage)(?:\/|$)/,
+	/(?:^|\/)(?:\.env(?:\.[^/]*)?|\.npmrc|\.editorconfig|\.gitignore|\.gitattributes|AGENTS\.md|PROJECT_GUIDE\.md|Thumbs\.db|pnpm-lock\.yaml|yarn\.lock|composer\.lock)$/,
+	/(?:^|\/)(?:(?:playwright|vitest|vite|webpack|tailwind|postcss|eslint|stylelint|babel|jest)\.config\.|tsconfig(?:\.|$)|\.eslintrc|\.prettier)/,
+	/\.(?:log|pyc|tsbuildinfo|code-workspace)$/,
+	/(?:^|\/)[^/]+:Zone\.Identifier$/,
 	/^assets\/scss(?:\/|$)/,
 	/^assets\/images\/demo-(?:blog-product-panorama\.png|connected-strip\.svg|products(?:\/|$))/,
 	/\.DS_Store$/,
@@ -168,7 +173,7 @@ function validatePackage() {
 		'assets/js/admin-v2.js',
 		'assets/js/frontend-loader.js',
 		'blocks/carousel/index.js',
-		'includes/class-api.php',
+		'includes/api/class-api.php',
 		'templates/default/template.json',
 	];
 

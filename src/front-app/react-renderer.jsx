@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import CarouselRenderer from '../shared/CarouselRenderer';
-import { resolveReactEngineName } from './engines';
+import { resolveReactEngineName } from './engines/index';
 
 const roots = new WeakMap();
 

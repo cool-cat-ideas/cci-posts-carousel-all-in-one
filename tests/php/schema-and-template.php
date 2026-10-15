@@ -73,8 +73,8 @@ function reset_schema($exists = false, $version = false)
     return $GLOBALS['wpdb'];
 }
 
-$initializer = require dirname(__DIR__, 2) . '/includes/class-init.php';
-require dirname(__DIR__, 2) . '/includes/class-template.php';
+$initializer = require dirname(__DIR__, 2) . '/includes/bootstrap/class-init.php';
+require dirname(__DIR__, 2) . '/includes/templates/class-template.php';
 require dirname(__DIR__, 2) . '/includes/frontend/class-carousel-query-builder.php';
 require dirname(__DIR__, 2) . '/includes/frontend/class-carousel-generator.php';
 
