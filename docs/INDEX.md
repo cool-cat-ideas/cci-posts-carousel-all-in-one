@@ -5,16 +5,14 @@ extend it with WordPress hooks.
 
 ## Versions covered
 
-This documentation covers the 2.0.x release line. The base plugin and Pro have separate version numbers:
-
-| Package | Version covered |
-| --- | --- |
-| WP Posts Carousel All In One (`wp-posts-carousel`) | 2.0.1 |
-| WP Posts Carousel Pro (`wp-posts-carousel-pro`) | 2.0.0 |
-
-These versions work together. The child-theme template override instructions require base plugin 2.0.1. You do not need a matching Pro update for that fix.
+This guide covers the 2.0.x release line. Category autocomplete and automatic
+query previews require base plugin 2.0.3 or newer. The base plugin and Pro have
+separate version numbers; they do not need to match. Check the installed
+versions under **Plugins > Installed Plugins**.
 
 ## Start here
+
+- [Support](./2.0.x/support.md): direct contact links, how to send a request and where to read the reply.
 
 - [Upgrade from 1.x to 2.x](./2.0.x/upgrading-from-1.x.md) — recreate legacy
   carousels and replace their placements after the 2.x rewrite.

@@ -17,10 +17,10 @@ a second view counter.
 
 ## Create a most-read carousel
 
-1. Open **WP Posts Carousel > Carousels**.
-2. Create a carousel or edit an existing one.
-3. Choose the posts or pages you want to display.
-4. In the ordering field, select a WordPress Popular Posts option.
+1. Open **WP Posts Carousel > Dashboard**.
+2. Click **New carousel** or edit an existing one.
+3. Under **Query**, choose **Query (automatic)** and select **Posts** or **Pages** under **Post types**.
+4. Under **Order by**, select a WordPress Popular Posts option.
 5. Choose the period, for example 24 hours, one week or one month.
 6. Set the item limit and template.
 7. Save the carousel and check the preview.
@@ -29,6 +29,9 @@ a second view counter.
 If no posts appear, first check whether WordPress Popular Posts has already
 recorded views for the selected content and period. A new site may need real
 visits before the ranking contains enough items.
+
+If you would like help checking the setup, [open a support request](./support.md#choose-the-right-support-channel)
+with a screenshot of **Query** and the period you selected.
 
 ## What the integration changes
 

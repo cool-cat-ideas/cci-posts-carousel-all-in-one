@@ -7,6 +7,7 @@ import {
 	truthy,
 } from './carousel-view-utils';
 import './carousel-renderer.css';
+import { carouselTimings } from './carousel-timing.mjs';
 
 function fallbackReadMore() {
 	return window.wp?.i18n?.__( 'read more', 'wp-posts-carousel' ) || 'read more';
@@ -368,6 +369,7 @@ export default function CarouselRenderer( {
 	const [ activeIndex, setActiveIndex ] = useState( 0 );
 	const [ adapterFailed, setAdapterFailed ] = useState( false );
 	const [ paused, setPaused ] = useState( false );
+	const [ transitionKind, setTransitionKind ] = useState( 'navigation' );
 
 	useEffect( () => {
 		if ( typeof window === 'undefined' ) {
@@ -392,7 +394,8 @@ export default function CarouselRenderer( {
 	const usesEngineAdapter = ! adapterFailed && interactive && isCarousel && engineAdapter?.mount && engineName !== 'fallback';
 	const activeEngineName = usesEngineAdapter ? engineName : 'fallback';
 	const autoplay = ! usesEngineAdapter && interactive && isCarousel && canNavigate && ! reducedMotion && truthy( options.auto_play, true );
-	const autoplayTimeout = Math.max( 500, Number( options.auto_play_timeout || 1200 ) );
+	const timings = carouselTimings( options );
+	const autoplayTimeout = timings.delay;
 	const stopOnHover = truthy( options.stop_on_hover, true );
 
 	useEffect( () => {
@@ -410,6 +413,7 @@ export default function CarouselRenderer( {
 		}
 
 		const timer = window.setInterval( () => {
+			setTransitionKind( 'autoplay' );
 			setActiveIndex( ( current ) => {
 				if ( current >= maxIndex ) {
 					return loop ? 0 : current;
@@ -505,19 +509,20 @@ export default function CarouselRenderer( {
 	const lazyImages = truthy( options.lazy_images, true );
 	const firstImageEager = truthy( options.first_image_eager, false );
 
-	const goTo = ( index ) => {
+	const goTo = ( index, kind = 'navigation' ) => {
 		if ( ! canNavigate ) {
 			return;
 		}
+		setTransitionKind( kind );
 
 		if ( usesEngineAdapter && engineInstanceRef.current ) {
 			const target = Math.max( 0, Math.min( maxIndex, index ) );
 			const instance = engineInstanceRef.current;
 
 			if ( loop && typeof instance.slideToLoop === 'function' ) {
-				instance.slideToLoop( target );
+				instance.slideToLoop( target, reducedMotion ? 0 : timings[ kind ] );
 			} else if ( typeof instance.slideTo === 'function' ) {
-				instance.slideTo( target );
+				instance.slideTo( target, reducedMotion ? 0 : timings[ kind ] );
 			}
 
 			setActiveIndex( target );
@@ -577,6 +582,7 @@ export default function CarouselRenderer( {
 	const paginationItems = Math.max( 1, maxIndex + 1 );
 	const rootStyle = {
 		'--wpc-render-items': items,
+		'--wpc-transition-duration': `${ reducedMotion ? 0 : timings[ transitionKind ] }ms`,
 	};
 
 	return (
@@ -714,7 +720,7 @@ export default function CarouselRenderer( {
 										type="button"
 										aria-label={ `${ index + 1 }` }
 										className={ index === activeIndex ? 'cci-wpc-active' : '' }
-										onClick={ () => goTo( index ) }
+										onClick={ () => goTo( index, 'dots' ) }
 									/>
 								) : (
 									<span key={ `${ slide.id }-${ index }` } />

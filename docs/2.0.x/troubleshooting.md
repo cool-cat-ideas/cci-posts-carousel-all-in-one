@@ -1,7 +1,9 @@
 # Troubleshooting
 
-Use this page when a carousel does not render, does not move or looks different
-between admin and frontend.
+If a carousel is not appearing or behaves differently from the preview, start
+with the matching section below. If a step is unclear, we are happy to help:
+[choose a support channel](./support.md#choose-the-right-support-channel). You do not
+need to diagnose the cause before contacting us.
 
 ## Carousels stopped working after updating from 1.x
 
@@ -12,31 +14,33 @@ then replace every old placement with the new shortcode or select the new
 carousel in the current block/widget. Clearing cache alone cannot migrate
 the old configuration.
 
-Follow [Upgrade from 1.x to 2.x](upgrading-from-1.x) for the steps and a
+Follow [Upgrade from 1.x to 2.x](./upgrading-from-1.x.md) for the steps and a
 screenshot of the new dashboard.
 
 ## Changing speed does not change the transition
 
-1. Confirm whether you are testing the editor preview or the published page.
-   The fallback preview uses a fixed 260 ms track transition; it does not
-   demonstrate the individual engine duration settings.
-2. Save the carousel and test its actual page. Clear the page/asset cache if
-   the page still uses previous settings.
-3. Check the selected engine. For **Owl**, change Autoplay speed for automatic
-   movement, Navigation speed for arrows, and Dots speed for dot clicks.
-   For **Swiper**, change Navigation speed; the current integration uses it
-   as the shared duration. Dots speed does not apply to Swiper.
-4. Use the standard **Slide** effect and compare 300 ms with 1200 ms. Keep
-   Autoplay timeout at 5000 ms and use more posts than visible items.
-5. If movement is still unchanged on the published page, check for reduced
-   motion preferences and theme CSS overriding `transition` or `animation`.
-   A fade or template animation can have a separate CSS duration.
+1. Open **Plugins > Installed Plugins** and check that the base plugin is
+   **2.0.4 or newer**. Earlier versions could ignore transition duration in
+   the fallback editor preview and share one duration across Swiper interactions.
+2. Under **General**, use Autoplay speed for automatic movement, Navigation
+   speed for arrows and Dots speed for dot clicks. These settings work
+   independently in Owl, Swiper and the fallback editor preview.
+3. Use the standard **Slide** effect and compare 300 ms with 1200 ms. Keep
+   Autoplay timeout at 5000 ms and use more posts than visible items. Test
+   autoplay, an arrow and a dot separately.
+4. Save the carousel and check its published page. Clear the page/asset cache
+   if it still uses previous settings. For Owl's Fade effect, use one visible item.
+5. If movement is still unchanged, check reduced-motion preferences and theme
+   CSS overriding `transition` or `animation`. Custom template animations can
+   have a separate duration.
 
-If the problem persists, send the plugin version, selected engine, template,
-renderer, timing values, whether the test is in preview or on the published
-page, and a public/staging URL if available. Do not send site credentials.
+If the published page still behaves the same, please
+[open a support request](./support.md#choose-the-right-support-channel). Include a
+screenshot of the timing settings under **General**, your installed plugin
+version and whether you tested the preview or the actual page. A public example
+URL helps if one is available; please keep private site details in the account form.
 
-See [timing controls](settings-reference#understand-the-four-timing-controls).
+See [timing controls](./settings-reference.md#understand-the-four-timing-controls).
 
 ## I cannot find a category selector
 
@@ -45,43 +49,45 @@ Category selection is under **Query > Taxonomy filters**, rather than in
 then choose **Categories**, type a name in **Search categories** and select a
 suggestion. Results refresh automatically. Use **×** on a selected chip to
 remove one category. No PHP is required. Follow the
-[category recipe](recipes#latest-guides-from-one-category).
+[category recipe](./recipes.md#latest-guides-from-one-category).
 
-If the taxonomy section is absent even with Posts selected, provide the
-installed version and a screenshot of the Query tab. An unavailable control
-needs investigation; adding PHP is not the normal workaround for a missing
-category selector.
+If the selector is still missing, open **Plugins > Installed Plugins** and check
+that the base plugin is version **2.0.3 or newer**. After updating, reopen the
+carousel and check **Query** again. If you would like us to take a look,
+[open a support request](./support.md#choose-the-right-support-channel) with that
+version and a screenshot of the tab. No PHP change is needed to select a category.
 
 ## The carousel is empty
 
-Check:
+1. Open **WP Posts Carousel > Dashboard** and edit the affected carousel.
+2. Under **Query**, check the selected post types, categories and **Posts limit**. For an automatic query, matching published content should appear in **Query preview**. For **Manual slides**, check the selection under **Slides**.
+3. Choose an installed template under **Design**. Commerce Luxe, Story Commerce and Video Showcase need Pro; Default, Simple and Light do not.
+4. Set **Status** to **Published** and click **Save**.
+5. Edit the page and confirm that its block selects this carousel, or replace its shortcode with the one copied from the dashboard.
+6. Update the page and clear its page cache if your site uses one. Open the actual page again.
 
-1. The saved carousel ID exists.
-2. The shortcode or block references the correct ID.
-3. The selected source returns posts/products for the current filters.
-4. The selected template is available.
-5. Pro is active if the template requires a Pro feature.
-
-For React/Swiper payloads, open:
+If a developer is helping you check the public carousel data, this is the REST
+path. Replace `{id}` with the saved ID from the shortcode:
 
 ```text
 /wp-json/wp-posts-carousel/v1/carousel/{id}
 ```
 
-The response should include slides and runtime configuration.
+The response should include slides and runtime configuration. You can also
+[ask us for help](./support.md#choose-the-right-support-channel) with the carousel
+name or shortcode and a screenshot; reading REST data is not a requirement.
 
 ## The editor preview is empty
 
-Check:
+In the carousel editor, **Query preview** lists the posts matching an automatic
+query. Check **Query > Post types**, the category selection and **Posts limit**
+if that list is empty. For a fixed selection, use **Slides** instead.
 
-- the block has a selected saved carousel,
-- the REST request returns `200`,
-- the editor page loaded frontend preview assets,
-- browser cache or admin asset cache was cleared,
-- the selected renderer is supported by the template.
-
-If the preview fails but the frontend works, collect the editor URL, carousel ID
-and failed REST response before reporting it.
+In the WordPress page editor, the carousel block needs a saved carousel. Save
+and publish the carousel first, then choose it in the block's selector. If the
+published page works but the editor preview does not, please
+[open a support request](./support.md#choose-the-right-support-channel). Let us know
+which preview is affected and include its screenshot and carousel name.
 
 ## Styles differ between backend and frontend
 
@@ -108,17 +114,25 @@ Avoid global overrides such as:
 
 ## Arrows are blank
 
-The plugin expects FontAwesome arrow markup for Owl controls:
+First check **General > Navigation** in the carousel editor, then save the
+carousel. Open **WP Posts Carousel > Settings > Compatibility** and check
+**Navigation icon library** and **Icon source**. If your theme does not supply
+the selected icons, choose **Local plugin files**, save the settings and clear
+the page cache before testing the published page.
+
+The plugin supports Font Awesome and Tabler Icons; it does not always require
+Font Awesome. For developers checking a Font Awesome configuration, Owl's
+default icon markup includes:
 
 ```html
 <i class="fa fa-angle-left" aria-hidden="true"></i>
 <i class="fa fa-angle-right" aria-hidden="true"></i>
 ```
 
-Check:
+For a theme or template override, also check:
 
 - `wp-posts-carousel-font-awesome` is enqueued or an existing FontAwesome asset
-  is available,
+  is available when Font Awesome is selected,
 - `navText` is not empty,
 - the template is not drawing arrows with `::before` pseudo-elements,
 - cache/minification did not remove icon classes.
@@ -164,7 +178,13 @@ campaign slide.
 
 ## A JSON error appears in the editor
 
-Collect:
+Please open **WP Posts Carousel > Settings > Diagnostics** and look for a
+message corresponding to the failed action. You can
+[open a support request](./support.md#choose-the-right-support-channel) with the
+error text, the action you tried and the carousel name. You do not need to
+collect browser network data before asking.
+
+For a developer investigating the request, useful details are:
 
 - request URL,
 - response status,

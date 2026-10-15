@@ -1,14 +1,26 @@
 # Settings reference
 
-This page explains the main saved-carousel settings and how they map to runtime
-behavior.
+Open **WP Posts Carousel > Dashboard**, then edit a saved carousel. Use this map
+to find the relevant controls. Labels below use the English interface.
+
+| Editor tab | What you can change |
+| --- | --- |
+| General | Renderer, engine, movement, navigation and responsive settings. |
+| Query | Automatic or manual selection, post types, categories, ordering and post limit. |
+| Design | Template, card details, image options and text display. |
+| Slides | Search for content, add custom slides and arrange a manual selection. |
+| Advanced | Visitor-facing filters, image loading and custom-field mapping. |
+
+Click **Save** after changing a carousel. Check its published page for the
+actual transition timing and theme styles. If you are not sure which control
+to use, please [ask us](./support.md#choose-the-right-support-channel).
 
 ## Source
 
 To restrict a carousel to one category, use **Query > Taxonomy filters** in
 the saved-carousel editor. Select **Posts**, choose **Categories**, type a name
 and select an autocomplete suggestion. The matching posts refresh automatically. This is not a PHP filter. Follow the
-[one-category recipe](recipes#latest-guides-from-one-category) for every step.
+[one-category recipe](./recipes.md#latest-guides-from-one-category) for every step.
 
 The source controls where slides come from:
 
@@ -21,18 +33,18 @@ The source controls where slides come from:
 | Custom slides | The carousel needs campaign cards that are not WordPress posts. |
 | Integration source | Another plugin supplies ordering or metrics. |
 
-The query can be filtered with:
-
-```php
-wp_posts_carousel_query_args
-```
+For developers who need an extra selection rule, the
+[`wp_posts_carousel_query_args` filter](./hooks-and-api.md#query-filter-arguments-and-return-value)
+is available. It is not needed to select a category in the editor.
 
 ## Manual composition
 
 Manual composition is useful when the carousel is a campaign sequence rather
 than a normal query.
 
-Use manual composition for:
+Set **Query > Content selection > Manual slides**, then open **Slides** to add
+and arrange the items. A manual selection stays fixed; it does not pick up new
+posts automatically. Use it for:
 
 - launch sequences,
 - guided buying stories,
@@ -52,8 +64,9 @@ Supported engines:
 | Owl Carousel | Stable jQuery carousel engine used by PHP templates. |
 | Swiper | Modern engine used by React/Swiper-capable templates. |
 
-Do not assume every template supports both engines. Check the template manifest
-before forcing a renderer or engine.
+Find these controls under **General**. If an engine or renderer is unavailable
+for a template, keep a supported option. Template authors can check the
+[template manifest contract](./templates-and-addons.md) for the technical details.
 
 ## Template
 
@@ -90,13 +103,17 @@ Typical meaning:
 | `commerce` | Price and CTA clarity for product rows. |
 | `contrast` | Higher contrast for campaign sections. |
 
-If the selected template does not support a preset, the setting should have no
-visible effect. Do not sell presets as separate templates.
+If a compatible preset is unavailable for the selected template, keep the
+template's own appearance settings. A preset is not a separately installed plugin.
 
 ## Frontend filters
 
-Frontend filters expose selected taxonomies above the carousel. The default
-contract is URL/query based so filtered states can be linked and crawled:
+Use **Advanced > Frontend filters** when visitors should be able to narrow the
+carousel themselves. Enable the frontend filters, select a taxonomy and save.
+This differs from **Query > Taxonomy filters**, which selects the content before
+visitors open the page. See the [frontend filter recipe](./recipes.md#category-filters-visitors-can-bookmark).
+
+For a developer, the default URL/query contract is:
 
 ```text
 wpcf_{taxonomy}=term_id
@@ -170,9 +187,9 @@ preview, save, then check the published page; the editor is not the final theme.
 | Rewind | Returns to the start at the end of a non-looping sequence | Test separately from Loop. |
 | Autoplay | Advances without a click | Leave off for reading-heavy cards. |
 | Autoplay timeout | Interval between automatic advances, in milliseconds | 5000 means five seconds; it does not make the movement itself last five seconds. |
-| Autoplay speed | Owl's duration for an automatic transition | Try 1200 for a visibly slower movement. See the Swiper distinction below. |
-| Navigation speed | Duration for arrow navigation; also Owl's general movement speed and Swiper's shared transition duration | 300 is a short transition; 1200 is a slower one. |
-| Dots speed | Owl's duration when a visitor clicks a pagination dot | Enable Dots and click a different dot. It does not change autoplay or arrow navigation. |
+| Autoplay speed | Duration of an automatic transition in Owl, Swiper and the editor preview | Try 1200 for a visibly slower movement. |
+| Navigation speed | Duration for arrow navigation and the engine's general/drag-end movement | 300 is a short transition; 1200 is a slower one. |
+| Dots speed | Duration when a visitor clicks a pagination dot in Owl, Swiper and the editor preview | Enable Dots and click a different dot. It does not change autoplay or arrow navigation. |
 | Pause on hover | Pauses autoplay while a pointer is over the carousel | Confirm the behavior in the chosen engine; phones have no hover. |
 | Navigation / Dots | Shows arrows / pagination controls | Keep an operable navigation method when autoplay is off. |
 | Stage padding | Visible space beside the carousel stage | Check that partial adjacent cards are intentional. |
@@ -180,7 +197,7 @@ preview, save, then check the published page; the editor is not the final theme.
 | Mouse drag / Touch drag | Enables pointer / touch swiping | Check that links still open after a normal tap. |
 | Keyboard control | Swiper keyboard navigation | Test focus and arrow behavior on the published page. |
 
-Engine-specific fields are marked in the editor. Dots speed, Lazy load eager
+Engine-specific fields are marked in the editor. Lazy load eager
 and Pull drag apply to Owl; Touch ratio, Mousewheel sensitivity and Keyboard
 control apply to Swiper. Do not assume the same numeric setting has identical
 behavior in both engines. Autoplay progress indicators require Pro; autoplay
@@ -193,36 +210,35 @@ means a slower transition. A larger timeout means less frequent automatic
 advances. These controls do not select the animation effect or create a
 continuous scrolling ticker.
 
-**Owl Carousel:** Autoplay timeout sets the automatic advance interval;
-Autoplay speed sets automatic transition duration; Navigation speed controls
-arrow transitions and the general/drag-end speed; Dots speed controls dot
-click transitions. Test each control using the interaction it applies to.
-Use positive values when comparing durations. Zero is not a reliable way to
-request an instant transition because Owl can fall back to its general speed.
+**Owl Carousel and Swiper:** Autoplay timeout controls how often autoplay
+advances. Autoplay speed controls the automatic movement, Navigation speed
+controls arrow movement, and Dots speed controls movement after a dot click.
+The three durations are independent. Navigation speed is also the engine's
+general movement speed, including the end of a drag.
 
-**Swiper:** the current integration uses Navigation speed as one shared
-transition duration, including autoplay and dot clicks. Autoplay speed is
-used only as a fallback when Navigation speed is zero/unset; it is not an
-independent autoplay duration when Navigation speed is positive. Dots speed
-is Owl-only. Autoplay timeout still sets the autoplay delay.
+**Editor preview:** the preview uses the same three duration settings, even
+when it is using the fallback renderer. Changing a duration updates the
+preview without saving. Save the carousel to apply it to its published page.
+Reduced-motion preferences disable autoplay and remove the fallback preview's
+movement animation.
 
-**Editor/fallback preview:** when the React preview uses the fallback engine,
-its track has a fixed 260 ms CSS transition. Timeout can change there while
-the three duration fields appear ineffective. Check the saved carousel on
-its published page with its actual engine before judging these fields.
+Use positive values when comparing timings. Owl can interpret zero as a
+fallback to its general speed. For Owl's Fade effect, use one visible item;
+the animation follows the duration of the interaction that triggered it.
+Custom template or theme animations may have their own duration.
 
 ### Try a visible timing difference
 
 Use the standard **Slide** effect, at least four matching posts and one
 visible item. Set Autoplay timeout to **5000** and Navigation speed to
-**1200**. For Owl, also set Autoplay speed and Dots speed to **1200**. Enable
+**1200**. Also set Autoplay speed and Dots speed to **1200**. Enable
 Autoplay, Navigation and Dots, then save and open the embedded page.
 
 Observe an automatic advance without hovering or focusing the carousel;
 then test an arrow and a dot. Compare durations of **300** and **1200** using
 the same interaction. Keep each duration below the autoplay interval for
 this test. If only timeout changes, follow
-[transition troubleshooting](troubleshooting#changing-speed-does-not-change-the-transition).
+[transition troubleshooting](https://coolcatideas.com/docs/wp-posts-carousel-all-in-one/2.0.x/troubleshooting/#changing-speed-does-not-change-the-transition).
 
 ## Test a change without changing every page
 

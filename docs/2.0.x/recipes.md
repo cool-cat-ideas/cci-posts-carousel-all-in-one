@@ -15,7 +15,7 @@ This is a no-code workflow in the saved-carousel editor (2.0.3 and later):
 2. Open the **Query** tab. Set **Content selection** to **Query (automatic)**.
 3. Under **Post types**, select **Posts** (`post`).
 4. Under **Taxonomy filters**, set **Taxonomy** to **Categories** (`category`).
-5. Set **Operator** to the inclusion option (`in`), not exclusion (`not in`).
+5. Set **Operator** to **In**. This includes posts assigned to the categories you select.
 6. Click **Search categories** to browse suggestions, or type a category name
    such as `Guides`. Click the matching suggestion, or use the arrow keys and
    Enter. Guides is an example; choose a category that exists on your site.
@@ -31,14 +31,15 @@ saved query can appear automatically. Query preview results are not saved as
 manual slide IDs.
 
 For a fixed selection, choose **Use these posts as manual slides** or switch
-**Content selection** to **Manual slides**, then use the Content tab to add
+**Content selection** to **Manual slides**, then open **Slides** to add
 and arrange items. Switching back to Query clears the manual selection after
 confirmation; it does not delete the original posts or media.
 
 If **Taxonomy filters** is missing, check that **Posts** is selected in
 **Post types**. Only taxonomies for selected post types are available. If
-Categories is still missing, provide your installed version and a screenshot
-of the Query tab.
+Categories is still missing, please [open a support request](./support.md#choose-the-right-support-channel).
+Include your installed plugin version and a screenshot of **Query** so we can
+help you find the cause. You can find the version under **Plugins > Installed Plugins**.
 
 **Taxonomy filters** choose what the carousel contains. **Advanced > Frontend
 filters** adds visitor-facing controls. A PHP filter is a separate developer
@@ -62,9 +63,17 @@ add_filter('wp_posts_carousel_query_args', function (array $args, array $config)
 
 ## Curated product shelf
 
-Choose Manual composition, find products with the search picker and drag them
-into campaign order. This changes only the carousel sequence; it does not edit
-or delete the WooCommerce products.
+1. Open **Query** and set **Content selection** to **Manual slides**.
+2. Open **Slides**. Choose **Products** under **Manual slide post types**.
+3. Search for products and select the ones you want to add.
+4. Drag the selected cards into your preferred order.
+5. Choose a template under **Design**, then save and check the published page.
+
+This changes only the carousel sequence; it does not edit or delete the
+WooCommerce products. Product links work with the base plugin. Current prices
+and purchase actions need [Pro](./woocommerce-products.md).
+
+### Optional PHP: custom merchandising order
 
 Add a reusable numeric merchandising order:
 
@@ -199,5 +208,5 @@ inside a card or requires detailed slide data.
 
 Use a child-theme override for one project. Build an installable extension when
 the same template, source or renderer needs its own version and update cycle on
-multiple sites. Continue with [Extensions](extensions) and
-[Styles and templates](template-development).
+multiple sites. Continue with [Extensions](./extensions.md) and
+[Styles and templates](./templates-and-addons.md).

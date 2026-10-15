@@ -18,7 +18,7 @@ const NUMBER_FIELDS = [
     { name: 'auto_play_timeout', label: 'Autoplay timeout', min: 0, unit: 'ms' },
     { name: 'auto_play_speed', label: 'Autoplay speed', min: 0, unit: 'ms' },
     { name: 'nav_speed', label: 'Navigation speed', min: 0, unit: 'ms' },
-    { name: 'dots_speed', label: 'Dots speed', min: 0, unit: 'ms', engines: ['owl-carousel'] },
+    { name: 'dots_speed', label: 'Dots speed', min: 0, unit: 'ms' },
     { name: 'lazy_load_eager', label: 'Lazy load eager', min: 0, unit: 'slides', engines: ['owl-carousel'] },
     { name: 'mousewheel_sensitivity', label: 'Mousewheel sensitivity', min: 0.1, step: 0.1, unit: 'x', engines: ['swiper'] },
     { name: 'touch_ratio', label: 'Touch ratio', min: 0, step: 0.1, unit: 'x', engines: ['swiper'] },
@@ -457,7 +457,7 @@ export default function CarouselSettings({
 
             <p className='tw-m-0 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
                 {__(
-                    'Use spacing and speed values to match the carousel with the surrounding layout.',
+                    'Autoplay timeout sets the interval between automatic advances. Autoplay speed, Navigation speed and Dots speed set the transition duration for each interaction. All four values use milliseconds.',
                     'wp-posts-carousel'
                 )}
             </p>

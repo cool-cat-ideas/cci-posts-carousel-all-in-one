@@ -1,3 +1,6 @@
+import { carouselTimings } from '../../shared/carousel-timing.mjs';
+import { installSwiperTiming } from './swiper-timing.mjs';
+
 const swiperEngine = {
 	label: 'Swiper',
 	supportsReactRenderer: true,
@@ -15,6 +18,10 @@ const swiperEngine = {
 			}
 
 			const options = context.options || {};
+			const timings = carouselTimings( options );
+			if ( prefersReducedMotion() ) {
+				timings.autoplay = timings.navigation = timings.dots = 0;
+			}
 			const preview = context.root.closest( '[data-wpc-preview-viewport]' );
 			const previousDirection = context.root.getAttribute( 'dir' );
 			const {
@@ -122,11 +129,12 @@ const swiperEngine = {
 						? 'auto'
 						: currentItemsForWidth( options ),
 				spaceBetween: numberOption( options.margin, 0 ),
-				speed: numberOption( options.nav_speed || options.auto_play_speed, 300 ),
+				speed: timings.navigation,
 				touchRatio: numberOption( options.touch_ratio, 1 ),
 				watchOverflow: truthy( options.watch_overflow, true ),
 				watchSlidesProgress: effect === 'cards' || effect === 'coverflow' || effect === 'creative',
 			} );
+			const restoreTiming = installSwiperTiming( instance, timings, context.paginationEl );
 
 			const notifyActiveIndex = () => {
 				if ( typeof context.onActiveIndexChange !== 'function' ) {
@@ -144,14 +152,14 @@ const swiperEngine = {
 					return;
 				}
 
-				instance.slidePrev();
+				instance.slidePrev( timings.navigation );
 			};
 			const slideNext = () => {
 				if ( context.nextEl?.getAttribute( 'aria-disabled' ) === 'true' ) {
 					return;
 				}
 
-				instance.slideNext();
+				instance.slideNext( timings.navigation );
 			};
 			let lastPointerNavigationAt = 0;
 			const shouldSkipSyntheticClick = () => {
@@ -253,6 +261,7 @@ const swiperEngine = {
 				}
 
 				instance.off( 'slideChange', notifyActiveIndex );
+				restoreTiming();
 				instance.destroy( true, true );
 				if ( typeof context.onReady === 'function' ) {
 					context.onReady( null );

@@ -16,10 +16,10 @@ the workflow and a screenshot of the dashboard.
 
 1. Open **Plugins > Add New > Upload Plugin**.
 2. Upload the base plugin ZIP and activate **WP Posts Carousel All In One**.
-3. Open **WP Posts Carousel > Carousels** and click **Add New**.
-4. Enter an internal name, choose **Posts** and keep the newest-first order.
+3. Open **WP Posts Carousel > Dashboard** and click **New carousel**.
+4. Enter a name. Under **Query**, choose **Query (automatic)**, select **Posts** and keep the newest-first order.
 5. Pick a template and set the desktop, tablet and mobile item counts.
-6. Check the preview and save.
+6. Check the query preview, set **Status** to **Published** and click **Save**.
 7. Edit a page, add the **WP Posts Carousel** block and choose the saved
    carousel.
 8. Publish the page and check it on desktop and mobile.
@@ -39,7 +39,7 @@ optional and is needed only for product sources and commerce features.
 ### Select a category in the Query tab
 
 Choose **Query (automatic)** under **Content selection**, then select **Posts**.
-In **Taxonomy filters**, choose **Categories**, type a name in **Search
+In **Taxonomy filters**, choose **Categories**, set **Operator** to **In**, type a name in **Search
 categories** and select an autocomplete suggestion. Use the arrow keys and
 Enter for keyboard selection. The post preview updates automatically when
 you change terms, ordering or the limit.
@@ -50,7 +50,7 @@ new matching posts can appear without rebuilding a manual selection.
 
 For a fixed list, choose **Use these posts as manual slides** or switch
 **Content selection** to **Manual slides**, then add or arrange slides in
-Content. Switching back to Query asks before clearing that manual selection.
+**Slides**. Switching back to Query asks before clearing that manual selection.
 
 Choose a template, configure the engine and responsive item counts, save or
 publish, then check the embedded page.
@@ -61,8 +61,8 @@ The base plugin can select WooCommerce products because `product` is a public cu
 type, but it renders them as ordinary linked content cards. For current price,
 sale state, rating, buying action and merchandising ordering, activate Pro.
 
-1. Choose **Manual** composition.
-2. Search for WooCommerce products and add them to the sequence.
+1. Under **Query > Content selection**, choose **Manual slides**.
+2. Open **Slides**, select **Products** under **Manual slide post types**, search for products and add them to the sequence.
 3. Drag the slides into the required merchandising order.
 4. Open a slide only when it needs a custom crop, width or per-slide setting.
 5. Select a product-compatible template and verify regular and sale prices.
@@ -227,6 +227,7 @@ publication state and item limit. When styling differs from the preview,
 inspect the active template root and theme rules before adding another global
 override.
 
-For support include plugin versions, WordPress/PHP versions, active theme,
-carousel name, source, template, engine, page URL, exported configuration,
-screenshots and browser console errors.
+If you would like help, follow [Support](./support.md) for direct contact links,
+the steps to send a message and where to read the reply. Start with what you
+tried, the installed plugin version and a screenshot if useful. You do not need
+to diagnose the issue or collect developer logs before asking.
