@@ -12,14 +12,6 @@ Choose your content, arrange your slides and preview the result in the visual ed
 
 We're **Cool Cat Ideas**, and we're proud of this plugin. We built it for the enjoyable part of putting a page together: choosing what deserves attention and finding the right way to present it. We'd love to see what you create.
 
-## Changes in 2.0.2
-
-Carousels can be loaded again after a temporary API or template stylesheet error. REST responses reuse slide data for JSON and HTML instead of querying the same content twice.
-
-Public pages load the styles for their selected carousel templates. Carousels inserted later load their template stylesheet before rendering. Editor previews keep access to every available template.
-
-This release declares compatibility with WordPress 7.1.3. Existing 2.x carousel settings are preserved.
-
 ## Plenty to create with, right from the start
 
 - Unlimited saved carousels with a visual editor and manual slide ordering.
@@ -53,7 +45,7 @@ See the [user guide](docs/2.0.x/user-guide.md) for configuration and the [develo
 
 Updating from 1.x? Version 2.x rewrites the carousel data model, widgets and shortcode configuration. Recreate your carousels in the new editor and replace every old placement. Follow the [upgrade guide](docs/2.0.x/upgrading-from-1.x.md) for the steps and a screenshot of the dashboard.
 
-The [external services section in readme.txt](readme.txt) explains marketplace requests, optional review submissions and icon CDN loading.
+The [plugin readme](readme.txt) includes the changelog and explains marketplace requests, optional review submissions and icon CDN loading.
 
 ## Screenshots
 
