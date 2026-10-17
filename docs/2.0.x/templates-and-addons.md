@@ -275,7 +275,7 @@ Template versions below come from each template manifest. They are separate from
 | `default` | Core plugin | 2.0.0 | General card template for posts and products. |
 | `simple` | Core plugin | 2.0.0 | Cleaner content cards. |
 | `light` | Core plugin | 2.0.0 | Lighter editorial cards. |
-| `aurora-cards` | WP Posts Carousel Aurora Cards | 1.0.0 | Separately installable external template for editorial content and products; no paid license required. |
+| `aurora-cards` | Aurora Cards for WP Posts Carousel | 1.0.0 | Separately installable external template for editorial content and products; no paid license required. |
 | `commerce-luxe` | WP Posts Carousel Pro | 2.0.0 | Pro commerce shelf. |
 | `story-commerce` | WP Posts Carousel Pro | 2.0.0 | Pro mixed-format guided buying sequence. |
 | `video-showcase` | WP Posts Carousel Pro | 2.0.0 | Bundled Pro video campaign player with local playlists. |

@@ -35,12 +35,12 @@ actions, source integrations, template packaging and browser renderers.
 Two no-cost products provide working, installable examples of the contracts in
 this guide:
 
-- `wp-posts-carousel-related-content` adds an ordering choice, uses
+- `related-content-for-wp-posts-carousel` adds an ordering choice, uses
   `wc_get_related_products()` for product-only rows, prioritizes the Yoast SEO
   primary term through `yoast_get_primary_term_id()` and falls back to shared
   public taxonomy terms. The cookbook explains the underlying
   [query extension contract](./extension-cookbook.md#change-the-source-query).
-- `wp-posts-carousel-aurora-cards` registers a universal template path with a
+- `aurora-cards-for-wp-posts-carousel` registers a universal template path with a
   manifest, PHP view, scoped CSS and screenshot. It renders blog cards with
   Free, links enabled public categories and tags from the standard slide
   payload, and consumes advanced WooCommerce fields only when Pro supplies
