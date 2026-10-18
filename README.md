@@ -51,7 +51,7 @@ See the [user guide](docs/2.1.0/user-guide.md) for configuration and the [develo
 
 ## Updating from 2.0.x to 2.1.0
 
-This includes 2.0.0 through 2.0.5. Update directly; your saved carousels,
+This includes 2.0.0 through 2.0.4. Update directly; your saved carousels,
 settings, IDs, Gutenberg blocks and existing `[wp_posts_carousel]` shortcodes
 stay supported. You do not need to recreate carousels or replace shortcodes.
 

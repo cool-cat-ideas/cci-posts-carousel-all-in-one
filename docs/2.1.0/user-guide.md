@@ -328,7 +328,7 @@ window. This also applies to images chosen from the media library. Then use
 
 CCI Posts Carousel All In One was previously named WP Posts Carousel All In One. The name and package slug changed following WordPress’s decision about the plugin name and slug. Your saved carousel IDs, settings, Gutenberg blocks and existing `[wp_posts_carousel]` shortcodes remain supported. You can also use `[cci_posts_carousel]`.
 
-### From 2.0.5 or another 2.0.x release to 2.1.0
+### From 2.0.x to 2.1.0
 
 Update directly to 2.1.0; no intermediate release or carousel recreation is required. This procedure is different from the 1.x upgrade described earlier in this guide.
 

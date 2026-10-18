@@ -99,7 +99,7 @@ Yes. Open Query > Content selection and choose Pinned slides + automatic fill. S
 
 = How do I update from 2.0.x to 2.1.0 after the rename? =
 
-This includes 2.0.0 through 2.0.5. CCI Posts Carousel All In One was previously
+This includes 2.0.0 through 2.0.4. CCI Posts Carousel All In One was previously
 named WP Posts Carousel All In One. Your saved carousel IDs, settings, Gutenberg
 blocks and existing [wp_posts_carousel] shortcodes stay supported. You do not
 need to recreate carousels or replace shortcodes.
