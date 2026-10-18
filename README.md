@@ -49,6 +49,35 @@ For image previews, open **Advanced > Image on hover**, enable the option and ch
 
 See the [user guide](docs/2.1.0/user-guide.md) for configuration and the [developer guide](docs/2.1.0/developer-guide.md) for extensions.
 
+## Updating from 2.0.x to 2.1.0
+
+This includes 2.0.0 through 2.0.5. Update directly; your saved carousels,
+settings, IDs, Gutenberg blocks and existing `[wp_posts_carousel]` shortcodes
+stay supported. You do not need to recreate carousels or replace shortcodes.
+
+1. Back up the WordPress files and database. Try the update on a staging copy first.
+2. Leave **WP Posts Carousel All In One** installed and active. Download
+   `cci-posts-carousel-2.1.0.zip` from the [product page](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/).
+   Open **Plugins → Add New Plugin → Upload Plugin**, then upload and install it.
+   The old and renamed plugins appear as two entries because their folders differ.
+3. Click **Activate** for **CCI Posts Carousel All In One**. Activation switches
+   WordPress to the renamed package and makes the old entry inactive. Your saved
+   carousel data stays in place.
+4. If you use Pro, an already active Pro 2.0.0 can stay active. Update Pro and
+   external add-ons separately when their renamed ZIPs are available. The base
+   and Pro version numbers do not need to match, and an active license does not
+   need to be entered again.
+5. Clear the site cache. Open the saved carousel list and check an existing page
+   on desktop and mobile, including any Pro layouts or WooCommerce buttons.
+
+**Do not click Delete on the old plugin entry in WordPress.** Its uninstall
+routine may remove shared carousel data. Keep its inactive folder while you
+verify the site. If you later remove old files, use SFTP or the hosting file
+manager after confirming that the renamed replacements are active.
+
+See the [full update guide](docs/2.1.0/user-guide.md#updating-from-the-previous-package-name)
+for the checks and rollback steps. Image on hover remains off unless you enable it.
+
 Updating from 1.x? Version 2.x rewrites the carousel data model, widgets and shortcode configuration. Recreate your carousels in the new editor and replace every old placement. Follow the [upgrade guide](docs/2.1.0/upgrading-from-1.x.md) for the steps and a screenshot of the dashboard.
 
 The [plugin readme](readme.txt) includes the changelog and explains marketplace requests, optional review submissions and icon CDN loading.

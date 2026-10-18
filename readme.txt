@@ -97,6 +97,26 @@ Yes, in the base plugin. Open Advanced > Image on hover, enable Change image on 
 
 Yes. Open Query > Content selection and choose Pinned slides + automatic fill. Set the post types, categories, ordering and Posts limit. Click the pin button on a preview card, then drag pinned cards into your preferred order. Save the carousel. With two pins and a limit of six, up to four matching posts follow the pins without repeating them. This option is included in the base plugin. Remove a pin to let that post return to automatic results when it matches the query.
 
+= How do I update from 2.0.x to 2.1.0 after the rename? =
+
+This includes 2.0.0 through 2.0.5. CCI Posts Carousel All In One was previously
+named WP Posts Carousel All In One. Your saved carousel IDs, settings, Gutenberg
+blocks and existing [wp_posts_carousel] shortcodes stay supported. You do not
+need to recreate carousels or replace shortcodes.
+
+1. Back up your WordPress files and database. Try the update on staging first.
+2. Keep WP Posts Carousel All In One installed and active. Download cci-posts-carousel-2.1.0.zip from the product page and install it through Plugins > Add New Plugin > Upload Plugin. Two plugin entries are expected because the folder name has changed.
+3. Activate CCI Posts Carousel All In One. Activation switches to the renamed package and makes the old entry inactive while preserving saved carousel data.
+4. An already active Pro 2.0.0 can stay active. Update Pro and external add-ons separately when their renamed ZIPs are available. Their version numbers do not need to match the base plugin, and an active license does not need to be entered again.
+5. Clear cache, open the saved carousel list and check existing pages on desktop and mobile, including Pro layouts or WooCommerce actions you use.
+
+Do not click Delete on the old plugin entry in WordPress: its uninstall routine
+may remove shared saved data. Keep the inactive folder until you have checked
+the site. Remove old files only through SFTP or your hosting file manager after
+confirming that the renamed replacements are active.
+
+See the [full update guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.1.0/installation/#updating-from-the-previous-package-name) for checks and rollback steps. The separate 1.x upgrade procedure does not apply to 2.0.x installations.
+
 = Why did my carousels stop working after upgrading from 1.x to 2.x? =
 
 Version 2.x is a rewrite of the plugin, including the carousel data model, editor, widgets and shortcode configuration. Settings from 1.x are not automatically converted. Open CCI Posts Carousel All In One > Dashboard, click New carousel, recreate each carousel, then save and publish it. Replace every old shortcode and select the new carousel in the current block or widget wherever it was displayed. Creating a replacement alone does not reconnect those placements. Clear cache after saving and check the published pages on desktop and mobile. The [upgrade guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.0.x/upgrading-from-1.x/) includes the steps and a screenshot of the new dashboard.
@@ -228,7 +248,7 @@ The plugin includes compiled JavaScript and CSS. The repositories above contain 
 == Upgrade Notice ==
 
 = 2.1.0 =
-Pin selected slides and fill the rest automatically. Optionally show a second image on mouse hover. Both features are included in the base plugin. Existing selection modes stay unchanged and hover is off by default.
+Renamed from WP Posts Carousel All In One. Updating from 2.0.x? Follow the update steps in the FAQ and keep the old plugin until you activate CCI. Saved carousels and shortcodes stay supported. Pinning and hover images are included; hover is off by default.
 
 = 2.0.4 =
 Autoplay, arrow and dot transitions now use their own speed settings in Swiper and the editor preview. Owl fade animations follow the selected duration. Existing carousel settings are preserved.
