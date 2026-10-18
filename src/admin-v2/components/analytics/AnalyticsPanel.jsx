@@ -27,7 +27,7 @@ export default function AnalyticsPanel({ setNotice }) {
                 setError(true);
                 setNotice({
                     type: 'error',
-                    message: __('Failed loading analytics data.', 'wp-posts-carousel'),
+                    message: __('Failed loading analytics data.', 'cci-posts-carousel'),
                 });
             })
             .finally(() => setLoading(false));
@@ -39,13 +39,13 @@ export default function AnalyticsPanel({ setNotice }) {
     if (loading) {
         return (
             <Card>
-                <LoadingState label={__('Loading analytics...', 'wp-posts-carousel')} variant='block' rows={3} />
+                <LoadingState label={__('Loading analytics...', 'cci-posts-carousel')} variant='block' rows={3} />
             </Card>
         );
     }
 
     if (error) {
-        return <InfoCallout tone='error' title={__('Failed loading analytics data.', 'wp-posts-carousel')} actions={<Button onClick={load}>{__('Retry', 'wp-posts-carousel')}</Button>} />;
+        return <InfoCallout tone='error' title={__('Failed loading analytics data.', 'cci-posts-carousel')} actions={<Button onClick={load}>{__('Retry', 'cci-posts-carousel')}</Button>} />;
     }
 
     return (
@@ -54,33 +54,33 @@ export default function AnalyticsPanel({ setNotice }) {
                 <div className='tw-grid tw-grid-cols-1 tw-gap-3 tw-p-4 lg:tw-grid-cols-3'>
                     <MetricCard
                         icon={Layers3}
-                        label={__('Carousels', 'wp-posts-carousel')}
+                        label={__('Carousels', 'cci-posts-carousel')}
                         value={stats.total}
-                        description={__('All saved carousel definitions', 'wp-posts-carousel')}
+                        description={__('All saved carousel definitions', 'cci-posts-carousel')}
                         tone='primary'
                     />
                     <MetricCard
                         icon={BarChart3}
-                        label={__('Published', 'wp-posts-carousel')}
+                        label={__('Published', 'cci-posts-carousel')}
                         value={stats.published}
-                        description={`${__('Unpublished', 'wp-posts-carousel')}: ${stats.unpublished}`}
+                        description={`${__('Unpublished', 'cci-posts-carousel')}: ${stats.unpublished}`}
                     />
                     <MetricCard
                         icon={TrendingUp}
-                        label={__('Manual slides', 'wp-posts-carousel')}
+                        label={__('Manual slides', 'cci-posts-carousel')}
                         value={stats.totalSlides}
-                        description={`${__('Average per manual carousel', 'wp-posts-carousel')}: ${stats.averageSlides}`}
+                        description={`${__('Average per manual carousel', 'cci-posts-carousel')}: ${stats.averageSlides}`}
                     />
                 </div>
 
                 <div className='tw-grid tw-grid-cols-1 tw-gap-3 tw-p-4 lg:tw-grid-cols-3'>
-                    <Breakdown title={__('Engines', 'wp-posts-carousel')} items={stats.engines} />
-                    <Breakdown title={__('Renderers', 'wp-posts-carousel')} items={stats.renderers} />
-                    <Breakdown title={__('Templates', 'wp-posts-carousel')} items={stats.templates} />
+                    <Breakdown title={__('Engines', 'cci-posts-carousel')} items={stats.engines} />
+                    <Breakdown title={__('Renderers', 'cci-posts-carousel')} items={stats.renderers} />
+                    <Breakdown title={__('Templates', 'cci-posts-carousel')} items={stats.templates} />
                 </div>
             </Card>
 
-            {stats.invalidConfigs > 0 && <InfoCallout tone='warning' title={__('Some carousel settings could not be read.', 'wp-posts-carousel')}>{__('Configuration totals exclude unreadable settings.', 'wp-posts-carousel')}</InfoCallout>}
+            {stats.invalidConfigs > 0 && <InfoCallout tone='warning' title={__('Some carousel settings could not be read.', 'cci-posts-carousel')}>{__('Configuration totals exclude unreadable settings.', 'cci-posts-carousel')}</InfoCallout>}
 
             <ProAnalyticsUpsell />
         </div>
@@ -104,7 +104,7 @@ function Breakdown({ title, items }) {
                     ))}
                 </ul>
             ) : (
-                <p className='tw-m-0 tw-mt-2 tw-text-sm tw-text-cci-wpc-muted'>{__('No data yet.', 'wp-posts-carousel')}</p>
+                <p className='tw-m-0 tw-mt-2 tw-text-sm tw-text-cci-wpc-muted'>{__('No data yet.', 'cci-posts-carousel')}</p>
             )}
         </div>
     );
@@ -118,27 +118,27 @@ function ProAnalyticsUpsell() {
             <CardHeader>
                 <div>
                     <ProBadge />
-                    <h2>{__('Engagement analytics', 'wp-posts-carousel')}</h2>
+                    <h2>{__('Engagement analytics', 'cci-posts-carousel')}</h2>
                     <p>
                         {__(
-                            'Runtime tracking, retention controls, CTR reports and audience breakdowns are delivered by WP Posts Carousel Pro.',
-                            'wp-posts-carousel'
+                            'Runtime tracking, retention controls, CTR reports and audience breakdowns are delivered by CCI Posts Carousel All In One Pro.',
+                            'cci-posts-carousel'
                         )}
                     </p>
                 </div>
                 {upgradeUrl && (
                     <Button variant='outlineAccent' asChild>
                         <a href={upgradeUrl} target='_blank' rel='noreferrer'>
-                            {__('View Pro features', 'wp-posts-carousel')}
+                            {__('View Pro features', 'cci-posts-carousel')}
                             <ExternalLink aria-hidden='true' />
                         </a>
                     </Button>
                 )}
             </CardHeader>
             <div className='tw-grid tw-grid-cols-1 tw-gap-3 tw-p-4 lg:tw-grid-cols-3'>
-                <ProMetric icon={Eye} label={__('Impressions', 'wp-posts-carousel')} />
-                <ProMetric icon={MousePointerClick} label={__('Clicks', 'wp-posts-carousel')} />
-                <ProMetric icon={TrendingUp} label={__('CTR trends', 'wp-posts-carousel')} />
+                <ProMetric icon={Eye} label={__('Impressions', 'cci-posts-carousel')} />
+                <ProMetric icon={MousePointerClick} label={__('Clicks', 'cci-posts-carousel')} />
+                <ProMetric icon={TrendingUp} label={__('CTR trends', 'cci-posts-carousel')} />
             </div>
         </Card>
     );
@@ -155,9 +155,9 @@ function ProMetric({ icon: Icon, label }) {
             </span>
             <div>
                 <strong className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>{label}</strong>
-                <div className='tw-mt-1 tw-text-2xl tw-font-bold tw-leading-none tw-text-cci-wpc-text'>{__('Not available', 'wp-posts-carousel')}</div>
+                <div className='tw-mt-1 tw-text-2xl tw-font-bold tw-leading-none tw-text-cci-wpc-text'>{__('Not available', 'cci-posts-carousel')}</div>
                 <p className='tw-m-0 tw-mt-1 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
-                    {__('Available in Pro with optional frontend tracking.', 'wp-posts-carousel')}
+                    {__('Available in Pro with optional frontend tracking.', 'cci-posts-carousel')}
                 </p>
             </div>
             <ProBadge className='tw-absolute tw-right-3 tw-top-3' />

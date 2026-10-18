@@ -1002,7 +1002,7 @@ test('live demo distinguishes Free and Pro without repeating package metadata', 
 
 	for (const row of rows) {
 		expect(row.title).toBeTruthy();
-		expect(row.package).toContain('WP Posts Carousel');
+		expect(row.package).toContain('CCI Posts Carousel');
 		expect(row.tier).toMatch(/^(Free|Pro)$/);
 		expect(row.type).toMatch(/^(Core plugin|Add-on|Integration|Template|Pro module)$/);
 		expect(row.useCase).toBeTruthy();
@@ -1034,9 +1034,9 @@ test('live demo distinguishes Free and Pro without repeating package metadata', 
 	expect(rows.some((row) => row.type === 'Template')).toBe(true);
 	expect(rows.some((row) => row.type === 'Integration')).toBe(true);
 	expect(rows.filter((row) => row.metadata.Template === 'Media Editorial')).toHaveLength(0);
-	expect(rows.some((row) => row.title === 'Homepage Feature Story Cards' && row.metadata.Template === 'Default Template' && row.package === 'WP Posts Carousel All In One' && row.tier === 'Free' && row.type === 'Core plugin')).toBe(true);
-	expect(rows.some((row) => row.package === 'WP Posts Carousel All In One' && row.type === 'Integration')).toBe(true);
-	expect(rows.some((row) => row.package === 'WP Posts Carousel All In One Pro WooCommerce Merchandising Integration')).toBe(false);
+	expect(rows.some((row) => row.title === 'Homepage Feature Story Cards' && row.metadata.Template === 'Default Template' && row.package === 'CCI Posts Carousel All In One' && row.tier === 'Free' && row.type === 'Core plugin')).toBe(true);
+	expect(rows.some((row) => row.package === 'CCI Posts Carousel All In One' && row.type === 'Integration')).toBe(true);
+	expect(rows.some((row) => row.package === 'CCI Posts Carousel All In One Pro WooCommerce Merchandising Integration')).toBe(false);
 	await expect(page.locator('.cci-wpc-demo-media-editorial-video-feature')).toHaveCount(0);
 	await expect(page.locator('.cci-wpc-demo-video-learning-reel')).toHaveCount(0);
 	await expect(page.locator('.cci-wpc-demo-pro-video-showcase')).toHaveCount(1);
@@ -1073,8 +1073,8 @@ test('live demo long-form article embeds contextual carousels', async ({ page })
 	const articleUrl = new URL('/wp-posts-carousel-long-form-demo/', demoUrl).toString();
 	const response = await page.goto(articleUrl, { waitUntil: 'domcontentloaded' });
 	expect(response.status()).toBe(200);
-	await expect(page.getByRole('heading', { name: /WP Posts Carousel: a practical WordPress carousel module/ })).toBeVisible();
-	expect(await page.content()).not.toContain('[wp_posts_carousel');
+	await expect(page.getByRole('heading', { name: /CCI Posts Carousel: a practical WordPress carousel module/ })).toBeVisible();
+	expect(await page.content()).not.toContain('[cci_posts_carousel');
 
 	const rail = page.locator('.cci-wpc-demo-article-rail').first();
 	const railCopy = rail.locator('.cci-wpc-demo-article-copy').first();

@@ -8,15 +8,15 @@ find the cause before asking.
 
 | What you need | Where to go |
 | --- | --- |
-| A usage question or a problem you can describe publicly | [Open a WP Posts Carousel issue on GitHub](https://github.com/cool-cat-ideas/wp-posts-carousel-all-in-one/issues/new). Questions are welcome too. |
-| Help with an existing WordPress.org topic | [WP Posts Carousel support forum](https://wordpress.org/support/plugin/wp-posts-carousel/). Please continue in your existing topic rather than posting the same request twice. |
+| A usage question or a problem you can describe publicly | [Open a CCI Posts Carousel All In One issue on GitHub](https://github.com/cool-cat-ideas/cci-posts-carousel-all-in-one/issues/new). Questions are welcome too. |
+| Help with an existing WordPress.org topic | [CCI Posts Carousel All In One support forum](https://wordpress.org/support/plugin/wp-posts-carousel/). Please continue in your existing topic rather than posting the same request twice. |
 | A licence, order or private support request | [Services and support in your Cool Cat Ideas account](https://coolcatideas.com/en/account/services/). |
-| An unclear instruction or broken documentation link | Use **Report an issue** on the [online documentation page](https://coolcatideas.com/docs/wp-posts-carousel-all-in-one/2.0.x/support/). It opens the documentation feedback form and includes the page address. |
+| An unclear instruction or broken documentation link | Use **Report an issue** on the [online documentation page](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.0.x/support/). It opens the documentation feedback form and includes the page address. |
 | A security vulnerability | [Email info@coolcatideas.com](mailto:info@coolcatideas.com). Please keep vulnerability details out of public issues. |
 
 ### Ask a question or report a problem publicly
 
-1. Open the [GitHub issue form](https://github.com/cool-cat-ideas/wp-posts-carousel-all-in-one/issues/new) and sign in to GitHub if asked.
+1. Open the [GitHub issue form](https://github.com/cool-cat-ideas/cci-posts-carousel-all-in-one/issues/new) and sign in to GitHub if asked.
 2. Enter a short title, for example `Category suggestions do not appear`.
 3. Describe what you wanted to do, the steps you tried and what happened instead.
 4. Add your installed plugin version and a screenshot if it helps explain the problem.
@@ -46,8 +46,8 @@ enough to identify it.
 Start with the steps you tried and what you expected to see. These details are
 helpful when available:
 
-- **Installed version:** open **Plugins > Installed Plugins** in WordPress and find WP Posts Carousel All In One. Include the Pro version too if Pro is installed.
-- **Affected carousel:** open **WP Posts Carousel > Dashboard** and copy its name or the shortcode from the **Shortcode** column.
+- **Installed version:** open **Plugins > Installed Plugins** in WordPress and find CCI Posts Carousel All In One. Include the Pro version too if Pro is installed.
+- **Affected carousel:** open **CCI Posts Carousel All In One > Dashboard** and copy its name or the shortcode from the **Shortcode** column.
 - **Screenshot:** capture the affected editor tab or the part of the page that looks wrong. Please hide private details first.
 - **Page address:** share a public example when possible. If the page is private, mention that in your private request instead.
 - **What changed:** tell us whether the issue started after an update, theme change or site move.
@@ -57,7 +57,7 @@ You can leave out technical details you do not know; we can ask for them later.
 
 ## Diagnostics for a developer or site administrator
 
-Open **WP Posts Carousel > Settings > Diagnostics** to inspect the recorded
+Open **CCI Posts Carousel All In One > Settings > Diagnostics** to inspect the recorded
 messages. A screenshot of a relevant error can help us; there is no need to
 understand every entry before contacting support.
 
@@ -75,11 +75,11 @@ shown in the license panel. Please send these through the
 [private account form](https://coolcatideas.com/en/account/services/).
 
 You do not need to paste the licence key into the message. See
-[Activate Pro](https://coolcatideas.com/docs/wp-posts-carousel-all-in-one/2.0.x/license-activation/) for the activation steps.
+[Activate Pro](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.0.x/license-activation/) for the activation steps.
 
 ## Domain and migration issues
 
-WP Posts Carousel stores carousel definitions in WordPress and renders them on the current site domain. It does not change DNS, SSL or WordPress domain settings.
+CCI Posts Carousel All In One stores carousel definitions in WordPress and renders them on the current site domain. It does not change DNS, SSL or WordPress domain settings.
 
 After changing a site domain:
 
@@ -100,6 +100,6 @@ the old domain, new domain and one affected carousel name or shortcode.
 Installation and technical intervention are optional services for work on a
 particular site. They are separate from licence support and are not required
 to ask a public question. See the
-[product page](https://coolcatideas.com/products/wp-posts-carousel-all-in-one/)
+[product page](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/)
 for available services. After purchase, delivery details and messages are kept
 under [Services and support](https://coolcatideas.com/en/account/services/).

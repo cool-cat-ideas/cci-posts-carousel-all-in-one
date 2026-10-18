@@ -16,7 +16,7 @@ const slideSchema = z
 			context.addIssue( {
 				code: 'custom',
 				path: [ 'span' ],
-				message: __( 'Slide width must be between 1 and 6 columns.', 'wp-posts-carousel' ),
+				message: __( 'Slide width must be between 1 and 6 columns.', 'cci-posts-carousel' ),
 			} );
 		}
 
@@ -27,7 +27,7 @@ const slideSchema = z
 				context.addIssue( {
 					code: 'custom',
 					path: [ key ],
-					message: __( 'Image offset must be between -100% and 100%.', 'wp-posts-carousel' ),
+					message: __( 'Image offset must be between -100% and 100%.', 'cci-posts-carousel' ),
 				} );
 			}
 		} );
@@ -35,7 +35,7 @@ const slideSchema = z
 
 const carouselSchema = z
 	.object( {
-		title: z.string().trim().min( 1, __( 'Carousel title is required.', 'wp-posts-carousel' ) ),
+		title: z.string().trim().min( 1, __( 'Carousel title is required.', 'cci-posts-carousel' ) ),
 		status: z.enum( [ 'draft', 'publish' ] ),
 		post_selection_options: z.object( {
 			posts: z.array( slideSchema ),
@@ -47,10 +47,10 @@ const carouselSchema = z
         const selection = form.post_selection_options;
         const mode = selection.mode || (selection.posts.length ? 'manual' : 'query');
         if (mode === 'manual' && !selection.posts.length) {
-            context.addIssue({ code: 'custom', path: ['post_selection_options', 'posts'], message: __('Add at least one slide.', 'wp-posts-carousel') });
+            context.addIssue({ code: 'custom', path: ['post_selection_options', 'posts'], message: __('Add at least one slide.', 'cci-posts-carousel') });
         }
-        if (mode === 'query' && (!selection.post_types?.length || !(Number(selection.all_items) > 0))) {
-            context.addIssue({ code: 'custom', path: ['post_selection_options'], message: __('Choose a post type and a positive posts limit.', 'wp-posts-carousel') });
+        if (mode !== 'manual' && (!selection.post_types?.length || !(Number(selection.all_items) > 0))) {
+            context.addIssue({ code: 'custom', path: ['post_selection_options'], message: __('Choose a post type and a positive posts limit.', 'cci-posts-carousel') });
         }
         const options = form.carousel_options || {};
 		const minimums = {
@@ -80,8 +80,8 @@ const carouselSchema = z
 					path: [ 'carousel_options', key ],
 					message:
 						min === 0
-							? __( 'Carousel numeric values cannot be negative.', 'wp-posts-carousel' )
-							: __( 'Slide by must be at least 1.', 'wp-posts-carousel' ),
+							? __( 'Carousel numeric values cannot be negative.', 'cci-posts-carousel' )
+							: __( 'Slide by must be at least 1.', 'cci-posts-carousel' ),
 				} );
 			}
 		} );
@@ -96,7 +96,7 @@ const carouselSchema = z
 				context.addIssue( {
 					code: 'custom',
 					path: [ 'carousel_options', 'items_to_show', breakpoint ],
-					message: __( 'Breakpoint width must be greater than 0.', 'wp-posts-carousel' ),
+					message: __( 'Breakpoint width must be greater than 0.', 'cci-posts-carousel' ),
 				} );
 			}
 
@@ -104,7 +104,7 @@ const carouselSchema = z
 				context.addIssue( {
 					code: 'custom',
 					path: [ 'carousel_options', 'items_to_show', breakpoint ],
-					message: __( 'Responsive items must be at least 1.', 'wp-posts-carousel' ),
+					message: __( 'Responsive items must be at least 1.', 'cci-posts-carousel' ),
 				} );
 			}
 		} );
@@ -118,7 +118,7 @@ const carouselSchema = z
 			context.addIssue( {
 				code: 'custom',
 				path: [ 'carousel_options', 'autoplay_indicator' ],
-				message: __( 'Choose a valid autoplay progress indicator.', 'wp-posts-carousel' ),
+				message: __( 'Choose a valid autoplay progress indicator.', 'cci-posts-carousel' ),
 			} );
 		}
 	} );

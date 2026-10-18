@@ -1,3 +1,4 @@
+import { AdminShell, AdminWorkspace } from '@cci/admin-ui/layout';
 import React, { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { BookOpen } from 'lucide-react';
 import { InfoCallout } from '@cci/admin-ui/wp-carousel';
@@ -52,9 +53,6 @@ export default function App() {
     const isBuilder = currentAction === 'add-new' || currentAction === 'edit';
     const isPro = license.status === 'active' || Boolean(pluginData.isPro);
     const pageHeader = getPageHeader(activeSection, Boolean(isPro && window.wpPostsCarouselProAdmin?.AnalyticsPanel));
-    const shellStyle = {
-        gridTemplateColumns: sidebarCollapsed ? '76px minmax(0, 1fr)' : '270px minmax(0, 1fr)',
-    };
 
     useEffect(() => {
         if (typeof window === 'undefined') {
@@ -150,9 +148,9 @@ export default function App() {
     }, []);
 
     return (
-        <div
-            className='cci-wpc-admin-shell tw-ml-[-20px] tw-grid tw-min-h-[calc(100vh-32px)] tw-items-stretch tw-bg-cci-wpc-bg tw-font-sans tw-text-sm tw-leading-[1.45] tw-text-cci-wpc-text'
-            style={shellStyle}
+        <AdminShell
+            className='cci-wpc-admin-shell tw-bg-cci-wpc-bg tw-font-sans tw-text-sm tw-leading-[1.45] tw-text-cci-wpc-text'
+            collapsed={sidebarCollapsed}
         >
             <DashboardSidebar
                 activeSection={isBuilder ? 'dashboard' : activeSection}
@@ -165,7 +163,7 @@ export default function App() {
                 setNotice={setNotice}
             />
 
-            <main className='tw-min-w-0 tw-px-[34px] tw-pb-[42px] tw-pt-[30px]'>
+            <AdminWorkspace scrollKey={`${activeSection}-${currentAction || ''}`}>
                 {!isBuilder && (
                     <header className='tw-mb-5 tw-flex tw-items-end tw-justify-between tw-gap-4'>
                         <div>
@@ -193,7 +191,7 @@ export default function App() {
 
                 <Notice notices={notices} onClose={closeNotice} />
 
-                <Suspense fallback={<LoadingState label={__('Loading section...', 'wp-posts-carousel')} />}>
+                <Suspense fallback={<LoadingState label={__('Loading section...', 'cci-posts-carousel')} />}>
                     {isBuilder ? (
                         <div className='tw-grid tw-gap-4'>
                             <VisualBuilder setNotice={setNotice} confirmAction={confirmAction} />
@@ -214,39 +212,39 @@ export default function App() {
                         />
                     )}
                 </Suspense>
-            </main>
+            </AdminWorkspace>
             <ConfirmDialog
                 dialog={confirmDialog}
                 onCancel={() => closeConfirm(false)}
                 onConfirm={() => closeConfirm(true)}
             />
-            </div>
+        </AdminShell>
     );
 }
 
 function getPageHeader(activeSection, hasProAnalytics) {
     const pages = {
         dashboard: {
-            title: __('WP Posts Carousel All In One', 'wp-posts-carousel'),
-            description: __('Create, manage and embed carousel definitions.', 'wp-posts-carousel'),
+            title: __('CCI Posts Carousel All In One', 'cci-posts-carousel'),
+            description: __('Create, manage and embed carousel definitions.', 'cci-posts-carousel'),
         },
         integrations: {
-            title: __('Carousel data integrations', 'wp-posts-carousel'),
-            description: __('Connect add-ons that extend carousel sources and ordering.', 'wp-posts-carousel'),
+            title: __('Carousel data integrations', 'cci-posts-carousel'),
+            description: __('Connect add-ons that extend carousel sources and ordering.', 'cci-posts-carousel'),
         },
         templates: {
-            title: __('Carousel template library', 'wp-posts-carousel'),
-            description: __('Manage installed layouts and browse templates from your store.', 'wp-posts-carousel'),
+            title: __('Carousel template library', 'cci-posts-carousel'),
+            description: __('Manage installed layouts and browse templates from your store.', 'cci-posts-carousel'),
         },
         analytics: {
-            title: hasProAnalytics ? __('Carousel engagement analytics', 'wp-posts-carousel') : __('Carousel usage overview', 'wp-posts-carousel'),
+            title: hasProAnalytics ? __('Carousel engagement analytics', 'cci-posts-carousel') : __('Carousel usage overview', 'cci-posts-carousel'),
             description: hasProAnalytics
-                ? __('Review tracked carousel views, clicks and click rates.', 'wp-posts-carousel')
-                : __('Review local configuration insights without visitor tracking.', 'wp-posts-carousel'),
+                ? __('Review tracked carousel views, clicks and click rates.', 'cci-posts-carousel')
+                : __('Review local configuration insights without visitor tracking.', 'cci-posts-carousel'),
         },
         settings: {
-            title: __('Carousel settings', 'wp-posts-carousel'),
-            description: __('Configure compatibility, assets and global carousel defaults.', 'wp-posts-carousel'),
+            title: __('Carousel settings', 'cci-posts-carousel'),
+            description: __('Configure compatibility, assets and global carousel defaults.', 'cci-posts-carousel'),
         },
     };
 

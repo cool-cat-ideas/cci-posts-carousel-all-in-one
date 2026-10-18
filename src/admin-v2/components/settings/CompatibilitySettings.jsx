@@ -1,4 +1,4 @@
-import { formatAdminDateTime } from '@cci/admin-ui';
+import { CountBadge, formatAdminDateTime } from '@cci/admin-ui';
 import React, { useEffect, useState } from 'react';
 import { AlertTriangle, Bug, Clipboard, RefreshCw, Plus, Settings, Trash2 } from 'lucide-react';
 import { apiFetch, pluginData } from '../../api/api';
@@ -148,29 +148,29 @@ function isDiagnosticRelevant(diagnostic, settings) {
 function diagnosticCopy(diagnostic) {
     if (diagnostic.library === 'owl') {
         return {
-            title: __('Detected another Owl Carousel asset.', 'wp-posts-carousel'),
+            title: __('Detected another Owl Carousel asset.', 'cci-posts-carousel'),
             message: __(
                 'If your theme or another plugin already loads Owl Carousel, disable bundled Owl assets here to avoid version conflicts.',
-                'wp-posts-carousel'
+                'cci-posts-carousel'
             ),
         };
     }
 
     if (diagnostic.library === 'fontawesome' || diagnostic.library === 'tabler') {
         return {
-            title: __('Detected another icon library asset.', 'wp-posts-carousel'),
+            title: __('Detected another icon library asset.', 'cci-posts-carousel'),
             message: __(
                 'If your theme or another plugin already loads this icon library, switch icon source to the existing asset option.',
-                'wp-posts-carousel'
+                'cci-posts-carousel'
             ),
         };
     }
 
     return {
-        title: __('Detected another Swiper asset.', 'wp-posts-carousel'),
+        title: __('Detected another Swiper asset.', 'cci-posts-carousel'),
         message: __(
             'If your theme or another plugin already loads Swiper, switch Swiper source to the global window.Swiper option or disable bundled Swiper CSS when needed.',
-            'wp-posts-carousel'
+            'cci-posts-carousel'
         ),
     };
 }
@@ -207,7 +207,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                 setAssetDiagnostics(browserAssetDiagnostics(defaultSettings));
                 setNotice({
                     type: 'error',
-                    message: __('Failed loading compatibility settings.', 'wp-posts-carousel'),
+                    message: __('Failed loading compatibility settings.', 'cci-posts-carousel'),
                 });
             })
             .finally(() => setLoading(false));
@@ -242,7 +242,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
         const width = Number(newBreakpoint);
 
         if (!width || width < 1) {
-            setNewBreakpointError(__('Breakpoint width must be greater than 0.', 'wp-posts-carousel'));
+            setNewBreakpointError(__('Breakpoint width must be greater than 0.', 'cci-posts-carousel'));
             return;
         }
 
@@ -254,10 +254,10 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
     const removeBreakpoint = async (width) => {
         if (confirmAction) {
             const confirmed = await confirmAction({
-                title: __('Delete global breakpoint?', 'wp-posts-carousel'),
-                message: `${__('New carousels will no longer use this responsive rule by default:', 'wp-posts-carousel')} ${width}px.`,
-                confirmLabel: __('Delete breakpoint', 'wp-posts-carousel'),
-                cancelLabel: __('Keep breakpoint', 'wp-posts-carousel'),
+                title: __('Delete global breakpoint?', 'cci-posts-carousel'),
+                message: `${__('New carousels will no longer use this responsive rule by default:', 'cci-posts-carousel')} ${width}px.`,
+                confirmLabel: __('Delete breakpoint', 'cci-posts-carousel'),
+                cancelLabel: __('Keep breakpoint', 'cci-posts-carousel'),
                 variant: 'danger',
             });
 
@@ -285,13 +285,13 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                 });
                 setNotice({
                     type: 'success',
-                    message: __('Compatibility settings were saved.', 'wp-posts-carousel'),
+                    message: __('Compatibility settings were saved.', 'cci-posts-carousel'),
                 });
             })
             .catch((error) => {
                 setNotice({
                     type: 'error',
-                    message: __('Failed saving compatibility settings.', 'wp-posts-carousel'),
+                    message: __('Failed saving compatibility settings.', 'cci-posts-carousel'),
                     details: error.message,
                 });
             })
@@ -306,12 +306,12 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
         apiFetch('/wp-json/wp-posts-carousel/v1/admin/diagnostics')
             .then((response) => setDiagnostics(response || {}))
             .catch((error) => {
-                const message = error.message || __('Failed loading diagnostics.', 'wp-posts-carousel');
+                const message = error.message || __('Failed loading diagnostics.', 'cci-posts-carousel');
 
                 setDiagnosticsError(message);
                 setNotice({
                     type: 'error',
-                    message: __('Failed loading diagnostics.', 'wp-posts-carousel'),
+                    message: __('Failed loading diagnostics.', 'cci-posts-carousel'),
                     details: message,
                 });
             })
@@ -328,7 +328,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
         if (!navigator.clipboard) {
             setNotice({
                 type: 'error',
-                message: __('Clipboard is not available in this browser.', 'wp-posts-carousel'),
+                message: __('Clipboard is not available in this browser.', 'cci-posts-carousel'),
             });
             return;
         }
@@ -338,13 +338,13 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
             .then(() => {
                 setNotice({
                     type: 'success',
-                    message: __('Diagnostics copied to clipboard.', 'wp-posts-carousel'),
+                    message: __('Diagnostics copied to clipboard.', 'cci-posts-carousel'),
                 });
             })
             .catch(() => {
                 setNotice({
                     type: 'error',
-                    message: __('Failed copying diagnostics.', 'wp-posts-carousel'),
+                    message: __('Failed copying diagnostics.', 'cci-posts-carousel'),
                 });
             });
     };
@@ -353,7 +353,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
         return (
             <Card>
                 <div className='tw-grid tw-min-h-52 tw-place-items-center tw-p-8 tw-text-center tw-text-sm tw-text-cci-wpc-muted'>
-                    {__('Loading compatibility settings...', 'wp-posts-carousel')}
+                    {__('Loading compatibility settings...', 'cci-posts-carousel')}
                 </div>
             </Card>
         );
@@ -361,33 +361,31 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
 
     return (
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList aria-label={__('Settings sections', 'wp-posts-carousel')}>
+            <TabsList aria-label={__('Settings sections', 'cci-posts-carousel')}>
                 <TabsTrigger value='compatibility'>
                     <Settings aria-hidden='true' />
-                    {__('Compatibility', 'wp-posts-carousel')}
+                    {__('Compatibility', 'cci-posts-carousel')}
                 </TabsTrigger>
                 <TabsTrigger value='diagnostics'>
                     <Bug aria-hidden='true' />
-                    {__('Diagnostics', 'wp-posts-carousel')}
-                    <span className='tw-inline-flex tw-min-w-6 tw-items-center tw-justify-center tw-rounded-full tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-px-2 tw-py-1 tw-text-[11px] tw-leading-none tw-text-cci-wpc-muted'>
-                        {diagnostics?.logs?.length || 0}
-                    </span>
+                    {__('Diagnostics', 'cci-posts-carousel')}
+                    <CountBadge>{diagnostics?.logs?.length || 0}</CountBadge>
                 </TabsTrigger>
             </TabsList>
 
             <TabsPanel value='compatibility'>
                 <CardHeader>
                     <div>
-                        <h2>{__('Compatibility', 'wp-posts-carousel')}</h2>
+                        <h2>{__('Compatibility', 'cci-posts-carousel')}</h2>
                         <p>
                             {__(
                                 'Control bundled carousel libraries when the theme already loads its own versions.',
-                                'wp-posts-carousel'
+                                'cci-posts-carousel'
                             )}
                         </p>
                     </div>
                     <Button variant='save' onClick={save} disabled={saving}>
-                        {saving ? __('Saving...', 'wp-posts-carousel') : __('Save settings', 'wp-posts-carousel')}
+                        {saving ? __('Saving...', 'cci-posts-carousel') : __('Save settings', 'cci-posts-carousel')}
                     </Button>
                 </CardHeader>
 
@@ -414,7 +412,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                                         <small className='tw-mt-1 tw-block tw-text-xs tw-leading-5'>
                                             {diagnostic.handle ||
                                                 diagnostic.src ||
-                                                __('Detected on this page.', 'wp-posts-carousel')}
+                                                __('Detected on this page.', 'cci-posts-carousel')}
                                         </small>
                                     </div>
                                 </div>
@@ -428,35 +426,35 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                         checked={Boolean(settings.load_owl_assets)}
                         onCheckedChange={(checked) => update('load_owl_assets', checked === true)}
                     >
-                        {__('Load bundled Owl Carousel JS', 'wp-posts-carousel')}
+                        {__('Load bundled Owl Carousel JS', 'cci-posts-carousel')}
                     </CheckboxField>
 
                     <CheckboxField
                         checked={Boolean(settings.load_owl_css)}
                         onCheckedChange={(checked) => update('load_owl_css', checked === true)}
                     >
-                        {__('Load bundled Owl Carousel CSS', 'wp-posts-carousel')}
+                        {__('Load bundled Owl Carousel CSS', 'cci-posts-carousel')}
                     </CheckboxField>
 
                     <CheckboxField
                         checked={Boolean(settings.load_mousewheel_asset)}
                         onCheckedChange={(checked) => update('load_mousewheel_asset', checked === true)}
                     >
-                        {__('Load bundled mousewheel plugin', 'wp-posts-carousel')}
+                        {__('Load bundled mousewheel plugin', 'cci-posts-carousel')}
                     </CheckboxField>
 
-                    <Field label={__('Swiper source', 'wp-posts-carousel')}>
+                    <Field label={__('Swiper source', 'cci-posts-carousel')}>
                         <Select
                             value={settings.swiper_source || 'bundled'}
                             onValueChange={(value) => update('swiper_source', value)}
                             options={[
-                                { value: 'bundled', label: __('Bundled with plugin', 'wp-posts-carousel') },
-                                { value: 'global', label: __('Use global window.Swiper', 'wp-posts-carousel') },
+                                { value: 'bundled', label: __('Bundled with plugin', 'cci-posts-carousel') },
+                                { value: 'global', label: __('Use global window.Swiper', 'cci-posts-carousel') },
                             ]}
                         />
                     </Field>
 
-                    <Field label={__('Navigation icon library', 'wp-posts-carousel')}>
+                    <Field label={__('Navigation icon library', 'cci-posts-carousel')}>
                         <Select
                             value={settings.icon_library || 'fontawesome'}
                             onValueChange={(value) => update('icon_library', value)}
@@ -467,7 +465,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                         />
                     </Field>
 
-                    <Field label={__('Icon source', 'wp-posts-carousel')}>
+                    <Field label={__('Icon source', 'cci-posts-carousel')}>
                         <Select
                             value={settings.icon_source || 'local'}
                             onValueChange={(value) => update('icon_source', value)}
@@ -479,7 +477,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                         <small className='tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
                             {__(
                                 'Use existing assets when the active theme or another plugin already loads the selected icon library.',
-                                'wp-posts-carousel'
+                                'cci-posts-carousel'
                             )}
                         </small>
                     </Field>
@@ -488,19 +486,19 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                         checked={Boolean(settings.load_swiper_css)}
                         onCheckedChange={(checked) => update('load_swiper_css', checked === true)}
                     >
-                        {__('Load bundled Swiper CSS', 'wp-posts-carousel')}
+                        {__('Load bundled Swiper CSS', 'cci-posts-carousel')}
                     </CheckboxField>
                 </div>
 
                 <div className='tw-grid tw-gap-3 tw-border-0 tw-border-t tw-border-solid tw-border-cci-wpc-border tw-p-4'>
                     <div>
                         <div className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                            {__('Global breakpoints', 'wp-posts-carousel')}
+                            {__('Global breakpoints', 'cci-posts-carousel')}
                         </div>
                         <p className='tw-m-0 tw-mt-1 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
                             {__(
                                 'Default responsive items for new carousels. Each carousel can still override these values in its editor.',
-                                'wp-posts-carousel'
+                                'cci-posts-carousel'
                             )}
                         </p>
                     </div>
@@ -511,7 +509,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                                 className='tw-grid tw-grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] tw-items-end tw-gap-2 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-cci-wpc-surfaceSoft tw-p-2'
                                 key={width}
                             >
-                                <Field label={__('Breakpoint', 'wp-posts-carousel')}>
+                                <Field label={__('Breakpoint', 'cci-posts-carousel')}>
                                     <InputGroup readOnly>
                                         <InputGroupInput type='number' value={width} readOnly />
                                         <InputGroupAddon align='inline-end' className='tw-min-w-12'>
@@ -519,7 +517,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                                         </InputGroupAddon>
                                     </InputGroup>
                                 </Field>
-                                <Field label={__('Items', 'wp-posts-carousel')}>
+                                <Field label={__('Items', 'cci-posts-carousel')}>
                                     <InputGroup>
                                         <InputGroupInput
                                             type='number'
@@ -528,7 +526,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                                             onChange={(event) => updateBreakpoint(width, event.target.value)}
                                         />
                                         <InputGroupAddon align='inline-end' className='tw-min-w-12'>
-                                            <InputGroupText>{__('items', 'wp-posts-carousel')}</InputGroupText>
+                                            <InputGroupText>{__('items', 'cci-posts-carousel')}</InputGroupText>
                                         </InputGroupAddon>
                                     </InputGroup>
                                 </Field>
@@ -536,8 +534,8 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                                     <Button size='icon'
                                         variant='danger'
                                         onClick={() => removeBreakpoint(width)}
-                                        aria-label={__('Remove breakpoint', 'wp-posts-carousel')}
-                                        title={__('Remove breakpoint', 'wp-posts-carousel')}
+                                        aria-label={__('Remove breakpoint', 'cci-posts-carousel')}
+                                        title={__('Remove breakpoint', 'cci-posts-carousel')}
                                     >
                                         <Trash2 aria-hidden='true' />
                                     </Button>
@@ -547,7 +545,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                     </div>
 
                     <div className='tw-grid tw-grid-cols-[minmax(0,1fr)_auto] tw-items-end tw-gap-2'>
-                        <Field label={__('New breakpoint', 'wp-posts-carousel')} error={newBreakpointError}>
+                        <Field label={__('New breakpoint', 'cci-posts-carousel')} error={newBreakpointError}>
                             <InputGroup invalid={Boolean(newBreakpointError)}>
                                 <InputGroupInput
                                     type='number'
@@ -567,7 +565,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                         </Field>
                         <Button variant='outlineAccent' onClick={addBreakpoint}>
                             <Plus aria-hidden='true' />
-                            {__('Add breakpoint', 'wp-posts-carousel')}
+                            {__('Add breakpoint', 'cci-posts-carousel')}
                         </Button>
                     </div>
                 </div>
@@ -595,22 +593,22 @@ function DiagnosticsPanel({ diagnostics, loading, error, onRefresh, onCopy }) {
         <section>
             <CardHeader>
                 <div>
-                    <h2>{__('Diagnostics and logs', 'wp-posts-carousel')}</h2>
+                    <h2>{__('Diagnostics and logs', 'cci-posts-carousel')}</h2>
                     <p>
                         {__(
                             'Copy this report when you contact paid support. It excludes license keys and tokens.',
-                            'wp-posts-carousel'
+                            'cci-posts-carousel'
                         )}
                     </p>
                 </div>
                 <div className='tw-flex tw-flex-wrap tw-gap-2'>
                     <Button onClick={onRefresh} disabled={loading}>
                         <RefreshCw aria-hidden='true' />
-                        {loading ? __('Refreshing...', 'wp-posts-carousel') : __('Refresh', 'wp-posts-carousel')}
+                        {loading ? __('Refreshing...', 'cci-posts-carousel') : __('Refresh', 'cci-posts-carousel')}
                     </Button>
                     <Button variant='outlineAccent' onClick={onCopy} disabled={!diagnostics || loading}>
                         <Clipboard aria-hidden='true' />
-                        {__('Copy report', 'wp-posts-carousel')}
+                        {__('Copy report', 'cci-posts-carousel')}
                     </Button>
                 </div>
             </CardHeader>
@@ -621,7 +619,7 @@ function DiagnosticsPanel({ diagnostics, loading, error, onRefresh, onCopy }) {
                         <AlertTriangle aria-hidden='true' />
                         <div>
                             <strong className='tw-text-sm tw-font-semibold'>
-                                {__('Diagnostics could not be loaded.', 'wp-posts-carousel')}
+                                {__('Diagnostics could not be loaded.', 'cci-posts-carousel')}
                             </strong>
                             <p className='tw-m-0 tw-mt-1 tw-text-xs tw-leading-5'>{error}</p>
                         </div>
@@ -631,57 +629,57 @@ function DiagnosticsPanel({ diagnostics, loading, error, onRefresh, onCopy }) {
 
             {loading && !diagnostics ? (
                 <div className='tw-grid tw-min-h-52 tw-place-items-center tw-p-8 tw-text-center tw-text-sm tw-text-cci-wpc-muted'>
-                    {__('Loading diagnostics...', 'wp-posts-carousel')}
+                    {__('Loading diagnostics...', 'cci-posts-carousel')}
                 </div>
             ) : (
                 <div className='tw-grid tw-gap-4 tw-p-4'>
                     <div className='tw-grid tw-gap-1 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-infoBorder tw-bg-cci-wpc-infoBg tw-p-3 tw-text-cci-wpc-infoText'>
                         <strong className='tw-text-sm tw-font-semibold'>
-                            {__('Support note', 'wp-posts-carousel')}
+                            {__('Support note', 'cci-posts-carousel')}
                         </strong>
                         <span className='tw-text-xs tw-leading-5'>
                             {__(
                                 'This report helps verify versions, active add-ons, asset conflicts and the last license status without exposing your private license key.',
-                                'wp-posts-carousel'
+                                'cci-posts-carousel'
                             )}
                         </span>
                     </div>
 
                     <div className='tw-grid tw-grid-cols-1 tw-gap-3 lg:tw-grid-cols-3'>
                         <DiagnosticCard
-                            label={__('Plugin', 'wp-posts-carousel')}
+                            label={__('Plugin', 'cci-posts-carousel')}
                             values={[
-                                [__('Free version', 'wp-posts-carousel'), diagnostics?.plugin?.version || '-'],
+                                [__('Free version', 'cci-posts-carousel'), diagnostics?.plugin?.version || '-'],
                                 [
-                                    __('Pro active', 'wp-posts-carousel'),
+                                    __('Pro active', 'cci-posts-carousel'),
                                     diagnostics?.plugin?.isPro
-                                        ? __('Yes', 'wp-posts-carousel')
-                                        : __('No', 'wp-posts-carousel'),
+                                        ? __('Yes', 'cci-posts-carousel')
+                                        : __('No', 'cci-posts-carousel'),
                                 ],
-                                [__('License status', 'wp-posts-carousel'), diagnostics?.license?.status || '-'],
+                                [__('License status', 'cci-posts-carousel'), diagnostics?.license?.status || '-'],
                             ]}
                         />
                         <DiagnosticCard
-                            label={__('Environment', 'wp-posts-carousel')}
+                            label={__('Environment', 'cci-posts-carousel')}
                             values={[
-                                [__('WordPress', 'wp-posts-carousel'), diagnostics?.wordpress?.version || '-'],
-                                [__('PHP', 'wp-posts-carousel'), diagnostics?.server?.phpVersion || '-'],
-                                [__('Theme', 'wp-posts-carousel'), diagnostics?.theme?.name || '-'],
+                                [__('WordPress', 'cci-posts-carousel'), diagnostics?.wordpress?.version || '-'],
+                                [__('PHP', 'cci-posts-carousel'), diagnostics?.server?.phpVersion || '-'],
+                                [__('Theme', 'cci-posts-carousel'), diagnostics?.theme?.name || '-'],
                             ]}
                         />
                         <DiagnosticCard
-                            label={__('Checks', 'wp-posts-carousel')}
+                            label={__('Checks', 'cci-posts-carousel')}
                             values={[
-                                [__('Active plugins', 'wp-posts-carousel'), String(activePlugins.length)],
-                                [__('Asset warnings', 'wp-posts-carousel'), String(assetDiagnostics.length)],
-                                [__('Logs', 'wp-posts-carousel'), String(logs.length)],
+                                [__('Active plugins', 'cci-posts-carousel'), String(activePlugins.length)],
+                                [__('Asset warnings', 'cci-posts-carousel'), String(assetDiagnostics.length)],
+                                [__('Logs', 'cci-posts-carousel'), String(logs.length)],
                             ]}
                         />
                     </div>
 
                     <div className='tw-grid tw-gap-3'>
                         <div className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                            {__('Recent logs', 'wp-posts-carousel')}
+                            {__('Recent logs', 'cci-posts-carousel')}
                         </div>
                         {logs.length ? (
                             <ul className='tw-m-0 tw-grid tw-list-none tw-gap-2 tw-p-0'>
@@ -691,7 +689,7 @@ function DiagnosticsPanel({ diagnostics, loading, error, onRefresh, onCopy }) {
                                         key={`${log.type || 'log'}-${index}`}
                                     >
                                         <strong className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                                            {log.type || __('Log', 'wp-posts-carousel')}
+                                            {log.type || __('Log', 'cci-posts-carousel')}
                                         </strong>
                                         <span className='tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>{log.message}</span>
                                         {log.date && <small className='tw-text-xs tw-text-cci-wpc-muted'>{formatAdminDateTime(log.date, pluginData.adminDate)}</small>}
@@ -700,14 +698,14 @@ function DiagnosticsPanel({ diagnostics, loading, error, onRefresh, onCopy }) {
                             </ul>
                         ) : (
                             <p className='tw-m-0 tw-text-sm tw-text-cci-wpc-muted'>
-                                {__('No recent license or compatibility logs were recorded.', 'wp-posts-carousel')}
+                                {__('No recent license or compatibility logs were recorded.', 'cci-posts-carousel')}
                             </p>
                         )}
                     </div>
 
                     <label className='tw-grid tw-gap-1.5'>
                         <span className='tw-text-[11px] tw-font-bold tw-uppercase tw-leading-none tw-text-slate-600'>
-                            {__('Raw diagnostic report', 'wp-posts-carousel')}
+                            {__('Raw diagnostic report', 'cci-posts-carousel')}
                         </span>
                         <Textarea readOnly value={json} rows='16' />
                     </label>

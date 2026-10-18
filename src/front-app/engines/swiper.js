@@ -303,7 +303,7 @@ function loadSwiper() {
 
 		if ( ! Swiper ) {
 			return Promise.reject(
-				new Error( 'WP Posts Carousel expected window.Swiper but it is not available.' )
+				new Error( 'CCI Posts Carousel All In One expected window.Swiper but it is not available.' )
 			);
 		}
 

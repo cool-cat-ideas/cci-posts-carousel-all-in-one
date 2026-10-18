@@ -1,6 +1,6 @@
 # Settings reference
 
-Open **WP Posts Carousel > Dashboard**, then edit a saved carousel. Use this map
+Open **CCI Posts Carousel All In One > Dashboard**, then edit a saved carousel. Use this map
 to find the relevant controls. Labels below use the English interface.
 
 | Editor tab | What you can change |
@@ -238,7 +238,7 @@ Observe an automatic advance without hovering or focusing the carousel;
 then test an arrow and a dot. Compare durations of **300** and **1200** using
 the same interaction. Keep each duration below the autoplay interval for
 this test. If only timeout changes, follow
-[transition troubleshooting](https://coolcatideas.com/docs/wp-posts-carousel-all-in-one/2.0.x/troubleshooting/#changing-speed-does-not-change-the-transition).
+[transition troubleshooting](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.0.x/troubleshooting/#changing-speed-does-not-change-the-transition).
 
 ## Test a change without changing every page
 

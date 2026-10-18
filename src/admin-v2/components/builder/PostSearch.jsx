@@ -67,7 +67,7 @@ export default function PostSearch({ postTypes, availablePostTypes = [], selecte
                 .catch(() => {
                     setNotice({
                         type: 'error',
-                        message: __('Failed searching posts.', 'wp-posts-carousel'),
+                        message: __('Failed searching posts.', 'cci-posts-carousel'),
                     });
                 })
                 .finally(() => setSearching(false));
@@ -91,7 +91,7 @@ export default function PostSearch({ postTypes, availablePostTypes = [], selecte
     return (
         <div className='tw-grid tw-gap-3'>
             {typeOptions.length > 1 && (
-                <Field label={__('Manual slide post types', 'wp-posts-carousel')}>
+                <Field label={__('Manual slide post types', 'cci-posts-carousel')}>
                     <div className='tw-grid tw-grid-cols-1 tw-gap-2 sm:tw-grid-cols-2'>
                         {typeOptions.map((postType) => {
                             const checked = manualPostTypes.includes(postType.value);
@@ -110,10 +110,10 @@ export default function PostSearch({ postTypes, availablePostTypes = [], selecte
                 </Field>
             )}
 
-            <Field label={__('Add specific post', 'wp-posts-carousel')}>
+            <Field label={__('Add specific post', 'cci-posts-carousel')}>
                 <Input
                     value={term}
-                    placeholder={__('Type at least 2 characters...', 'wp-posts-carousel')}
+                    placeholder={__('Type at least 2 characters...', 'cci-posts-carousel')}
                     onChange={(event) => setTerm(event.target.value)}
                 />
             </Field>
@@ -122,7 +122,7 @@ export default function PostSearch({ postTypes, availablePostTypes = [], selecte
                 <div className='tw-grid tw-gap-2'>
                     {searching && (
                         <div className='tw-rounded-md tw-bg-cci-wpc-surfaceSoft tw-p-3 tw-text-sm tw-text-cci-wpc-muted'>
-                            {__('Searching...', 'wp-posts-carousel')}
+                            {__('Searching...', 'cci-posts-carousel')}
                         </div>
                     )}
 
@@ -145,7 +145,7 @@ export default function PostSearch({ postTypes, availablePostTypes = [], selecte
                                         {post.label}
                                     </strong>
                                     <small className='tw-text-xs tw-font-semibold tw-text-cci-wpc-brandStrong'>
-                                        {isSelected ? __('Added', 'wp-posts-carousel') : __('Add', 'wp-posts-carousel')}
+                                        {isSelected ? __('Added', 'cci-posts-carousel') : __('Add', 'cci-posts-carousel')}
                                     </small>
                                 </button>
                             );
@@ -153,7 +153,7 @@ export default function PostSearch({ postTypes, availablePostTypes = [], selecte
 
                     {!searching && results.length === 0 && (
                         <div className='tw-rounded-md tw-bg-cci-wpc-surfaceSoft tw-p-3 tw-text-sm tw-text-cci-wpc-muted'>
-                            {__('No matching posts.', 'wp-posts-carousel')}
+                            {__('No matching posts.', 'cci-posts-carousel')}
                         </div>
                     )}
                 </div>

@@ -71,24 +71,24 @@ $bootstrap = new ReflectionMethod($admin, 'marketplace_initial_feed');
 $bootstrap->setAccessible(true);
 $cache_key = 'wpc_marketplace_feed_' . md5('en|5');
 $stale_key = $cache_key . '_stale';
-$fresh = array('product' => array('slug' => 'wp-posts-carousel-all-in-one'), 'news' => array(array('id' => 'new', 'title' => 'New announcement')));
+$fresh = array('product' => array('slug' => 'cci-posts-carousel-all-in-one'), 'news' => array(array('id' => 'new', 'title' => 'New announcement')));
 $old = array('product' => $fresh['product'], 'news' => array(array('id' => 'old', 'title' => 'Cached announcement')));
 $empty = array('product' => $fresh['product'], 'news' => array());
 $bind_origin_feed = array(
   'product' => array(
-    'slug' => 'wp-posts-carousel-all-in-one',
-    'pro' => array('url' => 'https://0.0.0.0:3000/products/wp-posts-carousel-all-in-one'),
+    'slug' => 'cci-posts-carousel-all-in-one',
+    'pro' => array('url' => 'https://0.0.0.0:3000/products/cci-posts-carousel-all-in-one'),
     'free' => array('urls' => array('wordpress' => 'https://wordpress.org/plugins/wp-posts-carousel/')),
   ),
   'templates' => array(array(
     'title' => 'Do not replace https://0.0.0.0:3000 in content.',
     'urls' => array(
-      'documentation' => 'https://0.0.0.0:3000/en/docs/wp-posts-carousel-all-in-one/2.0.0/?source=plugin#templates',
-      'download' => 'https://github.com/cool-cat-ideas/wp-posts-carousel-aurora-cards/releases/tag/v1.0.0',
+      'documentation' => 'https://0.0.0.0:3000/en/docs/cci-posts-carousel-all-in-one/2.0.0/?source=plugin#templates',
+      'download' => 'https://github.com/cool-cat-ideas/cci-posts-carousel-aurora-cards/releases/tag/v1.0.0',
     ),
   )),
-  'extensions' => array(array('urls' => array('demo' => 'https://0.0.0.0:3000/products/wp-posts-carousel-all-in-one/#related-content'))),
-  'news' => array(array('url' => 'https://coolcatideas.com/products/wp-posts-carousel-all-in-one/news/1/')),
+  'extensions' => array(array('urls' => array('demo' => 'https://0.0.0.0:3000/products/cci-posts-carousel-all-in-one/#related-content'))),
+  'news' => array(array('url' => 'https://coolcatideas.com/products/cci-posts-carousel-all-in-one/news/1/')),
 );
 $tests = array();
 
@@ -197,7 +197,7 @@ $tests['bootstrap may supply stale news while subsequent GET refreshes'] = funct
 $tests['catalog links repair bind origins while preserving external URLs and content'] = function () use ($bind_origin_feed) {
   $result = WP_Posts_Carousel_API::normalize_marketplace_feed_urls($bind_origin_feed);
   check_feed($result['product']['pro']['url'] === WP_Posts_Carousel_API::MARKETPLACE_PRODUCT_URL, 'Pro CTA retained the server listen address.');
-  check_feed($result['templates'][0]['urls']['documentation'] === 'https://coolcatideas.com/en/docs/wp-posts-carousel-all-in-one/2.0.0/?source=plugin#templates', 'Documentation path, query or fragment changed.');
+  check_feed($result['templates'][0]['urls']['documentation'] === 'https://coolcatideas.com/en/docs/cci-posts-carousel-all-in-one/2.0.0/?source=plugin#templates', 'Documentation path, query or fragment changed.');
   check_feed($result['extensions'][0]['urls']['demo'] === WP_Posts_Carousel_API::MARKETPLACE_PRODUCT_URL . '/#related-content', 'Extension demo link was not repaired.');
   check_feed($result['product']['free'] === $bind_origin_feed['product']['free'], 'WordPress link changed.');
   check_feed($result['templates'][0]['urls']['download'] === $bind_origin_feed['templates'][0]['urls']['download'], 'GitHub download link changed.');

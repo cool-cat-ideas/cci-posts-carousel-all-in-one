@@ -1,4 +1,4 @@
-# WP Posts Carousel extension cookbook
+# CCI Posts Carousel All In One extension cookbook
 
 This guide turns the public 2.0.x extension contract into complete, testable
 recipes. Use it together with [Hooks and API](./hooks-and-api.md) for signatures
@@ -9,6 +9,39 @@ and [Templates and add-ons](./templates-and-addons.md) for the manifest schema.
 Use a child theme when only visual style changes. Use a template add-on when
 card markup or supported content changes. Use an integration add-on when the
 source query, slide data or renderer changes. Do not edit the core plugin.
+
+## Show an installed integration card
+
+Create a separate plugin file, for example `wp-content/plugins/my-company-wpc/my-company-wpc.php`. Start with:
+
+```php
+<?php
+/**
+ * Plugin Name: My Company Carousel Integration
+ * Version: 1.0.0
+ * Author: Your company
+ */
+if (!defined('ABSPATH')) { exit; }
+
+add_filter('wp_posts_carousel_features', static function (array $features): array {
+    $features['my_company_content_source'] = [
+        'label' => 'My content source',
+        'description' => 'Adds our content source to carousel queries.',
+        'source' => 'addon',
+        'enabled' => true,
+        'plan' => 'free',
+        'author' => 'Your company',
+        'version' => '1.0.0',
+    ];
+    return $features;
+});
+```
+
+Activate the plugin, then open **CCI Posts Carousel All In One → Integrations → Installed integrations**. Check its name, author and version. This registers the card only. Add the query behavior using the recipe below before distributing the integration. If it depends on another plugin, compute `enabled` from the documented API that you use, rather than leaving it `true`.
+
+The feature key must be unique and stable. A missing card usually means that the plugin is inactive, the filter callback did not run, or its descriptor has a different `source` value. The store tab comes from the remote catalog; activating a local plugin does not publish a store product.
+
+Create any settings page with the normal WordPress settings APIs. No arbitrary integration-settings schema or automatic Configure button is registered by this filter. Paid capabilities still need the supported server-side license check described in the [extension contract](./extensions.md#paid-template-or-pro-add-ons).
 
 ## Override carousel styles from a child theme
 
@@ -235,7 +268,7 @@ query posts again; the generator has already prepared them.
 }
 ```
 
-Open **WP Posts Carousel > Templates**, then create a carousel and test the
+Open **CCI Posts Carousel All In One > Templates**, then create a carousel and test the
 live frontend. A catalog screenshot alone does not validate the renderer.
 
 The valid manifest appears automatically in **Installed templates**. It does
@@ -259,7 +292,7 @@ my-wpc-template/
 /**
  * Plugin Name: My WPC Editorial Template
  * Version: 1.0.0
- * Requires Plugins: wp-posts-carousel
+ * Requires Plugins: cci-posts-carousel
  */
 if (!defined('ABSPATH')) {
     exit;

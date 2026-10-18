@@ -1,5 +1,6 @@
 import runtime from './runtime';
 import { registerDefaultEngines } from './engines/index';
+import { installHoverImages } from '../shared/hover-images';
 
 ( function () {
 	const selector = '.cci-wpc-carousel[data-wpc-api]';
@@ -24,6 +25,7 @@ import { registerDefaultEngines } from './engines/index';
 	let resizeListenerAttached = false;
 
 	registerDefaultEngines( runtime );
+	installHoverImages();
 
 	function scheduleControlSync( root ) {
 		if ( ! root ) {
@@ -561,7 +563,7 @@ import { registerDefaultEngines } from './engines/index';
 				if ( attempts >= 6 ) {
 					reject(
 						new Error(
-							'WP Posts Carousel React preview did not mount.'
+							'CCI Posts Carousel All In One React preview did not mount.'
 						)
 					);
 					return;
@@ -667,7 +669,7 @@ import { registerDefaultEngines } from './engines/index';
 		if (!['http:', 'https:'].includes(url.protocol)) {
 			return Promise.reject(
 				new Error(
-					'WP Posts Carousel template stylesheet URL is invalid.'
+					'CCI Posts Carousel All In One template stylesheet URL is invalid.'
 				)
 			);
 		}
@@ -694,7 +696,7 @@ import { registerDefaultEngines } from './engines/index';
 				link.remove();
 				reject(
 					new Error(
-						'WP Posts Carousel template stylesheet failed to load.'
+						'CCI Posts Carousel All In One template stylesheet failed to load.'
 					)
 				);
 			};
@@ -734,7 +736,7 @@ import { registerDefaultEngines } from './engines/index';
 		} )
 			.then( function ( response ) {
 				if ( ! response.ok ) {
-					throw new Error( 'WP Posts Carousel API request failed.' );
+					throw new Error( 'CCI Posts Carousel All In One API request failed.' );
 				}
 
 				return response.json();

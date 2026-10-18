@@ -142,10 +142,10 @@ export default function TemplatePicker({ templates, value, onChange }) {
         <div className='tw-grid tw-gap-3' data-slot='template-picker'>
             <div>
                 <div className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                    {__('Template', 'wp-posts-carousel')}
+                    {__('Template', 'cci-posts-carousel')}
                 </div>
                 <p className='tw-m-0 tw-mt-1 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
-                    {__('Choose the visual layout used by this carousel.', 'wp-posts-carousel')}
+                    {__('Choose the visual layout used by this carousel.', 'cci-posts-carousel')}
                 </p>
             </div>
 
@@ -157,7 +157,7 @@ export default function TemplatePicker({ templates, value, onChange }) {
                 <div className='tw-min-w-0'>
                     <strong className='tw-flex tw-flex-wrap tw-items-center tw-gap-2 tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
                         {templateLabel(selectedTemplate, value)}
-                        {selectedTemplate?.pro && <ProBadge>{__('Pro', 'wp-posts-carousel')}</ProBadge>}
+                        {selectedTemplate?.pro && <ProBadge>{__('Pro', 'cci-posts-carousel')}</ProBadge>}
                     </strong>
                     {selectedTemplate?.description && (
                         <p className='tw-m-0 tw-mt-1 tw-line-clamp-2 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
@@ -166,7 +166,7 @@ export default function TemplatePicker({ templates, value, onChange }) {
                     )}
                 </div>
                 <Button type='button' variant='outlineAccent' size='sm' onClick={openPicker}>
-                    {__('Change', 'wp-posts-carousel')}
+                    {__('Change', 'cci-posts-carousel')}
                 </Button>
             </div>
 
@@ -178,7 +178,7 @@ export default function TemplatePicker({ templates, value, onChange }) {
                     <button
                         type='button'
                         className='tw-absolute tw-inset-0 tw-cursor-default tw-border-0 tw-bg-slate-950/40 tw-p-0'
-                        aria-label={__('Close template picker', 'wp-posts-carousel')}
+                        aria-label={__('Close template picker', 'cci-posts-carousel')}
                         onClick={closePicker}
                     />
                     <div
@@ -195,7 +195,7 @@ export default function TemplatePicker({ templates, value, onChange }) {
                                 id={titleId}
                                 className='tw-m-0 tw-text-xl tw-font-semibold tw-leading-tight tw-text-cci-wpc-text'
                             >
-                                {__('Choose a template', 'wp-posts-carousel')}
+                                {__('Choose a template', 'cci-posts-carousel')}
                             </h2>
                             <p
                                 id={descriptionId}
@@ -203,14 +203,14 @@ export default function TemplatePicker({ templates, value, onChange }) {
                             >
                                 {__(
                                     'Preview installed layouts and confirm the template you want to use.',
-                                    'wp-posts-carousel'
+                                    'cci-posts-carousel'
                                 )}
                             </p>
                             <Button
                                 type='button'
                                 size='iconSm'
                                 className='tw-absolute tw-right-4 tw-top-4'
-                                aria-label={__('Close template picker', 'wp-posts-carousel')}
+                                aria-label={__('Close template picker', 'cci-posts-carousel')}
                                 onClick={closePicker}
                             >
                                 <X aria-hidden='true' />
@@ -230,15 +230,15 @@ export default function TemplatePicker({ templates, value, onChange }) {
                                     type='search'
                                     className='tw-bg-white !tw-pl-10'
                                     value={query}
-                                    placeholder={__('Search templates', 'wp-posts-carousel')}
-                                    aria-label={__('Search templates', 'wp-posts-carousel')}
+                                    placeholder={__('Search templates', 'cci-posts-carousel')}
+                                    aria-label={__('Search templates', 'cci-posts-carousel')}
                                     onChange={(event) => setQuery(event.target.value)}
                                 />
                             </div>
                             <div
                                 className='tw-flex tw-flex-wrap tw-gap-2'
                                 role='group'
-                                aria-label={__('Template type', 'wp-posts-carousel')}
+                                aria-label={__('Template type', 'cci-posts-carousel')}
                             >
                                 {FILTERS.map((filterValue) => (
                                     <Button
@@ -272,10 +272,10 @@ export default function TemplatePicker({ templates, value, onChange }) {
                                 <div className='tw-grid tw-min-h-48 tw-place-items-center tw-rounded-md tw-border tw-border-dashed tw-border-cci-wpc-border tw-bg-cci-wpc-surfaceSoft tw-p-6 tw-text-center'>
                                     <div>
                                         <strong className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                                            {__('No matching templates', 'wp-posts-carousel')}
+                                            {__('No matching templates', 'cci-posts-carousel')}
                                         </strong>
                                         <p className='tw-m-0 tw-mt-1 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
-                                            {__('Try another search phrase or template type.', 'wp-posts-carousel')}
+                                            {__('Try another search phrase or template type.', 'cci-posts-carousel')}
                                         </p>
                                     </div>
                                 </div>
@@ -288,14 +288,14 @@ export default function TemplatePicker({ templates, value, onChange }) {
                                     <strong className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
                                         {templateLabel(pendingTemplate, pendingValue)}
                                     </strong>
-                                    {pendingTemplate?.pro && <ProBadge>{__('Pro', 'wp-posts-carousel')}</ProBadge>}
+                                    {pendingTemplate?.pro && <ProBadge>{__('Pro', 'cci-posts-carousel')}</ProBadge>}
                                 </div>
                                 {pendingTemplate?.locked ? (
                                     <p className='tw-m-0 tw-mt-1 tw-hidden tw-text-xs tw-leading-5 tw-text-cci-wpc-brandStrong sm:tw-block'>
                                         {pendingTemplate.availability?.message ||
                                             __(
                                                 'This template requires an active Pro license for this domain.',
-                                                'wp-posts-carousel'
+                                                'cci-posts-carousel'
                                             )}
                                     </p>
                                 ) : pendingTemplate?.description ? (
@@ -306,7 +306,7 @@ export default function TemplatePicker({ templates, value, onChange }) {
                             </div>
                             <div className='tw-grid tw-grid-cols-2 tw-gap-2 sm:tw-flex sm:tw-flex-row sm:tw-justify-end'>
                                 <Button type='button' variant='secondary' className='tw-w-full' onClick={closePicker}>
-                                    {__('Cancel', 'wp-posts-carousel')}
+                                    {__('Cancel', 'cci-posts-carousel')}
                                 </Button>
                                 <Button
                                     type='button'
@@ -326,10 +326,10 @@ export default function TemplatePicker({ templates, value, onChange }) {
                                     onClick={applyTemplate}
                                 >
                                     {pendingTemplate?.locked
-                                        ? __('Requires Pro', 'wp-posts-carousel')
+                                        ? __('Requires Pro', 'cci-posts-carousel')
                                         : pendingTemplate?.name === value
-                                          ? __('Current template', 'wp-posts-carousel')
-                                          : __('Use template', 'wp-posts-carousel')}
+                                          ? __('Current template', 'cci-posts-carousel')
+                                          : __('Use template', 'cci-posts-carousel')}
                                 </Button>
                             </div>
                         </footer>
@@ -363,25 +363,25 @@ function TemplateOption({ template, selected, current, onSelect }) {
                     {selected && (
                         <span className='tw-grid tw-h-6 tw-w-6 tw-shrink-0 tw-place-items-center tw-rounded-full tw-bg-cci-wpc-brand tw-text-white'>
                             <Check aria-hidden='true' className='tw-h-4 tw-w-4' />
-                            <span className='tw-sr-only'>{__('Selected', 'wp-posts-carousel')}</span>
+                            <span className='tw-sr-only'>{__('Selected', 'cci-posts-carousel')}</span>
                         </span>
                     )}
                 </span>
                 <span className='tw-flex tw-flex-wrap tw-items-center tw-gap-2'>
                     {template.pro ? (
-                        <ProBadge>{__('Pro', 'wp-posts-carousel')}</ProBadge>
+                        <ProBadge>{__('Pro', 'cci-posts-carousel')}</ProBadge>
                     ) : (
-                        <span className='tw-text-xs tw-text-cci-wpc-muted'>{__('Free', 'wp-posts-carousel')}</span>
+                        <span className='tw-text-xs tw-text-cci-wpc-muted'>{__('Free', 'cci-posts-carousel')}</span>
                     )}
                     {current && (
                         <span className='tw-text-xs tw-font-semibold tw-text-cci-wpc-brandStrong'>
-                            {__('Current', 'wp-posts-carousel')}
+                            {__('Current', 'cci-posts-carousel')}
                         </span>
                     )}
                     {template.locked && (
                         <span className='tw-inline-flex tw-items-center tw-gap-1 tw-text-xs tw-font-semibold tw-text-cci-wpc-brandStrong'>
                             <LockKeyhole aria-hidden='true' className='tw-h-3.5 tw-w-3.5' />
-                            {__('Locked', 'wp-posts-carousel')}
+                            {__('Locked', 'cci-posts-carousel')}
                         </span>
                     )}
                 </span>
@@ -405,8 +405,8 @@ function TemplatePreview({ template, compact = false }) {
                     src={template.screenshot}
                     alt={
                         label
-                            ? __('Preview of %s', 'wp-posts-carousel').replace('%s', label)
-                            : __('Template preview', 'wp-posts-carousel')
+                            ? __('Preview of %s', 'cci-posts-carousel').replace('%s', label)
+                            : __('Template preview', 'cci-posts-carousel')
                     }
                 />
             ) : (
@@ -417,17 +417,17 @@ function TemplatePreview({ template, compact = false }) {
 }
 
 function templateLabel(template, fallback = '') {
-    return template?.template_name || template?.name || fallback || __('Unknown template', 'wp-posts-carousel');
+    return template?.template_name || template?.name || fallback || __('Unknown template', 'cci-posts-carousel');
 }
 
 function filterLabel(value) {
     if (value === 'free') {
-        return __('Free', 'wp-posts-carousel');
+        return __('Free', 'cci-posts-carousel');
     }
 
     if (value === 'pro') {
-        return __('Pro', 'wp-posts-carousel');
+        return __('Pro', 'cci-posts-carousel');
     }
 
-    return __('All', 'wp-posts-carousel');
+    return __('All', 'cci-posts-carousel');
 }

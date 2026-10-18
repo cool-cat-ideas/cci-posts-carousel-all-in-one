@@ -4,34 +4,34 @@ export const __ = window.wp?.i18n?.__ || ( ( text ) => text );
 
 export function licenseString( text ) {
 	if ( text === 'License active' ) {
-		return __( 'License active', 'wp-posts-carousel' );
+		return __( 'License active', 'cci-posts-carousel' );
 	}
 
 	if ( text === 'License inactive' ) {
-		return __( 'License inactive', 'wp-posts-carousel' );
+		return __( 'License inactive', 'cci-posts-carousel' );
 	}
 
 	if ( text === 'Enter your license key to unlock Pro add-ons on this domain.' ) {
-		return __( 'Enter your license key to unlock Pro add-ons on this domain.', 'wp-posts-carousel' );
+		return __( 'Enter your license key to unlock Pro add-ons on this domain.', 'cci-posts-carousel' );
 	}
 
 	if ( text === 'License key' ) {
-		return __( 'License key', 'wp-posts-carousel' );
+		return __( 'License key', 'cci-posts-carousel' );
 	}
 
 	if ( text === 'Activate license' ) {
-		return __( 'Activate license', 'wp-posts-carousel' );
+		return __( 'Activate license', 'cci-posts-carousel' );
 	}
 
 	if ( text === 'Activating...' ) {
-		return __( 'Activating...', 'wp-posts-carousel' );
+		return __( 'Activating...', 'cci-posts-carousel' );
 	}
 
 	if ( text === 'Already have a key? Paste it here and activate Pro in seconds.' ) {
-		return __( 'Already have a key? Paste it here and activate Pro in seconds.', 'wp-posts-carousel' );
+		return __( 'Already have a key? Paste it here and activate Pro in seconds.', 'cci-posts-carousel' );
 	}
 
-	return __( text, 'wp-posts-carousel' );
+	return __( text, 'cci-posts-carousel' );
 }
 
 export function coreString( key, fallback ) {

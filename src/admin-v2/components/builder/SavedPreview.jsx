@@ -88,24 +88,24 @@ export default function SavedPreview({ preview, open, onClose }) {
             className='cci-wpc-saved-preview tw-fixed tw-inset-0 tw-z-[100000] tw-grid tw-grid-cols-[minmax(0,1fr)] tw-place-items-end tw-bg-slate-900/35'
             role='dialog'
             aria-modal='true'
-            aria-label={__('Carousel preview', 'wp-posts-carousel')}
+            aria-label={__('Carousel preview', 'cci-posts-carousel')}
         >
             <button
                 type='button'
                 className='tw-absolute tw-inset-0 tw-cursor-default tw-border-0 tw-bg-transparent tw-p-0'
                 onClick={onClose}
             >
-                <span className='tw-sr-only'>{__('Close preview', 'wp-posts-carousel')}</span>
+                <span className='tw-sr-only'>{__('Close preview', 'cci-posts-carousel')}</span>
             </button>
             <div className='tw-relative tw-grid tw-min-w-0 tw-h-[calc(100vh-32px)] tw-w-full tw-grid-cols-[minmax(0,1fr)] tw-grid-rows-[auto_auto_minmax(0,1fr)] tw-border-0 tw-border-l tw-border-solid tw-border-cci-wpc-border tw-bg-white lg:tw-w-[min(1180px,calc(100vw-220px))]'>
                 <div className='tw-flex tw-items-center tw-justify-between tw-gap-4 tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-5 tw-py-4'>
                     <div>
                         <strong className='tw-block tw-text-lg tw-font-semibold tw-leading-tight tw-text-cci-wpc-text'>
-                            {__('Carousel preview', 'wp-posts-carousel')}
+                            {__('Carousel preview', 'cci-posts-carousel')}
                         </strong>
                         <span className='tw-mt-1 tw-block tw-text-sm tw-leading-5 tw-text-cci-wpc-muted'>
-                            {preview?.title || __('Saved carousel', 'wp-posts-carousel')}
-                            {slides.length ? ` · ${slides.length} ${__('slides', 'wp-posts-carousel')}` : ''}
+                            {preview?.title || __('Saved carousel', 'cci-posts-carousel')}
+                            {slides.length ? ` · ${slides.length} ${__('slides', 'cci-posts-carousel')}` : ''}
                         </span>
                     </div>
                     <Button
@@ -114,26 +114,26 @@ export default function SavedPreview({ preview, open, onClose }) {
                         onClick={onClose}
                     >
                         <X aria-hidden='true' />
-                        <span className='tw-sr-only'>{__('Close preview', 'wp-posts-carousel')}</span>
+                        <span className='tw-sr-only'>{__('Close preview', 'cci-posts-carousel')}</span>
                     </Button>
                 </div>
 
                 <div className='tw-grid tw-gap-3 tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-5 tw-py-3 sm:tw-grid-cols-[minmax(0,1fr)_240px] sm:tw-items-center sm:tw-gap-6'>
                     <div className='tw-min-w-0'>
                         <label htmlFor={widthId} className='tw-block tw-text-sm tw-font-semibold tw-leading-5 tw-text-cci-wpc-text'>
-                            {__('Preview width', 'wp-posts-carousel')}
+                            {__('Preview width', 'cci-posts-carousel')}
                         </label>
                         <p className='tw-m-0 tw-mt-1 tw-text-sm tw-leading-5 tw-text-cci-wpc-muted'>
-                            {__('Check the responsive widths configured for this carousel.', 'wp-posts-carousel')}
+                            {__('Check the responsive widths configured for this carousel.', 'cci-posts-carousel')}
                         </p>
                     </div>
                     <Select
                         id={widthId}
-                        ariaLabel={__('Preview width', 'wp-posts-carousel')}
+                        ariaLabel={__('Preview width', 'cci-posts-carousel')}
                         value={selectedWidth}
                         onValueChange={setPreviewWidth}
                         options={[
-                            { value: 'full', label: __('Full width', 'wp-posts-carousel') },
+                            { value: 'full', label: __('Full width', 'cci-posts-carousel') },
                             ...widths.map((width) => ({ value: String(width), label: `${width} px` })),
                         ]}
                     />
@@ -153,7 +153,7 @@ export default function SavedPreview({ preview, open, onClose }) {
                                 <div className='tw-grid tw-min-h-52 tw-place-items-center tw-p-8 tw-text-center tw-text-sm tw-text-cci-wpc-muted'>
                                     {__(
                                         'Frontend preview is not available for this carousel configuration. Check template requirements, Pro license status or frontend asset settings.',
-                                        'wp-posts-carousel'
+                                        'cci-posts-carousel'
                                     )}
                                 </div>
                             ) : (
@@ -161,8 +161,8 @@ export default function SavedPreview({ preview, open, onClose }) {
                                     carousel={preview}
                                     interactive={true}
                                     labels={{
-                                        previous: __('previous', 'wp-posts-carousel'),
-                                        next: __('next', 'wp-posts-carousel'),
+                                        previous: __('previous', 'cci-posts-carousel'),
+                                        next: __('next', 'cci-posts-carousel'),
                                     }}
                                     layout='carousel'
                                     limit={0}
@@ -170,7 +170,7 @@ export default function SavedPreview({ preview, open, onClose }) {
                             )
                         ) : (
                             <div className='tw-grid tw-min-h-52 tw-place-items-center tw-p-8 tw-text-center tw-text-sm tw-text-cci-wpc-muted'>
-                                {__('Preview is loading...', 'wp-posts-carousel')}
+                                {__('Preview is loading...', 'cci-posts-carousel')}
                             </div>
                         )}
                     </div>

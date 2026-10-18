@@ -107,7 +107,7 @@ export default function CompositionTools({ posts, postTypes, pattern, onPostsCha
         onPatternChange({ rhythm: parsed, preset: 'type-rhythm' });
         setNotice({
             type: 'success',
-            message: __('Composition rhythm applied.', 'wp-posts-carousel'),
+            message: __('Composition rhythm applied.', 'cci-posts-carousel'),
         });
     };
 
@@ -123,16 +123,16 @@ export default function CompositionTools({ posts, postTypes, pattern, onPostsCha
         <div className='tw-grid tw-gap-3 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-cci-wpc-surfaceSoft tw-p-3'>
             <div className='tw-grid tw-gap-1'>
                 <strong className='tw-inline-flex tw-items-center tw-gap-1.5 tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                    {__('Arrangement helpers', 'wp-posts-carousel')}
+                    {__('Arrangement helpers', 'cci-posts-carousel')}
                     <TooltipHelp
                         text={__(
                             'Optional helpers that reorder slides or apply visual presets. They do not change your query, only the selected slide order and layout values.',
-                            'wp-posts-carousel'
+                            'cci-posts-carousel'
                         )}
                     />
                 </strong>
                 <span className='tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
-                    {__('Optional shortcuts for mixed sources and visual story layouts.', 'wp-posts-carousel')}
+                    {__('Optional shortcuts for mixed sources and visual story layouts.', 'cci-posts-carousel')}
                 </span>
             </div>
 
@@ -141,11 +141,11 @@ export default function CompositionTools({ posts, postTypes, pattern, onPostsCha
                     <Field
                         label={
                             <span className='tw-inline-flex tw-items-center tw-gap-1.5'>
-                                {__('Post type pattern', 'wp-posts-carousel')}
+                                {__('Post type pattern', 'cci-posts-carousel')}
                                 <TooltipHelp
                                     text={__(
                                         'Comma-separated post type pattern. Example: post,post,product repeats two posts followed by one product.',
-                                        'wp-posts-carousel'
+                                        'cci-posts-carousel'
                                     )}
                                 />
                             </span>
@@ -158,35 +158,35 @@ export default function CompositionTools({ posts, postTypes, pattern, onPostsCha
                         />
                     </Field>
                     <Button variant='primary' onClick={applyRhythm} disabled={!posts.length}>
-                        {__('Apply', 'wp-posts-carousel')}
+                        {__('Apply', 'cci-posts-carousel')}
                     </Button>
                 </div>
 
                 <div className='tw-grid tw-grid-cols-1 tw-gap-2 xl:tw-grid-cols-3'>
                     <Button onClick={() => applyPreset('editorial', withEditorialLayout)} disabled={!posts.length}>
-                        {__('Featured rhythm', 'wp-posts-carousel')}
+                        {__('Featured rhythm', 'cci-posts-carousel')}
                         <TooltipHelp
                             text={__(
                                 'Makes every few slides slightly wider to create a magazine-like rhythm.',
-                                'wp-posts-carousel'
+                                'cci-posts-carousel'
                             )}
                         />
                     </Button>
                     <Button onClick={() => applyPreset('strip', withStripLayout)} disabled={!posts.length}>
-                        {__('Connected image strip', 'wp-posts-carousel')}
+                        {__('Connected image strip', 'cci-posts-carousel')}
                         <TooltipHelp
                             text={__(
                                 'Groups slides and shifts image crops so several slides can feel like connected parts of one image.',
-                                'wp-posts-carousel'
+                                'cci-posts-carousel'
                             )}
                         />
                     </Button>
                     <Button onClick={() => applyPreset('reset', resetLayout)} disabled={!posts.length}>
-                        {__('Reset layout', 'wp-posts-carousel')}
+                        {__('Reset layout', 'cci-posts-carousel')}
                         <TooltipHelp
                             text={__(
                                 'Clears custom width, group and crop values for all selected slides.',
-                                'wp-posts-carousel'
+                                'cci-posts-carousel'
                             )}
                         />
                     </Button>

@@ -136,21 +136,21 @@ export default function TaxonomyFilters({
     return (
         <div className='tw-grid tw-gap-3'>
             <div className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                {__('Taxonomy filters', 'wp-posts-carousel')}
+                {__('Taxonomy filters', 'cci-posts-carousel')}
             </div>
 
-            <Field label={__('Relation', 'wp-posts-carousel')}>
+            <Field label={__('Relation', 'cci-posts-carousel')}>
                 <Select
                     value={relation || 'or'}
                     onValueChange={onRelationChange}
                     options={[
-                        { value: 'or', label: __('Or', 'wp-posts-carousel') },
-                        { value: 'and', label: __('And', 'wp-posts-carousel') },
+                        { value: 'or', label: __('Or', 'cci-posts-carousel') },
+                        { value: 'and', label: __('And', 'cci-posts-carousel') },
                     ]}
                 />
             </Field>
 
-            <Field label={__('Taxonomy', 'wp-posts-carousel')}>
+            <Field label={__('Taxonomy', 'cci-posts-carousel')}>
                 <Select
                     value={active.name}
                     onValueChange={setActiveTaxonomy}
@@ -162,7 +162,7 @@ export default function TaxonomyFilters({
             </Field>
 
             <div className='tw-grid tw-grid-cols-1 tw-gap-3 sm:tw-grid-cols-2'>
-                <Field label={__('Operator', 'wp-posts-carousel')}>
+                <Field label={__('Operator', 'cci-posts-carousel')}>
                     <Select
                         value={activeFilter?.operator || 'in'}
                         onValueChange={(operator) => upsertFilter(active, { operator })}
@@ -170,7 +170,7 @@ export default function TaxonomyFilters({
                     />
                 </Field>
 
-                <Field label={active.name === 'category' ? __('Search categories', 'wp-posts-carousel') : active.name === 'post_tag' ? __('Search tags', 'wp-posts-carousel') : __('Search terms', 'wp-posts-carousel')}>
+                <Field label={active.name === 'category' ? __('Search categories', 'cci-posts-carousel') : active.name === 'post_tag' ? __('Search tags', 'cci-posts-carousel') : __('Search terms', 'cci-posts-carousel')}>
                     <TermAutocomplete key={active.post_type + ':' + active.name} taxonomy={active} selectedValues={selectedTermValues} onSelect={(term) => addTerm(active, term)} />
                 </Field>
             </div>
@@ -190,8 +190,8 @@ export default function TaxonomyFilters({
                                     <Button size='icon'
                                         variant='danger'
                                         onClick={() => removeFilter(group.post_type, taxonomy.name)}
-                                        aria-label={__('Remove filter', 'wp-posts-carousel')}
-                                        title={__('Remove filter', 'wp-posts-carousel')}
+                                        aria-label={__('Remove filter', 'cci-posts-carousel')}
+                                        title={__('Remove filter', 'cci-posts-carousel')}
                                     >
                                         <Trash2 aria-hidden='true' />
                                     </Button>
@@ -200,8 +200,8 @@ export default function TaxonomyFilters({
                                     {taxonomy.terms.map((term) => (
                                         <button
                                             type='button'
-                                            aria-label={__('Remove term', 'wp-posts-carousel') + ': ' + term.label}
-                                            title={__('Remove term', 'wp-posts-carousel') + ': ' + term.label}
+                                            aria-label={__('Remove term', 'cci-posts-carousel') + ': ' + term.label}
+                                            title={__('Remove term', 'cci-posts-carousel') + ': ' + term.label}
                                             className='tw-inline-flex tw-items-center tw-gap-1.5 tw-cursor-pointer tw-rounded-full tw-border tw-border-solid tw-border-cci-wpc-brandBorder tw-bg-white tw-px-3 tw-py-1.5 tw-text-xs tw-font-semibold tw-text-cci-wpc-brandStrong hover:tw-bg-cci-wpc-brandSoft'
                                             key={term.value}
                                             onClick={() =>

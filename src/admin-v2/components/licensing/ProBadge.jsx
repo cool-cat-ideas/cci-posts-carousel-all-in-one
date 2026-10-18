@@ -3,5 +3,5 @@ import { ProBadge as SharedProBadge } from '@cci/admin-ui/wp-carousel';
 import { __ } from '../../i18n/i18n';
 
 export default function ProBadge({ children, ...props }) {
-    return <SharedProBadge {...props}>{children || __('Pro', 'wp-posts-carousel')}</SharedProBadge>;
+    return <SharedProBadge {...props}>{children || __('Pro', 'cci-posts-carousel')}</SharedProBadge>;
 }

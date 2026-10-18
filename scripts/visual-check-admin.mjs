@@ -11,7 +11,7 @@ const outputDir = path.join( rootDir, 'dist', 'playwright-screenshots' );
 const baseUrl = process.env.WPC_WP_URL || 'http://localhost:4060';
 const username = process.env.WPC_WP_USER || '';
 const password = process.env.WPC_WP_PASS || '';
-const adminUrl = `${ baseUrl }/wp-admin/admin.php?page=wp-posts-carousel`;
+const adminUrl = `${ baseUrl }/wp-admin/admin.php?page=cci-posts-carousel`;
 const executablePath = process.env.PLAYWRIGHT_CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
 if ( ! username || ! password ) {

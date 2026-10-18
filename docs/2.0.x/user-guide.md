@@ -1,6 +1,6 @@
-# WP Posts Carousel All In One 2.0.x user guide
+# CCI Posts Carousel All In One 2.0.x user guide
 
-WP Posts Carousel stores each carousel as one reusable definition. Change the
+CCI Posts Carousel All In One stores each carousel as one reusable definition. Change the
 definition once and every Gutenberg, shortcode, PHP or Elementor placement
 using it receives the new content and layout.
 
@@ -15,12 +15,12 @@ the workflow and a screenshot of the dashboard.
 ## Install And Publish A First Carousel
 
 1. Open **Plugins > Add New > Upload Plugin**.
-2. Upload the base plugin ZIP and activate **WP Posts Carousel All In One**.
-3. Open **WP Posts Carousel > Dashboard** and click **New carousel**.
+2. Upload the base plugin ZIP and activate **CCI Posts Carousel All In One**.
+3. Open **CCI Posts Carousel All In One > Dashboard** and click **New carousel**.
 4. Enter a name. Under **Query**, choose **Query (automatic)**, select **Posts** and keep the newest-first order.
 5. Pick a template and set the desktop, tablet and mobile item counts.
 6. Check the query preview, set **Status** to **Published** and click **Save**.
-7. Edit a page, add the **WP Posts Carousel** block and choose the saved
+7. Edit a page, add the **CCI Posts Carousel All In One** block and choose the saved
    carousel.
 8. Publish the page and check it on desktop and mobile.
 
@@ -120,7 +120,7 @@ Example mapping:
 
 ### Gutenberg
 
-Insert the **WP Posts Carousel** block and choose the saved carousel from the
+Insert the **CCI Posts Carousel All In One** block and choose the saved carousel from the
 selector. The block stores the definition ID, not a copy of its settings.
 
 ### Shortcode
@@ -128,14 +128,14 @@ selector. The block stores the definition ID, not a copy of its settings.
 Copy the shortcode displayed in the carousel list:
 
 ```text
-[wp_posts_carousel id="123"]
+[cci_posts_carousel id="123"]
 ```
 
 On a long page, keep the first visible carousel eager and defer carousels below
 the fold with the public `lazy` attribute:
 
 ```text
-[wp_posts_carousel id="123" lazy="true"]
+[cci_posts_carousel id="123" lazy="true"]
 ```
 
 The lazy placement reserves its space and requests the rendered carousel as it
@@ -146,12 +146,12 @@ approaches the viewport. Do not use it for the primary above-the-fold example.
 Use the shortcode runtime so the theme receives the same output:
 
 ```php
-echo do_shortcode('[wp_posts_carousel id="123"]');
+echo do_shortcode('[cci_posts_carousel id="123"]');
 ```
 
 ### Elementor (Pro)
 
-Add the WP Posts Carousel widget and choose the saved definition. Manual ID
+Add the CCI Posts Carousel All In One widget and choose the saved definition. Manual ID
 typing is only a fallback; the normal workflow uses the searchable selector.
 
 ## Change appearance safely
@@ -231,3 +231,16 @@ If you would like help, follow [Support](./support.md) for direct contact links,
 the steps to send a message and where to read the reply. Start with what you
 tried, the installed plugin version and a screenshot if useful. You do not need
 to diagnose the issue or collect developer logs before asking.
+
+
+## Updating from the previous package name
+
+CCI Posts Carousel All In One was previously named WP Posts Carousel All In One. The name and package slug changed following WordPress’s decision about the plugin name and slug. Your saved carousel IDs, settings, Gutenberg blocks and existing `[wp_posts_carousel]` shortcodes remain supported. You can also use `[cci_posts_carousel]`.
+
+1. Make a restorable backup of your WordPress files and database. Try the update on a staging copy first.
+2. Open **Plugins → Add New Plugin → Upload Plugin** and upload the new base ZIP. Upload the renamed Pro and add-on ZIPs when you have them. The new folders can exist alongside the previous folders.
+3. Activate **CCI Posts Carousel All In One**. WordPress switches this carousel family to the renamed packages that are installed. An existing Pro 2.0.0 can stay active until its renamed update is installed; its license checks continue normally.
+4. Open the carousel list. Check your saved settings, a page with an existing shortcode, pinned slides and any Pro layouts you use. Check the Pro license status.
+5. Keep your backup until the check is complete. Remove obsolete folders through your file manager only after confirming that their renamed replacements are active. Do not use **Delete** on the previous plugin in WordPress as a data-migration step; uninstall routines can remove saved data.
+
+If a carousel is missing, check that you opened the same WordPress site and that its saved ID matches the shortcode. If you need to roll back, restore the files and database from the same backup.

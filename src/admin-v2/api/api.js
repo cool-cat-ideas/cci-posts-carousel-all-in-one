@@ -17,13 +17,13 @@ export function apiFetch( path, options = {} ) {
 				.json()
 				.catch( () => ( {} ) )
 				.then( ( error ) => {
-					throw createApiError(error, response.status, `WP Posts Carousel API request failed (${response.status}).`);
+					throw createApiError(error, response.status, `CCI Posts Carousel All In One API request failed (${response.status}).`);
 				} );
 		}
 
 		return response.json().then((payload) => {
             if (payload?.success === false) {
-                throw createApiError(payload, response.status, `WP Posts Carousel API request failed (${response.status}).`);
+                throw createApiError(payload, response.status, `CCI Posts Carousel All In One API request failed (${response.status}).`);
             }
             return payload;
         });

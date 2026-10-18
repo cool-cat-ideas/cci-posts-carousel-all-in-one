@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { reconcileCatalogItems } from '@cci/admin-ui';
+import { CountBadge, reconcileCatalogItems } from '@cci/admin-ui';
 import { BadgeCheck, Plug, ShoppingBag } from 'lucide-react';
 import { apiFetch, pluginData } from '../../api/api';
 import { __ } from '../../i18n/i18n';
@@ -41,7 +41,7 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
             .catch(() => {
                 setNotice({
                     type: 'error',
-                    message: __('Failed loading integrations.', 'wp-posts-carousel'),
+                    message: __('Failed loading integrations.', 'cci-posts-carousel'),
                 });
             })
             .finally(() => setInstalledLoading(false));
@@ -77,9 +77,9 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
 
         return [
             {
-                key: 'wp-posts-carousel-pro',
-                label: 'WP Posts Carousel All In One Pro',
-                description: __('Core Pro product and license for premium carousel modules.', 'wp-posts-carousel'),
+                key: 'cci-posts-carousel-pro',
+                label: 'CCI Posts Carousel All In One Pro',
+                description: __('Core Pro product and license for premium carousel modules.', 'cci-posts-carousel'),
                 enabled: true,
                 source: 'product',
                 plan: 'paid',
@@ -105,10 +105,10 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
         <MarketplaceStatus
             error={storeFeed.error}
             retrying={storeFeed.retrying}
-            label={__('Integration store is temporarily unavailable.', 'wp-posts-carousel')}
+            label={__('Integration store is temporarily unavailable.', 'cci-posts-carousel')}
             description={__(
                 'The plugin will retry automatically. Last known store integrations remain visible when available.',
-                'wp-posts-carousel'
+                'cci-posts-carousel'
             )}
             showDetails={false}
         />
@@ -120,19 +120,19 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
                     <div className='tw-grid tw-grid-cols-1 tw-gap-3 lg:tw-grid-cols-2'>
                         <MetricCard
                             icon={Plug}
-                            label={__('Installed', 'wp-posts-carousel')}
+                            label={__('Installed', 'cci-posts-carousel')}
                             value={installedLoading ? '-' : installed.length}
-                            description={__('Installed product packages detected on this site', 'wp-posts-carousel')}
+                            description={__('Installed product packages detected on this site', 'cci-posts-carousel')}
                             tone='primary'
                         />
                         <MetricCard
                             icon={ShoppingBag}
-                            label={__('Store', 'wp-posts-carousel')}
+                            label={__('Store', 'cci-posts-carousel')}
                             value={storeLoading ? '-' : storeCount}
                             description={
                                 pluginData.integrationStoreEndpoint
-                                    ? __('Loaded from your store', 'wp-posts-carousel')
-                                    : __('Connect a store endpoint', 'wp-posts-carousel')
+                                    ? __('Loaded from your store', 'cci-posts-carousel')
+                                    : __('Connect a store endpoint', 'cci-posts-carousel')
                             }
                         />
                     </div>
@@ -140,20 +140,16 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
                     <ReviewPrompt section='integrations' setNotice={setNotice} />
 
                     <Tabs value={activeTab} onValueChange={onTabChange}>
-                        <TabsList aria-label={__('Integration sections', 'wp-posts-carousel')}>
+                        <TabsList aria-label={__('Integration sections', 'cci-posts-carousel')}>
                             <TabsTrigger value={installedTab}>
                                 <BadgeCheck aria-hidden='true' />
-                                {__('Installed products', 'wp-posts-carousel')}
-                                <span className='tw-inline-flex tw-min-w-6 tw-items-center tw-justify-center tw-rounded-full tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-px-2 tw-py-1 tw-text-[11px] tw-leading-none tw-text-cci-wpc-muted'>
-                                    {installed.length}
-                                </span>
+                                {__('Installed products', 'cci-posts-carousel')}
+                                <CountBadge>{installed.length}</CountBadge>
                             </TabsTrigger>
                             <TabsTrigger value={storeTab}>
                                 <ShoppingBag aria-hidden='true' />
-                                {__('Products in store', 'wp-posts-carousel')}
-                                <span className='tw-inline-flex tw-min-w-6 tw-items-center tw-justify-center tw-rounded-full tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-px-2 tw-py-1 tw-text-[11px] tw-leading-none tw-text-cci-wpc-muted'>
-                                    {storeCount}
-                                </span>
+                                {__('Products in store', 'cci-posts-carousel')}
+                                <CountBadge>{storeCount}</CountBadge>
                             </TabsTrigger>
                         </TabsList>
 
@@ -162,8 +158,8 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
                                 <LoadingState
                                     label={
                                         activeTab === installedTab
-                                            ? __('Loading installed integrations...', 'wp-posts-carousel')
-                                            : __('Loading store integrations...', 'wp-posts-carousel')
+                                            ? __('Loading installed integrations...', 'cci-posts-carousel')
+                                            : __('Loading store integrations...', 'cci-posts-carousel')
                                     }
                                     variant='block'
                                     rows={4}
@@ -193,8 +189,8 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
                     description={proFeature?.description || ''}
                     productUrl={proFeature?.productUrl || ''}
                     benefits={[
-                        __('Unlock premium data sources and editor integrations for this domain.', 'wp-posts-carousel'),
-                        __('Keep the core plugin lean while Pro modules extend commerce and analytics workflows.', 'wp-posts-carousel'),
+                        __('Unlock premium data sources and editor integrations for this domain.', 'cci-posts-carousel'),
+                        __('Keep the core plugin lean while Pro modules extend commerce and analytics workflows.', 'cci-posts-carousel'),
                     ]}
                     onActivateLicense={() => {
                         setProFeature(null);
@@ -212,19 +208,19 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
                     <div className='tw-grid tw-grid-cols-1 tw-gap-3 lg:tw-grid-cols-2'>
                         <MetricCard
                             icon={Plug}
-                            label={__('Installed', 'wp-posts-carousel')}
+                            label={__('Installed', 'cci-posts-carousel')}
                             value={installedLoading ? '-' : installed.length}
-                            description={__('Installed product packages detected on this site', 'wp-posts-carousel')}
+                            description={__('Installed product packages detected on this site', 'cci-posts-carousel')}
                             tone='primary'
                         />
                         <MetricCard
                             icon={ShoppingBag}
-                            label={__('Store', 'wp-posts-carousel')}
+                            label={__('Store', 'cci-posts-carousel')}
                             value={storeLoading ? '-' : storeCount}
                             description={
                                 pluginData.integrationStoreEndpoint
-                                    ? __('Loaded from your store', 'wp-posts-carousel')
-                                    : __('Connect a store endpoint', 'wp-posts-carousel')
+                                    ? __('Loaded from your store', 'cci-posts-carousel')
+                                    : __('Connect a store endpoint', 'cci-posts-carousel')
                             }
                         />
                     </div>
@@ -232,20 +228,16 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
                 <ReviewPrompt section='integrations' setNotice={setNotice} />
 
                 <Tabs value={activeTab} onValueChange={onTabChange}>
-                    <TabsList aria-label={__('Integration sections', 'wp-posts-carousel')}>
+                    <TabsList aria-label={__('Integration sections', 'cci-posts-carousel')}>
                         <TabsTrigger value={installedTab}>
                             <BadgeCheck aria-hidden='true' />
-                            {__('Installed products', 'wp-posts-carousel')}
-                            <span className='tw-inline-flex tw-min-w-6 tw-items-center tw-justify-center tw-rounded-full tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-px-2 tw-py-1 tw-text-[11px] tw-leading-none tw-text-cci-wpc-muted'>
-                                {installed.length}
-                            </span>
+                            {__('Installed products', 'cci-posts-carousel')}
+                            <CountBadge>{installed.length}</CountBadge>
                         </TabsTrigger>
                         <TabsTrigger value={storeTab}>
                             <ShoppingBag aria-hidden='true' />
-                            {__('Products in store', 'wp-posts-carousel')}
-                            <span className='tw-inline-flex tw-min-w-6 tw-items-center tw-justify-center tw-rounded-full tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-px-2 tw-py-1 tw-text-[11px] tw-leading-none tw-text-cci-wpc-muted'>
-                                {storeCount}
-                            </span>
+                            {__('Products in store', 'cci-posts-carousel')}
+                            <CountBadge>{storeCount}</CountBadge>
                         </TabsTrigger>
                     </TabsList>
 
@@ -254,8 +246,8 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
                             <LoadingState
                                 label={
                                     activeTab === installedTab
-                                        ? __('Loading installed integrations...', 'wp-posts-carousel')
-                                        : __('Loading store integrations...', 'wp-posts-carousel')
+                                        ? __('Loading installed integrations...', 'cci-posts-carousel')
+                                        : __('Loading store integrations...', 'cci-posts-carousel')
                                 }
                                 variant='block'
                                 rows={4}
@@ -285,8 +277,8 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
                 description={proFeature?.description || ''}
                 productUrl={proFeature?.productUrl || ''}
                 benefits={[
-                    __('Unlock premium data sources and editor integrations for this domain.', 'wp-posts-carousel'),
-                    __('Keep the core plugin lean while Pro modules extend commerce and analytics workflows.', 'wp-posts-carousel'),
+                    __('Unlock premium data sources and editor integrations for this domain.', 'cci-posts-carousel'),
+                    __('Keep the core plugin lean while Pro modules extend commerce and analytics workflows.', 'cci-posts-carousel'),
                 ]}
                 onActivateLicense={() => {
                     setProFeature(null);
@@ -307,24 +299,24 @@ function IntegrationGrid({ items, mode, notice, hasStoreEndpoint, onGoToStore, o
                 icon={Plug}
                 title={
                     mode === installedTab
-                        ? __('No integration add-ons detected.', 'wp-posts-carousel')
+                        ? __('No integration add-ons detected.', 'cci-posts-carousel')
                         : hasStoreEndpoint
-                          ? __('No store integrations found.', 'wp-posts-carousel')
-                          : __('Integration store is not connected yet.', 'wp-posts-carousel')
+                          ? __('No store integrations found.', 'cci-posts-carousel')
+                          : __('Integration store is not connected yet.', 'cci-posts-carousel')
                 }
                 description={
                     mode === installedTab
-                        ? __('No integrations are installed on this site yet.', 'wp-posts-carousel')
+                        ? __('No integrations are installed on this site yet.', 'cci-posts-carousel')
                         : hasStoreEndpoint
-                          ? __('Add integration products in your store and they will appear here.', 'wp-posts-carousel')
+                          ? __('Add integration products in your store and they will appear here.', 'cci-posts-carousel')
                           : __(
                                 'The integration store is temporarily unavailable. Installed integrations remain ready to use.',
-                                'wp-posts-carousel'
+                                'cci-posts-carousel'
                             )
                 }
                 actionLabel={
                     mode === installedTab && onGoToStore && hasStoreEndpoint
-                        ? __('Go to available integrations', 'wp-posts-carousel')
+                        ? __('Go to available integrations', 'cci-posts-carousel')
                         : ''
                 }
                 onAction={mode === installedTab && hasStoreEndpoint ? onGoToStore : null}
@@ -345,14 +337,16 @@ function IntegrationCard({ item, onLockedIntegration }) {
         <CatalogProductCard
             item={{
                 title: item.label,
+                author: item.author,
+                version: item.version,
                 description:
-                    item.description || __('Adds capabilities to carousel configuration.', 'wp-posts-carousel'),
+                    item.description || __('Adds capabilities to carousel configuration.', 'cci-posts-carousel'),
                 screenshot: item.screenshot,
                 pro: item.plan === 'paid',
                 locked,
                 lockedMessage: __(
-                    'Installed, but requires an active WP Posts Carousel Pro license before premium options are enabled.',
-                    'wp-posts-carousel'
+                    'Installed, but requires an active CCI Posts Carousel All In One Pro license before premium options are enabled.',
+                    'cci-posts-carousel'
                 ),
                 url: item.url,
                 installed: item.installed || item.source !== 'store',
@@ -360,9 +354,9 @@ function IntegrationCard({ item, onLockedIntegration }) {
             mode={item.source === 'store' ? storeTab : installedTab}
             fallbackIcon={Plug}
             lockedActionUrl={pluginData.upgradeUrl}
-            lockedActionLabel={__('Requires Pro license', 'wp-posts-carousel')}
-            availableLabel={__('Available', 'wp-posts-carousel')}
-            storeLabel={item.statusLabel || __('Available', 'wp-posts-carousel')}
+            lockedActionLabel={__('Requires Pro license', 'cci-posts-carousel')}
+            availableLabel={__('Available', 'cci-posts-carousel')}
+            storeLabel={item.statusLabel || __('Available', 'cci-posts-carousel')}
             onLockedClick={onLockedIntegration}
         />
     );
@@ -376,13 +370,15 @@ function normalizeIntegrations(features) {
             catalogKeys: integrationCatalogKeys(key),
             label: feature.label || key,
             description: feature.description || '',
+            author: readableValue(feature.author),
+            version: readableValue(feature.version),
             enabled: Boolean(feature.enabled),
             source: feature.source || 'addon',
             plan: feature.plan || (feature.source === 'pro' ? 'paid' : 'free'),
             statusLabel:
                 feature.source === 'pro'
-                    ? __('Requires Pro', 'wp-posts-carousel')
-                    : __('Available', 'wp-posts-carousel'),
+                    ? __('Requires Pro', 'cci-posts-carousel')
+                    : __('Available', 'cci-posts-carousel'),
             installed: feature.source === 'addon' || Boolean(feature.enabled),
         }));
 }
@@ -411,14 +407,16 @@ function normalizeStoreIntegration(integration) {
         ),
         label: readableValue(integration.title || integration.label || integration.name),
         description: readableValue(integration.description || integration.excerpt || integration.summary, ''),
+        author: readableValue(integration.author || integration.vendor),
+        version: readableValue(integration.version),
         enabled: false,
         source: 'store',
         plan,
         statusLabel: includedInPro
-            ? __('Included in Pro', 'wp-posts-carousel')
+            ? __('Included in Pro', 'cci-posts-carousel')
             : plan === 'paid'
-              ? __('Paid add-on', 'wp-posts-carousel')
-              : __('Free add-on', 'wp-posts-carousel'),
+              ? __('Paid add-on', 'cci-posts-carousel')
+              : __('Free add-on', 'cci-posts-carousel'),
         installed: false,
         screenshot: mediaUrl(
             integration.screenshot ||

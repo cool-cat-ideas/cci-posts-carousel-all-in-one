@@ -8,9 +8,10 @@ import {
 } from './carousel-view-utils';
 import './carousel-renderer.css';
 import { carouselTimings } from './carousel-timing.mjs';
+import { installHoverImages } from './hover-images';
 
 function fallbackReadMore() {
-	return window.wp?.i18n?.__( 'read more', 'wp-posts-carousel' ) || 'read more';
+	return window.wp?.i18n?.__( 'read more', 'cci-posts-carousel' ) || 'read more';
 }
 
 function buttonLabel( slide ) {
@@ -228,6 +229,7 @@ function SlideCard( {
 	index = 0,
 } ) {
 	const woocommerceCard = slide.html?.woocommerce_card || '';
+	useEffect(() => { installHoverImages(); }, []);
 
 	if ( woocommerceCard ) {
 		return (
@@ -251,6 +253,7 @@ function SlideCard( {
 					{ slide.image?.src ? (
 						<img
 							src={ slide.image.src }
+							data-wpc-hover-src={ slide.hover_image?.src || undefined }
 							alt={ slide.image.alt || slide.title?.text || '' }
 							decoding="async"
 							fetchPriority={ imageFetchPriority }
@@ -630,7 +633,7 @@ export default function CarouselRenderer( {
 								showTitle={ showTitle }
 								allSlides={ visibleSlides }
 								activeIndex={ activeIndex }
-								className={ usesEngineAdapter ? 'swiper-slide' : '' }
+								className={ `${ usesEngineAdapter ? 'swiper-slide' : '' }${ slide.pinned ? ' cci-wpc-slide-pinned' : '' }`.trim() }
 								isActive={ index === activeIndex }
 								onSelectSlide={ goTo }
 								slide={ slide }
@@ -644,6 +647,7 @@ export default function CarouselRenderer( {
 					{ visibleSlides.map( ( slide, index ) => (
 						<SlideComponent
 							key={ `${ slide.id }-${ index }` }
+							className={ slide.pinned ? 'cci-wpc-slide-pinned' : '' }
 							interactive={ interactive }
 							index={ index }
 							imageFetchPriority={ firstImageEager && index === 0 ? 'high' : undefined }

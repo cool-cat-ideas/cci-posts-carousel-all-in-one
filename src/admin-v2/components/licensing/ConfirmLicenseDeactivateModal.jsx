@@ -25,24 +25,24 @@ export default function ConfirmLicenseDeactivateModal({ open, saving = false, on
                             id='cci-wpc-deactivate-license-title'
                             className='tw-m-0 tw-text-lg tw-font-semibold tw-leading-tight tw-text-cci-wpc-text'
                         >
-                            {__('Deactivate Pro license?', 'wp-posts-carousel')}
+                            {__('Deactivate Pro license?', 'cci-posts-carousel')}
                         </h2>
                         <p className='tw-m-0 tw-mt-1 tw-text-sm tw-leading-5 tw-text-cci-wpc-muted'>
                             {__(
                                 'Pro features will stop working on this site until the license is activated again.',
-                                'wp-posts-carousel'
+                                'cci-posts-carousel'
                             )}
                         </p>
                     </div>
                 </div>
                 <div className='tw-flex tw-justify-end tw-gap-2 tw-p-5'>
                     <Button variant='secondary' type='button' onClick={onCancel} disabled={saving}>
-                        {__('Cancel', 'wp-posts-carousel')}
+                        {__('Cancel', 'cci-posts-carousel')}
                     </Button>
                     <Button variant='danger' type='button' onClick={onConfirm} disabled={saving}>
                         {saving
-                            ? __('Deactivating...', 'wp-posts-carousel')
-                            : __('Deactivate license', 'wp-posts-carousel')}
+                            ? __('Deactivating...', 'cci-posts-carousel')
+                            : __('Deactivate license', 'cci-posts-carousel')}
                     </Button>
                 </div>
             </div>

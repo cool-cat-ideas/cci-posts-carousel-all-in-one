@@ -36,10 +36,10 @@ export default function TermAutocomplete({ taxonomy, selectedValues, onSelect })
         ],
     });
     const label = taxonomy.name === 'category'
-        ? __('Search categories', 'wp-posts-carousel')
+        ? __('Search categories', 'cci-posts-carousel')
         : taxonomy.name === 'post_tag'
-            ? __('Search tags', 'wp-posts-carousel')
-            : __('Search terms', 'wp-posts-carousel');
+            ? __('Search tags', 'cci-posts-carousel')
+            : __('Search terms', 'cci-posts-carousel');
     const available = results.filter((term) => !selectedValues.includes(term.value));
 
     useEffect(() => {
@@ -138,9 +138,9 @@ export default function TermAutocomplete({ taxonomy, selectedValues, onSelect })
                     <div role='status' aria-live='polite' className='tw-text-sm tw-text-cci-wpc-muted'>
                         {(loading || error || !available.length) && (
                             <p className='tw-m-0 tw-px-3 tw-py-2'>
-                                {loading ? __('Searching...', 'wp-posts-carousel') : error
-                                    ? __('Could not load terms. Focus the field to try again.', 'wp-posts-carousel')
-                                    : __('No matching terms.', 'wp-posts-carousel')}
+                                {loading ? __('Searching...', 'cci-posts-carousel') : error
+                                    ? __('Could not load terms. Focus the field to try again.', 'cci-posts-carousel')
+                                    : __('No matching terms.', 'cci-posts-carousel')}
                             </p>
                         )}
                     </div>

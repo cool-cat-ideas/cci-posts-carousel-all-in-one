@@ -4,7 +4,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, wri
 import { basename, dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const pluginSlug = 'wp-posts-carousel';
+const pluginSlug = 'cci-posts-carousel';
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const pluginDir = resolve(scriptDir, '..');
 const releaseDir = process.env.CCI_RELEASE_DIR ? resolve(process.env.CCI_RELEASE_DIR) : resolve(pluginDir, '..', '..', 'releases', 'wordpress');
@@ -22,7 +22,7 @@ const includeRoots = [
 	'templates',
 	'LICENSE',
 	'readme.txt',
-	'wp-posts-carousel.php',
+	'cci-posts-carousel.php',
 ];
 
 const generatedJavaScriptPatterns = [
@@ -159,7 +159,7 @@ function copyEntry(source, target, rootRelative = '') {
 }
 
 function readVersion() {
-	const pluginFile = readFileSync(join(pluginDir, 'wp-posts-carousel.php'), 'utf8');
+	const pluginFile = readFileSync(join(pluginDir, 'cci-posts-carousel.php'), 'utf8');
 	const match = pluginFile.match(/^\s*\*\s*Version:\s*(.+)$/m);
 
 	return match ? match[1].trim() : '';
@@ -169,7 +169,7 @@ function validatePackage() {
 	const requiredFiles = [
 		'LICENSE',
 		'readme.txt',
-		'wp-posts-carousel.php',
+		'cci-posts-carousel.php',
 		'assets/js/admin-v2.js',
 		'assets/js/frontend-loader.js',
 		'blocks/carousel/index.js',
@@ -306,7 +306,7 @@ function main() {
 	const version = readVersion();
 
 	if (!version) {
-		throw new Error('Could not read plugin version from wp-posts-carousel.php');
+		throw new Error('Could not read plugin version from cci-posts-carousel.php');
 	}
 
 	const zipPath = join(releaseDir, `${pluginSlug}-${version}.zip`);

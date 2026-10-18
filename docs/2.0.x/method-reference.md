@@ -1,4 +1,4 @@
-# WP Posts Carousel PHP API
+# CCI Posts Carousel All In One PHP API
 
 Use the smallest supported surface: shortcode for HTML, public data for an
 integration, template metadata for discovery, filters for behavior changes.
@@ -14,7 +14,7 @@ the entire result would display markup as text.
 
 ```php
 if (shortcode_exists('wp_posts_carousel')) {
-    echo do_shortcode('[wp_posts_carousel id="123"]');
+    echo do_shortcode('[cci_posts_carousel id="123"]');
 }
 ```
 

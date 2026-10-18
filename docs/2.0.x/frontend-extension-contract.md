@@ -1,6 +1,6 @@
-# WP Posts Carousel 2.0.x frontend extension contract
+# CCI Posts Carousel All In One 2.0.x frontend extension contract
 
-WP Posts Carousel renders SEO-friendly PHP markup first. JavaScript enhancements are progressive and load only when a carousel enters the viewport.
+CCI Posts Carousel All In One renders SEO-friendly PHP markup first. JavaScript enhancements are progressive and load only when a carousel enters the viewport.
 
 ## PHP renderer registration
 

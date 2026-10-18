@@ -14,7 +14,7 @@ export default function ConfirmDialog({ dialog, onCancel, onConfirm }) {
                 type='button'
                 className='tw-absolute tw-inset-0 tw-cursor-default tw-border-0 tw-bg-slate-900/35 tw-p-0'
                 onClick={onCancel}
-                aria-label={__('Cancel', 'wp-posts-carousel')}
+                aria-label={__('Cancel', 'cci-posts-carousel')}
             />
             <div
                 className='tw-relative tw-grid tw-w-[min(440px,calc(100vw-32px))] tw-gap-4 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-p-5'
@@ -27,7 +27,7 @@ export default function ConfirmDialog({ dialog, onCancel, onConfirm }) {
                     type='button'
                     className='tw-absolute tw-right-3 tw-top-3'
                     onClick={onCancel}
-                    aria-label={__('Cancel', 'wp-posts-carousel')}
+                    aria-label={__('Cancel', 'cci-posts-carousel')}
                 >
                     <X aria-hidden='true' />
                 </Button>
@@ -49,9 +49,9 @@ export default function ConfirmDialog({ dialog, onCancel, onConfirm }) {
                     )}
                 </div>
                 <div className='tw-flex tw-justify-end tw-gap-2'>
-                    <Button onClick={onCancel}>{dialog.cancelLabel || __('Cancel', 'wp-posts-carousel')}</Button>
+                    <Button onClick={onCancel}>{dialog.cancelLabel || __('Cancel', 'cci-posts-carousel')}</Button>
                     <Button variant={dialog.variant === 'danger' ? 'danger' : 'primary'} onClick={onConfirm}>
-                        {dialog.confirmLabel || __('Confirm', 'wp-posts-carousel')}
+                        {dialog.confirmLabel || __('Confirm', 'cci-posts-carousel')}
                     </Button>
                 </div>
             </div>

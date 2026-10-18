@@ -1,6 +1,6 @@
 {
-  "name": "wp-posts-carousel",
-  "version": "2.0.4",
+  "name": "cci-posts-carousel",
+  "version": "2.1.0",
   "description": "Build and manage reusable WordPress carousels.",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "build": "webpack --progress --config webpack.config.js --mode=production",
     "package:wp": "npx -y node@23 scripts/build-wp-release.mjs",
     "i18n": "npm run i18n-pot && npm run i18n-json",
-    "i18n-pot": "wp i18n make-pot ./ ./languages/wp-posts-carousel.pot --domain=wp-posts-carousel --exclude=app",
+    "i18n-pot": "wp i18n make-pot ./ ./languages/cci-posts-carousel.pot --domain=cci-posts-carousel --exclude=app",
     "i18n-json": "wp i18n make-json ./languages/ --no-purge",
     "format-js": "wp-scripts format-js",
     "prettier": "@wordpress/prettier-config"

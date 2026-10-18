@@ -229,7 +229,7 @@ export default function CarouselSettings({
         const width = Number(newBreakpoint);
 
         if (!width || width < 1) {
-            setNewBreakpointError(__('Breakpoint width must be greater than 0.', 'wp-posts-carousel'));
+            setNewBreakpointError(__('Breakpoint width must be greater than 0.', 'cci-posts-carousel'));
             return;
         }
 
@@ -240,10 +240,10 @@ export default function CarouselSettings({
     const removeBreakpoint = async (width) => {
         if (confirmAction) {
             const confirmed = await confirmAction({
-                title: __('Delete breakpoint?', 'wp-posts-carousel'),
-                message: `${__('This removes the responsive rule for', 'wp-posts-carousel')} ${width}px.`,
-                confirmLabel: __('Delete breakpoint', 'wp-posts-carousel'),
-                cancelLabel: __('Keep breakpoint', 'wp-posts-carousel'),
+                title: __('Delete breakpoint?', 'cci-posts-carousel'),
+                message: `${__('This removes the responsive rule for', 'cci-posts-carousel')} ${width}px.`,
+                confirmLabel: __('Delete breakpoint', 'cci-posts-carousel'),
+                cancelLabel: __('Keep breakpoint', 'cci-posts-carousel'),
                 variant: 'danger',
             });
 
@@ -276,17 +276,17 @@ export default function CarouselSettings({
         <div className='tw-grid tw-gap-4'>
             <div>
                 <div className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                    {__('Carousel engine', 'wp-posts-carousel')}
+                    {__('Carousel engine', 'cci-posts-carousel')}
                 </div>
                 <p className='tw-m-0 tw-mt-1 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
                     {__(
                         'Choose the JavaScript engine and interaction behavior used by this carousel.',
-                        'wp-posts-carousel'
+                        'cci-posts-carousel'
                     )}
                 </p>
             </div>
 
-            <Field label={__('Engine', 'wp-posts-carousel')}>
+            <Field label={__('Engine', 'cci-posts-carousel')}>
                 <Select
                     value={value || 'owl-carousel'}
                     onValueChange={onTypeChange}
@@ -297,30 +297,30 @@ export default function CarouselSettings({
                 />
             </Field>
 
-            <Field label={__('Transition effect', 'wp-posts-carousel')}>
+            <Field label={__('Transition effect', 'cci-posts-carousel')}>
                 <Select
                     value={transitionEffect}
                     onValueChange={updateTransitionEffect}
                     options={transitionEffectOptions(value).map((effect) => ({
                         ...effect,
-                        label: __(effect.label, 'wp-posts-carousel'),
+                        label: __(effect.label, 'cci-posts-carousel'),
                     }))}
                 />
                 <small className='tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
                     {value === 'swiper'
                         ? __(
                               'Swiper supports native transition effects. Fade, cube, flip, cards and creative use one visible slide.',
-                              'wp-posts-carousel'
+                              'cci-posts-carousel'
                           )
                         : __(
                               'Owl supports the standard slide transition and a fade transition using Owl animation classes.',
-                              'wp-posts-carousel'
+                              'cci-posts-carousel'
                           )}
                 </small>
             </Field>
 
             {value !== 'swiper' && (
-                <Field label={__('Easing', 'wp-posts-carousel')}>
+                <Field label={__('Easing', 'cci-posts-carousel')}>
                     <Select
                         value={options.fallback_easing || 'linear'}
                         onValueChange={(fallbackEasing) => updateOption('fallback_easing', fallbackEasing)}
@@ -332,13 +332,13 @@ export default function CarouselSettings({
             {visibleSelects.length > 0 && (
                 <div className='tw-grid tw-grid-cols-1 tw-gap-3 sm:tw-grid-cols-2'>
                     {visibleSelects.map((field) => (
-                        <Field key={field.name} label={__(field.label, 'wp-posts-carousel')}>
+                        <Field key={field.name} label={__(field.label, 'cci-posts-carousel')}>
                             <Select
                                 value={options[field.name] || field.options[0].value}
                                 onValueChange={(nextValue) => updateOption(field.name, nextValue)}
                                 options={field.options.map((option) => ({
                                     ...option,
-                                    label: __(option.label, 'wp-posts-carousel'),
+                                    label: __(option.label, 'cci-posts-carousel'),
                                 }))}
                             />
                         </Field>
@@ -353,7 +353,7 @@ export default function CarouselSettings({
                         checked={boolValue(options[field.name])}
                         onCheckedChange={(checked) => updateOption(field.name, checked === true)}
                     >
-                        {__(field.label, 'wp-posts-carousel')}
+                        {__(field.label, 'cci-posts-carousel')}
                     </CheckboxField>
                 ))}
             </div>
@@ -361,17 +361,17 @@ export default function CarouselSettings({
             <div className='tw-grid tw-gap-3 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-p-3'>
                 <div>
                     <div className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                        {__('Navigation icons', 'wp-posts-carousel')}
+                        {__('Navigation icons', 'cci-posts-carousel')}
                     </div>
                     <p className='tw-m-0 tw-mt-1 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
                         {__(
                             'Override arrow icons for this carousel. Leave fields empty to use the selected library defaults.',
-                            'wp-posts-carousel'
+                            'cci-posts-carousel'
                         )}
                     </p>
                 </div>
 
-                <Field label={__('Icon library override', 'wp-posts-carousel')}>
+                <Field label={__('Icon library override', 'cci-posts-carousel')}>
                     <Select
                         value={navIconLibrary || GLOBAL_ICON_LIBRARY_VALUE}
                         onValueChange={(nextLibrary) => updateOption(
@@ -379,7 +379,7 @@ export default function CarouselSettings({
                             nextLibrary === GLOBAL_ICON_LIBRARY_VALUE ? '' : nextLibrary
                         )}
                         options={[
-                            { value: GLOBAL_ICON_LIBRARY_VALUE, label: __('Global setting', 'wp-posts-carousel') },
+                            { value: GLOBAL_ICON_LIBRARY_VALUE, label: __('Global setting', 'cci-posts-carousel') },
                             ...normalizedIconLibraries.map((library) => ({
                                 value: library.value,
                                 label: library.label || library.value,
@@ -392,7 +392,7 @@ export default function CarouselSettings({
                     {NAV_ICON_FIELDS.map((field) => (
                         <Field
                             key={field.name}
-                            label={__(field.label, 'wp-posts-carousel')}
+                            label={__(field.label, 'cci-posts-carousel')}
                             error={errors[`carousel_options.nav_icon_${field.name}`]}
                         >
                             <InputGroup invalid={Boolean(errors[`carousel_options.nav_icon_${field.name}`])}>
@@ -408,24 +408,24 @@ export default function CarouselSettings({
                 </div>
 
                 <p className='tw-m-0 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
-                    {__('Use icon names without the CSS prefix, for example:', 'wp-posts-carousel')} {activeIconLibrary.example || 'angle-left'}.
+                    {__('Use icon names without the CSS prefix, for example:', 'cci-posts-carousel')} {activeIconLibrary.example || 'angle-left'}.
                 </p>
             </div>
 
             <div className='tw-grid tw-gap-2 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-p-3'>
                 <div>
                     <div className='tw-flex tw-items-center tw-gap-2 tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                        {__('Autoplay progress indicator', 'wp-posts-carousel')}
+                        {__('Autoplay progress indicator', 'cci-posts-carousel')}
                         <ProBadge />
                     </div>
                     <p className='tw-m-0 tw-mt-1 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
                         {__(
                             'Show visitors how long remains before autoplay advances to the next slide.',
-                            'wp-posts-carousel'
+                            'cci-posts-carousel'
                         )}
                     </p>
                 </div>
-                <Field label={__('Indicator style', 'wp-posts-carousel')}>
+                <Field label={__('Indicator style', 'cci-posts-carousel')}>
                     <Select
                         value={hasAutoplayIndicator ? autoplayIndicatorValue : 'none'}
                         onValueChange={(nextValue) => {
@@ -435,7 +435,7 @@ export default function CarouselSettings({
                         }}
                         options={AUTOPLAY_INDICATOR_OPTIONS.map((option) => ({
                             ...option,
-                            label: __(option.label, 'wp-posts-carousel'),
+                            label: __(option.label, 'cci-posts-carousel'),
                         }))}
                         disabled={!hasAutoplayIndicator}
                     />
@@ -444,13 +444,13 @@ export default function CarouselSettings({
                     <p className='tw-m-0 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
                         {__(
                             'Activate a Pro license that includes autoplay progress indicators to use this option.',
-                            'wp-posts-carousel'
+                            'cci-posts-carousel'
                         )}
                     </p>
                 )}
                 {hasAutoplayIndicator && !autoplayEnabled && autoplayIndicatorValue !== 'none' && (
                     <p className='tw-m-0 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
-                        {__('Enable Autoplay for the indicator to appear on the frontend.', 'wp-posts-carousel')}
+                        {__('Enable Autoplay for the indicator to appear on the frontend.', 'cci-posts-carousel')}
                     </p>
                 )}
             </div>
@@ -458,7 +458,7 @@ export default function CarouselSettings({
             <p className='tw-m-0 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
                 {__(
                     'Autoplay timeout sets the interval between automatic advances. Autoplay speed, Navigation speed and Dots speed set the transition duration for each interaction. All four values use milliseconds.',
-                    'wp-posts-carousel'
+                    'cci-posts-carousel'
                 )}
             </p>
 
@@ -466,7 +466,7 @@ export default function CarouselSettings({
                 {visibleNumbers.map((field) => (
                     <Field
                         key={field.name}
-                        label={__(field.label, 'wp-posts-carousel')}
+                        label={__(field.label, 'cci-posts-carousel')}
                         error={errors[`carousel_options.${field.name}`]}
                     >
                         <InputGroup invalid={Boolean(errors[`carousel_options.${field.name}`])}>
@@ -490,18 +490,18 @@ export default function CarouselSettings({
 
             <div className='tw-grid tw-gap-3 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-cci-wpc-surfaceSoft tw-p-3'>
                 <div className='tw-inline-flex tw-items-center tw-gap-1.5 tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                    {__('Responsive items', 'wp-posts-carousel')}
+                    {__('Responsive items', 'cci-posts-carousel')}
                     <TooltipHelp
                         text={__(
                             'Define how many slides are visible from each screen width. The largest matching breakpoint is used on the frontend.',
-                            'wp-posts-carousel'
+                            'cci-posts-carousel'
                         )}
                     />
                 </div>
                 <p className='tw-m-0 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
                     {__(
                         'These values override the global responsive preset only for this carousel.',
-                        'wp-posts-carousel'
+                        'cci-posts-carousel'
                     )}
                 </p>
                 <div className='tw-grid tw-gap-2'>
@@ -510,7 +510,7 @@ export default function CarouselSettings({
                             className='tw-grid tw-grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] tw-items-end tw-gap-2 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-p-2'
                             key={width}
                         >
-                            <Field label={__('Breakpoint', 'wp-posts-carousel')}>
+                            <Field label={__('Breakpoint', 'cci-posts-carousel')}>
                                 <InputGroup readOnly>
                                     <InputGroupInput type='number' value={width} readOnly />
                                     <InputGroupAddon align='inline-end' className='tw-min-w-12'>
@@ -519,7 +519,7 @@ export default function CarouselSettings({
                                 </InputGroup>
                             </Field>
                             <Field
-                                label={__('Items', 'wp-posts-carousel')}
+                                label={__('Items', 'cci-posts-carousel')}
                                 error={errors[`carousel_options.items_to_show.${width}`]}
                             >
                                 <InputGroup invalid={Boolean(errors[`carousel_options.items_to_show.${width}`])}>
@@ -531,7 +531,7 @@ export default function CarouselSettings({
                                         onChange={(event) => updateBreakpoint(width, event.target.value)}
                                     />
                                     <InputGroupAddon align='inline-end' className='tw-min-w-12'>
-                                        <InputGroupText>{__('items', 'wp-posts-carousel')}</InputGroupText>
+                                        <InputGroupText>{__('items', 'cci-posts-carousel')}</InputGroupText>
                                     </InputGroupAddon>
                                 </InputGroup>
                             </Field>
@@ -539,8 +539,8 @@ export default function CarouselSettings({
                                 <Button size='icon'
                                     variant='danger'
                                     onClick={() => removeBreakpoint(width)}
-                                    aria-label={__('Remove breakpoint', 'wp-posts-carousel')}
-                                    title={__('Remove breakpoint', 'wp-posts-carousel')}
+                                    aria-label={__('Remove breakpoint', 'cci-posts-carousel')}
+                                    title={__('Remove breakpoint', 'cci-posts-carousel')}
                                 >
                                     <Trash2 aria-hidden='true' />
                                 </Button>
@@ -549,7 +549,7 @@ export default function CarouselSettings({
                     ))}
                 </div>
                 <div className='tw-grid tw-grid-cols-[minmax(0,1fr)_auto] tw-items-end tw-gap-2'>
-                    <Field label={__('New breakpoint', 'wp-posts-carousel')} error={newBreakpointError}>
+                    <Field label={__('New breakpoint', 'cci-posts-carousel')} error={newBreakpointError}>
                         <InputGroup invalid={Boolean(newBreakpointError)}>
                             <InputGroupInput
                                 type='number'
@@ -569,7 +569,7 @@ export default function CarouselSettings({
                     </Field>
                     <Button variant='outlineAccent' onClick={addBreakpoint}>
                         <Plus aria-hidden='true' />
-                        {__('Add breakpoint', 'wp-posts-carousel')}
+                        {__('Add breakpoint', 'cci-posts-carousel')}
                     </Button>
                 </div>
             </div>

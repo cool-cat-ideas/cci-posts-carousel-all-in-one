@@ -10,8 +10,8 @@ are not available without Pro.
 
 ## Build a store carousel with Pro
 
-1. Install and activate WooCommerce and WP Posts Carousel All In One.
-2. Install the single `wp-posts-carousel-pro` ZIP and activate its license.
+1. Install and activate WooCommerce and CCI Posts Carousel All In One.
+2. Install the single `cci-posts-carousel-pro` ZIP and activate its license.
 3. Create or edit a carousel and set the content source/post type to **Products**.
 4. Choose the products manually or configure the query and ordering.
 5. Use Default, Simple or Light for a regular store-aware card, or choose

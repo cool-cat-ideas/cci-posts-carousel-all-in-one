@@ -6,9 +6,9 @@ export function openMediaPicker( onSelect ) {
 	}
 
 	const frame = window.wp.media( {
-		title: __( 'Select image', 'wp-posts-carousel' ),
+		title: __( 'Select image', 'cci-posts-carousel' ),
 		button: {
-			text: __( 'Use image', 'wp-posts-carousel' ),
+			text: __( 'Use image', 'cci-posts-carousel' ),
 		},
 		library: {
 			type: 'image',

@@ -9,7 +9,7 @@ need to diagnose the cause before contacting us.
 
 Version 2.x is a rewrite. Old carousel settings, widgets and shortcode
 configuration are not automatically converted. Create replacement carousels
-in **WP Posts Carousel > Dashboard > New carousel**, save and publish them,
+in **CCI Posts Carousel All In One > Dashboard > New carousel**, save and publish them,
 then replace every old placement with the new shortcode or select the new
 carousel in the current block/widget. Clearing cache alone cannot migrate
 the old configuration.
@@ -59,7 +59,7 @@ version and a screenshot of the tab. No PHP change is needed to select a categor
 
 ## The carousel is empty
 
-1. Open **WP Posts Carousel > Dashboard** and edit the affected carousel.
+1. Open **CCI Posts Carousel All In One > Dashboard** and edit the affected carousel.
 2. Under **Query**, check the selected post types, categories and **Posts limit**. For an automatic query, matching published content should appear in **Query preview**. For **Manual slides**, check the selection under **Slides**.
 3. Choose an installed template under **Design**. Commerce Luxe, Story Commerce and Video Showcase need Pro; Default, Simple and Light do not.
 4. Set **Status** to **Published** and click **Save**.
@@ -115,7 +115,7 @@ Avoid global overrides such as:
 ## Arrows are blank
 
 First check **General > Navigation** in the carousel editor, then save the
-carousel. Open **WP Posts Carousel > Settings > Compatibility** and check
+carousel. Open **CCI Posts Carousel All In One > Settings > Compatibility** and check
 **Navigation icon library** and **Icon source**. If your theme does not supply
 the selected icons, choose **Local plugin files**, save the settings and clear
 the page cache before testing the published page.
@@ -178,7 +178,7 @@ campaign slide.
 
 ## A JSON error appears in the editor
 
-Please open **WP Posts Carousel > Settings > Diagnostics** and look for a
+Please open **CCI Posts Carousel All In One > Settings > Diagnostics** and look for a
 message corresponding to the failed action. You can
 [open a support request](./support.md#choose-the-right-support-channel) with the
 error text, the action you tried and the carousel name. You do not need to

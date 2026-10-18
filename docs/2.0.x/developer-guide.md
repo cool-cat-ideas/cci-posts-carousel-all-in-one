@@ -1,6 +1,6 @@
-# WP Posts Carousel developer guide
+# CCI Posts Carousel All In One developer guide
 
-WP Posts Carousel All In One stores reusable carousel definitions and renders them through the Free core. The single Pro plugin adds commercial capabilities without changing the saved-carousel workflow.
+CCI Posts Carousel All In One stores reusable carousel definitions and renders them through the Free core. The single Pro plugin adds commercial capabilities without changing the saved-carousel workflow.
 
 ## Choose the smallest customization surface
 
@@ -34,7 +34,7 @@ wp-posts-carousel/
   assets/
   src/
 
-wp-posts-carousel-pro/
+cci-posts-carousel-pro/
   includes/features/
   templates/
   assets/

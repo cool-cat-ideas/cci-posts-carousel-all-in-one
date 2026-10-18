@@ -1,4 +1,4 @@
-# WP Posts Carousel All In One 2.0.x filters and actions
+# CCI Posts Carousel All In One 2.0.x filters and actions
 
 This document explains the public filters, actions, PHP services and browser
 runtime exposed by the Free core. Do not start by scanning every hook. First
@@ -143,7 +143,7 @@ Use [PHP API](method-reference.md) for supported callable helpers. Internal boot
 Shortcode:
 
 ```text
-[wp_posts_carousel id="123" renderer="php"]
+[cci_posts_carousel id="123" renderer="php"]
 ```
 
 Dynamic Gutenberg block:
@@ -191,7 +191,7 @@ wp-posts-carousel/v1/admin
 Pro Multisite namespace:
 
 ```text
-wp-posts-carousel-pro/v1
+cci-posts-carousel-pro/v1
 ```
 
 | Method | Endpoint | Notes |
@@ -378,6 +378,8 @@ must not perform remote license requests.
 | `wp_posts_carousel_is_pro` | bool | `$is_pro` |
 | `wp_posts_carousel_license_data` | array | `$license` |
 
+For an installed integration card, add a stable key to `wp_posts_carousel_features` with `source => 'addon'`, `label`, `description`, `author`, `version` and the appropriate `enabled` state. This metadata does not create settings controls or query behavior. See the [installable example](./extension-cookbook.md#show-an-installed-integration-card).
+
 ## Renderer and asset filters
 
 Renderer filters control how already prepared data is mounted:
@@ -503,26 +505,7 @@ Current lifecycle actions:
 | `wp_posts_carousel_before_item_content` | `$params` | Before PHP template item content. |
 | `wp_posts_carousel_after_item_content` | `$params` | After PHP template item content. |
 
-Classic meta-box actions are also public for integrations that still render
-fields in the legacy editor:
-
-```text
-wp_posts_carousel_post_criteria_meta_box_before_table
-wp_posts_carousel_post_criteria_meta_box_before_post_types
-wp_posts_carousel_post_criteria_meta_box_after_post_types
-wp_posts_carousel_post_criteria_meta_box_before_show
-wp_posts_carousel_post_criteria_meta_box_in_show
-wp_posts_carousel_post_criteria_meta_box_after_show
-wp_posts_carousel_post_criteria_meta_box_before_posts_limit
-wp_posts_carousel_post_criteria_meta_box_after_posts_limit
-wp_posts_carousel_post_criteria_meta_box_before_ordering
-wp_posts_carousel_post_criteria_meta_box_after_ordering
-wp_posts_carousel_post_criteria_meta_box_after_table
-```
-
-They receive the current empty context array. New integrations should prefer
-the React dictionaries and saved-config filters unless legacy UI support is a
-requirement.
+The React editor does not emit the classic meta-box before/after/in actions from the old editor. They are not supported extension points in 2.0.x. Use the documented dictionary, query and saved-config filters instead. Several dictionary filters retain their historical `post_criteria_meta_box` names; those are separate from the removed rendering actions.
 
 ## JavaScript runtime
 

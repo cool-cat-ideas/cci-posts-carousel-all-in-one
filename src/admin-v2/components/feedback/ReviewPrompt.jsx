@@ -4,29 +4,29 @@ import { apiFetch, pluginData } from '../../api/api';
 import { __, coreString } from '../../i18n/i18n';
 
 const copy = {
-    quickFeedback: __('Quick feedback', 'wp-posts-carousel'),
-    title: __('How is WP Posts Carousel working for you?', 'wp-posts-carousel'),
+    quickFeedback: __('Quick feedback', 'cci-posts-carousel'),
+    title: __('How is CCI Posts Carousel All In One working for you?', 'cci-posts-carousel'),
     description: __(
         'If this plugin helps your site, a short review helps us keep improving it.',
-        'wp-posts-carousel'
+        'cci-posts-carousel'
     ),
-    addReview: __('Add review', 'wp-posts-carousel'),
-    openReviewPage: __('Rate on WordPress.org', 'wp-posts-carousel'),
-    close: __('Close', 'wp-posts-carousel'),
-    dialogTitle: __('Share your WP Posts Carousel feedback', 'wp-posts-carousel'),
-    dialogDescription: __('Your review will be sent for moderation. It will not be published automatically.', 'wp-posts-carousel'),
-    rating: __('Rating', 'wp-posts-carousel'),
-    setRating: __('Set rating', 'wp-posts-carousel'),
-    ratingHelp: __('Choose a rating from 1 to 5 stars.', 'wp-posts-carousel'),
-    shortReview: __('Short review', 'wp-posts-carousel'),
-    placeholder: __('What worked well? What should we improve?', 'wp-posts-carousel'),
-    consentRequired: __('Required consent', 'wp-posts-carousel'),
-    cancel: __('Cancel', 'wp-posts-carousel'),
-    saveFeedback: __('Save feedback', 'wp-posts-carousel'),
-    saving: __('Saving...', 'wp-posts-carousel'),
-    thankYou: __('Thank you for your feedback.', 'wp-posts-carousel'),
-    failed: __('Failed saving your feedback.', 'wp-posts-carousel'),
-    tryAgain: __('Please try again in a moment.', 'wp-posts-carousel'),
+    addReview: __('Add review', 'cci-posts-carousel'),
+    openReviewPage: __('Rate on WordPress.org', 'cci-posts-carousel'),
+    close: __('Close', 'cci-posts-carousel'),
+    dialogTitle: __('Share your CCI Posts Carousel All In One feedback', 'cci-posts-carousel'),
+    dialogDescription: __('Your review will be sent for moderation. It will not be published automatically.', 'cci-posts-carousel'),
+    rating: __('Rating', 'cci-posts-carousel'),
+    setRating: __('Set rating', 'cci-posts-carousel'),
+    ratingHelp: __('Choose a rating from 1 to 5 stars.', 'cci-posts-carousel'),
+    shortReview: __('Short review', 'cci-posts-carousel'),
+    placeholder: __('What worked well? What should we improve?', 'cci-posts-carousel'),
+    consentRequired: __('Required consent', 'cci-posts-carousel'),
+    cancel: __('Cancel', 'cci-posts-carousel'),
+    saveFeedback: __('Save feedback', 'cci-posts-carousel'),
+    saving: __('Saving...', 'cci-posts-carousel'),
+    thankYou: __('Thank you for your feedback.', 'cci-posts-carousel'),
+    failed: __('Failed saving your feedback.', 'cci-posts-carousel'),
+    tryAgain: __('Please try again in a moment.', 'cci-posts-carousel'),
 };
 
 export default function ReviewPrompt(props) {

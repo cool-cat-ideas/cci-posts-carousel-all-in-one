@@ -12,24 +12,24 @@ export default function ProUpgradeModal({
     onClose,
     onActivateLicense,
 }) {
-    const label = featureName || __('Pro feature', 'wp-posts-carousel');
+    const label = featureName || __('Pro feature', 'cci-posts-carousel');
 
     return (
         <SharedProUpgradeModal
             open={open}
-            productName='WP Posts Carousel'
+            productName='CCI Posts Carousel All In One'
             featureName={label}
             description={description}
             benefits={benefits}
             productUrl={productUrl || pluginData.upgradeUrl || ''}
-            productUrlLabel={__('View product page', 'wp-posts-carousel')}
-            activateLabel={__('Activate license here', 'wp-posts-carousel')}
-            cancelLabel={__('Maybe later', 'wp-posts-carousel')}
-            title={`${__('Available in Pro', 'wp-posts-carousel')}: ${label}`}
-            message={__('Upgrade WP Posts Carousel to unlock this workflow in the builder.', 'wp-posts-carousel')}
+            productUrlLabel={__('View product page', 'cci-posts-carousel')}
+            activateLabel={__('Activate license here', 'cci-posts-carousel')}
+            cancelLabel={__('Maybe later', 'cci-posts-carousel')}
+            title={`${__('Available in Pro', 'cci-posts-carousel')}: ${label}`}
+            message={__('Upgrade CCI Posts Carousel All In One to unlock this workflow in the builder.', 'cci-posts-carousel')}
             licenseHint={__(
                 'Already have a license? Activate it here in the plugin settings to unlock Pro features on this domain.',
-                'wp-posts-carousel'
+                'cci-posts-carousel'
             )}
             onActivateLicense={onActivateLicense}
             onClose={onClose}

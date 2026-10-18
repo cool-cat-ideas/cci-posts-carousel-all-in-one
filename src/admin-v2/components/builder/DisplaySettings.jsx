@@ -140,7 +140,7 @@ function GroupControl({ field, values, onChange }) {
                             <Select
                                 value={fieldValue(values, unitField)}
                                 onValueChange={(value) => onChange(unitField.name, value)}
-                                aria-label={__('Unit', 'wp-posts-carousel')}
+                                aria-label={__('Unit', 'cci-posts-carousel')}
                                 className='tw-min-h-10 tw-w-full tw-min-w-0 tw-rounded-none tw-border-0 tw-bg-transparent tw-px-2.5 focus:tw-border-0 focus:tw-bg-transparent focus:tw-outline-none focus-visible:tw-border-0 focus-visible:tw-bg-transparent focus-visible:tw-outline-none'
                                 options={unitField.options || []}
                             />
@@ -187,7 +187,7 @@ export default function DisplaySettings({ definitions, postTypes, value, onChang
     return (
         <div className='tw-grid tw-gap-4'>
             <div className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                {__('Slide display', 'wp-posts-carousel')}
+                {__('Slide display', 'cci-posts-carousel')}
             </div>
 
             {groups.map((groupName) => {

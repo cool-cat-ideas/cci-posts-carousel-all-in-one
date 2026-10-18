@@ -11,7 +11,7 @@ child-theme stylesheet loaded after the carousel styles.
 
 This is a no-code workflow in the saved-carousel editor (2.0.3 and later):
 
-1. Open **WP Posts Carousel > Dashboard** and create or edit a carousel.
+1. Open **CCI Posts Carousel All In One > Dashboard** and create or edit a carousel.
 2. Open the **Query** tab. Set **Content selection** to **Query (automatic)**.
 3. Under **Post types**, select **Posts** (`post`).
 4. Under **Taxonomy filters**, set **Taxonomy** to **Categories** (`category`).

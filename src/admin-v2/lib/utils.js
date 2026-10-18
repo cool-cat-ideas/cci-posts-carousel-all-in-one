@@ -41,6 +41,7 @@ export function carouselDefaults() {
             first_image_eager: false,
             image_size: 'inherit',
         },
+        image_hover: { enabled: false, source: 'content' },
         field_mapping: {
             eyebrow: '',
             kicker: '',

@@ -23,7 +23,7 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
                 setCarousels([]);
                 setNotice({
                     type: 'error',
-                    message: __('Failed fetching carousels.', 'wp-posts-carousel'),
+                    message: __('Failed fetching carousels.', 'cci-posts-carousel'),
                 });
             })
             .finally(() => setLoading(false));
@@ -33,10 +33,10 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
 
     const remove = async (carousel) => {
         const confirmed = await confirmAction({
-            title: __('Delete carousel?', 'wp-posts-carousel'),
-            message: `${__('This action cannot be undone.', 'wp-posts-carousel')} ${carousel.post_title || ''}`,
+            title: __('Delete carousel?', 'cci-posts-carousel'),
+            message: `${__('This action cannot be undone.', 'cci-posts-carousel')} ${carousel.post_title || ''}`,
             confirmLabel: coreString('delete', 'Delete'),
-            cancelLabel: __('Keep carousel', 'wp-posts-carousel'),
+            cancelLabel: __('Keep carousel', 'cci-posts-carousel'),
             variant: 'danger',
         });
 
@@ -50,14 +50,14 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
             .then(() => {
                 setNotice({
                     type: 'success',
-                    message: __('Carousel was deleted.', 'wp-posts-carousel'),
+                    message: __('Carousel was deleted.', 'cci-posts-carousel'),
                 });
                 load();
             })
             .catch(() => {
                 setNotice({
                     type: 'error',
-                    message: __('Failed deleting carousel.', 'wp-posts-carousel'),
+                    message: __('Failed deleting carousel.', 'cci-posts-carousel'),
                 });
             });
     };
@@ -69,11 +69,11 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
             .then((response) => {
                 setNotice({
                     type: 'success',
-                    message: __('Carousel was duplicated as draft.', 'wp-posts-carousel'),
+                    message: __('Carousel was duplicated as draft.', 'cci-posts-carousel'),
                 });
 
                 if (response?.ID) {
-                    window.location.href = `admin.php?page=wp-posts-carousel&action=edit&id=${response.ID}`;
+                    window.location.href = `admin.php?page=cci-posts-carousel&action=edit&id=${response.ID}`;
                     return;
                 }
 
@@ -82,7 +82,7 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
             .catch(() => {
                 setNotice({
                     type: 'error',
-                    message: __('Failed duplicating carousel.', 'wp-posts-carousel'),
+                    message: __('Failed duplicating carousel.', 'cci-posts-carousel'),
                 });
             });
     };
@@ -94,34 +94,34 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
             <div className='tw-grid tw-grid-cols-1 tw-gap-3 lg:tw-grid-cols-3'>
                 <MetricCard
                     icon={Layers3}
-                    label={__('Total carousels', 'wp-posts-carousel')}
+                    label={__('Total carousels', 'cci-posts-carousel')}
                     value={loading ? '-' : total}
-                    description={__('All saved configurations', 'wp-posts-carousel')}
+                    description={__('All saved configurations', 'cci-posts-carousel')}
                     tone='primary'
                 />
                 <MetricCard
                     icon={CheckCircle2}
                     label={coreString('published', 'Published')}
                     value={loading ? '-' : published}
-                    description={__('Published carousel definitions', 'wp-posts-carousel')}
+                    description={__('Published carousel definitions', 'cci-posts-carousel')}
                 />
                 <MetricCard
                     icon={FilePenLine}
-                    label={__('Unpublished', 'wp-posts-carousel')}
+                    label={__('Unpublished', 'cci-posts-carousel')}
                     value={loading ? '-' : unpublished}
-                    description={__('Draft, pending, scheduled or private', 'wp-posts-carousel')}
+                    description={__('Draft, pending, scheduled or private', 'cci-posts-carousel')}
                 />
             </div>
 
             {reviewSlot}
 
             <Card>
-                <ResourceListHeader title={__('Carousels', 'wp-posts-carousel')}
-                        description={__('Create, edit and copy embed codes for every carousel.', 'wp-posts-carousel')}
-                        createLabel={__('New carousel', 'wp-posts-carousel')} createHref='admin.php?page=wp-posts-carousel&action=add-new' />
+                <ResourceListHeader title={__('Carousels', 'cci-posts-carousel')}
+                        description={__('Create, edit and copy embed codes for every carousel.', 'cci-posts-carousel')}
+                        createLabel={__('New carousel', 'cci-posts-carousel')} createHref='admin.php?page=cci-posts-carousel&action=add-new' />
 
                 {loading ? (
-                    <LoadingState label={__('Loading carousels...', 'wp-posts-carousel')} variant='table' rows={2} />
+                    <LoadingState label={__('Loading carousels...', 'cci-posts-carousel')} variant='table' rows={2} />
                 ) : (
                     <div className='tw-overflow-x-auto'>
                         <table className='tw-w-full tw-min-w-[760px] tw-border-collapse'>
@@ -131,7 +131,7 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
                                         {coreString('title', 'Title')}
                                     </th>
                                     <th className='tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-bold tw-uppercase tw-text-cci-wpc-muted'>
-                                        {__('Shortcode', 'wp-posts-carousel')}
+                                        {__('Shortcode', 'cci-posts-carousel')}
                                     </th>
                                     <th className='tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-bold tw-uppercase tw-text-cci-wpc-muted'>
                                         {coreString('status', 'Status')}
@@ -150,17 +150,17 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
                                         <td className='tw-px-4 tw-py-4 tw-align-middle'>
                                             <a
                                                 className='tw-font-semibold tw-text-cci-wpc-text tw-no-underline hover:tw-text-cci-wpc-brandStrong hover:tw-underline'
-                                                href={`admin.php?page=wp-posts-carousel&action=edit&id=${carousel.ID}`}
+                                                href={`admin.php?page=cci-posts-carousel&action=edit&id=${carousel.ID}`}
                                             >
-                                                {carousel.post_title || __('(no title)', 'wp-posts-carousel')}
+                                                {carousel.post_title || __('(no title)', 'cci-posts-carousel')}
                                             </a>
                                             <div
                                                 className='tw-mt-1 tw-flex tw-flex-wrap tw-items-center tw-leading-5 tw-opacity-100 tw-transition-opacity md:tw-opacity-0 md:group-hover:tw-opacity-100 md:group-focus-within:tw-opacity-100'
-                                                aria-label={__('Carousel actions', 'wp-posts-carousel')}
+                                                aria-label={__('Carousel actions', 'cci-posts-carousel')}
                                             >
                                                 <a
                                                     className='tw-inline-flex tw-text-[13px] tw-font-medium tw-text-cci-wpc-brand tw-no-underline hover:tw-text-cci-wpc-brandStrong hover:tw-underline after:tw-mx-2 after:tw-text-cci-wpc-borderStrong after:tw-content-["|"]'
-                                                    href={`admin.php?page=wp-posts-carousel&action=edit&id=${carousel.ID}`}
+                                                    href={`admin.php?page=cci-posts-carousel&action=edit&id=${carousel.ID}`}
                                                 >
                                                     {coreString('edit', 'Edit')}
                                                 </a>
@@ -186,7 +186,7 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
                                                 onCopied={() =>
                                                     setNotice({
                                                         type: 'success',
-                                                        message: __('Shortcode copied.', 'wp-posts-carousel'),
+                                                        message: __('Shortcode copied.', 'cci-posts-carousel'),
                                                     })
                                                 }
                                             />
@@ -203,10 +203,10 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
                                                 {carousel.post_status === 'publish'
                                                     ? coreString('published', 'Published')
                                                     : carousel.post_status === 'draft' ? coreString('draft', 'Draft')
-                                                    : carousel.post_status === 'private' ? __('Private', 'wp-posts-carousel')
-                                                    : carousel.post_status === 'pending' ? __('Pending', 'wp-posts-carousel')
-                                                    : carousel.post_status === 'future' ? __('Scheduled', 'wp-posts-carousel')
-                                                    : __('Unpublished', 'wp-posts-carousel')}
+                                                    : carousel.post_status === 'private' ? __('Private', 'cci-posts-carousel')
+                                                    : carousel.post_status === 'pending' ? __('Pending', 'cci-posts-carousel')
+                                                    : carousel.post_status === 'future' ? __('Scheduled', 'cci-posts-carousel')
+                                                    : __('Unpublished', 'cci-posts-carousel')}
                                             </span>
                                         </td>
                                         <td className='tw-whitespace-nowrap tw-px-4 tw-py-5 tw-align-middle tw-text-cci-wpc-muted'>
@@ -220,12 +220,12 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
                         {carousels.length === 0 && (
                             <div className='tw-grid tw-min-h-52 tw-place-items-center tw-gap-2 tw-p-8 tw-text-center'>
                                 <strong className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                                    {__('No carousels yet.', 'wp-posts-carousel')}
+                                    {__('No carousels yet.', 'cci-posts-carousel')}
                                 </strong>
                                 <p className='tw-m-0 tw-text-sm tw-text-cci-wpc-muted'>
                                     {__(
                                         'Create your first carousel and its shortcode will appear here.',
-                                        'wp-posts-carousel'
+                                        'cci-posts-carousel'
                                     )}
                                 </p>
                             </div>
@@ -239,7 +239,7 @@ export default function CarouselsList({ setNotice, confirmAction, reviewSlot = n
                     <p className='tw-m-0 tw-text-sm tw-leading-5 tw-text-cci-wpc-muted'>
                         {__(
                             'That is all for now. Create your next carousel or copy a shortcode into any post, page or widget area.',
-                            'wp-posts-carousel'
+                            'cci-posts-carousel'
                         )}
                     </p>
                 </div>

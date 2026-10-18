@@ -21,11 +21,11 @@ export default function LicensePanel({ license: controlledLicense }) {
     const updateUrl = readableValue(
         product?.free?.urls?.download || product?.free?.urls?.wordpress || product?.pro?.url || pluginData.upgradeUrl
     );
-    const ctaLabel = __('View Pro features', 'wp-posts-carousel');
+    const ctaLabel = __('View Pro features', 'cci-posts-carousel');
     const ctaIcon = <ArrowRight aria-hidden='true' />;
     return (
         <div className='tw-grid tw-content-start tw-gap-4 tw-self-start'>
-            <ProductStatusPanel t={text => __(text, 'wp-posts-carousel')} isPro={isPro}
+            <ProductStatusPanel t={text => __(text, 'cci-posts-carousel')} isPro={isPro}
                 licenseStatus={license.status} licenseMessage={license.message}
                 installedVersion={installedVersion} latestVersion={latestVersion} versionFeedStale={Boolean(productFeed.error || productFeed.data?._meta?.stale)} updateUrl={updateUrl}
                 checkedAt={license.checkedAt} nextCheckAt={license.nextCheckAt} adminDate={pluginData.adminDate} expires={license.expires} />
@@ -42,25 +42,25 @@ export default function LicensePanel({ license: controlledLicense }) {
                             </span>
                             <div className='tw-grid tw-min-w-0 tw-gap-1'>
                                 <span className='tw-text-sm tw-font-semibold tw-leading-5 tw-text-amber-700'>
-                                    {__('WP Posts Carousel Pro', 'wp-posts-carousel')}
+                                    {__('CCI Posts Carousel All In One Pro', 'cci-posts-carousel')}
                                 </span>
                                 <span className='tw-m-0 tw-block tw-text-lg tw-font-semibold tw-leading-tight tw-text-cci-wpc-text'>
-                                    {__('Build carousels that help visitors choose', 'wp-posts-carousel')}
+                                    {__('Build carousels that help visitors choose', 'cci-posts-carousel')}
                                 </span>
                             </div>
                         </div>
                         <p className='tw-m-0 tw-max-w-[240px] tw-text-sm tw-leading-5 tw-text-cci-wpc-muted'>
                             {__(
                                 'Add product data, commercial layouts, Elementor publishing and consent-aware engagement reports.',
-                                'wp-posts-carousel'
+                                'cci-posts-carousel'
                             )}
                         </p>
                         <ul className='tw-m-0 tw-grid tw-list-none tw-gap-2.5 tw-border-0 tw-p-0'>
                             {[
-                                __('Premium carousel templates', 'wp-posts-carousel'),
-                                __('Current WooCommerce data and buying actions', 'wp-posts-carousel'),
-                                __('Elementor publishing and Multisite tools', 'wp-posts-carousel'),
-                                __('Engagement analytics and autoplay progress', 'wp-posts-carousel'),
+                                __('Premium carousel templates', 'cci-posts-carousel'),
+                                __('Current WooCommerce data and buying actions', 'cci-posts-carousel'),
+                                __('Elementor publishing and Multisite tools', 'cci-posts-carousel'),
+                                __('Engagement analytics and autoplay progress', 'cci-posts-carousel'),
                             ].map((feature) => (
                                 <li
                                     key={feature}

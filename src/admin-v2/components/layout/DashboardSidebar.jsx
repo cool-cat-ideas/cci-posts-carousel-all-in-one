@@ -48,11 +48,11 @@ export default function DashboardSidebar({
     const showLicenseBox = Boolean(license?.canManage && license?.apiBase);
     const showUpgradeBanner = !showLicenseBox && !isPro;
     const toggleLabel = collapsed
-        ? __('Expand sidebar', 'wp-posts-carousel')
-        : __('Collapse sidebar', 'wp-posts-carousel');
+        ? __('Expand sidebar', 'cci-posts-carousel')
+        : __('Collapse sidebar', 'cci-posts-carousel');
     const renderItem = (item) => {
         const Icon = item.icon;
-        const itemLabel = item.core ? coreString(item.id, item.label) : __(item.label, 'wp-posts-carousel');
+        const itemLabel = item.core ? coreString(item.id, item.label) : __(item.label, 'cci-posts-carousel');
 
         return (
             <Button
@@ -128,12 +128,12 @@ export default function DashboardSidebar({
                     <div className='tw-mt-2 tw-grid tw-gap-3 tw-rounded-md tw-border tw-border-solid tw-border-amber-200 tw-bg-gradient-to-br tw-from-amber-50 tw-via-white tw-to-white tw-p-3.5 tw-text-cci-wpc-text'>
                         <div className='tw-grid tw-gap-1.5'>
                             <strong className='tw-text-sm tw-font-semibold tw-leading-5 tw-text-cci-wpc-text'>
-                                {__('Need more carousel options?', 'wp-posts-carousel')}
+                                {__('Need more carousel options?', 'cci-posts-carousel')}
                             </strong>
                             <p className='tw-m-0 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted'>
                                 {__(
-                                    'This site is using the base plugin. After you install WP Posts Carousel Pro, license activation will appear here.',
-                                    'wp-posts-carousel'
+                                    'This site is using the base plugin. After you install CCI Posts Carousel All In One Pro, license activation will appear here.',
+                                    'cci-posts-carousel'
                                 )}
                             </p>
                         </div>
@@ -159,11 +159,11 @@ function SidebarLicenseBox({ isPro, license, onLicenseChange, setNotice }) {
         const value = key.trim();
 
         if (!value) {
-            return __('Enter your license key.', 'wp-posts-carousel');
+            return __('Enter your license key.', 'cci-posts-carousel');
         }
 
         if (value.length < 8) {
-            return __('License key looks too short.', 'wp-posts-carousel');
+            return __('License key looks too short.', 'cci-posts-carousel');
         }
 
         return '';
@@ -207,8 +207,8 @@ function SidebarLicenseBox({ isPro, license, onLicenseChange, setNotice }) {
             .catch((requestError) => {
                 const message = compactLicenseError(
                     requestError,
-                    __('License server is temporarily unavailable. Please try again later.', 'wp-posts-carousel'),
-                    __('License request failed.', 'wp-posts-carousel'),
+                    __('License server is temporarily unavailable. Please try again later.', 'cci-posts-carousel'),
+                    __('License request failed.', 'cci-posts-carousel'),
                 );
 
                 setError(message);
@@ -240,7 +240,7 @@ function SidebarLicenseBox({ isPro, license, onLicenseChange, setNotice }) {
         sendLicenseRequest(
             '/license/activate',
             { licenseKey: licenseKey.trim() },
-            __('Pro license was activated.', 'wp-posts-carousel'),
+            __('Pro license was activated.', 'cci-posts-carousel'),
         );
     };
 
@@ -250,14 +250,14 @@ function SidebarLicenseBox({ isPro, license, onLicenseChange, setNotice }) {
 
     const confirmDeactivateLicense = () => {
         setDeactivateModalOpen(false);
-        sendLicenseRequest('/license/deactivate', {}, __('Pro license was deactivated.', 'wp-posts-carousel'));
+        sendLicenseRequest('/license/deactivate', {}, __('Pro license was deactivated.', 'cci-posts-carousel'));
     };
 
     if (isPro) {
         return (
             <ActiveLicenseCard
                 t={licenseString}
-                productName={__('WP Posts Carousel Pro', 'wp-posts-carousel')}
+                productName={__('CCI Posts Carousel All In One Pro', 'cci-posts-carousel')}
                 site={licensedSite}
                 environment={environmentLabel}
                 saving={saving}
@@ -278,7 +278,7 @@ function SidebarLicenseBox({ isPro, license, onLicenseChange, setNotice }) {
     return (
         <InactiveLicenseCard
             t={licenseString}
-            productName={__('WP Posts Carousel Pro', 'wp-posts-carousel')}
+            productName={__('CCI Posts Carousel All In One Pro', 'cci-posts-carousel')}
             licenseKey={licenseKey}
             keyPlaceholder="WPC-XXXX-XXXX"
             saving={saving}

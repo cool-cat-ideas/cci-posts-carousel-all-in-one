@@ -13,6 +13,7 @@ const EMPTY = {
     description: '',
     url: '',
     image_url: '',
+    hover_image_url: '',
     media_kind: 'image',
     video_url: '',
     video_poster: '',
@@ -25,8 +26,8 @@ export default function CustomSlideForm({ onAdd, setNotice }) {
     const [submitted, setSubmitted] = useState(false);
     const hasVideoSlides = Boolean(pluginData.features?.video_slides?.enabled || pluginData.isPro);
     const mediaOptions = [
-        { value: 'image', label: __('Image', 'wp-posts-carousel') },
-        ...(hasVideoSlides ? [{ value: 'video', label: __('Video', 'wp-posts-carousel') }] : []),
+        { value: 'image', label: __('Image', 'cci-posts-carousel') },
+        ...(hasVideoSlides ? [{ value: 'video', label: __('Video', 'cci-posts-carousel') }] : []),
     ];
 
     const update = (name, value) => {
@@ -36,7 +37,7 @@ export default function CustomSlideForm({ onAdd, setNotice }) {
         });
     };
     const errors = {
-        label: !values.label.trim() ? __('Custom slide title is required.', 'wp-posts-carousel') : '',
+        label: !values.label.trim() ? __('Custom slide title is required.', 'cci-posts-carousel') : '',
     };
     const showError = (name) => (submitted || touched[name]) && errors[name];
 
@@ -46,7 +47,7 @@ export default function CustomSlideForm({ onAdd, setNotice }) {
         if (errors.label) {
             setNotice({
                 type: 'error',
-                message: __('Fix custom slide fields before adding.', 'wp-posts-carousel'),
+                message: __('Fix custom slide fields before adding.', 'cci-posts-carousel'),
                 details: errors.label,
             });
             return;
@@ -69,13 +70,13 @@ export default function CustomSlideForm({ onAdd, setNotice }) {
         setSubmitted(false);
     };
 
-    const chooseImage = () => {
-        const opened = openMediaPicker((url) => update('image_url', url));
+    const chooseImage = (field = 'image_url') => {
+        const opened = openMediaPicker((url) => update(field, url));
 
         if (!opened) {
             setNotice({
                 type: 'error',
-                message: __('Media library is not available.', 'wp-posts-carousel'),
+                message: __('Media library is not available.', 'cci-posts-carousel'),
             });
         }
     };
@@ -83,10 +84,10 @@ export default function CustomSlideForm({ onAdd, setNotice }) {
     return (
         <div className='tw-grid tw-gap-3'>
             <div className='tw-text-sm tw-font-semibold tw-text-cci-wpc-text'>
-                {__('Custom slide', 'wp-posts-carousel')}
+                {__('Custom slide', 'cci-posts-carousel')}
             </div>
 
-            <Field label={__('Title', 'wp-posts-carousel')} error={showError('label') ? errors.label : ''}>
+            <Field label={__('Title', 'cci-posts-carousel')} error={showError('label') ? errors.label : ''}>
                 <Input
                     invalid={Boolean(showError('label'))}
                     value={values.label}
@@ -95,7 +96,7 @@ export default function CustomSlideForm({ onAdd, setNotice }) {
                 />
             </Field>
 
-            <Field label={__('Media type', 'wp-posts-carousel')}>
+            <Field label={__('Media type', 'cci-posts-carousel')}>
                 <Select
                     value={hasVideoSlides ? values.media_kind : 'image'}
                     onValueChange={(mediaKind) => update('media_kind', mediaKind)}
@@ -105,10 +106,10 @@ export default function CustomSlideForm({ onAdd, setNotice }) {
 
             {values.media_kind === 'video' && (
                 <Field
-                    label={__('Video URL', 'wp-posts-carousel')}
+                    label={__('Video URL', 'cci-posts-carousel')}
                     note={__(
                         'Supports YouTube, Vimeo and direct MP4/WebM/Ogg files. If poster URL is empty, the server will try to use the video thumbnail.',
-                        'wp-posts-carousel'
+                        'cci-posts-carousel'
                     )}
                 >
                     <Input
@@ -126,20 +127,31 @@ export default function CustomSlideForm({ onAdd, setNotice }) {
                 </Field>
             )}
 
-            <Field label={__('Image URL', 'wp-posts-carousel')}>
+            <Field label={__('Image URL', 'cci-posts-carousel')}>
                 <div className='tw-grid tw-grid-cols-[minmax(0,1fr)_auto] tw-gap-2'>
                     <Input value={values.image_url} onChange={(event) => update('image_url', event.target.value)} />
-                    <Button variant='outlineAccent' onClick={chooseImage}>
-                        {__('Choose', 'wp-posts-carousel')}
+                    <Button variant='outlineAccent' onClick={() => chooseImage()}>
+                        {__('Choose', 'cci-posts-carousel')}
                     </Button>
                 </div>
             </Field>
 
+            {values.media_kind === 'image' && (
+                <Field label={__('Hover image URL', 'cci-posts-carousel')} note={__('Optional. Enable Image on hover in Advanced. This image takes priority over the automatic source.', 'cci-posts-carousel')}>
+                    <div className='tw-grid tw-grid-cols-[minmax(0,1fr)_auto] tw-gap-2'>
+                        <Input aria-label={__('Hover image URL', 'cci-posts-carousel')} value={values.hover_image_url} onChange={(event) => update('hover_image_url', event.target.value)} />
+                        <Button variant='outlineAccent' onClick={() => chooseImage('hover_image_url')}>
+                            {__('Choose from media library', 'cci-posts-carousel')}
+                        </Button>
+                    </div>
+                </Field>
+            )}
+
             {values.media_kind === 'video' && (
-                <Field label={__('Poster URL', 'wp-posts-carousel')}>
+                <Field label={__('Poster URL', 'cci-posts-carousel')}>
                     <Input
                         value={values.video_poster}
-                        placeholder={__('Leave empty to use video thumbnail', 'wp-posts-carousel')}
+                        placeholder={__('Leave empty to use video thumbnail', 'cci-posts-carousel')}
                         onChange={(event) => update('video_poster', event.target.value)}
                     />
                 </Field>
@@ -151,20 +163,20 @@ export default function CustomSlideForm({ onAdd, setNotice }) {
                 </div>
             )}
 
-            <Field label={__('Link URL', 'wp-posts-carousel')}>
+            <Field label={__('Link URL', 'cci-posts-carousel')}>
                 <Input value={values.url} onChange={(event) => update('url', event.target.value)} />
             </Field>
 
-            <Field label={__('Description', 'wp-posts-carousel')}>
+            <Field label={__('Description', 'cci-posts-carousel')}>
                 <Textarea value={values.description} onChange={(event) => update('description', event.target.value)} />
             </Field>
 
-            <Field label={__('Button label', 'wp-posts-carousel')}>
+            <Field label={__('Button label', 'cci-posts-carousel')}>
                 <Input value={values.button_label} onChange={(event) => update('button_label', event.target.value)} />
             </Field>
 
             <Button variant='primary' className='cci-wpc-full' onClick={add}>
-                {__('Add custom slide', 'wp-posts-carousel')}
+                {__('Add custom slide', 'cci-posts-carousel')}
             </Button>
         </div>
     );

@@ -1,4 +1,4 @@
-# WP Posts Carousel 2.0.x extension contract
+# CCI Posts Carousel All In One 2.0.x extension contract
 
 This document summarizes the extension surfaces implemented by
 `wp-posts-carousel` 2.0.x. Detailed hook tables are in
@@ -20,6 +20,10 @@ actions, source integrations, template packaging and browser renderers.
   Local activation never publishes an item to that feed.
 - Matching stable identities let the store card display **Installed**.
 
+Supply `author` and `version` in the feature descriptor to show them on the shared integration card. Use the add-on's own author and version, not the host plugin version. Missing metadata stays omitted for older integrations. A template card reads these fields from `template.json` instead. See the [copyable integration-card example](./extension-cookbook.md#show-an-installed-integration-card).
+
+The card does not generate a settings form or install an add-on. An integration owns its WordPress settings page and its query/rendering hooks. Registering a feature describes availability; it does not implement the behavior or grant a Pro license.
+
 ## Extension Types
 
 | Type | Primary hook/filter | Output |
@@ -35,12 +39,12 @@ actions, source integrations, template packaging and browser renderers.
 Two no-cost products provide working, installable examples of the contracts in
 this guide:
 
-- `related-content-for-wp-posts-carousel` adds an ordering choice, uses
+- `related-content-for-cci-posts-carousel` adds an ordering choice, uses
   `wc_get_related_products()` for product-only rows, prioritizes the Yoast SEO
   primary term through `yoast_get_primary_term_id()` and falls back to shared
   public taxonomy terms. The cookbook explains the underlying
   [query extension contract](./extension-cookbook.md#change-the-source-query).
-- `aurora-cards-for-wp-posts-carousel` registers a universal template path with a
+- `aurora-cards-for-cci-posts-carousel` registers a universal template path with a
   manifest, PHP view, scoped CSS and screenshot. It renders blog cards with
   Free, links enabled public categories and tags from the standard slide
   payload, and consumes advanced WooCommerce fields only when Pro supplies
@@ -50,7 +54,7 @@ this guide:
   [package a template as an add-on](./extension-cookbook.md#package-the-template-as-an-add-on).
 
 Both are separate products with their own versioned ZIP. They are not internal
-modules of `wp-posts-carousel-pro` and do not have matching `-pro` packages.
+modules of `cci-posts-carousel-pro` and do not have matching `-pro` packages.
 
 ## Template Add-Ons
 
@@ -114,7 +118,7 @@ saved carousels reference them.
 
 Register the feature and gate it through the license filter. The base plugin
 may discover a paid template or integration, but paid feature keys remain
-disabled unless `wp-posts-carousel-pro` validates the license
+disabled unless `cci-posts-carousel-pro` validates the license
 for the current domain.
 
 ```php
@@ -133,6 +137,8 @@ add_filter('wp_posts_carousel_features', function ($features) {
             )
         ),
         'source' => 'addon',
+        'author' => 'Your company',
+        'version' => '1.0.0',
         'plan' => 'paid',
     );
 
@@ -305,11 +311,11 @@ https://coolcatideas.com
 ```
 
 Marketplace endpoints are built under
-`/api/products/wp-posts-carousel-all-in-one/`.
+`/api/products/cci-posts-carousel-all-in-one/`.
 The product page URL is separate:
 
 ```text
-https://coolcatideas.com/products/wp-posts-carousel-all-in-one
+https://coolcatideas.com/products/cci-posts-carousel-all-in-one
 ```
 
 For local development, set `WP_POSTS_CAROUSEL_MARKETPLACE_API_BASE` or use the

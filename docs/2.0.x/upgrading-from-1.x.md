@@ -3,7 +3,7 @@
 If your carousels stopped working after upgrading from 1.x to 2.x, recreate
 them in the new editor and replace their placements on your site.
 
-Version 2.x is a rewrite of WP Posts Carousel. The carousel data model,
+Version 2.x is a rewrite of CCI Posts Carousel All In One. The carousel data model,
 editor, widgets and shortcode configuration have changed. Carousel settings
 from 1.x are not automatically converted into working 2.x definitions.
 Updating the plugin alone does not migrate your existing carousels.
@@ -24,10 +24,10 @@ to a separate staging site as a reference for the old configuration.
 
 ## Create replacement carousels
 
-Open **WP Posts Carousel > Dashboard** in WordPress. In the **Carousels**
+Open **CCI Posts Carousel All In One > Dashboard** in WordPress. In the **Carousels**
 section, click **New carousel**.
 
-![WP Posts Carousel dashboard with the New carousel button and the Shortcode column](../../assets/docs/upgrading-from-1.x-dashboard.png)
+![CCI Posts Carousel All In One dashboard with the New carousel button and the Shortcode column](../../assets/docs/upgrading-from-1.x-dashboard.png)
 
 The dashboard shown above is where you create replacement carousels and copy
 their new shortcodes. The example has Pro active; recreating a standard
@@ -53,15 +53,15 @@ Update each place where the 1.x carousel was displayed.
 | Placement | What to do in 2.x |
 | --- | --- |
 | Shortcode in a page or post | Replace the entire old shortcode with the new one copied from the dashboard. |
-| Gutenberg block | Add the current WP Posts Carousel block, select the newly created carousel and remove the old placement. |
-| WordPress widget area | Add or reconfigure the current WP Posts Carousel widget, select the newly created carousel and save the widget area. Remove an obsolete widget if it is still present. |
-| Elementor layout | With the Pro Elementor integration active, add or reconfigure the current WP Posts Carousel widget and select the newly created carousel. Update the page. |
+| Gutenberg block | Add the current CCI Posts Carousel All In One block, select the newly created carousel and remove the old placement. |
+| WordPress widget area | Add or reconfigure the current CCI Posts Carousel All In One widget, select the newly created carousel and save the widget area. Remove an obsolete widget if it is still present. |
+| Elementor layout | With the Pro Elementor integration active, add or reconfigure the current CCI Posts Carousel All In One widget and select the newly created carousel. Update the page. |
 | Theme PHP or another shortcode-capable area | Replace the old embed with the new shortcode and save the template or layout. Keep theme changes in a child theme. |
 
 The new shortcode references a saved carousel by its ID:
 
 ```text
-[wp_posts_carousel id="123"]
+[cci_posts_carousel id="123"]
 ```
 
 Here, `123` is an example. Copy the actual shortcode generated for your new
@@ -81,4 +81,4 @@ See [Publishing](./user-guide.md) for the supported embedding methods.
 
 Clearing cache alone cannot convert a 1.x configuration. If the replacement
 is correctly configured and embedded but still fails, use
-[Troubleshooting](./troubleshooting.md) or follow the [Support](https://coolcatideas.com/docs/wp-posts-carousel-all-in-one/2.0.x/support/) guide.
+[Troubleshooting](./troubleshooting.md) or follow the [Support](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.0.x/support/) guide.
