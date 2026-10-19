@@ -36,3 +36,15 @@ Thumbs.db
 /*.sql
 /site/*.sql
 /site/.user.ini
+
+/scripts/quality/vendor/
+
+/.php-cs-fixer.cache
+
+/output/
+
+# Local verification artifacts
+/reports/
+/.playwright/
+/test-results/
+/blob-report/

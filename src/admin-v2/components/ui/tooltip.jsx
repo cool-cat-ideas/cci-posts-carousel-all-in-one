@@ -1,1 +1,7 @@
-export { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent, TooltipHelp } from '@cci/admin-ui/wp-carousel';
+export {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipHelp,
+} from '@cci/admin-ui/wp-carousel';

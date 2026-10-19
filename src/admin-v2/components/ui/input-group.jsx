@@ -1,1 +1,8 @@
-export { InputGroup, InputGroupInput, InputGroupTextarea, InputGroupAddon, InputGroupText, InputGroupButton } from '@cci/admin-ui/wp-carousel';
+export {
+  InputGroup,
+  InputGroupInput,
+  InputGroupTextarea,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroupButton,
+} from '@cci/admin-ui/wp-carousel';

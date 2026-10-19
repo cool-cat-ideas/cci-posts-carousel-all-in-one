@@ -1,4 +1,4 @@
-@import "@cci/admin-ui/src/admin-layout.css";
+@import '@cci/admin-ui/src/admin-layout.css';
 @tailwind components;
 @tailwind utilities;
 
@@ -8,14 +8,14 @@
 .cci-wpc-saved-preview *,
 .cci-wpc-saved-preview *::before,
 .cci-wpc-saved-preview *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .cci-wpc-support-brand-image {
-    display: block;
-    width: min(100%, 260px);
-    height: auto;
-    margin-inline: auto;
+  display: block;
+  width: min(100%, 260px);
+  height: auto;
+  margin-inline: auto;
 }
 
 #wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell {
@@ -47,7 +47,7 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: .5rem !important;
+    gap: 0.5rem !important;
   }
 
   #wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell > .cci-wpc-admin-sidebar > div:nth-child(2) {
@@ -62,14 +62,16 @@
     grid-auto-columns: 42px !important;
     grid-template-columns: none !important;
     justify-content: center !important;
-    gap: .375rem !important;
+    gap: 0.375rem !important;
   }
 
-  #wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell > .cci-wpc-admin-sidebar[data-collapsed="false"] nav {
+  #wp-posts-carousel-admin-v2
+    > .cci-wpc-admin-shell
+    > .cci-wpc-admin-sidebar[data-collapsed='false']
+    nav {
     grid-auto-flow: row !important;
     grid-auto-columns: minmax(0, 1fr) !important;
   }
-
 
   #wp-posts-carousel-admin-v2 > .cci-wpc-admin-shell > main {
     padding: 1.5rem 1.25rem 2.125rem !important;

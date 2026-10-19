@@ -1,0 +1,18 @@
+{
+  "wordpress": ["^(?!scripts/quality/)"],
+  "exclude": [
+    "^(?:output|release|releases|dist|build|\\.git|\\.svn|node_modules|vendor)/",
+    "(?:^|/)(?:node_modules|vendor|libraries|library|\\.svn)/",
+    "(?:^|/)(?:assets|views)/(?:js|css)/vendor/",
+    "(?:^|/)(?:includes|src)/Licensing/",
+    "^src/php/Licensing/",
+    "^(?:src/Shared|includes/cci-license-php)/",
+    "\\.(?:min|bundle)\\.(?:js|css)$",
+    "^scripts/quality/vendor/",
+    "\\.lock$",
+    "^assets/(?:js|css)/(?:admin|front|app|index|cci-posts-carousel)",
+    "^languages/.*\\.json$",
+    "^assets/js/(?:admin-v2|frontend-loader|[0-9]+\\.[a-f0-9]+)\\.js$",
+    "^assets/css/(?:admin-v2|[0-9]+)\\.css$"
+  ]
+}

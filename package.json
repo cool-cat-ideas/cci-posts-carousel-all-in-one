@@ -12,7 +12,9 @@
     "i18n-pot": "wp i18n make-pot ./ ./languages/cci-posts-carousel.pot --domain=cci-posts-carousel --exclude=app",
     "i18n-json": "wp i18n make-json ./languages/ --no-purge",
     "format-js": "wp-scripts format-js",
-    "prettier": "@wordpress/prettier-config"
+    "prettier": "@wordpress/prettier-config",
+    "format": "node scripts/quality/format.mjs",
+    "format:check": "node scripts/quality/format.mjs --check"
   },
   "keywords": [],
   "author": "Cool Cat Ideas",
@@ -57,10 +59,11 @@
     "mini-css-extract-plugin": "^2.10.2",
     "postcss": "^8.4.49",
     "postcss-loader": "^8.1.1",
-    "prettier": "^3.8.4",
+    "prettier": "3.9.10",
     "style-loader": "^4.0.0",
     "tailwindcss": "^3.4.17",
     "webpack": "^5.107.2",
-    "webpack-cli": "^7.0.3"
+    "webpack-cli": "^7.0.3",
+    "esbuild": "0.28.2"
   }
 }
