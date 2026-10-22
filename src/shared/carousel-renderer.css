@@ -87,6 +87,10 @@
   width: 100%;
 }
 
+.cci-wpc-render-preview-image img {
+  object-fit: var(--wpc-image-fit, cover);
+}
+
 .cci-wpc-render-preview-image span {
   align-items: center;
   display: flex;

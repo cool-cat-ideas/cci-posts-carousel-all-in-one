@@ -253,6 +253,8 @@ function SlideCard({
           {slide.image?.src ? (
             <img
               src={slide.image.src}
+              srcSet={slide.image.srcset || undefined}
+              sizes={slide.image.sizes || undefined}
               data-wpc-hover-src={slide.hover_image?.src || undefined}
               alt={slide.image.alt || slide.title?.text || ''}
               decoding="async"
@@ -623,6 +625,10 @@ export default function CarouselRenderer({
     '--wpc-render-items': items,
     '--wpc-transition-duration': `${reducedMotion ? 0 : timings[transitionKind]}ms`,
   };
+  if (['contain', 'cover'].includes(options.image_fit)) {
+    rootStyle['--wpc-image-fit'] = options.image_fit;
+    rootStyle['--wpc-image-hover-scale'] = options.image_fit === 'contain' ? 1 : 1.02;
+  }
 
   return (
     <div

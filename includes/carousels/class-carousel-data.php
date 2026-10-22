@@ -354,8 +354,11 @@ class WP_Posts_Carousel_Data {
 		);
 
 		$params['id']                = $instance_id;
+		$params['items_to_show']     = WP_Posts_Carousel_Config::responsive_items( $options );
+		$params['breakpoints']       = $params['items_to_show'];
 		$params['lazy_images']       = array_key_exists( 'lazy_images', $performance ) ? (bool) $performance['lazy_images'] : true;
 		$params['first_image_eager'] = ! empty( $performance['first_image_eager'] );
+		$params['image_fit']         = isset( $performance['image_fit'] ) && in_array( $performance['image_fit'], array( 'contain', 'cover' ), true ) ? $performance['image_fit'] : 'inherit';
 
 		if ( ! empty( $performance['image_size'] ) && $performance['image_size'] !== 'inherit' ) {
 			$params['featured_image_source'] = sanitize_key( $performance['image_size'] );

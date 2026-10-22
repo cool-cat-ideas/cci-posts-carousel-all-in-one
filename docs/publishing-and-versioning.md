@@ -10,7 +10,7 @@ The release script writes ZIP files to the workspace release directory:
 
 ```text
 CCI_DEV/releases/wordpress/
-  wp-posts-carousel-2.0.0.zip
+  cci-posts-carousel-2.1.1.zip
 ```
 
 Do not keep generated `dist/` directories in product folders unless the product

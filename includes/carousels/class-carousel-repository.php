@@ -142,6 +142,11 @@ class WP_Posts_Carousel_Repository {
 
 		$post_id = absint( $post_id );
 
+		$post = get_post( $post_id );
+		if ( ! $post || 'wp-posts-carousel' !== $post->post_type ) {
+			return new WP_Error( 'wp_posts_carousel_not_found', __( 'Carousel not found', 'cci-posts-carousel' ), array( 'status' => 404 ) );
+		}
+
 		if ( ! wp_delete_post( $post_id, true ) ) {
 			return new WP_Error( 'wp_posts_carousel_delete_failed', __( 'Failed delete carousel', 'cci-posts-carousel' ), array( 'status' => 500 ) );
 		}

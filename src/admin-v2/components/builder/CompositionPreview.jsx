@@ -300,7 +300,7 @@ export default function CompositionPreview({
                   <Field
                     label={__('Hover image URL', 'cci-posts-carousel')}
                     note={__(
-                      'Optional. Enable Image on hover in Advanced. This image takes priority over the automatic source.',
+                      'Optional. Enable Image on hover in Design. This image takes priority over the automatic source.',
                       'cci-posts-carousel',
                     )}
                   >

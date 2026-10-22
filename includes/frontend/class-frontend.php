@@ -81,12 +81,15 @@ class WP_Posts_Carousel_Frontend {
 		$should_enqueue = is_active_widget( false, false, 'wp_posts_carousel', true );
 
 		foreach ( $posts as $post ) {
-			$content = (string) $post->post_content;
+			$content        = (string) $post->post_content;
+			$elementor_data = (string) get_post_meta( $post->ID, '_elementor_data', true );
 
 			if (
 				has_shortcode( $content, 'wp_posts_carousel' )
+				|| has_shortcode( $content, 'cci_posts_carousel' )
 				|| has_block( 'wp-posts-carousel/carousel', $content )
-				|| false !== strpos( (string) get_post_meta( $post->ID, '_elementor_data', true ), 'wp_posts_carousel' )
+				|| false !== strpos( $elementor_data, 'wp_posts_carousel' )
+				|| false !== strpos( $elementor_data, 'cci_posts_carousel' )
 			) {
 				$should_enqueue = true;
 				break;

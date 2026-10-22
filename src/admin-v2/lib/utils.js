@@ -32,7 +32,7 @@ export function carouselDefaults() {
       enabled: false,
       taxonomies: [],
       show_all_option: true,
-      all_label: 'All',
+      all_label: '',
       param_prefix: 'wpcf_',
       term_limit: 12,
     },
@@ -40,6 +40,7 @@ export function carouselDefaults() {
       lazy_images: true,
       first_image_eager: false,
       image_size: 'inherit',
+      image_fit: 'inherit',
     },
     image_hover: { enabled: false, source: 'content' },
     field_mapping: {

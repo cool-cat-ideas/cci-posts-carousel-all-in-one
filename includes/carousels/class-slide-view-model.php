@@ -781,6 +781,12 @@ class WP_Posts_Carousel_Slide_View_Model {
 		$defaults       = self::display_defaults_for_post_type( $post_type );
 		$display_params = array_merge( (array) $params, $defaults, $type_display );
 
+		// The carousel-wide override takes precedence over each post type's display size.
+		$image_size = isset( $config['performance']['image_size'] ) ? $config['performance']['image_size'] : 'inherit';
+		if ( in_array( $image_size, array( 'thumbnail', 'medium', 'medium_large', 'large', 'full' ), true ) ) {
+			$display_params['featured_image_source'] = $image_size;
+		}
+
 		return apply_filters( 'wp_posts_carousel_post_type_display_params', $display_params, $post_type, $post, $params, $config );
 	}
 

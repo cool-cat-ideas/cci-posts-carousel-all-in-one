@@ -28,6 +28,7 @@ import CompositionTools from './CompositionTools';
 import CompositionPreview from './CompositionPreview';
 import CustomSlideForm from './CustomSlideForm';
 import DisplaySettings from './DisplaySettings';
+import ImageSettings from './ImageSettings';
 import LoadingState from '../feedback/LoadingState';
 import PostSearch from './PostSearch';
 import SavedPreview from './SavedPreview';
@@ -109,6 +110,12 @@ export default function VisualBuilder({ setNotice, confirmAction }) {
 
         const dictionaries = response.dictionaries || {};
 
+        const frontendFilters = {
+          ...(defaults.frontend_filters || {}),
+          ...(values.frontend_filters || {}),
+        };
+        if (frontendFilters.all_label === 'All') frontendFilters.all_label = '';
+
         setForm({
           ...carouselDefaults(),
           ...defaults,
@@ -136,10 +143,7 @@ export default function VisualBuilder({ setNotice, confirmAction }) {
             ...(defaults.curation_pattern || {}),
             ...(values.curation_pattern || {}),
           },
-          frontend_filters: {
-            ...(defaults.frontend_filters || {}),
-            ...(values.frontend_filters || {}),
-          },
+          frontend_filters: frontendFilters,
           performance_options: {
             ...(defaults.performance_options || {}),
             ...(values.performance_options || {}),
@@ -770,12 +774,26 @@ export default function VisualBuilder({ setNotice, confirmAction }) {
                     definitions={dictionaries.display_options || {}}
                     postTypes={postTypes}
                     value={form.display_options || {}}
-                    onChange={(displayOptions) =>
-                      setForm({
-                        ...form,
+                    imageSizeOverride={form.performance_options?.image_size}
+                    onChange={(displayOptions, { clearImageSizeOverride = false } = {}) =>
+                      setForm((current) => ({
+                        ...current,
                         display_options: displayOptions,
-                      })
+                        ...(clearImageSizeOverride
+                          ? {
+                              performance_options: {
+                                ...current.performance_options,
+                                image_size: 'inherit',
+                              },
+                            }
+                          : {}),
+                      }))
                     }
+                  />
+
+                  <ImageSettings
+                    form={form}
+                    onChange={(patch) => setForm((current) => ({ ...current, ...patch }))}
                   />
 
                   <TemplatePicker
@@ -998,7 +1016,6 @@ function taxonomyOptionsForPostTypes(taxonomiesByPostType, postTypes) {
 function AdvancedSettings({ dictionaries, postTypes, form, onChange }) {
   const frontendFilters = form.frontend_filters || {};
   const performanceOptions = form.performance_options || {};
-  const imageHover = form.image_hover || {};
   const fieldMapping = form.field_mapping || {};
   const taxonomyOptions = taxonomyOptionsForPostTypes(dictionaries.taxonomies || {}, postTypes);
   const selectedTaxonomies = Array.isArray(frontendFilters.taxonomies)
@@ -1075,21 +1092,43 @@ function AdvancedSettings({ dictionaries, postTypes, form, onChange }) {
           </div>
         )}
 
-        <div className="tw-grid tw-grid-cols-1 tw-gap-3 sm:tw-grid-cols-3">
-          <Field label={__('All label', 'cci-posts-carousel')}>
+        <div className="tw-grid tw-gap-4">
+          <Field
+            label={__('Category/tag reset button text (optional)', 'cci-posts-carousel')}
+            note={__(
+              'Leave empty for labels such as "All categories" or "All tags" in the visitor\'s language. Custom text replaces this option in every filter group and needs its own translation.',
+              'cci-posts-carousel',
+            )}
+          >
             <Input
-              value={frontendFilters.all_label || 'All'}
+              aria-label={__('Category/tag reset button text (optional)', 'cci-posts-carousel')}
+              value={frontendFilters.all_label || ''}
+              placeholder={__('Automatic: All categories, All tags…', 'cci-posts-carousel')}
               onChange={(event) => updateFrontendFilters({ all_label: event.target.value })}
             />
           </Field>
-          <Field label={__('URL prefix', 'cci-posts-carousel')}>
+          <Field
+            label={__('URL prefix', 'cci-posts-carousel')}
+            note={__(
+              'Prefix for filter parameters in the page address. Keep the default unless another filter uses the same prefix.',
+              'cci-posts-carousel',
+            )}
+          >
             <Input
+              aria-label={__('URL prefix', 'cci-posts-carousel')}
               value={frontendFilters.param_prefix || 'wpcf_'}
               onChange={(event) => updateFrontendFilters({ param_prefix: event.target.value })}
             />
           </Field>
-          <Field label={__('Terms per taxonomy', 'cci-posts-carousel')}>
+          <Field
+            label={__('Terms per taxonomy', 'cci-posts-carousel')}
+            note={__(
+              'Maximum number of choices shown for each taxonomy (1–50).',
+              'cci-posts-carousel',
+            )}
+          >
             <Input
+              aria-label={__('Terms per taxonomy', 'cci-posts-carousel')}
               min="1"
               max="50"
               type="number"
@@ -1105,64 +1144,10 @@ function AdvancedSettings({ dictionaries, postTypes, form, onChange }) {
       <div className="tw-grid tw-gap-3 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-p-3">
         <div>
           <div className="tw-text-sm tw-font-semibold tw-text-cci-wpc-text">
-            {__('Image on hover', 'cci-posts-carousel')}
-          </div>
-          <p className="tw-m-0 tw-mt-1 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted">
-            {__(
-              'The featured image stays primary. A second image appears only with a mouse. Missing images keep the primary image.',
-              'cci-posts-carousel',
-            )}
-          </p>
-        </div>
-        <CheckboxField
-          checked={boolValue(imageHover.enabled)}
-          onCheckedChange={(checked) =>
-            onChange({ image_hover: { ...imageHover, enabled: checked === true } })
-          }
-        >
-          {__('Change image on hover', 'cci-posts-carousel')}
-        </CheckboxField>
-        {boolValue(imageHover.enabled) && (
-          <Field
-            label={__('Second image source', 'cci-posts-carousel')}
-            note={__(
-              'A hover image selected in the slide editor takes priority. Custom slides use their own image as primary.',
-              'cci-posts-carousel',
-            )}
-          >
-            <Select
-              value={imageHover.source || 'content'}
-              ariaLabel={__('Second image source', 'cci-posts-carousel')}
-              onValueChange={(source) => onChange({ image_hover: { ...imageHover, source } })}
-              options={[
-                {
-                  value: 'content',
-                  label: __('First different image in the content', 'cci-posts-carousel'),
-                },
-                {
-                  value: 'gallery',
-                  label: __('WooCommerce product gallery', 'cci-posts-carousel'),
-                },
-                {
-                  value: 'manual',
-                  label: __('Selected in the slide editor', 'cci-posts-carousel'),
-                },
-              ]}
-            />
-          </Field>
-        )}
-      </div>
-
-      <div className="tw-grid tw-gap-3 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-p-3">
-        <div>
-          <div className="tw-text-sm tw-font-semibold tw-text-cci-wpc-text">
             {__('Performance', 'cci-posts-carousel')}
           </div>
           <p className="tw-m-0 tw-mt-1 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted">
-            {__(
-              'Control image loading behavior and the image size used by post-based slides.',
-              'cci-posts-carousel',
-            )}
+            {__('Control when slide images load.', 'cci-posts-carousel')}
           </p>
         </div>
         <div className="tw-grid tw-grid-cols-1 tw-gap-2 sm:tw-grid-cols-2">
@@ -1181,13 +1166,6 @@ function AdvancedSettings({ dictionaries, postTypes, form, onChange }) {
             {__('Prioritize first image', 'cci-posts-carousel')}
           </CheckboxField>
         </div>
-        <Field label={__('Image size override', 'cci-posts-carousel')}>
-          <Select
-            value={performanceOptions.image_size || 'inherit'}
-            onValueChange={(imageSize) => updatePerformance({ image_size: imageSize })}
-            options={dictionaries.performance_image_sizes || []}
-          />
-        </Field>
       </div>
 
       <div className="tw-grid tw-gap-3 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-p-3">

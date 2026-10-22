@@ -48,7 +48,7 @@ class WP_Posts_Carousel_Utils {
 					'enabled'         => false,
 					'taxonomies'      => array(),
 					'show_all_option' => true,
-					'all_label'       => __( 'All', 'cci-posts-carousel' ),
+					'all_label'       => '',
 					'param_prefix'    => 'wpcf_',
 					'term_limit'      => 12,
 				),
@@ -56,6 +56,7 @@ class WP_Posts_Carousel_Utils {
 					'lazy_images'       => true,
 					'first_image_eager' => false,
 					'image_size'        => 'inherit',
+					'image_fit'         => 'inherit',
 				),
 				'field_mapping'          => array(
 					'eyebrow'      => '',
@@ -81,7 +82,7 @@ class WP_Posts_Carousel_Utils {
 						'show_more_button'           => true,
 						'show_featured_image'        => true,
 						'show_author'                => false,
-						'featured_image_source'      => 'thumbnail',
+						'featured_image_source'      => 'large',
 						'featured_image_width'       => 100,
 						'featured_image_width_unit'  => '%',
 						'featured_image_height'      => 100,
@@ -99,7 +100,7 @@ class WP_Posts_Carousel_Utils {
 						'show_more_button'           => true,
 						'show_featured_image'        => true,
 						'show_author'                => false,
-						'featured_image_source'      => 'thumbnail',
+						'featured_image_source'      => 'large',
 						'featured_image_width'       => 100,
 						'featured_image_width_unit'  => '%',
 						'featured_image_height'      => 100,
@@ -324,6 +325,10 @@ class WP_Posts_Carousel_Utils {
 			array(
 				'value' => 'medium',
 				'label' => __( 'Medium', 'cci-posts-carousel' ),
+			),
+			array(
+				'value' => 'medium_large',
+				'label' => __( 'Medium large', 'cci-posts-carousel' ),
 			),
 			array(
 				'value' => 'large',
@@ -965,56 +970,11 @@ class WP_Posts_Carousel_Utils {
 	}
 
 	public static function parse_breakpoints( $params ) {
-		if ( ! $params ) {
-			return null;
+		$out = '';
+		foreach ( WP_Posts_Carousel_Config::responsive_items( $params ) as $width => $items ) {
+			$out .= ',' . $width . ':{items:' . $items . '}';
 		}
-		$out                 = '';
-		$plugin_options      = get_option( 'wp-posts-carousel_options' );
-		$breakpoints         = array();
-		$default_breakpoints = '320:{items:2},480:{items:3},768:{items:3},1024:{items:4},1200:{items:4}';
-
-		$items_to_show = array();
-
-		if ( array_key_exists( 'items_to_show', $params ) ) {
-			$items_to_show = $params['items_to_show'];
-		} elseif ( array_key_exists( 'breakpoints', $params ) ) {
-			$items_to_show = $params['breakpoints'];
-		}
-
-		if ( ! empty( $items_to_show ) ) {
-			if ( is_string( $items_to_show ) && $items_to_show !== '' ) {
-				$data = explode( ',', $items_to_show );
-				foreach ( $data as $points ) {
-					preg_match( '/(\d+):(\d+)/', $points, $matches );
-
-					if ( array_key_exists( 1, $matches ) && array_key_exists( 2, $matches ) ) {
-						$breakpoints[ $matches[1] ] = $matches[2];
-					}
-				}
-			} elseif ( is_array( $items_to_show ) && ! empty( $items_to_show ) ) {
-				$breakpoints = $items_to_show;
-			}
-
-			ksort( $breakpoints );
-
-			if ( count( $breakpoints ) > 0 ) {
-				foreach ( $breakpoints as $width => $items ) {
-					if ( is_array( $items ) && isset( $items['items'] ) ) {
-						$items = $items['items'];
-					}
-
-					if ( intval( $width ) > 0 && intval( $items ) > 0 ) {
-						$out .= ',' . intval( $width ) . ':{items:' . intval( $items ) . '}';
-					}
-				}
-			}
-		}
-
-		if ( $out !== '' ) {
-			return $out;
-		} else {
-			return $default_breakpoints;
-		}
+		return $out;
 	}
 
 	public static function get_breakpoints() {

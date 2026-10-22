@@ -103,9 +103,9 @@ const carouselSchema = z
 
     Object.entries(responsive).forEach(([breakpoint, items]) => {
       const width = Number(breakpoint);
-      const count = Number(typeof items === 'object' ? items.items : items);
+      const count = Number(items && typeof items === 'object' ? items.items : items);
 
-      if (Number.isNaN(width) || width < 1) {
+      if (!Number.isInteger(width) || width < 1) {
         context.addIssue({
           code: 'custom',
           path: ['carousel_options', 'items_to_show', breakpoint],
@@ -113,7 +113,7 @@ const carouselSchema = z
         });
       }
 
-      if (Number.isNaN(count) || count < 1) {
+      if (!Number.isInteger(count) || count < 1) {
         context.addIssue({
           code: 'custom',
           path: ['carousel_options', 'items_to_show', breakpoint],

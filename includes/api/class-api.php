@@ -197,7 +197,7 @@ class WP_Posts_Carousel_API {
 				array(
 					'methods'             => 'GET',
 					'callback'            => array( $this, 'get_carousel' ),
-					'permission_callback' => $this->checkPermissions( 'read_wp_posts_carousel' ),
+					'permission_callback' => $this->checkPermissions( 'read_wp_posts_carousel', 'read' ),
 				),
 			)
 		);
@@ -209,7 +209,7 @@ class WP_Posts_Carousel_API {
 				array(
 					'methods'             => 'POST',
 					'callback'            => array( $this, 'duplicate_carousel' ),
-					'permission_callback' => $this->checkPermissions( array( 'read_wp_posts_carousel', 'create_wp_posts_carousels' ) ),
+					'permission_callback' => $this->checkPermissions( array( 'read_wp_posts_carousel', 'create_wp_posts_carousels' ), 'read' ),
 				),
 			)
 		);
@@ -221,7 +221,7 @@ class WP_Posts_Carousel_API {
 				array(
 					'methods'             => 'GET',
 					'callback'            => array( $this, 'get_carousel_preview' ),
-					'permission_callback' => $this->checkPermissions( 'read_wp_posts_carousel' ),
+					'permission_callback' => $this->checkPermissions( 'read_wp_posts_carousel', 'read' ),
 				),
 			)
 		);
@@ -245,7 +245,7 @@ class WP_Posts_Carousel_API {
 				array(
 					'methods'             => 'PUT',
 					'callback'            => array( $this, 'update_carousel' ),
-					'permission_callback' => $this->checkPermissions( 'edit_wp_posts_carousel' ),
+					'permission_callback' => $this->checkPermissions( 'edit_wp_posts_carousel', 'edit' ),
 				),
 			)
 		);
@@ -257,7 +257,7 @@ class WP_Posts_Carousel_API {
 				array(
 					'methods'             => 'DELETE',
 					'callback'            => array( $this, 'delete_carousel' ),
-					'permission_callback' => $this->checkPermissions( 'delete_wp_posts_carousel' ),
+					'permission_callback' => $this->checkPermissions( 'delete_wp_posts_carousel', 'delete' ),
 				),
 			)
 		);
@@ -301,20 +301,54 @@ class WP_Posts_Carousel_API {
 		return apply_filters( 'wp_posts_carousel_prepare_post_option', $post_options, $post );
 	}
 
-	public function checkPermissions( $permission ) {
-		if ( $permission ) {
-			if ( is_array( $permission ) ) {
-				foreach ( $permission as $value ) {
-					if ( ! current_user_can( $value ) ) {
-						return '__return_false';
-					}
-				}
-				return '__return_true';
-			} elseif ( current_user_can( $permission ) ) {
-				return '__return_true';
+	public function checkPermissions( $permission, $operation = '' ) {
+		// Evaluate after REST authentication, including the cookie nonce check.
+		return function ( WP_REST_Request $request ) use ( $permission, $operation ) {
+			if ( ! $permission ) {
+				return false;
 			}
+			foreach ( (array) $permission as $capability ) {
+				if ( ! current_user_can( $capability ) ) {
+					return false;
+				}
+			}
+			if ( $operation ) {
+				$post_id = absint( $request->get_url_params()['id'] ?? 0 );
+				return $this->can_access_carousel( $post_id, $operation );
+			}
+			return true;
+		};
+	}
+
+	private function can_access_carousel( $post_id, $operation ) {
+		$post = get_post( $post_id );
+		if ( ! $post || 'wp-posts-carousel' !== $post->post_type ) {
+			return false;
 		}
-		return '__return_false';
+		$owns_post = (int) $post->post_author === get_current_user_id();
+		if ( 'read' === $operation ) {
+			if ( $owns_post || 'publish' === $post->post_status ) {
+				return true;
+			}
+			return current_user_can( 'private' === $post->post_status ? 'read_private_wp_posts_carousels' : 'edit_others_wp_posts_carousels' );
+		}
+		if ( ! $owns_post && ! current_user_can( $operation . '_others_wp_posts_carousels' ) ) {
+			return false;
+		}
+		if ( in_array( $post->post_status, array( 'publish', 'future', 'private' ), true ) ) {
+			$status = 'private' === $post->post_status ? 'private' : 'published';
+			return current_user_can( $operation . '_' . $status . '_wp_posts_carousels' );
+		}
+		return true;
+	}
+
+	private function check_publication_permission( $params, $default_status = 'publish' ) {
+		$status = sanitize_key( $params['status'] ?? $params['post_status'] ?? $default_status );
+		$status = in_array( $status, array( 'draft', 'publish' ), true ) ? $status : $default_status;
+		if ( 'draft' !== $status && ! current_user_can( 'publish_wp_posts_carousels' ) ) {
+			return new WP_Error( 'wp_posts_carousel_cannot_publish', __( 'You are not allowed to publish carousels.', 'cci-posts-carousel' ), array( 'status' => 403 ) );
+		}
+		return null;
 	}
 
 	public function get_custom_posts( WP_REST_Request $request ) {
@@ -419,7 +453,7 @@ class WP_Posts_Carousel_API {
 
 	public function get_public_carousel( WP_REST_Request $request ) {
 		$render_context    = new WP_Posts_Carousel_Render_Context();
-		$post_id           = absint( $request['id'] );
+		$post_id           = absint( $request->get_url_params()['id'] );
 		$instance_id       = isset( $request['instance_id'] ) ? sanitize_html_class( $request['instance_id'] ) : '';
 		$instance_id       = $instance_id ? $instance_id : 'wp-posts-carousel_' . $post_id . '-api';
 		$renderer          = isset( $request['renderer'] ) ? sanitize_key( $request['renderer'] ) : '';
@@ -455,12 +489,19 @@ class WP_Posts_Carousel_API {
 			);
 		}
 
+		// The editor configuration can contain labels of unpublished selections.
+		// Only rendering settings belong in the anonymous REST response.
+		$data['config'] = array_intersect_key(
+			$data['config'] ?? array(),
+			array_fill_keys( array( 'version', 'renderer', 'engine', 'template', 'style', 'performance' ), true )
+		);
+
 		return new WP_REST_Response( $data, 200 );
 	}
 
 	public function get_carousel_preview( WP_REST_Request $request ) {
 		$render_context = new WP_Posts_Carousel_Render_Context();
-		$post_id        = absint( $request['id'] );
+		$post_id        = absint( $request->get_url_params()['id'] );
 		$data           = WP_Posts_Carousel_Data::get(
 			$post_id,
 			array(
@@ -1277,7 +1318,12 @@ class WP_Posts_Carousel_API {
 	}
 
 	public function get_carousels( WP_REST_Request $request ) {
-		$result = WP_Posts_Carousel_Repository::all();
+		$result = array_values( array_filter(
+			WP_Posts_Carousel_Repository::all() ?: array(),
+			function ( $carousel ) {
+				return $this->can_access_carousel( $carousel['ID'], 'read' );
+			}
+		) );
 
 		return new WP_REST_Response( is_array( $result ) ? $result : array(), 200 );
 	}
@@ -1292,6 +1338,11 @@ class WP_Posts_Carousel_API {
 
 		$params         = $this->normalize_request_data( $params );
 		$params         = is_array( $params ) ? $params : array();
+		$publication_error = $this->check_publication_permission( $params, 'publish' );
+		if ( is_wp_error( $publication_error ) ) {
+			return $publication_error;
+		}
+
 		$pre_save_error = apply_filters( 'wp_posts_carousel_pre_save_error', null, $params, $request, 'create' );
 
 		if ( is_wp_error( $pre_save_error ) ) {
@@ -1308,7 +1359,7 @@ class WP_Posts_Carousel_API {
 	}
 
 	public function get_carousel( WP_REST_Request $request ) {
-		$post_id = absint( $request['id'] );
+		$post_id = absint( $request->get_url_params()['id'] );
 		$post    = WP_Posts_Carousel_Repository::get( $post_id );
 
 		if ( ! empty( $post ) ) {
@@ -1363,9 +1414,14 @@ class WP_Posts_Carousel_API {
 		$params = $this->normalize_request_data( $params );
 		$params = is_array( $params ) ? $params : array();
 
-		$existing_config = WP_Posts_Carousel_Repository::get_config( $request['id'] );
+		$existing_config = WP_Posts_Carousel_Repository::get_config( $request->get_url_params()['id'] );
 		if ( is_array( $existing_config ) && ! array_key_exists( 'requirements', $params ) && ! empty( $existing_config['requirements'] ) ) {
 			$params['requirements'] = $existing_config['requirements'];
+		}
+
+		$publication_error = $this->check_publication_permission( $params, get_post_status( $request->get_url_params()['id'] ) );
+		if ( is_wp_error( $publication_error ) ) {
+			return $publication_error;
 		}
 
 		$pre_save_error = apply_filters( 'wp_posts_carousel_pre_save_error', null, $params, $request, 'update' );
@@ -1374,7 +1430,7 @@ class WP_Posts_Carousel_API {
 			return $pre_save_error;
 		}
 
-		$post = WP_Posts_Carousel_Repository::update( $request['id'], $title, $params );
+		$post = WP_Posts_Carousel_Repository::update( $request->get_url_params()['id'], $title, $params );
 
 		if ( is_wp_error( $post ) ) {
 			return $post;
@@ -1384,7 +1440,7 @@ class WP_Posts_Carousel_API {
 	}
 
 	public function delete_carousel( WP_REST_Request $request ) {
-		$deleted = WP_Posts_Carousel_Repository::delete( $request['id'] );
+		$deleted = WP_Posts_Carousel_Repository::delete( $request->get_url_params()['id'] );
 
 		if ( is_wp_error( $deleted ) ) {
 			return $deleted;
@@ -1394,7 +1450,7 @@ class WP_Posts_Carousel_API {
 	}
 
 	public function duplicate_carousel( WP_REST_Request $request ) {
-		$post = WP_Posts_Carousel_Repository::duplicate( $request['id'] );
+		$post = WP_Posts_Carousel_Repository::duplicate( $request->get_url_params()['id'] );
 
 		if ( is_wp_error( $post ) ) {
 			return $post;

@@ -1,6 +1,6 @@
 {
   "name": "cci-posts-carousel",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Build and manage reusable WordPress carousels.",
   "main": "index.js",
   "scripts": {

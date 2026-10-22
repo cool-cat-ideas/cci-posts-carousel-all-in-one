@@ -38,7 +38,7 @@ class WP_Posts_Carousel_Config {
 				'enabled'         => false,
 				'taxonomies'      => array(),
 				'show_all_option' => true,
-				'all_label'       => 'All',
+				'all_label'       => '',
 				'param_prefix'    => 'wpcf_',
 				'term_limit'      => 12,
 			),
@@ -46,6 +46,7 @@ class WP_Posts_Carousel_Config {
 				'lazy_images'       => true,
 				'first_image_eager' => false,
 				'image_size'        => 'inherit',
+				'image_fit'         => 'inherit',
 			),
 			'field_mapping'    => array(
 				'eyebrow'      => '',
@@ -225,10 +226,16 @@ class WP_Posts_Carousel_Config {
 		$config['curation']['items']   = self::sanitize_items( self::array_get( $config['curation'], 'items', array() ) );
 		$config['curation']['pattern'] = self::sanitize_pattern( self::array_get( $config['curation'], 'pattern', array() ) );
 
-		$config['engine']['name']      = sanitize_key( self::array_get( $config['engine'], 'name', 'owl-carousel' ) );
-		$config['engine']['options']   = self::sanitize_engine_options( self::array_get( $config['engine'], 'options', array() ) );
-		$config['template']['name']    = self::normalize_template_name( self::array_get( $config['template'], 'name', 'default' ) );
-		$config['template']['display'] = is_array( self::array_get( $config['template'], 'display', array() ) )
+		$config['engine']['name']                     = sanitize_key( self::array_get( $config['engine'], 'name', 'owl-carousel' ) );
+		$config['engine']['options']                  = self::sanitize_engine_options( self::array_get( $config['engine'], 'options', array() ) );
+		$config['engine']['options']['items_to_show'] = self::sanitize_items_to_show(
+			array_key_exists( 'items_to_show', $config['engine']['options'] )
+				? $config['engine']['options']['items_to_show']
+				: self::array_get( $config['engine']['options'], 'breakpoints', array() )
+		);
+		$config['engine']['options']['breakpoints']   = $config['engine']['options']['items_to_show'];
+		$config['template']['name']                   = self::normalize_template_name( self::array_get( $config['template'], 'name', 'default' ) );
+		$config['template']['display']                = is_array( self::array_get( $config['template'], 'display', array() ) )
 			? self::array_get( $config['template'], 'display', array() )
 			: array();
 		unset( $config['style'] );
@@ -428,7 +435,7 @@ class WP_Posts_Carousel_Config {
 			'enabled'         => self::sanitize_bool( self::array_get( $filters, 'enabled', false ) ),
 			'taxonomies'      => array_values( array_unique( array_filter( array_map( 'sanitize_key', (array) self::array_get( $filters, 'taxonomies', array() ) ) ) ) ),
 			'show_all_option' => self::sanitize_bool( self::array_get( $filters, 'show_all_option', true ) ),
-			'all_label'       => sanitize_text_field( self::array_get( $filters, 'all_label', 'All' ) ),
+			'all_label'       => sanitize_text_field( self::array_get( $filters, 'all_label', '' ) ),
 			'param_prefix'    => $prefix ? $prefix : 'wpcf_',
 			'term_limit'      => max( 1, min( 50, absint( self::array_get( $filters, 'term_limit', 12 ) ) ) ),
 		);
@@ -441,11 +448,13 @@ class WP_Posts_Carousel_Config {
 
 		$image_size    = sanitize_key( self::array_get( $performance, 'image_size', 'inherit' ) );
 		$allowed_sizes = array( 'inherit', 'thumbnail', 'medium', 'medium_large', 'large', 'full' );
+		$image_fit     = self::array_get( $performance, 'image_fit', 'inherit' );
 
 		return array(
 			'lazy_images'       => self::sanitize_bool( self::array_get( $performance, 'lazy_images', true ) ),
 			'first_image_eager' => self::sanitize_bool( self::array_get( $performance, 'first_image_eager', false ) ),
 			'image_size'        => in_array( $image_size, $allowed_sizes, true ) ? $image_size : 'inherit',
+			'image_fit'         => in_array( $image_fit, array( 'inherit', 'contain', 'cover' ), true ) ? $image_fit : 'inherit',
 		);
 	}
 
@@ -506,16 +515,38 @@ class WP_Posts_Carousel_Config {
 		return $output;
 	}
 
+	/** Resolve saved rules first, then the global preset, with a nonempty fallback. */
+	public static function responsive_items( $options ) {
+		$options = is_array( $options ) ? $options : array();
+		$items   = self::sanitize_items_to_show(
+			array_key_exists( 'items_to_show', $options )
+				? $options['items_to_show']
+				: self::array_get( $options, 'breakpoints', array() )
+		);
+		if ( $items ) {
+			return $items;
+		}
+
+		$settings = WP_Posts_Carousel_Settings::get_settings();
+		$items    = self::sanitize_items_to_show( isset( $settings['global_breakpoints'] ) ? $settings['global_breakpoints'] : array() );
+		if ( $items ) {
+			return $items;
+		}
+		$defaults = WP_Posts_Carousel_Utils::get_carousel_default_params();
+		$items    = self::sanitize_items_to_show( $defaults['carousel_options']['breakpoints'] );
+		return $items ?: array( 320 => 1 );
+	}
+
 	private static function sanitize_items_to_show( $items ) {
 		if ( is_string( $items ) ) {
 			$normalized = array();
 			foreach ( explode( ',', $items ) as $point ) {
-				if ( preg_match( '/(\d+):(\d+)/', $point, $matches ) ) {
-					$normalized[ absint( $matches[1] ) ] = max( 1, absint( $matches[2] ) );
+				if ( preg_match( '/^\s*(\d+)\s*:\s*(\d+)\s*$/', $point, $matches ) ) {
+					$normalized[ $matches[1] ] = $matches[2];
 				}
 			}
 
-			return $normalized;
+			$items = $normalized;
 		}
 
 		if ( ! is_array( $items ) ) {
@@ -525,13 +556,15 @@ class WP_Posts_Carousel_Config {
 		$normalized = array();
 
 		foreach ( $items as $width => $value ) {
-			$width = absint( $width );
-
-			if ( ! $width ) {
+			if ( ! is_numeric( $width ) || (int) $width <= 0 ) {
 				continue;
 			}
 
-			$item_count           = is_array( $value ) && isset( $value['items'] ) ? $value['items'] : $value;
+			$item_count = is_array( $value ) && isset( $value['items'] ) ? $value['items'] : $value;
+			if ( ! is_numeric( $item_count ) || (int) $item_count <= 0 ) {
+				continue;
+			}
+			$width                = (int) $width;
 			$normalized[ $width ] = max( 1, absint( $item_count ) );
 		}
 

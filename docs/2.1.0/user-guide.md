@@ -342,3 +342,9 @@ Update directly to 2.1.0; no intermediate release or carousel recreation is requ
 Pinning is available under **Query → Content selection → Pinned slides + automatic fill**. The optional second image is under **Advanced → Image on hover** and is off by default. Updating does not enable it on existing carousels.
 
 If a carousel is missing, check that you opened the same WordPress site and that its saved ID matches the shortcode. If you need to roll back, restore the files and database from the same backup.
+
+## Guided examples
+
+- [Set responsive card counts](./responsive-carousel.md) for phones, tablets and desktop screens.
+- [Show posts from a category](./category-post-carousel.md), with optional pinned stories.
+- [Build a WooCommerce product carousel](./woocommerce-products.md) with prices and purchase actions from Pro.

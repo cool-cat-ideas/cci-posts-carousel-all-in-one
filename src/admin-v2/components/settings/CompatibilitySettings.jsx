@@ -266,10 +266,11 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
   };
 
   const removeBreakpoint = async (width) => {
+    if (!canRemoveBreakpoint) return;
     if (confirmAction) {
       const confirmed = await confirmAction({
         title: __('Delete global breakpoint?', 'cci-posts-carousel'),
-        message: `${__('New carousels will no longer use this responsive rule by default:', 'cci-posts-carousel')} ${width}px.`,
+        message: `${__('This removes the global responsive rule for:', 'cci-posts-carousel')} ${width}px.`,
         confirmLabel: __('Delete breakpoint', 'cci-posts-carousel'),
         cancelLabel: __('Keep breakpoint', 'cci-posts-carousel'),
         variant: 'danger',
@@ -513,7 +514,7 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
             </div>
             <p className="tw-m-0 tw-mt-1 tw-text-xs tw-leading-5 tw-text-cci-wpc-muted">
               {__(
-                'Default responsive items for new carousels. Each carousel can still override these values in its editor.',
+                'Responsive defaults for new carousels and carousels without local breakpoints. Each carousel can override these values in its editor.',
                 'cci-posts-carousel',
               )}
             </p>
@@ -546,17 +547,16 @@ export default function CompatibilitySettings({ setNotice, confirmAction }) {
                     </InputGroupAddon>
                   </InputGroup>
                 </Field>
-                {canRemoveBreakpoint && (
-                  <Button
-                    size="icon"
-                    variant="danger"
-                    onClick={() => removeBreakpoint(width)}
-                    aria-label={__('Remove breakpoint', 'cci-posts-carousel')}
-                    title={__('Remove breakpoint', 'cci-posts-carousel')}
-                  >
-                    <Trash2 aria-hidden="true" />
-                  </Button>
-                )}
+                <Button
+                  size="icon"
+                  variant="danger"
+                  disabled={!canRemoveBreakpoint}
+                  onClick={() => removeBreakpoint(width)}
+                  aria-label={__('Remove breakpoint', 'cci-posts-carousel')}
+                  title={__('Remove breakpoint', 'cci-posts-carousel')}
+                >
+                  <Trash2 aria-hidden="true" />
+                </Button>
               </div>
             ))}
           </div>

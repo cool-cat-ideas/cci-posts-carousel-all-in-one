@@ -125,6 +125,7 @@
 .cci-wpc-default-template-theme .cci-wpc-image img,
 .cci-wpc-default-template-theme .cci-wpc-card-react .cci-wpc-render-preview-image img,
 .cci-wpc-default-template-theme .cci-wpc-product-card-media img {
+  object-fit: var(--wpc-image-fit, cover);
   transition:
     filter 0.16s ease,
     opacity 0.16s ease,
@@ -138,7 +139,7 @@
 .cci-wpc-default-template-theme .cci-wpc-product-card-media:hover img,
 .cci-wpc-default-template-theme .cci-wpc-product-card-media:focus-visible img {
   filter: brightness(0.92) saturate(1.06);
-  transform: scale(1.02);
+  transform: scale(var(--wpc-image-hover-scale, 1.02));
 }
 
 .cci-wpc-default-template-theme .cci-wpc-image a:focus-visible,

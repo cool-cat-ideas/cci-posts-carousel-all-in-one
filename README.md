@@ -45,7 +45,7 @@ Declared compatibility: **WordPress 6.2 through 7.1.3** and **PHP 7.4 or later**
 3. Save it, then select it in the **CCI Posts Carousel All In One** block or copy its shortcode.
 4. Check the published page on desktop and mobile.
 
-For image previews, open **Advanced > Image on hover**, enable the option and choose a source. It is off by default and included in the base plugin. Try [A second image on hover](https://wordpress-demo.coolcatideas.com/cci-posts-carousel-demo/#wpc-demo-carousel-image-hover-free).
+For image previews, open **Design > Second image on hover**, enable the option and choose a source. It is off by default and included in the base plugin. Try [A second image on hover](https://wordpress-demo.coolcatideas.com/cci-posts-carousel-demo/#wpc-demo-carousel-image-hover-free).
 
 See the [user guide](docs/2.1.0/user-guide.md) for configuration and the [developer guide](docs/2.1.0/developer-guide.md) for extensions.
 

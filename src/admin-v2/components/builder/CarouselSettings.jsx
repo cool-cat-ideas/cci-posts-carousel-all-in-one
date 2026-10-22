@@ -7,6 +7,7 @@ import { TooltipHelp } from '../ui/tooltip';
 import { Button } from '../ui/button';
 import { CheckboxField } from '../ui/checkbox';
 import { Field } from '../ui/field';
+import InfoCallout from '../ui/info-callout';
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from '../ui/input-group';
 import { Select } from '../ui/select';
 
@@ -142,21 +143,12 @@ const NAV_ICON_FIELDS = [
 ];
 const GLOBAL_ICON_LIBRARY_VALUE = '__global__';
 
-const DEFAULT_BREAKPOINTS = {
-  320: 1,
-  480: 2,
-  768: 3,
-  1024: 4,
-  1200: 4,
-};
-
 function boolValue(value) {
   return value === true || value === 'true' || value === 1 || value === '1';
 }
 
 function normalizeItemsToShow(value) {
-  const source =
-    value && typeof value === 'object' && Object.keys(value).length ? value : DEFAULT_BREAKPOINTS;
+  const source = value && typeof value === 'object' ? value : {};
   const widths = Object.keys(source).sort((first, second) => Number(first) - Number(second));
 
   return widths.reduce((result, width) => {
@@ -215,7 +207,6 @@ export default function CarouselSettings({
     });
   };
   const itemsToShow = normalizeItemsToShow(options.items_to_show || options.breakpoints);
-  const canRemoveBreakpoint = Object.keys(itemsToShow).length > 1;
   const transitionEffect = normalizeTransitionEffect(
     value,
     options.transition_effect || (options.animate_out === 'fadeOut' ? 'fade' : 'slide'),
@@ -539,6 +530,14 @@ export default function CarouselSettings({
           )}
         </p>
         <div className="tw-grid tw-gap-2">
+          {!Object.keys(itemsToShow).length && (
+            <InfoCallout tone="info" className="tw-my-1">
+              {__(
+                'Using global responsive settings. Changes in Settings will apply to this carousel.',
+                'cci-posts-carousel',
+              )}
+            </InfoCallout>
+          )}
           {Object.keys(itemsToShow).map((width) => (
             <div
               className="tw-grid tw-grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] tw-items-end tw-gap-2 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white tw-p-2"
@@ -569,17 +568,15 @@ export default function CarouselSettings({
                   </InputGroupAddon>
                 </InputGroup>
               </Field>
-              {canRemoveBreakpoint && (
-                <Button
-                  size="icon"
-                  variant="danger"
-                  onClick={() => removeBreakpoint(width)}
-                  aria-label={__('Remove breakpoint', 'cci-posts-carousel')}
-                  title={__('Remove breakpoint', 'cci-posts-carousel')}
-                >
-                  <Trash2 aria-hidden="true" />
-                </Button>
-              )}
+              <Button
+                size="icon"
+                variant="danger"
+                onClick={() => removeBreakpoint(width)}
+                aria-label={__('Remove breakpoint', 'cci-posts-carousel')}
+                title={__('Remove breakpoint', 'cci-posts-carousel')}
+              >
+                <Trash2 aria-hidden="true" />
+              </Button>
             </div>
           ))}
         </div>

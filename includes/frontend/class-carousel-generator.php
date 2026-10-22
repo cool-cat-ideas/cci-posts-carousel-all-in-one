@@ -166,6 +166,10 @@ class WP_Posts_Carousel_Generator {
 		$root_style_rules                                = array(
 			'--wpc-carousel-gap:' . absint( isset( $this->carousel_params['margin'] ) ? $this->carousel_params['margin'] : 0 ) . 'px;',
 		);
+		if ( in_array( $this->carousel_params['image_fit'], array( 'contain', 'cover' ), true ) ) {
+			$root_style_rules[] = '--wpc-image-fit:' . $this->carousel_params['image_fit'] . ';';
+			$root_style_rules[] = '--wpc-image-hover-scale:' . ( $this->carousel_params['image_fit'] === 'contain' ? '1' : '1.02' ) . ';';
+		}
 
 		if ( $renderer === 'react' && in_array( $react_mode, array( 'full', 'render' ), true ) ) {
 			$root_style_rules[] = 'min-height:360px;';
@@ -420,7 +424,9 @@ class WP_Posts_Carousel_Generator {
 		$prefix     = $prefix ? $prefix : 'wpcf_';
 		$term_limit = isset( $filters['term_limit'] ) ? max( 1, min( 50, absint( $filters['term_limit'] ) ) ) : 12;
 		$show_all   = ! array_key_exists( 'show_all_option', $filters ) || $this->truthy( $filters['show_all_option'] );
-		$all_label  = ! empty( $filters['all_label'] ) ? sanitize_text_field( $filters['all_label'] ) : __( 'All', 'cci-posts-carousel' );
+		$all_label  = isset( $filters['all_label'] ) ? trim( sanitize_text_field( $filters['all_label'] ) ) : '';
+		// Earlier versions persisted All. Resolve the default separately for each taxonomy.
+		$use_taxonomy_label = '' === $all_label || 'All' === $all_label;
 		$groups     = array();
 
 		foreach ( $taxonomies as $taxonomy_name ) {
@@ -447,7 +453,10 @@ class WP_Posts_Carousel_Generator {
 			$items        = '';
 
 			if ( $show_all ) {
-				$items .= '<a class="cci-wpc-filterbar-option' . ( empty( $active_terms ) ? ' cci-wpc-active' : '' ) . '" href="' . esc_url( $this->filter_url( $param, 0 ) ) . '" data-wpc-filter-param="' . esc_attr( $param ) . '" data-wpc-filter-value=""' . ( empty( $active_terms ) ? ' aria-current="true"' : '' ) . '>' . esc_html( $all_label ) . '</a>';
+				$reset_label = $use_taxonomy_label && ! empty( $taxonomy->labels->all_items )
+					? $taxonomy->labels->all_items
+					: ( $use_taxonomy_label ? __( 'Show all items', 'cci-posts-carousel' ) : $all_label );
+				$items .= '<a class="cci-wpc-filterbar-option' . ( empty( $active_terms ) ? ' cci-wpc-active' : '' ) . '" href="' . esc_url( $this->filter_url( $param, 0 ) ) . '" data-wpc-filter-param="' . esc_attr( $param ) . '" data-wpc-filter-value=""' . ( empty( $active_terms ) ? ' aria-current="true"' : '' ) . '>' . esc_html( $reset_label ) . '</a>';
 			}
 
 			foreach ( $terms as $term ) {

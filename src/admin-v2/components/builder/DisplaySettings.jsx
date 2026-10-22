@@ -19,7 +19,7 @@ function fieldValue(values, field) {
     return values[field.name];
   }
 
-  return field.default_value ?? '';
+  return field.default_value ?? (field.name === 'featured_image_source' ? 'thumbnail' : '');
 }
 
 function unitForField(field) {
@@ -59,12 +59,35 @@ function FieldControl({ field, values, onChange }) {
   }
 
   if (field.type === 'select') {
+    const isImageSize = field.name === 'featured_image_source';
+    const savedValue = fieldValue(values, field);
+    const value = isImageSize
+      ? savedValue == null
+        ? 'thumbnail'
+        : savedValue || 'full'
+      : savedValue;
+    const label = isImageSize ? __('Image file size', 'cci-posts-carousel') : field.label;
+    const options = [...(field.options || [])];
+    if (isImageSize && value && !options.some((option) => option.value === value)) {
+      options.push({ value, label: value });
+    }
     return (
-      <Field label={field.label}>
+      <Field
+        label={label}
+        note={
+          isImageSize
+            ? __(
+                'Choose the image file WordPress loads. Larger files keep wide images sharper.',
+                'cci-posts-carousel',
+              )
+            : undefined
+        }
+      >
         <Select
-          value={fieldValue(values, field)}
-          onValueChange={(value) => onChange(field.name, value)}
-          options={field.options || []}
+          ariaLabel={label}
+          value={value}
+          onValueChange={(nextValue) => onChange(field.name, nextValue)}
+          options={options}
         />
       </Field>
     );
@@ -167,21 +190,42 @@ function GroupControl({ field, values, onChange }) {
   );
 }
 
-export default function DisplaySettings({ definitions, postTypes, value, onChange }) {
+export default function DisplaySettings({
+  definitions,
+  postTypes,
+  value,
+  imageSizeOverride,
+  onChange,
+}) {
   const fallbackDefinition = definitions.post || [];
   const selectedGroups = postTypes.filter(Boolean);
   const groups = selectedGroups.length
     ? selectedGroups
     : ['post'].filter((postType) => definitions[postType]);
 
+  const hasImageSizeOverride = ['thumbnail', 'medium', 'medium_large', 'large', 'full'].includes(
+    imageSizeOverride,
+  );
   const updateGroup = (groupName, fieldName, nextValue) => {
-    onChange({
-      ...value,
-      [groupName]: {
-        ...(value[groupName] || {}),
-        [fieldName]: nextValue,
+    const clearsOverride = hasImageSizeOverride && fieldName === 'featured_image_source';
+    // Preserve every other content type's effective size when replacing a legacy override.
+    const display = clearsOverride
+      ? Object.fromEntries(
+          [...new Set([...Object.keys(definitions), ...Object.keys(value), ...groups])].map(
+            (name) => [name, { ...(value[name] || {}), featured_image_source: imageSizeOverride }],
+          ),
+        )
+      : value;
+    onChange(
+      {
+        ...display,
+        [groupName]: {
+          ...(display[groupName] || {}),
+          [fieldName]: nextValue,
+        },
       },
-    });
+      { clearImageSizeOverride: clearsOverride },
+    );
   };
 
   if (!groups.length) {
@@ -196,7 +240,9 @@ export default function DisplaySettings({ definitions, postTypes, value, onChang
 
       {groups.map((groupName) => {
         const fields = definitions[groupName] || fallbackDefinition;
-        const values = value[groupName] || {};
+        const values = hasImageSizeOverride
+          ? { ...(value[groupName] || {}), featured_image_source: imageSizeOverride }
+          : value[groupName] || {};
 
         return (
           <div
