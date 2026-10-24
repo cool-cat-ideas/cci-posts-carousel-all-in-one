@@ -197,6 +197,7 @@ export default function CarouselSettings({
   onOptionsChange,
   errors = {},
   confirmAction,
+  supportsTwoRows = true,
 }) {
   const [newBreakpoint, setNewBreakpoint] = useState('');
   const [newBreakpointError, setNewBreakpointError] = useState('');
@@ -211,9 +212,17 @@ export default function CarouselSettings({
     value,
     options.transition_effect || (options.animate_out === 'fadeOut' ? 'fade' : 'slide'),
   );
-  const visibleToggles = TOGGLE_FIELDS.filter((field) => supportsEngine(field, value));
+  const rows = Number(options.rows) === 2 ? 2 : 1;
+  const twoRows = rows === 2 && supportsTwoRows;
+  const visibleToggles = TOGGLE_FIELDS.filter(
+    (field) =>
+      supportsEngine(field, value) &&
+      (!twoRows || !['center', 'auto_width', 'auto_height'].includes(field.name)),
+  );
   const visibleNumbers = NUMBER_FIELDS.filter((field) => supportsEngine(field, value));
-  const visibleSelects = SELECT_FIELDS.filter((field) => supportsEngine(field, value));
+  const visibleSelects = SELECT_FIELDS.filter(
+    (field) => supportsEngine(field, value) && (!twoRows || field.name !== 'direction'),
+  );
   const easingOptions = animations.length
     ? animations
     : [
@@ -308,27 +317,105 @@ export default function CarouselSettings({
         />
       </Field>
 
-      <Field label={__('Transition effect', 'cci-posts-carousel')}>
+      <Field label={__('Rows', 'cci-posts-carousel')}>
         <Select
-          value={transitionEffect}
-          onValueChange={updateTransitionEffect}
-          options={transitionEffectOptions(value).map((effect) => ({
-            ...effect,
-            label: __(effect.label, 'cci-posts-carousel'),
-          }))}
+          ariaLabel={__('Rows', 'cci-posts-carousel')}
+          value={String(rows)}
+          onValueChange={(nextValue) => updateOption('rows', Number(nextValue))}
+          options={[
+            { value: '1', label: __('One row', 'cci-posts-carousel') },
+            { value: '2', label: __('Two rows', 'cci-posts-carousel') },
+          ]}
         />
-        <small className="tw-text-xs tw-leading-5 tw-text-cci-wpc-muted">
-          {value === 'swiper'
-            ? __(
-                'Swiper supports native transition effects. Fade, cube, flip, cards and creative use one visible slide.',
-                'cci-posts-carousel',
-              )
-            : __(
-                'Owl supports the standard slide transition and a fade transition using Owl animation classes.',
-                'cci-posts-carousel',
-              )}
-        </small>
       </Field>
+      {rows === 2 && !supportsTwoRows && (
+        <InfoCallout className="alert-info tw-my-4">
+          {__(
+            'This template uses one row. Select a compatible card template to use two rows.',
+            'cci-posts-carousel',
+          )}
+        </InfoCallout>
+      )}
+      {twoRows && (
+        <>
+          <Field label={__('Rows on phones', 'cci-posts-carousel')}>
+            <Select
+              ariaLabel={__('Rows on phones', 'cci-posts-carousel')}
+              value={String(options.mobile_rows || 1)}
+              onValueChange={(nextValue) => updateOption('mobile_rows', Number(nextValue))}
+              options={[
+                { value: '1', label: __('One row', 'cci-posts-carousel') },
+                { value: '2', label: __('Two rows', 'cci-posts-carousel') },
+              ]}
+            />
+          </Field>
+          {[
+            {
+              name: 'rows_mobile_max',
+              label: __('Phone layout up to', 'cci-posts-carousel'),
+              min: 320,
+              max: 1024,
+              fallback: 767,
+            },
+            {
+              name: 'row_gap',
+              label: __('Gap between rows', 'cci-posts-carousel'),
+              min: 0,
+              max: 100,
+              fallback: 24,
+            },
+          ].map((field) => (
+            <Field
+              label={field.label}
+              key={field.name}
+              error={errors[`carousel_options.${field.name}`]}
+            >
+              <InputGroup invalid={Boolean(errors[`carousel_options.${field.name}`])}>
+                <InputGroupInput
+                  aria-label={field.label}
+                  type="number"
+                  min={field.min}
+                  max={field.max}
+                  value={options[field.name] ?? field.fallback}
+                  onChange={(event) => updateOption(field.name, Number(event.target.value))}
+                />
+                <InputGroupAddon>
+                  <InputGroupText>px</InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
+            </Field>
+          ))}
+          <InfoCallout className="alert-info tw-my-4">
+            {__(
+              'Both rows move together. The breakpoint item counts become column counts: 3 columns show 6 slides. Slides fill each column from top to bottom. This layout uses horizontal sliding and equal widths, without merged slides.',
+              'cci-posts-carousel',
+            )}
+          </InfoCallout>
+        </>
+      )}
+      {!twoRows && (
+        <Field label={__('Transition effect', 'cci-posts-carousel')}>
+          <Select
+            value={transitionEffect}
+            onValueChange={updateTransitionEffect}
+            options={transitionEffectOptions(value).map((effect) => ({
+              ...effect,
+              label: __(effect.label, 'cci-posts-carousel'),
+            }))}
+          />
+          <small className="tw-text-xs tw-leading-5 tw-text-cci-wpc-muted">
+            {value === 'swiper'
+              ? __(
+                  'Swiper supports native transition effects. Fade, cube, flip, cards and creative use one visible slide.',
+                  'cci-posts-carousel',
+                )
+              : __(
+                  'Owl supports the standard slide transition and a fade transition using Owl animation classes.',
+                  'cci-posts-carousel',
+                )}
+          </small>
+        </Field>
+      )}
 
       {value !== 'swiper' && (
         <Field label={__('Easing', 'cci-posts-carousel')}>

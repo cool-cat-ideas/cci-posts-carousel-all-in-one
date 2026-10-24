@@ -70,6 +70,12 @@
   width: 100%;
 }
 
+.cci-wpc-light-template-theme .cci-wpc-slide > .cci-wpc-woocommerce-card {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+}
+
 .cci-wpc-light-template-theme .cci-wpc-render-preview-slide.swiper-slide {
   flex: 0 0 auto;
 }

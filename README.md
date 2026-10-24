@@ -49,6 +49,10 @@ For image previews, open **Design > Second image on hover**, enable the option a
 
 See the [user guide](docs/2.1.0/user-guide.md) for configuration and the [developer guide](docs/2.1.0/developer-guide.md) for extensions.
 
+For two rows that move together, open **General > Rows** and choose **Two rows**.
+This layout is included in Free. Phone screens use one row by default; you can
+choose two and adjust the row gap. See the [two-row guide](docs/2.1.1/two-row-carousels.md).
+
 ## Updating from 2.0.x to 2.1.0
 
 This includes 2.0.0 through 2.0.4. Update directly; your saved carousels,

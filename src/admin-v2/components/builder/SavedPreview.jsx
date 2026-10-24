@@ -39,6 +39,14 @@ export default function SavedPreview({ preview, open, onClose }) {
 
   useEffect(() => {
     const canvas = bodyRef.current;
+    if (open && html && options.rows === 2 && canvas) {
+      const root = canvas.querySelector('.cci-wpc-carousel');
+      if (root) window.wpPostsCarouselLazyLoad?.render(root, preview, {});
+    }
+  }, [open, html, preview, options.rows]);
+
+  useEffect(() => {
+    const canvas = bodyRef.current;
     if (!open || !canvas) {
       return;
     }

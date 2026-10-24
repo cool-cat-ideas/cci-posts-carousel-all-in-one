@@ -25,6 +25,8 @@ We're **Cool Cat Ideas**, and we're proud of this plugin. We built it for the en
 
 = Plenty to create with, right from the start =
 
+* **Two rows, one carousel.** Show two rows of cards that move together. Keep one row on phones or choose two, with the existing shortcode and responsive column counts.
+
 * **Show a second image on hover.** Keep the featured image as primary and optionally preview another image from the content, WooCommerce gallery or your own selection. Off by default; touch screens keep the primary image.
 * **Keep selected slides first.** Pin articles, pages or custom slides, then automatically fill the remaining places from your query. Published posts appear once, and newly matching content can join without editing the carousel again.
 * **Your content, your selection.** Display posts, pages and custom post types. Pick categories and tags, or choose individual items for a hand-picked collection.
@@ -200,6 +202,8 @@ The plugin includes compiled JavaScript and CSS. The repositories above contain 
 == Changelog ==
 
 = 2.1.1 =
+
+* Added two-row carousels to Free: both rows move together, with separate phone row counts and spacing. Existing carousels keep one row.
 * Simplified image settings in Design: choose the image file size next to its width and height, then choose whether to show the whole image or crop it. The second image on hover is also configured in Design.
 * Category and tag filters above the carousel now use complete labels such as "All categories" and "All tags", translated into the visitor's language. These buttons clear the selection in their filter group.
 * Fixed REST authorization so administrative requests are checked after authentication and cookie nonce validation.

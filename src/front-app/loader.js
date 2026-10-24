@@ -1,11 +1,14 @@
 import runtime from './runtime';
 import { registerDefaultEngines } from './engines/index';
 import { installHoverImages } from '../shared/hover-images';
+import { installTwoRows } from './two-rows';
+import './two-rows.css';
 
 (function () {
   const selector = '.cci-wpc-carousel[data-wpc-api]';
   const controlRootSelector = '.cci-wpc-carousel, [data-wpc-react-root="true"]';
-  const controlViewportSelector = '.owl-stage-outer, .cci-wpc-render-preview-viewport';
+  const controlViewportSelector =
+    '.cci-rows-viewport, .owl-stage-outer, .cci-wpc-render-preview-viewport';
   const controlDotsSelector = '.owl-dots, .cci-wpc-render-preview-dots';
   const loaded = new WeakSet();
   const observedControlRoots = new WeakMap();
@@ -23,6 +26,7 @@ import { installHoverImages } from '../shared/hover-images';
   let resizeListenerAttached = false;
 
   registerDefaultEngines(runtime);
+  installTwoRows(runtime);
   installHoverImages();
 
   function scheduleControlSync(root) {
@@ -145,7 +149,7 @@ import { installHoverImages } from '../shared/hover-images';
 
     navigation.forEach(function (item) {
       root.querySelectorAll(item.selector).forEach(function (control) {
-        const isDisabled = control.classList.contains('disabled');
+        const isDisabled = control.disabled || control.classList.contains('disabled');
 
         if (control.tagName === 'BUTTON') {
           control.setAttribute('type', 'button');
@@ -968,6 +972,7 @@ import { installHoverImages } from '../shared/hover-images';
   }
 
   window.wpPostsCarouselLazyLoad = {
+    render: renderCarouselData,
     load: loadCarousel,
     refresh: scheduleObserve,
     refreshControls: syncAllControlRoots,

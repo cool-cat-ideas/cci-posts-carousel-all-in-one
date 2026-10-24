@@ -657,6 +657,9 @@ export default function VisualBuilder({ setNotice, confirmAction }) {
 
                   <CarouselSettings
                     carouselTypes={dictionaries.carousel_types || []}
+                    supportsTwoRows={(
+                      dictionaries.two_row_templates || ['default', 'light', 'simple']
+                    ).includes(normalizeTemplateName(form.template || 'default'))}
                     value={form.carousel_type || 'owl-carousel'}
                     options={form.carousel_options || {}}
                     animations={dictionaries.animations || []}

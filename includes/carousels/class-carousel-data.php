@@ -369,6 +369,7 @@ class WP_Posts_Carousel_Data {
 			? WP_Posts_Carousel_Icons::navigation_icons( $params, $config )
 			: array();
 
+		$params['rows'] = WP_Posts_Carousel_Config::uses_two_rows( $config ) ? 2 : 1;
 		return apply_filters( 'wp_posts_carousel_runtime_params', $params, $config );
 	}
 

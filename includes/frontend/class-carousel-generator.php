@@ -107,7 +107,12 @@ class WP_Posts_Carousel_Generator {
 			$this->carousel_params = WP_Posts_Carousel_Data::runtime_params( $config, $this->carousel_id );
 			$this->params          = $this->legacy_params( $this->carousel_params );
 		}
-		$renderer    = $this->resolve_renderer( $atts, $config );
+		$renderer = $this->resolve_renderer( $atts, $config );
+		$two_rows = WP_Posts_Carousel_Config::uses_two_rows( $config );
+		if ( $two_rows ) {
+			// The layout adapter groups original server-rendered cards before mounting the engine.
+			$renderer = 'php';
+		}
 		$react_mode  = $this->resolve_react_mode( $renderer, $atts, $config );
 		$lazy_render = $this->truthy( isset( $atts['lazy'] ) ? $atts['lazy'] : false );
 
@@ -198,7 +203,7 @@ class WP_Posts_Carousel_Generator {
 
 		$out .= '</div>';
 
-		if ( $engine_name === 'owl-carousel' ) {
+		if ( $engine_name === 'owl-carousel' && ! $two_rows ) {
 			$out .= $this->carousel( $this->carousel_params );
 		}
 
@@ -427,7 +432,7 @@ class WP_Posts_Carousel_Generator {
 		$all_label  = isset( $filters['all_label'] ) ? trim( sanitize_text_field( $filters['all_label'] ) ) : '';
 		// Earlier versions persisted All. Resolve the default separately for each taxonomy.
 		$use_taxonomy_label = '' === $all_label || 'All' === $all_label;
-		$groups     = array();
+		$groups             = array();
 
 		foreach ( $taxonomies as $taxonomy_name ) {
 			if ( ! taxonomy_exists( $taxonomy_name ) ) {
@@ -456,7 +461,7 @@ class WP_Posts_Carousel_Generator {
 				$reset_label = $use_taxonomy_label && ! empty( $taxonomy->labels->all_items )
 					? $taxonomy->labels->all_items
 					: ( $use_taxonomy_label ? __( 'Show all items', 'cci-posts-carousel' ) : $all_label );
-				$items .= '<a class="cci-wpc-filterbar-option' . ( empty( $active_terms ) ? ' cci-wpc-active' : '' ) . '" href="' . esc_url( $this->filter_url( $param, 0 ) ) . '" data-wpc-filter-param="' . esc_attr( $param ) . '" data-wpc-filter-value=""' . ( empty( $active_terms ) ? ' aria-current="true"' : '' ) . '>' . esc_html( $reset_label ) . '</a>';
+				$items      .= '<a class="cci-wpc-filterbar-option' . ( empty( $active_terms ) ? ' cci-wpc-active' : '' ) . '" href="' . esc_url( $this->filter_url( $param, 0 ) ) . '" data-wpc-filter-param="' . esc_attr( $param ) . '" data-wpc-filter-value=""' . ( empty( $active_terms ) ? ' aria-current="true"' : '' ) . '>' . esc_html( $reset_label ) . '</a>';
 			}
 
 			foreach ( $terms as $term ) {

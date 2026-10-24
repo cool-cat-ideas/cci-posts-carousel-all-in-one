@@ -66,6 +66,22 @@ const carouselSchema = z
       });
     }
     const options = form.carousel_options || {};
+    for (const [key, min, max] of [
+      ['rows', 1, 2],
+      ['mobile_rows', 1, 2],
+      ['rows_mobile_max', 320, 1024],
+      ['row_gap', 0, 100],
+    ]) {
+      if (options[key] === undefined) continue;
+      const value = Number(options[key]);
+      if (!Number.isInteger(value) || value < min || value > max) {
+        context.addIssue({
+          code: 'custom',
+          path: ['carousel_options', key],
+          message: __('Choose a valid row count, mobile width or row gap.', 'cci-posts-carousel'),
+        });
+      }
+    }
     const minimums = {
       slide_by: 1,
       start_position: 0,

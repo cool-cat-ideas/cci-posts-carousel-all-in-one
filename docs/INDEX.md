@@ -1,5 +1,7 @@
 # CCI Posts Carousel All In One documentation
 
+- [Two-row carousels](./2.1.1/two-row-carousels.md): configure two rows in Free, including phone layouts and responsive columns.
+
 Use these guides to build a carousel, publish it, adapt it to a theme and
 extend it with WordPress hooks.
 
