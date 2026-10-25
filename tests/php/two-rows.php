@@ -25,7 +25,7 @@ try {
 			)
 		);
 	}
-	$base   = array(
+	$base                 = array(
 		'version'  => 2,
 		'status'   => 'publish',
 		'source'   => array(
@@ -60,12 +60,35 @@ try {
 		),
 		'template' => array( 'name' => 'default' ),
 	);
-	$legacy = WP_Posts_Carousel_Config::normalize(
+	$legacy               = WP_Posts_Carousel_Config::normalize(
 		array(
 			'carousel_type'    => 'owl-carousel',
 			'carousel_options' => array( 'rows' => '2' ),
 		)
 	);
+	$fixture              = clone get_post( $posts[0] );
+	$authors              = get_users(
+		array(
+			'role'   => 'administrator',
+			'number' => 1,
+			'fields' => 'ID',
+		)
+	);
+	$fixture->post_author = $authors[0];
+	$metadata_config      = $base;
+	$metadata_config['template']['display']['post'] = array(
+		'show_created_date' => false,
+		'show_author'       => false,
+	);
+	$hidden = WP_Posts_Carousel_Slide_View_Model::from_post( $fixture, array(), $metadata_config );
+	cci_rows_expect( $hidden['html']['created_date'] === '' && $hidden['html']['author'] === '', 'Disabled author and date stay out of PHP template parts' );
+	cci_rows_expect( $hidden['meta']['created_date'] !== '' && $hidden['meta']['author'] !== '', 'Display flags preserve structured metadata' );
+	$metadata_config['template']['display']['post'] = array(
+		'show_created_date' => true,
+		'show_author'       => true,
+	);
+	$shown = WP_Posts_Carousel_Slide_View_Model::from_post( $fixture, array(), $metadata_config );
+	cci_rows_expect( $shown['html']['created_date'] !== '' && $shown['html']['author'] !== '', 'Enabled author and date remain available to PHP templates' );
 	cci_rows_expect( $legacy['engine']['options']['rows'] === 2, 'Legacy admin values normalize to two rows' );
 	$default = WP_Posts_Carousel_Config::normalize( array() );
 	cci_rows_expect( $default['engine']['options']['rows'] === 1, 'Existing carousels default to one row' );
