@@ -1,12 +1,8 @@
 # Two-row carousels
 
-Two rows are included in Free from version 2.2.0. They show more cards in one section and move
+Two rows are included in the base plugin from version 2.2.0. They show more cards in one section and move
 together with the same arrows, dots and dragging gestures. No new shortcode
 or Pro license is required.
-
-[Try the home office example](https://wordpress-demo.coolcatideas.com/cci-free-two-row-example/)
-to compare two rows with a single row, using both Owl and Swiper.
-The [demo catalog](https://wordpress-demo.coolcatideas.com/) links to the other layouts.
 
 ## Set up the layout
 
@@ -32,23 +28,20 @@ templates such as Story Commerce and Video Showcase keep their own layouts.
 Two rows use horizontal sliding, equal column widths and no merged slides.
 Single-row settings are retained when returning to one row.
 
-## Example: new arrivals on a shop homepage
+## Example: home office guides
 
-A shop can show six new arrivals at once in three columns and two rows.
-The demo compares this with the same eight products in one row, where only
-three cards are visible at once on desktop. Customers browse the next column
-and follow the relevant product link. Prices and buying buttons remain
-Pro features; Free can display linked product content cards.
+Show six guides in three columns and two rows: arranging a small desk, sharing a
+workspace, choosing lighting and keeping cables organized. Use eight articles
+so visitors can browse further with the shared arrows. On phones, choose one
+row and one column to keep each article easy to read.
 
-The local development example is `/cci-two-row-carousel-demo/` on port 4160.
-Refresh it with `scripts/compose wordpress dev exec -T app php
-/var/www/html/wp-content/plugins/cci-posts-carousel/scripts/seed-two-row-demo.php`
-from the workspace. It updates only marked example records and requires eight
-published sample products with images. It is not automatically installed on the demo stack
-at port 4060 or on public sites.
+The same layout works for linked products. Product prices and buying buttons
+belong to Pro; the base plugin can display linked product content cards.
 
 Two rows differ from Pro's connected carousels: a connected group uses an
 inspiration image to choose which separate product collection appears below.
+Pro's continuous rows instead show two independent collections moving in
+opposite directions. Those Pro features are previews of the upcoming edition.
 
 ## Extension notes
 
@@ -62,3 +55,20 @@ IDs are retained. The layout groups cards into columns before mounting the
 selected engine. Navigation and pagination reuse the selected template styles,
 including their mobile behavior. See the native [Owl options](https://owlcarousel2.github.io/OwlCarousel2/docs/api-options.html)
 and [Swiper API](https://swiperjs.com/swiper-api) for their navigation behavior.
+
+
+### Register a compatible template
+
+Use the wp_posts_carousel_two_row_templates filter after testing a custom
+card template with both supported engines. It receives one string[] of template
+names and must return string[]. It changes the supported-template list, not the
+saved row count or card markup. Register it in a site plugin or child theme:
+
+```php
+add_filter('wp_posts_carousel_two_row_templates', function (array $templates): array {
+    $templates[] = 'my-card-template';
+    return array_values(array_unique($templates));
+});
+```
+
+Replace my-card-template with the registered name of your tested template.
