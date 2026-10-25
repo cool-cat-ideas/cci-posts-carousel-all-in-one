@@ -1,13 +1,13 @@
 # CCI Posts Carousel All In One documentation
 
-- [Two-row carousels](./2.1.1/two-row-carousels.md): configure two rows in Free, including phone layouts and responsive columns.
+- [Two-row carousels](./2.2.0/two-row-carousels.md): configure two rows in Free, including phone layouts and responsive columns.
 
 Use these guides to build a carousel, publish it, adapt it to a theme and
 extend it with WordPress hooks.
 
 ## Versions covered
 
-This guide covers base plugin 2.1.1. Pinned slides with automatic fill require 2.1.0. Category autocomplete and automatic
+This guide covers base plugin 2.2.0. Pinned slides with automatic fill require 2.1.0. Category autocomplete and automatic
 query previews require base plugin 2.0.3 or newer. The base plugin and Pro have
 separate version numbers; they do not need to match. Check the installed
 versions under **Plugins > Installed Plugins**.

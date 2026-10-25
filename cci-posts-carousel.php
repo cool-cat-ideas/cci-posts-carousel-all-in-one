@@ -4,7 +4,7 @@
  * Plugin Name: CCI Posts Carousel All In One
  * Plugin URI: https://coolcatideas.com/products/cci-posts-carousel-all-in-one
  * Description: Create reusable carousels for posts, pages, products and manual slides, then place them with Gutenberg or a shortcode. Pro adds live WooCommerce data, buying actions, sales templates, Elementor and reports.
- * Version: 2.1.1
+ * Version: 2.2.0
  * Requires at least: 6.2
  * Tested up to: 7.1.3
  * Requires PHP: 7.4
@@ -45,7 +45,7 @@ if ( ! class_exists( 'WP_Posts_Carousel', false ) ) {
 	 */
 	class WP_Posts_Carousel {
 
-		public $version      = '2.1.1';
+		public $version      = '2.2.0';
 		public $settings     = array();
 		public $templates    = array();
 		public $integrations = array();

@@ -4,7 +4,7 @@ Tags: carousel, slider, posts, gutenberg, custom post types
 Requires at least: 6.2
 Tested up to: 7.1.3
 Requires PHP: 7.4
-Stable tag: 2.1.1
+Stable tag: 2.2.0
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -201,11 +201,15 @@ The plugin includes compiled JavaScript and CSS. The repositories above contain 
 
 == Changelog ==
 
-= 2.1.1 =
+= 2.2.0 =
 
+* Fixed two-row startup on pages where another carousel has already loaded Owl styles.
 * Fixed PHP templates displaying the author and publication date when those fields were disabled.
 * Allow Pro compositions to reuse original template cards and the configured Owl or Swiper library without starting a second carousel instance.
 * Added two-row carousels to Free: both rows move together, with separate phone row counts and spacing. Existing carousels keep one row.
+
+= 2.1.1 =
+
 * Simplified image settings in Design: choose the image file size next to its width and height, then choose whether to show the whole image or crop it. The second image on hover is also configured in Design.
 * Category and tag filters above the carousel now use complete labels such as "All categories" and "All tags", translated into the visitor's language. These buttons clear the selection in their filter group.
 * Fixed REST authorization so administrative requests are checked after authentication and cookie nonce validation.

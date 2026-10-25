@@ -51,7 +51,7 @@ See the [user guide](docs/2.1.0/user-guide.md) for configuration and the [develo
 
 For two rows that move together, open **General > Rows** and choose **Two rows**.
 This layout is included in Free. Phone screens use one row by default; you can
-choose two and adjust the row gap. See the [two-row guide](docs/2.1.1/two-row-carousels.md).
+choose two and adjust the row gap. See the [two-row guide](docs/2.2.0/two-row-carousels.md).
 
 ## Updating from 2.0.x to 2.1.0
 

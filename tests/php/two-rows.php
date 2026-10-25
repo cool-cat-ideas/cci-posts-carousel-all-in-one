@@ -123,6 +123,7 @@ try {
 			);
 			cci_rows_expect( strpos( $html, 'data-wpc-renderer="php"' ) !== false && substr_count( $html, 'data-wpc-slide-id=' ) === 7, 'Preview renders original template cards before grouping' );
 			cci_rows_expect( strpos( $html, '.owlCarousel(' ) === false, 'Owl cannot initialize before cards are grouped' );
+			cci_rows_expect( strpos( $html, 'display:block;' ) !== false, 'Two-row root stays observable when another carousel loads Owl CSS first' );
 		}
 	}
 	$single                              = $base;

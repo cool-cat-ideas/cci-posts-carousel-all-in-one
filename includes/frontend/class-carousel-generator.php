@@ -178,6 +178,11 @@ class WP_Posts_Carousel_Generator {
 			$root_style_rules[] = '--wpc-image-fit:' . $this->carousel_params['image_fit'] . ';';
 			$root_style_rules[] = '--wpc-image-hover-scale:' . ( $this->carousel_params['image_fit'] === 'contain' ? '1' : '1.02' ) . ';';
 		}
+		if ( $two_rows && ! $cards_only ) {
+			// Owl's stylesheet may already be present for another carousel. Keep
+			// this root observable until the row adapter mounts the native engine.
+			$root_style_rules[] = 'display:block;';
+		}
 
 		if ( $renderer === 'react' && in_array( $react_mode, array( 'full', 'render' ), true ) ) {
 			$root_style_rules[] = 'min-height:360px;';

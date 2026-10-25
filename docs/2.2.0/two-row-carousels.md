@@ -1,8 +1,12 @@
 # Two-row carousels
 
-Two rows are included in Free. They show more cards in one section and move
+Two rows are included in Free from version 2.2.0. They show more cards in one section and move
 together with the same arrows, dots and dragging gestures. No new shortcode
 or Pro license is required.
+
+[Try the home office example](https://wordpress-demo.coolcatideas.com/cci-free-two-row-example/)
+to compare two rows with a single row, using both Owl and Swiper.
+The [demo catalog](https://wordpress-demo.coolcatideas.com/) links to the other layouts.
 
 ## Set up the layout
 

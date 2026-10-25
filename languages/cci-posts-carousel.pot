@@ -2,7 +2,7 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: CCI Posts Carousel All In One 2.1.1\n"
+"Project-Id-Version: CCI Posts Carousel All In One 2.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cci-posts-carousel\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
