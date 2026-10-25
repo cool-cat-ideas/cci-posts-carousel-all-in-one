@@ -203,6 +203,7 @@ The plugin includes compiled JavaScript and CSS. The repositories above contain 
 
 = 2.1.1 =
 
+* Allow Pro compositions to reuse original template cards and the configured Owl or Swiper library without starting a second carousel instance.
 * Added two-row carousels to Free: both rows move together, with separate phone row counts and spacing. Existing carousels keep one row.
 * Simplified image settings in Design: choose the image file size next to its width and height, then choose whether to show the whole image or crop it. The second image on hover is also configured in Design.
 * Category and tag filters above the carousel now use complete labels such as "All categories" and "All tags", translated into the visitor's language. These buttons clear the selection in their filter group.

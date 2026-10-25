@@ -3,6 +3,7 @@ import { installSwiperTiming } from './swiper-timing.mjs';
 
 const swiperEngine = {
   label: 'Swiper',
+  load: loadSwiper,
   supportsReactRenderer: true,
   available() {
     if (swiperSource() === 'global') {

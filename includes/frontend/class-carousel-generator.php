@@ -80,6 +80,7 @@ class WP_Posts_Carousel_Generator {
 				'instance_id'           => '',
 				'force_editor_renderer' => false,
 				'lazy'                  => false,
+				'cards_only'            => false,
 			)
 		);
 
@@ -90,6 +91,7 @@ class WP_Posts_Carousel_Generator {
 			'force_editor_renderer' => ! empty( $args['force_editor_renderer'] ),
 			'lazy'                  => ! empty( $args['lazy'] ),
 			'_render_context'       => isset( $args['_render_context'] ) ? $args['_render_context'] : null,
+			'_cards_only'           => ! empty( $args['cards_only'] ),
 		);
 
 		return $this->render_config( $config, absint( $args['id'] ), $atts, absint( $args['index'] ) );
@@ -109,7 +111,8 @@ class WP_Posts_Carousel_Generator {
 		}
 		$renderer = $this->resolve_renderer( $atts, $config );
 		$two_rows = WP_Posts_Carousel_Config::uses_two_rows( $config );
-		if ( $two_rows ) {
+		$cards_only = ! empty( $atts['_cards_only'] );
+		if ( $two_rows || $cards_only ) {
 			// The layout adapter groups original server-rendered cards before mounting the engine.
 			$renderer = 'php';
 		}
@@ -203,7 +206,7 @@ class WP_Posts_Carousel_Generator {
 
 		$out .= '</div>';
 
-		if ( $engine_name === 'owl-carousel' && ! $two_rows ) {
+		if ( $engine_name === 'owl-carousel' && ! $two_rows && ! $cards_only ) {
 			$out .= $this->carousel( $this->carousel_params );
 		}
 
