@@ -92,6 +92,8 @@ if ( ! class_exists( 'WP_Posts_Carousel', false ) ) {
 			include_once 'includes/carousels/class-slide-view-model.php';
 			include_once 'includes/carousels/class-hover-image.php';
 			include_once 'includes/frontend/class-carousel-query-builder.php';
+			include_once 'includes/frontend/class-loading-skeleton.php';
+			include_once 'includes/frontend/class-carousel-controls.php';
 			include_once 'includes/templates/class-templates.php';
 			include_once 'includes/carousels/class-render-context.php';
 			include_once 'includes/templates/class-template-assets.php';

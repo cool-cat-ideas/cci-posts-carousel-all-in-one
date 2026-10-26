@@ -668,6 +668,10 @@ export default function VisualBuilder({ setNotice, confirmAction }) {
                       setForm({
                         ...form,
                         carousel_type: carouselType,
+                        carousel_options: {
+                          ...form.carousel_options,
+                          direction: carouselType === 'swiper' ? form.carousel_options?.direction || 'horizontal' : 'horizontal',
+                        },
                         renderer: carouselType === 'swiper' ? 'react' : form.renderer,
                       })
                     }

@@ -234,6 +234,8 @@ class WP_Posts_Carousel_Config {
 				: self::array_get( $config['engine']['options'], 'breakpoints', array() )
 		);
 		$config['engine']['options']['breakpoints']   = $config['engine']['options']['items_to_show'];
+		$config['engine']['options']['direction'] = $config['engine']['name'] === 'swiper' && ( $config['engine']['options']['direction'] ?? '' ) === 'vertical' && $config['engine']['options']['rows'] === 1 ? 'vertical' : 'horizontal';
+		$config['engine']['options']['vertical_height'] = max( 240, min( 1600, is_numeric( $config['engine']['options']['vertical_height'] ?? null ) ? (int) $config['engine']['options']['vertical_height'] : 480 ) );
 		$config['template']['name']                   = self::normalize_template_name( self::array_get( $config['template'], 'name', 'default' ) );
 		$config['template']['display']                = is_array( self::array_get( $config['template'], 'display', array() ) )
 			? self::array_get( $config['template'], 'display', array() )

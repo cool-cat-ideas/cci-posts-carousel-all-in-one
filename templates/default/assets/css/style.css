@@ -798,3 +798,26 @@
     grid-template-rows: repeat(7, auto);
   }
 }
+
+/* Vertical Swiper: keep the Default card in a compact reading column. */
+.cci-wpc-default-template-theme[data-wpc-direction='vertical'] {
+  padding-bottom: 0;
+}
+.cci-wpc-default-template-theme [data-wpc-direction='vertical'] .cci-wpc-container,
+.cci-wpc-default-template-theme [data-wpc-direction='vertical'] .cci-wpc-product-card {
+  min-height: 0;
+  height: 100%;
+}
+.cci-wpc-default-template-theme [data-wpc-direction='vertical'] .cci-wpc-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.cci-wpc-default-template-theme [data-wpc-direction='vertical'] .cci-wpc-title {
+  font-size: 20px;
+  line-height: 1.3;
+}
+.cci-wpc-default-template-theme [data-wpc-direction='vertical'] .cci-wpc-card-actions {
+  margin-top: auto;
+}

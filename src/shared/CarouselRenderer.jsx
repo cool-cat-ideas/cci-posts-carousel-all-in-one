@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { cropPosition, descriptionText, itemSpan, stripHtml, truthy } from './carousel-view-utils';
 import './carousel-renderer.css';
+import './vertical-carousel.css';
 import { carouselTimings } from './carousel-timing.mjs';
 import { installHoverImages } from './hover-images';
 
@@ -298,6 +299,29 @@ function templateExtensionRenderer(templateName) {
   return typeof renderer === 'function' ? renderer : null;
 }
 
+// Native template scripts and Swiper own the descendants of this static markup.
+// Keep them mounted when React updates the active index.
+const StaticMarkup = memo(function StaticMarkup({ className, html, nodeRef, style }) {
+  return (
+    <div
+      ref={nodeRef}
+      className={className}
+      style={style}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+});
+
+function TemplateSlide({ carousel, className = '', index, style }) {
+  return (
+    <StaticMarkup
+      className={`cci-wpc-render-preview-slide cci-wpc-template-slide ${className}`}
+      style={style}
+      html={carousel.templateCards[index]}
+    />
+  );
+}
+
 function ExtensionTemplateCard({
   carousel,
   className = '',
@@ -376,6 +400,7 @@ export default function CarouselRenderer({
   const paginationRef = useRef(null);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+  const customControlsRef = useRef(null);
   const engineInstanceRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [adapterFailed, setAdapterFailed] = useState(false);
@@ -402,6 +427,15 @@ export default function CarouselRenderer({
   }, []);
 
   const slides = Array.isArray(carousel?.slides) ? carousel.slides : [];
+  const templateCards = useMemo(() => {
+    if (options.direction !== 'vertical' || !carousel?.html) return [];
+    const fragment = document.createElement('template');
+    fragment.innerHTML = carousel.html;
+    const container = fragment.content.querySelector('.cci-wpc-carousel');
+    return Array.from(container?.children || [])
+      .filter((card) => card.matches('.cci-wpc-slide, [data-wpc-slide-id]'))
+      .map((card) => card.outerHTML);
+  }, [carousel?.html, options.direction]);
   const visibleSlides = limit ? slides.slice(0, limit) : slides;
   const isCarousel = layout === 'carousel';
   const items = extensionSlideRenderer
@@ -417,6 +451,10 @@ export default function CarouselRenderer({
     engineAdapter?.mount &&
     engineName !== 'fallback';
   const activeEngineName = usesEngineAdapter ? engineName : 'fallback';
+  const customControlsHtml =
+    usesEngineAdapter && engineName === 'swiper' && typeof carousel?.controls_html === 'string'
+      ? carousel.controls_html.trim()
+      : '';
   const autoplay =
     !usesEngineAdapter &&
     interactive &&
@@ -463,18 +501,33 @@ export default function CarouselRenderer({
 
     let cleanup = null;
     let cancelled = false;
+    const customControl = (name, fallback) =>
+      customControlsRef.current
+        ? customControlsRef.current.querySelector(`[data-wpc-control="${name}"]`)
+        : fallback;
+    const previousControl = customControl('previous', prevRef.current);
+    const nextControl = customControl('next', nextRef.current);
+    for (const [control, label] of [
+      [previousControl, labels.previous],
+      [nextControl, labels.next],
+    ]) {
+      if (control?.tagName === 'BUTTON') control.type = 'button';
+      if (control && !control.hasAttribute('aria-label') && !control.textContent.trim() && label) {
+        control.setAttribute('aria-label', label);
+      }
+    }
     const result = engineAdapter.mount({
       carousel,
       labels,
-      nextEl: nextRef.current,
+      nextEl: nextControl,
       onActiveIndexChange: (index) =>
         setActiveIndex(Math.max(0, Math.min(maxIndex, Number(index) || 0))),
       onReady: (instance) => {
         engineInstanceRef.current = instance || null;
       },
       options,
-      paginationEl: paginationRef.current,
-      prevEl: prevRef.current,
+      paginationEl: customControl('pagination', paginationRef.current),
+      prevEl: previousControl,
       root: rootRef.current,
       slidesCount: visibleSlides.length,
     });
@@ -541,12 +594,20 @@ export default function CarouselRenderer({
   const showCategories = truthy(options.show_categories, true);
   const showTags = truthy(options.show_tags, false);
   const showAuthor = truthy(options.show_author, false);
-  const autoWidth = truthy(options.auto_width, false);
+  const autoWidth = options.direction !== 'vertical' && truthy(options.auto_width, false);
   const previousLabel = labels.previous || 'previous';
   const nextLabel = labels.next || 'next';
-  const isVerticalDirection = String(options.direction || 'horizontal') === 'vertical';
+  const isVerticalDirection =
+    activeEngineName === 'swiper' && String(options.direction || 'horizontal') === 'vertical';
   const navIcons = navigationIconPair(options, isVerticalDirection);
-  const SlideComponent = extensionSlideRenderer ? ExtensionTemplateCard : SlideCard;
+  const usesTemplateCards =
+    isVerticalDirection && templateCards.length === slides.length && templateCards.length > 0;
+  const SlideComponent = usesTemplateCards
+    ? TemplateSlide
+    : extensionSlideRenderer
+      ? ExtensionTemplateCard
+      : SlideCard;
+  const cardCarousel = usesTemplateCards ? { ...carousel, templateCards } : carousel;
   const lazyImages = truthy(options.lazy_images, true);
   const firstImageEager = truthy(options.first_image_eager, false);
 
@@ -636,6 +697,9 @@ export default function CarouselRenderer({
       data-wpc-engine-adapter={activeEngineName}
       data-wpc-react-view="carousel"
       data-wpc-template={normalizedTemplateName}
+      data-wpc-direction={isVerticalDirection ? 'vertical' : 'horizontal'}
+      data-wpc-navigation={truthy(options.nav, true) ? 'true' : 'false'}
+      data-wpc-pagination={truthy(options.dots, true) ? 'true' : 'false'}
       onBlur={resumeWhenFocusLeaves}
       onFocus={pauseForInteraction}
       onMouseEnter={pauseFallbackOnHover}
@@ -646,6 +710,13 @@ export default function CarouselRenderer({
         <div
           ref={rootRef}
           className={`cci-wpc-render-preview-viewport${usesEngineAdapter ? ' swiper' : ''}`}
+          style={
+            isVerticalDirection
+              ? {
+                  height: `${Math.max(240, Math.min(1600, Number(options.vertical_height) || 480))}px`,
+                }
+              : undefined
+          }
         >
           <div
             className={`cci-wpc-render-preview-track${usesEngineAdapter ? ' swiper-wrapper' : ''}`}
@@ -666,7 +737,7 @@ export default function CarouselRenderer({
                 imageLoading={
                   firstImageEager && index === 0 ? 'eager' : lazyImages ? 'lazy' : undefined
                 }
-                carousel={carousel}
+                carousel={cardCarousel}
                 renderer={extensionSlideRenderer}
                 showButton={showButton}
                 showAuthor={showAuthor}
@@ -721,76 +792,84 @@ export default function CarouselRenderer({
         </div>
       )}
 
-      <div
-        className="cci-wpc-render-preview-chrome"
-        aria-hidden={interactive && isCarousel ? undefined : 'true'}
-      >
-        {truthy(options.nav, true) && (
-          <div className="cci-wpc-render-preview-nav">
-            {interactive && isCarousel ? (
-              <>
-                <button
-                  ref={prevRef}
-                  type="button"
-                  className="cci-wpc-render-preview-prev"
-                  aria-label={previousLabel}
-                  disabled={
-                    usesEngineAdapter ? undefined : !canNavigate || (!loop && activeIndex === 0)
-                  }
-                  onClick={!usesEngineAdapter ? previous : undefined}
-                >
-                  <NavigationIcon icon={navIcons.previous} />
-                </button>
-                <button
-                  ref={nextRef}
-                  type="button"
-                  className="cci-wpc-render-preview-next"
-                  aria-label={nextLabel}
-                  disabled={
-                    usesEngineAdapter
-                      ? undefined
-                      : !canNavigate || (!loop && activeIndex >= maxIndex)
-                  }
-                  onClick={!usesEngineAdapter ? next : undefined}
-                >
-                  <NavigationIcon icon={navIcons.next} />
-                </button>
-              </>
-            ) : (
-              <>
-                <span>
-                  <NavigationIcon icon={navIcons.previous} />
-                </span>
-                <span>
-                  <NavigationIcon icon={navIcons.next} />
-                </span>
-              </>
-            )}
-          </div>
-        )}
-        {truthy(options.dots, true) &&
-          (usesEngineAdapter ? (
-            <div ref={paginationRef} className="cci-wpc-render-preview-dots swiper-pagination" />
-          ) : (
-            <div className="cci-wpc-render-preview-dots">
-              {visibleSlides
-                .slice(0, Math.max(1, maxIndex + 1))
-                .map((slide, index) =>
-                  interactive && isCarousel ? (
-                    <button
-                      key={`${slide.id}-${index}`}
-                      type="button"
-                      aria-label={`${index + 1}`}
-                      className={index === activeIndex ? 'cci-wpc-active' : ''}
-                      onClick={() => goTo(index, 'dots')}
-                    />
-                  ) : (
-                    <span key={`${slide.id}-${index}`} />
-                  ),
-                )}
+      {customControlsHtml ? (
+        <StaticMarkup
+          nodeRef={customControlsRef}
+          className="cci-wpc-custom-controls"
+          html={customControlsHtml}
+        />
+      ) : (
+        <div
+          className="cci-wpc-render-preview-chrome"
+          aria-hidden={interactive && isCarousel ? undefined : 'true'}
+        >
+          {truthy(options.nav, true) && (
+            <div className={`cci-wpc-render-preview-nav${isVerticalDirection ? ' owl-nav' : ''}`}>
+              {interactive && isCarousel ? (
+                <>
+                  <button
+                    ref={prevRef}
+                    type="button"
+                    className={`cci-wpc-render-preview-prev${isVerticalDirection ? ' owl-prev' : ''}`}
+                    aria-label={previousLabel}
+                    disabled={
+                      usesEngineAdapter ? undefined : !canNavigate || (!loop && activeIndex === 0)
+                    }
+                    onClick={!usesEngineAdapter ? previous : undefined}
+                  >
+                    <NavigationIcon icon={navIcons.previous} />
+                  </button>
+                  <button
+                    ref={nextRef}
+                    type="button"
+                    className={`cci-wpc-render-preview-next${isVerticalDirection ? ' owl-next' : ''}`}
+                    aria-label={nextLabel}
+                    disabled={
+                      usesEngineAdapter
+                        ? undefined
+                        : !canNavigate || (!loop && activeIndex >= maxIndex)
+                    }
+                    onClick={!usesEngineAdapter ? next : undefined}
+                  >
+                    <NavigationIcon icon={navIcons.next} />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <span>
+                    <NavigationIcon icon={navIcons.previous} />
+                  </span>
+                  <span>
+                    <NavigationIcon icon={navIcons.next} />
+                  </span>
+                </>
+              )}
             </div>
-          ))}
-      </div>
+          )}
+          {truthy(options.dots, true) &&
+            (usesEngineAdapter ? (
+              <div ref={paginationRef} className="cci-wpc-render-preview-dots swiper-pagination" />
+            ) : (
+              <div className="cci-wpc-render-preview-dots">
+                {visibleSlides
+                  .slice(0, Math.max(1, maxIndex + 1))
+                  .map((slide, index) =>
+                    interactive && isCarousel ? (
+                      <button
+                        key={`${slide.id}-${index}`}
+                        type="button"
+                        aria-label={`${index + 1}`}
+                        className={index === activeIndex ? 'cci-wpc-active' : ''}
+                        onClick={() => goTo(index, 'dots')}
+                      />
+                    ) : (
+                      <span key={`${slide.id}-${index}`} />
+                    ),
+                  )}
+              </div>
+            ))}
+        </div>
+      )}
     </div>
   );
 }

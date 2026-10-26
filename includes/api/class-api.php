@@ -589,6 +589,11 @@ class WP_Posts_Carousel_API {
 		}
 
 		$generator = new WP_Posts_Carousel_Generator();
+		// Swiper reuses the selected PHP card template in vertical layouts.
+		// This also preserves child-theme overrides and item-content hooks.
+		if ( ( $config['engine']['name'] ?? '' ) === 'swiper' && ( $config['engine']['options']['direction'] ?? '' ) === 'vertical' ) {
+			$args['cards_only'] = true;
+		}
 
 		return $generator->generate_from_config( $config, $args );
 	}

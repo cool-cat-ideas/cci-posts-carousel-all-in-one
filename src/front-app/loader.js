@@ -341,6 +341,17 @@ import './two-rows.css';
   function handleMountError(element, error) {
     element.dataset.wpcLazyState = 'error';
     element.removeAttribute('aria-busy');
+    const presentation = element.querySelector('[data-wpc-loading-presentation]');
+    if (presentation) {
+      presentation.dataset.wpcLoadingState = 'error';
+      element.style.display = 'block';
+      const message = presentation.querySelector('[data-wpc-loading-message]');
+      message.textContent = message.dataset.wpcErrorLabel;
+      message.classList.remove('screen-reader-text');
+      const retry = presentation.querySelector('[data-wpc-loading-retry]');
+      retry.hidden = false;
+      retry.onclick = () => loadCarousel(element, { force: true }).catch(() => {});
+    }
 
     dispatch(element, 'wp-posts-carousel:error', {
       error,
@@ -558,6 +569,22 @@ import './two-rows.css';
   }
 
   function renderCarouselData(element, data, options) {
+    if (Array.isArray(data.slides) && data.slides.length === 0) {
+      destroyOwlCarousel(element);
+      reactRootForElement(element)?.remove();
+      const message = element.ownerDocument.createElement('p');
+      message.className = 'cci-wpc-empty';
+      message.setAttribute('role', 'status');
+      message.textContent = runtimeLabel('noContent', 'No content found.');
+      element.replaceChildren(message);
+      element.style.display = 'block';
+      element.style.minHeight = '';
+      element.removeAttribute('aria-hidden');
+      element.removeAttribute('aria-busy');
+      element.dataset.wpcLazyState = 'ready';
+      loaded.add(element);
+      return Promise.resolve(element);
+    }
     const rendererName = runtime.hooks.applyFilters(
       'carouselRenderer',
       element.dataset.wpcRenderer || 'php',
@@ -574,7 +601,9 @@ import './two-rows.css';
     data = runtime.hooks.applyFilters('carouselData', data, currentElement);
     loaded.add(currentElement);
     currentElement.dataset.wpcLazyState = 'ready';
-    currentElement.removeAttribute('aria-busy');
+    if (!currentElement.querySelector('[data-wpc-loading-presentation]')) {
+      currentElement.removeAttribute('aria-busy');
+    }
     currentElement.wpPostsCarouselData = data;
 
     dispatch(currentElement, 'wp-posts-carousel:ready', {
@@ -589,6 +618,8 @@ import './two-rows.css';
         return waitForReactRoot(currentElement);
       })
       .then(function () {
+        currentElement.querySelector('[data-wpc-loading-presentation]')?.remove();
+        currentElement.removeAttribute('aria-busy');
         observeControlRoots(currentElement);
 
         return currentElement;
@@ -669,6 +700,15 @@ import './two-rows.css';
     activeRequests.set(element, controller);
     loaded.add(element);
     element.dataset.wpcLazyState = 'loading';
+    const presentation = element.querySelector('[data-wpc-loading-presentation]');
+    if (presentation) {
+      presentation.dataset.wpcLoadingState = 'loading';
+      element.setAttribute('aria-busy', 'true');
+      const message = presentation.querySelector('[data-wpc-loading-message]');
+      message.textContent = message.dataset.wpcLoadingLabel;
+      message.classList.add('screen-reader-text');
+      presentation.querySelector('[data-wpc-loading-retry]').hidden = true;
+    }
 
     return fetch(carouselApiUrl(element, options.filterParams), {
       credentials: 'same-origin',

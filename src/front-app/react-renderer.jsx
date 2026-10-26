@@ -279,6 +279,9 @@ function syncMountNodeMetadata(mountNode, element) {
   const template = element.dataset.wpcTemplate || '';
   const engine = element.dataset.wpcEngine || '';
   const demoKey = element.dataset.wpcDemoKey || '';
+  const vertical = engine === 'swiper' && element.wpPostsCarouselData?.engine?.options?.direction === 'vertical';
+  mountNode.dataset.wpcDirection = vertical ? 'vertical' : 'horizontal';
+  if (vertical) classes.push('cci-wpc-carousel');
 
   if (template) {
     classes.push(`cci-wpc-${template}-template-theme`);

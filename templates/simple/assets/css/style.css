@@ -716,3 +716,22 @@
     display: none;
   }
 }
+
+/* Vertical Swiper: retain Simple's editorial rule and compact type. */
+.cci-wpc-simple-template-theme[data-wpc-direction='vertical'] {
+  padding-bottom: 0;
+}
+.cci-wpc-simple-template-theme [data-wpc-direction='vertical'] .cci-wpc-container,
+.cci-wpc-simple-template-theme [data-wpc-direction='vertical'] .cci-wpc-product-card {
+  height: 100%;
+  min-height: 0;
+}
+.cci-wpc-simple-template-theme [data-wpc-direction='vertical'] .cci-wpc-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.cci-wpc-simple-template-theme [data-wpc-direction='vertical'] .cci-wpc-card-actions {
+  margin-top: auto;
+}

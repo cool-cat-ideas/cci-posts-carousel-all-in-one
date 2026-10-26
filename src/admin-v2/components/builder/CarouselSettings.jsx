@@ -214,10 +214,11 @@ export default function CarouselSettings({
   );
   const rows = Number(options.rows) === 2 ? 2 : 1;
   const twoRows = rows === 2 && supportsTwoRows;
+  const vertical = value === 'swiper' && !twoRows && options.direction === 'vertical';
   const visibleToggles = TOGGLE_FIELDS.filter(
     (field) =>
       supportsEngine(field, value) &&
-      (!twoRows || !['center', 'auto_width', 'auto_height'].includes(field.name)),
+      (!(twoRows || vertical) || !['center', 'auto_width', 'auto_height'].includes(field.name)),
   );
   const visibleNumbers = NUMBER_FIELDS.filter((field) => supportsEngine(field, value));
   const visibleSelects = SELECT_FIELDS.filter(
@@ -316,6 +317,15 @@ export default function CarouselSettings({
           }))}
         />
       </Field>
+
+      {value !== 'swiper' && (
+        <InfoCallout className="alert-info tw-my-4">
+          {__(
+            'Vertical scrolling requires Swiper. Select Swiper to enable this direction.',
+            'cci-posts-carousel',
+          )}
+        </InfoCallout>
+      )}
 
       <Field label={__('Rows', 'cci-posts-carousel')}>
         <Select
@@ -442,6 +452,31 @@ export default function CarouselSettings({
             </Field>
           ))}
         </div>
+      )}
+
+      {vertical && (
+        <>
+          <Field label={__('Vertical viewport height', 'cci-posts-carousel')}>
+            <InputGroup>
+              <InputGroupInput
+                type="number"
+                min={240}
+                max={1600}
+                value={options.vertical_height || 480}
+                onChange={(event) => updateOption('vertical_height', Number(event.target.value))}
+              />
+              <InputGroupAddon>
+                <InputGroupText>px</InputGroupText>
+              </InputGroupAddon>
+            </InputGroup>
+          </Field>
+          <InfoCallout className="alert-info tw-my-4">
+            {__(
+              'The viewport keeps this height while cards move up and down. Use one visible item for a full card, or increase the height when showing several items. Two-row layouts scroll horizontally.',
+              'cci-posts-carousel',
+            )}
+          </InfoCallout>
+        </>
       )}
 
       <div className="tw-grid tw-grid-cols-1 tw-gap-2 sm:tw-grid-cols-2">

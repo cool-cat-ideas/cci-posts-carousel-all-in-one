@@ -203,6 +203,9 @@ The plugin includes compiled JavaScript and CSS. The repositories above contain 
 
 = 2.2.0 =
 
+* Added theme overrides for Swiper control HTML: arrange arrows and pagination in your own markup without writing a slider implementation.
+* Added vertical scrolling with a configurable viewport height for Swiper. Owl and two-row layouts keep horizontal scrolling.
+* Added responsive loading skeletons for lazy-loaded and React-rendered carousels, with theme HTML overrides and loading-error retry controls.
 * Fixed two-row startup on pages where another carousel has already loaded Owl styles.
 * Fixed PHP templates displaying the author and publication date when those fields were disabled.
 * Allow Pro compositions to reuse original template cards and the configured Owl or Swiper library without starting a second carousel instance.

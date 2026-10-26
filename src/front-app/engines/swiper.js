@@ -19,6 +19,8 @@ const swiperEngine = {
       }
 
       const options = context.options || {};
+      const vertical = swiperDirection(options) === 'vertical';
+      const autoWidth = !vertical && truthy(options.auto_width, false);
       const timings = carouselTimings(options);
       if (prefersReducedMotion()) {
         timings.autoplay = timings.navigation = timings.dots = 0;
@@ -26,6 +28,7 @@ const swiperEngine = {
       const preview = context.root.closest('[data-wpc-preview-viewport]');
       const previousDirection = context.root.getAttribute('dir');
       const {
+        A11y,
         Autoplay,
         EffectCards,
         EffectCoverflow,
@@ -53,7 +56,9 @@ const swiperEngine = {
       const loopEnabled = context.slidesCount > 1 && truthy(options.loop, true);
       const rewindEnabled =
         !loopEnabled && context.slidesCount > 1 && truthy(options.rewind, false);
-      const hasNavigation = Boolean(truthy(options.nav, true) && context.prevEl && context.nextEl);
+      const hasNavigation = Boolean(
+        truthy(options.nav, true) && (context.prevEl || context.nextEl),
+      );
 
       if (truthy(options.rtl, false)) {
         context.root.setAttribute('dir', 'rtl');
@@ -61,6 +66,7 @@ const swiperEngine = {
 
       const instance = new Swiper(context.root, {
         modules: [
+          A11y,
           Autoplay,
           effectModule,
           FreeMode,
@@ -69,11 +75,17 @@ const swiperEngine = {
           Navigation,
           Pagination,
         ].filter(Boolean),
+        a11y: {
+          enabled: true,
+          paginationBulletMessage: (runtimeConfig().labels?.goToSlide || 'Go to slide %d').replace(
+            '%d',
+            '{{index}}',
+          ),
+        },
         allowTouchMove: truthy(options.touch_drag, true),
-        autoHeight: truthy(options.auto_height, true),
+        autoHeight: !vertical && truthy(options.auto_height, true),
         autoplay: autoplayOptions(options),
-        breakpoints:
-          singleSlideEffect || truthy(options.auto_width, false) ? {} : breakpoints(options),
+        breakpoints: singleSlideEffect || autoWidth ? {} : breakpoints(options),
         breakpointsBase: preview ? `#${CSS.escape(preview.id)}` : 'window',
         cardsEffect: {
           slideShadows: false,
@@ -134,11 +146,7 @@ const swiperEngine = {
         slidesOffsetAfter: numberOption(options.stage_padding, 0),
         slidesOffsetBefore: numberOption(options.stage_padding, 0),
         slidesPerGroup: singleSlideEffect ? 1 : Math.max(1, numberOption(options.slide_by, 1)),
-        slidesPerView: singleSlideEffect
-          ? 1
-          : truthy(options.auto_width, false)
-            ? 'auto'
-            : currentItemsForWidth(options),
+        slidesPerView: singleSlideEffect ? 1 : autoWidth ? 'auto' : currentItemsForWidth(options),
         spaceBetween: numberOption(options.margin, 0),
         speed: timings.navigation,
         touchRatio: numberOption(options.touch_ratio, 1),
@@ -225,8 +233,8 @@ const swiperEngine = {
         const disablePrevious = locked || (!loopEnabled && !rewindEnabled && instance.isBeginning);
         const disableNext = locked || (!loopEnabled && !rewindEnabled && instance.isEnd);
 
-        context.prevEl.classList.toggle('swiper-button-lock', locked);
-        context.nextEl.classList.toggle('swiper-button-lock', locked);
+        context.prevEl?.classList.toggle('swiper-button-lock', locked);
+        context.nextEl?.classList.toggle('swiper-button-lock', locked);
         setNavigationDisabled(context.prevEl, disablePrevious);
         setNavigationDisabled(context.nextEl, disableNext);
       };

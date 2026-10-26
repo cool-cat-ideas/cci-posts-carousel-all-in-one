@@ -185,9 +185,9 @@ class WP_Posts_Carousel_Generator {
 		}
 
 		if ( $renderer === 'react' && in_array( $react_mode, array( 'full', 'render' ), true ) ) {
+			$root_style_rules[] = 'display:block;';
 			$root_style_rules[] = 'min-height:360px;';
 			$root_style_rules[] = 'overflow:hidden;';
-			$root_style_rules[] = 'visibility:hidden;';
 		} elseif ( $lazy_render ) {
 			$root_style_rules[] = 'display:block;';
 			$root_style_rules[] = 'min-height:360px;';
@@ -196,11 +196,12 @@ class WP_Posts_Carousel_Generator {
 
 		$root_style            = ' style="' . esc_attr( implode( '', $root_style_rules ) ) . '"';
 		$filterbar             = $this->frontend_filters_html( $config, $post_id );
-		$lazy_render_attribute = $lazy_render ? ' data-wpc-lazy-render="true" aria-busy="true"' : '';
+		$pending = $lazy_render || ( $renderer === 'react' && in_array( $react_mode, array( 'full', 'render' ), true ) );
+		$lazy_render_attribute = ( $lazy_render ? ' data-wpc-lazy-render="true"' : '' ) . ( $pending ? ' aria-busy="true"' : '' );
 		$out                   = $filterbar . '<div id="' . esc_attr( $this->carousel_id ) . '" class="' . esc_attr( $template_classes ) . ' ' . esc_attr( $engine_class ) . '" data-wpc-id="' . esc_attr( $post_id ) . '"' . $demo_key_attribute . $root_style . $lazy_render_attribute . ' data-wpc-renderer="' . esc_attr( $renderer ) . '" data-wpc-react-mode="' . esc_attr( $react_mode ) . '" data-wpc-api="' . esc_url( $api_url ) . '" data-wpc-engine="' . esc_attr( $engine_name ) . '" data-wpc-template="' . esc_attr( $this->template['name'] ) . '" data-wpc-filter-prefix="' . esc_attr( $filter_prefix ) . '" data-wpc-config-version="' . esc_attr( $config_version ) . '" data-wpc-prev-label="' . esc_attr__( 'previous', 'cci-posts-carousel' ) . '" data-wpc-next-label="' . esc_attr__( 'next', 'cci-posts-carousel' ) . '">';
 
 		if ( $lazy_render || ( $renderer === 'react' && in_array( $react_mode, array( 'full', 'render' ), true ) ) ) {
-			return $out . '</div>';
+			return $out . WP_Posts_Carousel_Loading_Skeleton::render( $config, $post_id, $this->carousel_id, $this->template ) . '</div>';
 		}
 
 		foreach ( $slides as $slide_index => $slide ) {

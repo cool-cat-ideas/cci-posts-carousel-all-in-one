@@ -1,3 +1,43 @@
+.cci-wpc-skeleton {
+	display: grid;
+	grid-template-columns: repeat(var(--wpc-skeleton-columns, 1), minmax(0, 1fr));
+	gap: var(--wpc-carousel-gap, 24px);
+	padding: 1px;
+}
+
+.cci-wpc-skeleton-card {
+	min-width: 0;
+	padding-bottom: 24px;
+}
+
+.cci-wpc-skeleton-image,
+.cci-wpc-skeleton-line {
+	background: var(--wpc-skeleton-color, #e8ebef);
+	border-radius: 4px;
+}
+
+.cci-wpc-skeleton-image {
+	height: var(--wpc-skeleton-image-height, 220px);
+}
+
+.cci-wpc-skeleton-line {
+	height: 16px;
+	margin-top: 16px;
+	width: 85%;
+}
+
+.cci-wpc-skeleton-line-short {
+	width: 60%;
+}
+
+[data-wpc-loading-state="error"] .cci-wpc-skeleton {
+	display: none;
+}
+
+[data-wpc-loading-state="error"] {
+	padding: 24px;
+}
+
 .cci-wpc-block-editor {
 	box-sizing: border-box;
 	min-width: 0;

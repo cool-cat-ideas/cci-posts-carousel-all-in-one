@@ -1,6 +1,9 @@
 # CCI Posts Carousel All In One documentation
 
 - [Two-row carousels](./2.2.0/two-row-carousels.md): configure two rows in Free, including phone layouts and responsive columns.
+- [Vertical carousels](./2.2.0/vertical-carousels.md): use native Swiper scrolling with template-owned cards and controls.
+- [Custom Swiper control HTML](./2.2.0/swiper-controls.md): place your own arrows and pagination in a PHP partial.
+- [Loading skeletons](./2.2.0/loading-skeleton.md): replace the loading placeholder in a child theme.
 
 Use these guides to build a carousel, publish it, adapt it to a theme and
 extend it with WordPress hooks.
