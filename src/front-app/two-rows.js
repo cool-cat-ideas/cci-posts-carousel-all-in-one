@@ -26,6 +26,7 @@ export function installTwoRows(runtime) {
     async function rebuild() {
       if (disposed || desiredRows() === rows) return;
       const ticket = ++generation;
+      root.dataset.rowsReady = 'loading';
       cleanup?.();
       cleanup = null;
       rows = desiredRows();

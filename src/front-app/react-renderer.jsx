@@ -211,6 +211,7 @@ function FrontendReactRenderer({ element, carousel, runtime }) {
     element.dataset.wpcReactMode || (element.dataset.wpcRenderer === 'react' ? 'full' : 'enhance');
   const mode = runtime?.hooks.applyFilters('reactRendererMode', defaultMode, element, carousel);
   const renderFull = mode === 'render' || mode === 'full';
+  const engineName = runtime ? resolveReactEngineName(runtime, element, carousel) : 'fallback';
 
   useEffect(() => {
     if (!renderFull) {
@@ -219,11 +220,25 @@ function FrontendReactRenderer({ element, carousel, runtime }) {
 
     const previousDisplay = element.style.display;
     const previousHidden = element.getAttribute('aria-hidden');
-
-    element.style.display = 'none';
-    element.setAttribute('aria-hidden', 'true');
+    const mountNode = element.previousElementSibling;
+    let frame;
+    const reveal = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        mountNode.removeAttribute('data-wpc-mounting');
+        mountNode.style.removeProperty('width');
+        element.style.display = 'none';
+        element.setAttribute('aria-hidden', 'true');
+      });
+    };
+    element.addEventListener('wp-posts-carousel:engine-ready', reveal);
+    element.addEventListener('wp-posts-carousel:engine-error', reveal);
+    if (engineName === 'fallback') reveal();
 
     return () => {
+      cancelAnimationFrame(frame);
+      element.removeEventListener('wp-posts-carousel:engine-ready', reveal);
+      element.removeEventListener('wp-posts-carousel:engine-error', reveal);
       element.style.display = previousDisplay;
 
       if (previousHidden === null) {
@@ -232,10 +247,9 @@ function FrontendReactRenderer({ element, carousel, runtime }) {
         element.setAttribute('aria-hidden', previousHidden);
       }
     };
-  }, [element, renderFull]);
+  }, [element, renderFull, engineName]);
 
   if (renderFull) {
-    const engineName = runtime ? resolveReactEngineName(runtime, element, carousel) : 'fallback';
     const engineAdapter = runtime?.getEngine(engineName) || null;
 
     return (
@@ -279,7 +293,8 @@ function syncMountNodeMetadata(mountNode, element) {
   const template = element.dataset.wpcTemplate || '';
   const engine = element.dataset.wpcEngine || '';
   const demoKey = element.dataset.wpcDemoKey || '';
-  const vertical = engine === 'swiper' && element.wpPostsCarouselData?.engine?.options?.direction === 'vertical';
+  const vertical =
+    engine === 'swiper' && element.wpPostsCarouselData?.engine?.options?.direction === 'vertical';
   mountNode.dataset.wpcDirection = vertical ? 'vertical' : 'horizontal';
   if (vertical) classes.push('cci-wpc-carousel');
 
@@ -312,6 +327,13 @@ export function mount(element, carousel, runtime) {
   }
 
   const mountNode = ensureMountNode(element);
+  if (
+    ['full', 'render'].includes(element.dataset.wpcReactMode) &&
+    element.style.display !== 'none'
+  ) {
+    mountNode.dataset.wpcMounting = 'true';
+    mountNode.style.width = `${element.getBoundingClientRect().width}px`;
+  }
   let root = roots.get(mountNode);
 
   if (!root) {
@@ -321,4 +343,13 @@ export function mount(element, carousel, runtime) {
 
   element.classList.add('cci-wpc-react-enhanced');
   root.render(<FrontendReactRenderer element={element} carousel={carousel} runtime={runtime} />);
+}
+
+export function unmount(element) {
+  const mountNode = element?.previousElementSibling;
+  if (mountNode?.getAttribute('data-wpc-react-root') !== 'true') return;
+  roots.get(mountNode)?.unmount();
+  roots.delete(mountNode);
+  mountNode.remove();
+  element.classList.remove('cci-wpc-react-enhanced');
 }

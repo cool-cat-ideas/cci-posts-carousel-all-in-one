@@ -10,7 +10,9 @@ Publish the carousel and use its ID:
 [cci_posts_carousel id="42" lazy="true"]
 ```
 
-The placeholder follows the saved responsive column counts and two-row phone settings. Loading begins when the carousel approaches the viewport. It disappears when the cards render. A failed request displays a translated error and a **Try again** button instead of leaving a permanent skeleton.
+The placeholder follows the saved responsive column counts and two-row phone settings. Loading begins when the carousel approaches the viewport. In the full React renderer, it remains visible until both the cards and the carousel engine are ready. A failed content request displays a translated error and a **Try again** button instead of leaving a permanent skeleton.
+
+Server-rendered cards use a responsive initial grid while Owl or Swiper loads. This uses the carousel's saved column counts, row count and spacing, so the cards do not first appear as a full-width vertical list. The library takes over the same cards when it is ready. This also applies to compatible custom templates whose slide wrapper is `.cci-wpc-slide`.
 
 ## Replace the skeleton HTML in a child theme
 
@@ -77,3 +79,24 @@ Both filters receive the same `$args`: `post_id` (int, 0 for an unsaved configur
 ```
 
 The default uses static blocks, without a shimmer animation. No database migration is needed for theme overrides.
+
+## Reserve space for a custom layout
+
+A skeleton must occupy the space that the finished carousel will use. The built-in placeholder uses the configured image height where it is expressed in pixels. Vertical Swiper carousels reserve their viewport and standard navigation space. A custom card with longer text, a different image ratio or custom controls can need a different height.
+
+Add `reading-list` to the parent Group block's **Additional CSS class(es)** and set a responsive minimum height in the child theme:
+
+```css
+.reading-list {
+    --wpc-loading-height: 420px;
+    --wpc-skeleton-image-height: 180px;
+}
+
+@media (min-width: 768px) {
+    .reading-list {
+        --wpc-loading-height: 480px;
+    }
+}
+```
+
+These are example values: measure your finished layout at each breakpoint. `--wpc-loading-height` reserves space for the deferred source and the full React renderer; it is a minimum height, so longer content can still expand. Match your custom skeleton to those dimensions. Keep image dimensions or aspect ratios explicit and load the site's fonts consistently. A placeholder alone cannot prevent shifts caused by a later font swap or content that is taller than the reserved space.

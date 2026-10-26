@@ -522,19 +522,19 @@ import './two-rows.css';
       const check = function () {
         const root = reactRootForElement(element);
 
-        if (root && root.childElementCount > 0) {
+        if (root && root.childElementCount > 0 && !root.hasAttribute('data-wpc-mounting')) {
           resolve(element);
           return;
         }
 
         attempts += 1;
 
-        if (attempts >= 6) {
+        if (attempts >= 150) {
           reject(new Error('CCI Posts Carousel All In One React preview did not mount.'));
           return;
         }
 
-        window.setTimeout(check, attempts < 3 ? 80 : 220);
+        window.setTimeout(check, 100);
       };
 
       check();
@@ -542,6 +542,7 @@ import './two-rows.css';
   }
 
   function fallbackToHtml(element, data, error) {
+    runtime.getRenderer('react')?.unmount?.(element);
     if (data && data.html) {
       const fallbackElement = replaceCarouselHtml(element, data);
       loaded.add(fallbackElement);
@@ -571,6 +572,7 @@ import './two-rows.css';
   function renderCarouselData(element, data, options) {
     if (Array.isArray(data.slides) && data.slides.length === 0) {
       destroyOwlCarousel(element);
+      runtime.getRenderer('react')?.unmount?.(element);
       reactRootForElement(element)?.remove();
       const message = element.ownerDocument.createElement('p');
       message.className = 'cci-wpc-empty';

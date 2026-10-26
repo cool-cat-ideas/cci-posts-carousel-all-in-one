@@ -203,6 +203,7 @@ The plugin includes compiled JavaScript and CSS. The repositories above contain 
 
 = 2.2.0 =
 
+* Reduced layout shifts during startup: server-rendered cards keep their responsive layout while Owl or Swiper loads, and React placeholders remain visible until the engine is ready.
 * Added theme overrides for Swiper control HTML: arrange arrows and pagination in your own markup without writing a slider implementation.
 * Added vertical scrolling with a configurable viewport height for Swiper. Owl and two-row layouts keep horizontal scrolling.
 * Added responsive loading skeletons for lazy-loaded and React-rendered carousels, with theme HTML overrides and loading-error retry controls.

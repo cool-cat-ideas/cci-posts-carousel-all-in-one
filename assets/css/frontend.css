@@ -2,6 +2,7 @@
 	display: grid;
 	grid-template-columns: repeat(var(--wpc-skeleton-columns, 1), minmax(0, 1fr));
 	gap: var(--wpc-carousel-gap, 24px);
+	row-gap: var(--wpc-initial-row-gap, 24px);
 	padding: 1px;
 }
 
@@ -17,7 +18,17 @@
 }
 
 .cci-wpc-skeleton-image {
-	height: var(--wpc-skeleton-image-height, 220px);
+	height: var(--wpc-skeleton-image-height, var(--wpc-skeleton-default-image-height, 220px));
+}
+
+.cci-wpc-react-root[data-wpc-mounting] {
+	position: absolute !important;
+	visibility: hidden !important;
+	pointer-events: none !important;
+}
+
+.cci-wpc-react-root {
+	min-height: var(--wpc-loading-height, 0px);
 }
 
 .cci-wpc-skeleton-line {
