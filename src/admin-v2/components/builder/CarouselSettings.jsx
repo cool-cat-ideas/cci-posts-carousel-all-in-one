@@ -389,7 +389,7 @@ export default function CarouselSettings({
                   value={options[field.name] ?? field.fallback}
                   onChange={(event) => updateOption(field.name, Number(event.target.value))}
                 />
-                <InputGroupAddon>
+                <InputGroupAddon align="inline-end" className="tw-min-w-12">
                   <InputGroupText>px</InputGroupText>
                 </InputGroupAddon>
               </InputGroup>
@@ -465,14 +465,14 @@ export default function CarouselSettings({
                 value={options.vertical_height || 480}
                 onChange={(event) => updateOption('vertical_height', Number(event.target.value))}
               />
-              <InputGroupAddon>
+              <InputGroupAddon align="inline-end" className="tw-min-w-12">
                 <InputGroupText>px</InputGroupText>
               </InputGroupAddon>
             </InputGroup>
           </Field>
           <InfoCallout className="alert-info tw-my-4">
             {__(
-              'The viewport keeps this height while cards move up and down. Use one visible item for a full card, or increase the height when showing several items. Two-row layouts scroll horizontally.',
+              'Vertical scrolling uses a fixed viewport height, not Auto height. The default is 480 px. Increase it for taller cards or several visible items. Horizontal one-row carousels can use Auto height.',
               'cci-posts-carousel',
             )}
           </InfoCallout>

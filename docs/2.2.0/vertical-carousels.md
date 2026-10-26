@@ -12,7 +12,7 @@ Available in Free 2.2.0. Use a vertical carousel for a reading list beside an ar
 
 The arrows use the configured up/down icons. Visitors can also drag vertically or swipe when mouse/touch dragging is enabled. Mousewheel navigation is optional: enable it together with **Release mousewheel on edges** if visitors should continue scrolling the page at the first or last card.
 
-The height is bounded between 240 and 1600 px. Auto height is disabled for a vertical Swiper so the viewport does not grow to include every slide. Check the height and card content on a phone, especially when titles wrap.
+The default height is 480 px, bounded between 240 and 1600 px. You can keep the default; entering a custom value is optional. In this plugin, vertical Swiper uses a fixed viewport and disables Auto height. Auto height adapts the wrapper to the active slide in horizontal one-row carousels; it does not set the vertical viewing area. Check the height and card content on a phone, especially when titles wrap.
 
 ## Engine and layout limits
 
