@@ -10,6 +10,8 @@ Your latest articles, your favourite guides, the pages you wish more people woul
 
 [See it in action](https://wordpress-demo.coolcatideas.com/) · [Explore the product](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/) · [Read the guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/) · [Get help](https://github.com/cool-cat-ideas/cci-posts-carousel-all-in-one/issues)
 
+See the [changelog](CHANGELOG.md) for release history.
+
 Choose your content, arrange your slides and preview the result in the visual editor. Place your saved carousel with a Gutenberg block or shortcode, then reuse it across your site. Change it once and every place using it stays in sync.
 
 We're **Cool Cat Ideas**, and we're proud of this plugin. We built it for the enjoyable part of putting a page together: choosing what deserves attention and finding the right way to present it. We'd love to see what you create.

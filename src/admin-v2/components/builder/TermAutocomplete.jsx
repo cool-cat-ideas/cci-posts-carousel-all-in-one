@@ -2,9 +2,42 @@ import React, { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { autoUpdate, flip, hide, offset, shift, size, useFloating } from '@floating-ui/react-dom';
 import { apiFetch } from '../../api/api';
+import { searchResults } from '../../api/search-results.mjs';
 import { __ } from '../../i18n/i18n';
 import { normalizeTermOption } from '../../lib/utils';
 import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+
+function searchErrorMessage(error) {
+  if (error?.code === 'rest_cookie_invalid_nonce' || error?.status === 401) {
+    return __('Your session has expired. Reload the page and sign in again.', 'cci-posts-carousel');
+  }
+  if (error?.status === 403) {
+    return __(
+      'Term search was denied (HTTP 403). Check your permissions and security settings.',
+      'cci-posts-carousel',
+    );
+  }
+  if (error?.status === 404) {
+    return __(
+      'Term search is unavailable (HTTP 404). Check access to the WordPress REST API.',
+      'cci-posts-carousel',
+    );
+  }
+  if (error?.status >= 500) {
+    return __(
+      'The server could not load terms. Check the server logs and try again.',
+      'cci-posts-carousel',
+    );
+  }
+  if (error?.code === 'wp_posts_carousel_invalid_taxonomy') {
+    return __(
+      'This taxonomy is no longer available. Select another taxonomy or reload the page.',
+      'cci-posts-carousel',
+    );
+  }
+  return __('Could not load terms. Try again.', 'cci-posts-carousel');
+}
 
 export default function TermAutocomplete({ taxonomy, selectedValues, onSelect }) {
   const listId = useId();
@@ -12,7 +45,8 @@ export default function TermAutocomplete({ taxonomy, selectedValues, onSelect })
   const [open, setOpen] = useState(false);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
+  const [retry, setRetry] = useState(0);
   const [activeIndex, setActiveIndex] = useState(-1);
   const { refs, floatingStyles, middlewareData } = useFloating({
     open,
@@ -68,7 +102,7 @@ export default function TermAutocomplete({ taxonomy, selectedValues, onSelect })
     const controller = new AbortController();
     let current = true;
     setLoading(true);
-    setError(false);
+    setError(null);
     setResults([]);
     setActiveIndex(-1);
     const timer = window.setTimeout(() => {
@@ -82,10 +116,10 @@ export default function TermAutocomplete({ taxonomy, selectedValues, onSelect })
         }),
       })
         .then((response) => {
-          if (current) setResults(response.map(normalizeTermOption));
+          if (current) setResults(searchResults(response).map(normalizeTermOption));
         })
         .catch((failure) => {
-          if (current && failure.name !== 'AbortError') setError(true);
+          if (current && failure.name !== 'AbortError') setError(failure);
         })
         .finally(() => {
           if (current) setLoading(false);
@@ -96,7 +130,7 @@ export default function TermAutocomplete({ taxonomy, selectedValues, onSelect })
       window.clearTimeout(timer);
       controller.abort();
     };
-  }, [open, search, taxonomy.name, taxonomy.post_type]);
+  }, [open, search, taxonomy.name, taxonomy.post_type, retry]);
 
   const choose = (term) => {
     onSelect(term);
@@ -181,11 +215,26 @@ export default function TermAutocomplete({ taxonomy, selectedValues, onSelect })
                   {loading
                     ? __('Searching...', 'cci-posts-carousel')
                     : error
-                      ? __(
-                          'Could not load terms. Focus the field to try again.',
-                          'cci-posts-carousel',
-                        )
+                      ? searchErrorMessage(error)
                       : __('No matching terms.', 'cci-posts-carousel')}
+                </p>
+              )}
+              {error && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="tw-mx-3 tw-mb-2"
+                  onClick={() => setRetry((value) => value + 1)}
+                >
+                  {__('Try again', 'cci-posts-carousel')}
+                </Button>
+              )}
+              {!loading && !error && results.length >= 50 && (
+                <p className="tw-m-0 tw-px-3 tw-py-2">
+                  {__(
+                    'Showing up to 50 results. Refine your search to find more terms.',
+                    'cci-posts-carousel',
+                  )}
                 </p>
               )}
             </div>

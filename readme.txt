@@ -4,7 +4,7 @@ Tags: carousel, slider, posts, gutenberg, custom post types
 Requires at least: 6.2
 Tested up to: 7.1.3
 Requires PHP: 7.4
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -200,6 +200,15 @@ Icons are local by default. Choosing **CDN** in compatibility settings loads Fon
 The plugin includes compiled JavaScript and CSS. The repositories above contain the readable sources and build tools; the product lockfile pins the shared UI packages.
 
 == Changelog ==
+
+= 2.2.1 =
+
+* Fixed category and tag searches failing when integrations return term lists with numeric gaps. Failed searches now show a clear session, permission or server message and a retry button.
+* Limited taxonomy suggestions to 50 results and preserved searches for the phrase "0".
+* Fixed outdated manual-post search responses replacing newer results or reappearing after clearing the search.
+* Fixed selected ordering labels disappearing after saving and reopening a carousel, including manual ordering and registered extension options.
+* Fixed empty manual selections falling back to automatic posts and manual selections ignoring excluded posts.
+* Excluded password-protected posts from automatic and manual carousel output, including full-content descriptions. Non-public post types cannot appear in public slides.
 
 = 2.2.0 =
 
