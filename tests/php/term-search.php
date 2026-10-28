@@ -4,7 +4,20 @@ define( 'ABSPATH', __DIR__ . '/' );
 define( 'DAY_IN_SECONDS', 86400 );
 function add_action() {}
 
-class WP_REST_Request extends ArrayObject {}
+class WP_REST_Request extends ArrayObject {
+	public function get_param( $name ) {
+		return $this[ $name ] ?? null;
+	}
+}
+function taxonomy_exists( $name ) {
+	return in_array( $name, array( 'category', 'post_tag' ), true );
+}
+function is_object_in_taxonomy( $post_type, $taxonomy ) {
+	return 'post' === $post_type && taxonomy_exists( $taxonomy );
+}
+function is_wp_error( $value ) {
+	return false;
+}
 class WP_REST_Response {
 
 	private $data;

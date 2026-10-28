@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { apiFetch } from '../../api/api';
+import { searchResults } from '../../api/search-results.mjs';
 import { __ } from '../../i18n/i18n';
 import { normalizePostOption } from '../../lib/utils';
 import { CheckboxField } from '../ui/checkbox';
@@ -55,32 +56,45 @@ export default function PostSearch({
 
   useEffect(() => {
     const query = term.trim();
+    setResults([]);
 
     if (query.length < 2 || !manualPostTypes.length) {
-      setResults([]);
+      setSearching(false);
       return undefined;
     }
 
+    const controller = new AbortController();
+    let current = true;
+    setSearching(true);
     const timeout = window.setTimeout(() => {
-      setSearching(true);
       apiFetch('/wp-json/wp-posts-carousel/v1/admin/posts', {
         method: 'POST',
+        signal: controller.signal,
         body: JSON.stringify({
           post_types: manualPostTypes,
           s: query,
         }),
       })
-        .then((response) => setResults(response.map(normalizePostOption)))
-        .catch(() => {
+        .then((response) => {
+          if (current) setResults(searchResults(response).map(normalizePostOption));
+        })
+        .catch((error) => {
+          if (!current || error.name === 'AbortError') return;
           setNotice({
             type: 'error',
             message: __('Failed searching posts.', 'cci-posts-carousel'),
           });
         })
-        .finally(() => setSearching(false));
+        .finally(() => {
+          if (current) setSearching(false);
+        });
     }, 250);
 
-    return () => window.clearTimeout(timeout);
+    return () => {
+      current = false;
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
   }, [term, manualPostTypesKey, setNotice]);
 
   const selectedKeys = selectedPosts.map(postKey);
@@ -121,6 +135,7 @@ export default function PostSearch({
 
       <Field label={__('Add specific post', 'cci-posts-carousel')}>
         <Input
+          aria-label={__('Add specific post', 'cci-posts-carousel')}
           value={term}
           placeholder={__('Type at least 2 characters...', 'cci-posts-carousel')}
           onChange={(event) => setTerm(event.target.value)}
