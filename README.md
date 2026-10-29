@@ -4,8 +4,6 @@
 
 # CCI Posts Carousel All In One
 
-Previously **WP Posts Carousel All In One**. Following WordPress’s decision about “WP” in the plugin name and slug, the product now uses the CCI name. Existing carousel IDs, saved settings, Gutenberg blocks and `[wp_posts_carousel]` shortcodes remain supported.
-
 Your latest articles, your favourite guides, the pages you wish more people would discover. Bring them together in a carousel that invites visitors to keep exploring.
 
 [See it in action](https://wordpress-demo.coolcatideas.com/) · [Explore the product](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/) · [Read the guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/) · [Get help](https://github.com/cool-cat-ideas/cci-posts-carousel-all-in-one/issues)
@@ -13,8 +11,6 @@ Your latest articles, your favourite guides, the pages you wish more people woul
 See the [changelog](CHANGELOG.md) for release history.
 
 Choose your content, arrange your slides and preview the result in the visual editor. Place your saved carousel with a Gutenberg block or shortcode, then reuse it across your site. Change it once and every place using it stays in sync.
-
-We're **Cool Cat Ideas**, and we're proud of this plugin. We built it for the enjoyable part of putting a page together: choosing what deserves attention and finding the right way to present it. We'd love to see what you create.
 
 ## Plenty to create with, right from the start
 
@@ -40,7 +36,7 @@ Aurora Cards is a separate, no-cost template extension. Its product example belo
 
 ## Get started
 
-Declared compatibility: **WordPress 6.2 through 7.1.3** and **PHP 7.4 or later**.
+Declared compatibility: **WordPress 6.2 through 7.1.4** and **PHP 7.4 or later**.
 
 1. Install and activate the packaged plugin ZIP in **Plugins → Add New → Upload Plugin**.
 2. Open **CCI Posts Carousel All In One**, create a carousel and choose its content and layout.
@@ -49,42 +45,13 @@ Declared compatibility: **WordPress 6.2 through 7.1.3** and **PHP 7.4 or later**
 
 For image previews, open **Design > Second image on hover**, enable the option and choose a source. It is off by default and included in the base plugin. Try [A second image on hover](https://wordpress-demo.coolcatideas.com/cci-posts-carousel-demo/#wpc-demo-carousel-image-hover-free).
 
-See the [user guide](docs/2.1.0/user-guide.md) for configuration and the [developer guide](docs/2.1.0/developer-guide.md) for extensions.
+See the [user guide](docs/2.2.0/user-guide.md) for configuration and the [developer guide](docs/2.2.0/developer-guide.md) for extensions.
 
 For two rows that move together, open **General > Rows** and choose **Two rows**.
 This layout is included in Free. Phone screens use one row by default; you can
 choose two and adjust the row gap. See the [two-row guide](docs/2.2.0/two-row-carousels.md).
 
-## Updating from 2.0.x to 2.1.0
-
-This includes 2.0.0 through 2.0.4. Update directly; your saved carousels,
-settings, IDs, Gutenberg blocks and existing `[wp_posts_carousel]` shortcodes
-stay supported. You do not need to recreate carousels or replace shortcodes.
-
-1. Back up the WordPress files and database. Try the update on a staging copy first.
-2. Leave **WP Posts Carousel All In One** installed and active. Download
-   `cci-posts-carousel-2.1.0.zip` from the [product page](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/).
-   Open **Plugins → Add New Plugin → Upload Plugin**, then upload and install it.
-   The old and renamed plugins appear as two entries because their folders differ.
-3. Click **Activate** for **CCI Posts Carousel All In One**. Activation switches
-   WordPress to the renamed package and makes the old entry inactive. Your saved
-   carousel data stays in place.
-4. If you use Pro, an already active Pro 2.0.0 can stay active. Update Pro and
-   external add-ons separately when their renamed ZIPs are available. The base
-   and Pro version numbers do not need to match, and an active license does not
-   need to be entered again.
-5. Clear the site cache. Open the saved carousel list and check an existing page
-   on desktop and mobile, including any Pro layouts or WooCommerce buttons.
-
-**Do not click Delete on the old plugin entry in WordPress.** Its uninstall
-routine may remove shared carousel data. Keep its inactive folder while you
-verify the site. If you later remove old files, use SFTP or the hosting file
-manager after confirming that the renamed replacements are active.
-
-See the [full update guide](docs/2.1.0/user-guide.md#updating-from-the-previous-package-name)
-for the checks and rollback steps. Image on hover remains off unless you enable it.
-
-Updating from 1.x? Version 2.x rewrites the carousel data model, widgets and shortcode configuration. Recreate your carousels in the new editor and replace every old placement. Follow the [upgrade guide](docs/2.1.0/upgrading-from-1.x.md) for the steps and a screenshot of the dashboard.
+For updates from an older release, follow the [installation and upgrade guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.0/installation/).
 
 The [plugin readme](readme.txt) includes the changelog and explains marketplace requests, optional review submissions and icon CDN loading.
 
