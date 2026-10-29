@@ -4,15 +4,15 @@
 
 # CCI Posts Carousel All In One
 
-Your latest articles, your favourite guides, the pages you wish more people would discover. Bring them together in a carousel that invites visitors to keep exploring.
+Show selected articles, pages and product links together in a WordPress carousel. Choose items by hand or load them by rules, preview the cards in the visual editor and reuse the saved carousel across your site.
 
 [See it in action](https://wordpress-demo.coolcatideas.com/) · [Explore the product](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/) · [Read the guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/) · [Get help](https://github.com/cool-cat-ideas/cci-posts-carousel-all-in-one/issues)
 
 See the [changelog](CHANGELOG.md) for release history.
 
-Choose your content, arrange your slides and preview the result in the visual editor. Place your saved carousel with a Gutenberg block or shortcode, then reuse it across your site. Change it once and every place using it stays in sync.
+Place a saved carousel with a Gutenberg block or shortcode. When you edit its content or settings, every placement uses the updated configuration.
 
-## Plenty to create with, right from the start
+## Content and layouts
 
 - Unlimited saved carousels with a visual editor and manual slide ordering.
 - Pin selected slides first and automatically fill the remaining places with matching posts, without duplicates.
@@ -26,7 +26,7 @@ Choose your content, arrange your slides and preview the result in the visual ed
 
 WooCommerce products can appear as standard linked content cards in Free. Current prices, sale information and buying actions require the separate Pro plugin.
 
-## Take it further with Pro
+## Pro edition
 
 CCI Posts Carousel All In One Pro adds WooCommerce buying actions, Commerce Luxe, Video Showcase, Story Commerce, Elementor integration, engagement reports, autoplay progress indicators and Multisite tools. It is installed alongside the Free plugin.
 
