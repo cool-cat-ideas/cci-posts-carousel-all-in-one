@@ -6,7 +6,7 @@
  * Description: Create reusable carousels for posts, pages, products and manual slides, then place them with Gutenberg or a shortcode. Pro adds live WooCommerce data, buying actions, sales templates, Elementor and reports.
  * Version: 2.2.1
  * Requires at least: 6.2
- * Tested up to: 7.1.4
+ * Tested up to: 7.1
  * Requires PHP: 7.4
  * Author: Cool Cat Ideas
  * Author URI: https://coolcatideas.com/
