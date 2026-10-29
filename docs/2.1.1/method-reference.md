@@ -22,6 +22,11 @@ Put this in a theme template after WordPress has loaded. Replace 123 with the
 published carousel ID. Assets and behavior follow its saved settings. Do not
 run this from an early plugin bootstrap or place it inside a per-post loop.
 
+Use `[cci_posts_carousel]` for new placements. The legacy
+`[wp_posts_carousel]` shortcode remains a supported compatibility alias; both
+names call the same renderer. PHP class names such as `WP_Posts_Carousel_Data`
+and the `wp_posts_carousel_*` filters retain their existing names.
+
 ## Read public carousel data
 
 `WP_Posts_Carousel_Data::get($post_id, $args = []): ?array`

@@ -65,8 +65,8 @@ The new shortcode references a saved carousel by its ID:
 ```
 
 Here, `123` is an example. Copy the actual shortcode generated for your new
-carousel. Even though the shortcode name is familiar, the old configuration
-and old ID do not replace a newly created 2.x definition.
+carousel. The legacy `[wp_posts_carousel]` name is still recognized, but its old
+configuration and old ID do not replace a newly created 2.x definition.
 
 See [Publishing](./user-guide.md) for the supported embedding methods.
 
