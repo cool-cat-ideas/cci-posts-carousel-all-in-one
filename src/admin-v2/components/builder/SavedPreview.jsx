@@ -1,23 +1,78 @@
-import React, { useEffect, useId, useRef, useState } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import { __ } from '../../i18n/i18n';
 import CarouselRenderer from '../../../shared/CarouselRenderer';
 import { Button } from '../ui/button';
 import { Select } from '../ui/select';
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from '../ui/input-group';
 
 export default function SavedPreview({ preview, open, onClose }) {
   const bodyRef = useRef(null);
+  const dialogRef = useRef(null);
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
   const widthId = useId();
   const [previewWidth, setPreviewWidth] = useState('full');
+  const [customWidth, setCustomWidth] = useState('640');
   const hasFrontendHtml = typeof preview?.html === 'string';
-  const html = hasFrontendHtml ? preview.html : '';
+  const html = useMemo(() => {
+    if (typeof preview?.html !== 'string') return '';
+    const fragment = document.createElement('template');
+    fragment.innerHTML = preview.html;
+    // The admin endpoint already supplied the saved/draft data. Do not fetch public data again.
+    fragment.content
+      .querySelectorAll('[data-wpc-api]')
+      .forEach((root) => root.removeAttribute('data-wpc-api'));
+    return fragment.innerHTML;
+  }, [preview?.html]);
   const options = preview?.engine?.options || {};
   const breakpoints = options.items_to_show || options.breakpoints || {};
+  useEffect(() => {
+    if (!open) return undefined;
+    const trigger = document.activeElement;
+    const dialog = dialogRef.current;
+    const focusable = () =>
+      [
+        ...dialog.querySelectorAll('button, a[href], input, select, textarea, [tabindex="0"]'),
+      ].filter((el) => !el.disabled && el.getClientRects().length);
+    focusable()[1]?.focus();
+    const keydown = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeRef.current();
+      }
+      if (event.key === 'Tab') {
+        const elements = focusable(),
+          first = elements[0],
+          last = elements.at(-1);
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+    dialog.addEventListener('keydown', keydown);
+    return () => {
+      dialog.removeEventListener('keydown', keydown);
+      if (trigger?.isConnected) trigger.focus();
+    };
+  }, [open]);
+
+  // Breakpoints describe item counts, not the width of the column containing a carousel.
   const widths = Object.keys(breakpoints)
     .map(Number)
     .filter((width) => Number.isFinite(width) && width > 0)
     .sort((a, b) => a - b);
-  const selectedWidth = widths.includes(Number(previewWidth)) ? previewWidth : 'full';
+  const selectedWidth =
+    previewWidth === 'custom' || widths.includes(Number(previewWidth)) ? previewWidth : 'full';
+  const canvasWidth =
+    selectedWidth === 'full'
+      ? '100%'
+      : `${selectedWidth === 'custom' ? Math.max(160, Math.min(3840, Number(customWidth) || 640)) : selectedWidth}px`;
+
   const canvasId = `wpc-preview-${widthId.replace(/[^a-zA-Z0-9_-]/g, '')}`;
 
   useEffect(() => {
@@ -39,11 +94,39 @@ export default function SavedPreview({ preview, open, onClose }) {
 
   useEffect(() => {
     const canvas = bodyRef.current;
-    if (open && html && options.rows === 2 && canvas) {
-      const root = canvas.querySelector('.cci-wpc-carousel');
-      if (root) window.wpPostsCarouselLazyLoad?.render(root, preview, {});
-    }
-  }, [open, html, preview, options.rows]);
+    if (!open || !html || !canvas || !preview) return undefined;
+    const roots = [...canvas.querySelectorAll('.cci-wpc-carousel')];
+    let disposed = false;
+    const dispose = (root) => {
+      window.wpPostsCarousel?.getRenderer('react')?.unmount?.(root);
+      if (window.jQuery?.(root).data('owl.carousel'))
+        window.jQuery(root).trigger('destroy.owl.carousel');
+    };
+    roots.forEach((root) => {
+      // Vertical previews contain original PHP cards; the shared React renderer mounts Swiper around them.
+      if (preview.engine?.name === 'swiper' && options.direction === 'vertical') {
+        root.dataset.wpcRenderer = 'react';
+        root.dataset.wpcReactMode = 'full';
+      }
+      Promise.resolve(window.wpPostsCarouselLazyLoad?.render(root, preview, {}))
+        .then(() => {
+          if (disposed) dispose(root);
+        })
+        .catch(() => {
+          if (!disposed) {
+            root.setAttribute('role', 'alert');
+            root.textContent = __(
+              'Could not initialize the preview. Close it and try again.',
+              'cci-posts-carousel',
+            );
+          }
+        });
+    });
+    return () => {
+      disposed = true;
+      roots.forEach(dispose);
+    };
+  }, [open, html, preview, options.direction]);
 
   useEffect(() => {
     const canvas = bodyRef.current;
@@ -94,6 +177,7 @@ export default function SavedPreview({ preview, open, onClose }) {
   return (
     <div
       className="cci-wpc-saved-preview tw-fixed tw-inset-0 tw-z-[100000] tw-grid tw-grid-cols-[minmax(0,1fr)] tw-place-items-end tw-bg-slate-900/35"
+      ref={dialogRef}
       role="dialog"
       aria-modal="true"
       aria-label={__('Carousel preview', 'cci-posts-carousel')}
@@ -132,21 +216,40 @@ export default function SavedPreview({ preview, open, onClose }) {
             </label>
             <p className="tw-m-0 tw-mt-1 tw-text-sm tw-leading-5 tw-text-cci-wpc-muted">
               {__(
-                'Check the responsive widths configured for this carousel.',
+                'Match the preview to your content column. This does not change carousel settings.',
                 'cci-posts-carousel',
               )}
             </p>
           </div>
-          <Select
-            id={widthId}
-            ariaLabel={__('Preview width', 'cci-posts-carousel')}
-            value={selectedWidth}
-            onValueChange={setPreviewWidth}
-            options={[
-              { value: 'full', label: __('Full width', 'cci-posts-carousel') },
-              ...widths.map((width) => ({ value: String(width), label: `${width} px` })),
-            ]}
-          />
+          <div className="tw-grid tw-gap-2">
+            <Select
+              id={widthId}
+              ariaLabel={__('Preview width', 'cci-posts-carousel')}
+              value={selectedWidth}
+              onValueChange={setPreviewWidth}
+              options={[
+                { value: 'full', label: __('Full width', 'cci-posts-carousel') },
+                ...widths.map((width) => ({ value: String(width), label: `${width} px` })),
+                { value: 'custom', label: __('Custom width', 'cci-posts-carousel') },
+              ]}
+            />
+            {selectedWidth === 'custom' && (
+              <InputGroup>
+                <InputGroupInput
+                  type="number"
+                  min="160"
+                  max="3840"
+                  step="1"
+                  aria-label={__('Width in pixels', 'cci-posts-carousel')}
+                  value={customWidth}
+                  onChange={(event) => setCustomWidth(event.target.value)}
+                />
+                <InputGroupAddon align="inline-end">
+                  <InputGroupText>px</InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
+            )}
+          </div>
         </div>
         <div className="tw-min-h-0 tw-min-w-0 tw-overflow-auto tw-bg-cci-wpc-bg tw-p-5">
           <div
@@ -154,7 +257,7 @@ export default function SavedPreview({ preview, open, onClose }) {
             id={canvasId}
             data-wpc-preview-viewport="true"
             className="tw-mx-auto tw-min-w-0"
-            style={{ width: selectedWidth === 'full' ? '100%' : `${selectedWidth}px` }}
+            style={{ width: canvasWidth }}
           >
             {preview ? (
               html ? (

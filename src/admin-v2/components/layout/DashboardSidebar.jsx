@@ -5,6 +5,7 @@ import {
   ChevronLeft,
   ChevronRight,
   LayoutDashboard,
+  Layers3,
   LayoutTemplate,
   Plug,
   Settings,
@@ -19,6 +20,7 @@ import { Button } from '../ui/button';
 
 const items = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, core: true },
+  { id: 'carousels', label: 'Carousels', icon: Layers3 },
   { id: 'integrations', label: 'Integrations', icon: Plug },
   { id: 'templates', label: 'Templates', icon: LayoutTemplate },
   { id: 'analytics', label: 'Analytics', icon: BarChart3 },

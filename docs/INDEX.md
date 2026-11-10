@@ -1,75 +1,15 @@
 # CCI Posts Carousel All In One documentation
 
-- [Two-row carousels](./2.2.0/two-row-carousels.md): configure two rows in Free, including phone layouts and responsive columns.
-- [Vertical carousels](./2.2.0/vertical-carousels.md): use native Swiper scrolling with template-owned cards and controls.
-- [Custom Swiper control HTML](./2.2.0/swiper-controls.md): place your own arrows and pagination in a PHP partial.
-- [Loading skeletons](./2.2.0/loading-skeleton.md): replace the loading placeholder in a child theme.
+The [2.2.2 guide](./2.2.2/index.md) covers installation, saved carousels,
+publishing, settings, troubleshooting and supported extension surfaces.
 
-Use these guides to build a carousel, publish it, adapt it to a theme and
-extend it with WordPress hooks.
+- [Dashboard and Carousels](./2.2.2/dashboard-and-carousels.md): resume recent work, sort the collection, preview a layout and check its last editor.
+- [Getting started](./2.2.2/getting-started.md): create and publish a carousel.
+- [Installation and updates](./2.2.2/installation.md): update an existing site while keeping its saved carousels.
+- [Developer guide](./2.2.2/developer-guide.md): choose the smallest supported customization surface.
+- [Filters and actions](./2.2.2/developer-api.md): parameters, return values and working examples.
+- [PHP API](./2.2.2/php-method-reference.md): public rendering and data contracts.
 
-## Versions covered
+The base plugin and Pro have separate version numbers. Pro previews are labelled in the guide.
 
-This guide covers base plugin 2.2.0. Pinned slides with automatic fill require 2.1.0. Category autocomplete and automatic
-query previews require base plugin 2.0.3 or newer. The base plugin and Pro have
-separate version numbers; they do not need to match. Check the installed
-versions under **Plugins > Installed Plugins**.
-
-## Start here
-
-- [Support](./2.1.1/support.md): direct contact links, how to send a request and where to read the reply.
-
-- [Upgrade from 1.x to 2.x](./2.1.1/upgrading-from-1.x.md) — recreate legacy
-  carousels and replace their placements after the 2.x rewrite.
-- [User guide](./2.1.1/user-guide.md) — create and publish a saved carousel.
-- [Responsive carousel](./2.1.1/responsive-carousel.md) — set card counts for phones, tablets and desktops.
-- [Posts from a category](./2.1.1/category-post-carousel.md) — publish a category query in Gutenberg, with optional pinned stories.
-- [Practical recipes](./2.1.1/recipes.md) — latest posts, category rows,
-  curated products, frontend filters and theme overrides.
-- [WooCommerce product carousels](./2.1.1/woocommerce-products.md) — understand
-  the Free/Pro boundary and configure a real store-aware product shelf.
-- [Popular Posts integration](./2.1.1/popular-posts-integration.md) — order a
-  carousel with statistics already collected by WordPress Popular Posts.
-- [Templates and add-ons](./2.1.1/templates-and-addons.md) — override an
-  existing template or create a new one.
-- [Extension cookbook](./2.1.1/extension-cookbook.md) — change queries and
-  slide data, insert markup and package an extension.
-- [Maintained extensions](./2.1.1/extensions.md#maintained-standalone-examples)
-  — how the separate Related Content and Aurora Cards products use the public
-  query and template contracts.
-- [Developer guide](./2.1.1/developer-guide.md) — architecture, saved data
-  flow and supported customization paths.
-- [Filters and actions](./2.1.1/hooks-and-api.md) — descriptions, arguments and
-  examples for the public filters and actions.
-- [PHP API](./2.1.1/method-reference.md) — lower-level PHP services and method
-  contracts.
-- [Extension contract](./2.1.1/extensions.md) — register templates, integrations
-  and optional features through the public API.
-- [Frontend extension contract](./2.1.1/frontend-extension-contract.md) — register
-  JavaScript renderers and respond to browser events.
-
-## Common paths
-
-Choose the shortest path for the job:
-
-- Change colors, spacing or typography: enqueue child-theme CSS after the
-  selected template stylesheet.
-- Change card markup for one project: override the template in the child
-  theme.
-- Add a reusable visual design: create a new manifest-based template.
-- Change which posts are selected: use `wp_posts_carousel_query_args`.
-- Add data to every prepared slide: use
-  `wp_posts_carousel_slide_view_model`.
-- Add markup around card content: use
-  `wp_posts_carousel_before_item_content` or
-  `wp_posts_carousel_after_item_content`.
-- Distribute the change to many sites: package it as an extension plugin.
-
-## Working with the source
-
-- [Publishing and versioning](./publishing-and-versioning.md)
-- [Release notes](../readme.txt)
-- [Building from source](./building-from-source.md)
-
-Archived guides remain under `2.0.x/` and `2.1.0/`. The source build and
-publishing guides apply to the repository and are kept outside the version folder.
+Earlier source guides remain in the versioned folders for sites using older releases.

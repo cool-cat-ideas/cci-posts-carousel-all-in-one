@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.2.2 - 2026-11-10
+
+- Reduce repeated template checks when rendering carousels, especially on pages with several examples. Preserve theme overrides, template filters and license checks for the selected template.
+- Reduce feature checks during rendering while preserving license checks for paid features and their dependencies.
+- Return to recently edited carousels from a compact Dashboard table with saved content details and preview saved carousels without opening the editor. Manage, sort and copy shortcodes on the Carousels page, with separate update and editor columns.
+- Check creation dates, update dates, creators and recorded editors on the Information tab in the carousel editor.
+
 ## 2.2.1 - 2026-10-28
 
 - Tested with WordPress 7.1.4.

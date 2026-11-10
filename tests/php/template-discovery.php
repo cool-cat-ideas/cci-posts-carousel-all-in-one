@@ -23,9 +23,16 @@ function sanitize_text_field( $value ) {
 function esc_url_raw( $value ) {
 	return $value; }
 function apply_filters( $name, $value ) {
+	if ( $name === 'wp_posts_carousel_templates' && isset( $GLOBALS['template_filter'] ) ) {
+		return call_user_func( $GLOBALS['template_filter'], $value );
+	}
 	return $value; }
+function has_filter( $name ) {
+	return $name === 'wp_posts_carousel_templates' && isset( $GLOBALS['template_filter'] );
+}
 class WP_Posts_Carousel_Features {
 	public static function template_status( $template ) {
+		$GLOBALS['availability_checks'][] = $template['name'];
 		return array( 'locked' => false ); }
 }
 require dirname( __DIR__, 2 ) . '/includes/templates/class-templates.php';
@@ -75,6 +82,19 @@ try {
 	$custom = make_template( $fixture . '/child/wp-posts-carousel/templates', 'custom', 'custom' );
 	check( WP_Posts_Carousel_Templates::get_template( 'custom' )['dir'] === $custom, 'New child-theme templates remain discoverable' );
 	check( count( WP_Posts_Carousel_Templates::discover_templates() ) === 2, 'Only usable unique templates are listed' );
+	$GLOBALS['availability_checks'] = array();
+	WP_Posts_Carousel_Templates::get_template( 'custom' );
+	check( $GLOBALS['availability_checks'] === array( 'custom' ), 'Single lookup evaluates only the selected template, including its license rules' );
+	$GLOBALS['template_filter'] = static function ( $templates ) {
+		$templates['virtual']                  = array(
+			'name'          => 'virtual',
+			'template_name' => 'Filtered template',
+		);
+		$templates['default']['template_name'] = 'Filtered default';
+		return $templates;
+	};
+	check( WP_Posts_Carousel_Templates::get_template( 'virtual' )['template_name'] === 'Filtered template', 'Collection filters can still add templates without a directory' );
+	check( WP_Posts_Carousel_Templates::get_template( 'default' )['template_name'] === 'Filtered default', 'Collection filters can still modify an existing template' );
 } finally {
 	foreach (array_unique( $files ) as $file) if (is_file( $file )) unlink( $file );
 	$directories = array_unique( $directories );

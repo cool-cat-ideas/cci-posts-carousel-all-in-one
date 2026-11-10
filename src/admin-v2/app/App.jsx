@@ -1,4 +1,4 @@
-import { AdminShell, AdminWorkspace } from '@cci/admin-ui/layout';
+import { AdminShell, AdminWorkspace, AdminColumns } from '@cci/admin-ui/layout';
 import React, { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { BookOpen } from 'lucide-react';
 import { InfoCallout } from '@cci/admin-ui/wp-carousel';
@@ -56,7 +56,13 @@ export default function App() {
   const [currentAction, setCurrentAction] = useState(action);
   const [notices, setNotices] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState(null);
-  const [activeSection, setActiveSection] = useState('dashboard');
+  const [activeSection, setActiveSection] = useState(() => {
+    if (action === 'edit' || action === 'add-new') return 'carousels';
+    const section = new URLSearchParams(window.location.search).get('section');
+    return ['carousels', 'integrations', 'templates', 'analytics', 'settings'].includes(section)
+      ? section
+      : 'dashboard';
+  });
   const [license, setLicense] = useState(pluginData.license || {});
   const [sidebarCollapsed, setSidebarCollapsed] = useState(getInitialSidebarCollapsed);
   const isBuilder = currentAction === 'add-new' || currentAction === 'edit';
@@ -156,6 +162,8 @@ export default function App() {
     const url = new URL(window.location.href);
     url.searchParams.delete('action');
     url.searchParams.delete('id');
+    if (section === 'dashboard') url.searchParams.delete('section');
+    else url.searchParams.set('section', section);
     window.history.replaceState(null, '', url.toString());
   }, []);
 
@@ -165,7 +173,7 @@ export default function App() {
       collapsed={sidebarCollapsed}
     >
       <DashboardSidebar
-        activeSection={isBuilder ? 'dashboard' : activeSection}
+        activeSection={isBuilder ? 'carousels' : activeSection}
         collapsed={sidebarCollapsed}
         isPro={isPro}
         license={license}
@@ -238,10 +246,8 @@ export default function App() {
 
 function getPageHeader(activeSection, hasProAnalytics) {
   const pages = {
-    dashboard: {
-      title: __('CCI Posts Carousel All In One', 'cci-posts-carousel'),
-      description: __('Create, manage and embed carousel definitions.', 'cci-posts-carousel'),
-    },
+    dashboard: { title: __('Dashboard', 'cci-posts-carousel') },
+    carousels: { title: __('Carousels', 'cci-posts-carousel') },
     integrations: {
       title: __('Carousel data integrations', 'cci-posts-carousel'),
       description: __(
@@ -339,18 +345,21 @@ function DashboardSection({
   }
 
   return (
-    <div className="tw-grid tw-grid-cols-1 tw-items-start tw-gap-4 xl:tw-grid-cols-[minmax(0,1fr)_320px]">
-      <div className="tw-grid tw-content-start tw-gap-4 tw-self-start">
+    <AdminColumns fullWidth={activeSection !== 'dashboard'}>
+      <div className="tw-grid tw-min-w-0 tw-content-start tw-gap-4 tw-self-start">
         <CarouselsList
+          overview={activeSection === 'dashboard'}
           setNotice={setNotice}
           confirmAction={confirmAction}
           reviewSlot={<ReviewPrompt section="dashboard" setNotice={setNotice} />}
         />
       </div>
-      <aside className="tw-grid tw-content-start tw-gap-4 tw-self-start">
-        <LicensePanel license={license} />
-        <NewsPanel />
-      </aside>
-    </div>
+      {activeSection === 'dashboard' && (
+        <aside className="tw-grid tw-min-w-0 tw-content-start tw-gap-4 tw-self-start">
+          <LicensePanel license={license} />
+          <NewsPanel />
+        </aside>
+      )}
+    </AdminColumns>
   );
 }

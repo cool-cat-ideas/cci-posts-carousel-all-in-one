@@ -78,3 +78,66 @@ export function carouselConfigurationStats(items) {
     ),
   };
 }
+
+export function carouselModified(carousel) {
+  return carousel.carousel_modified || carousel.post_modified || carousel.post_date || '';
+}
+
+export function recentCarousels(items, limit = 5) {
+  return savedCarousels(items)
+    .sort(
+      (a, b) =>
+        carouselModified(b).localeCompare(carouselModified(a)) || Number(b.ID) - Number(a.ID),
+    )
+    .slice(0, limit);
+}
+
+export function sortCarousels(items, sort = { key: 'date', direction: 'desc' }, locale) {
+  const collator = new Intl.Collator(locale || undefined, { numeric: true, sensitivity: 'base' });
+  const fields = {
+    title: (row) => row.post_title || '',
+    shortcode: (row) => Number(row.ID),
+    status: (row) => row.post_status || '',
+    date: carouselModified,
+    editor: (row) => row.modified_by_name || '',
+  };
+  const value = fields[sort.key] || fields.date;
+  const direction = sort.direction === 'asc' ? 1 : -1;
+  return savedCarousels(items).sort((a, b) => {
+    const left = value(a),
+      right = value(b);
+    // Unrecorded editors and other missing values remain last in either direction.
+    if (left === '' && right !== '') return 1;
+    if (right === '' && left !== '') return -1;
+    const compared =
+      typeof left === 'number' && typeof right === 'number'
+        ? left - right
+        : collator.compare(String(left), String(right));
+    return compared * direction || Number(b.ID) - Number(a.ID);
+  });
+}
+
+export function carouselContentSummary(carousel) {
+  const config = readConfig(carousel);
+  if (!config) return null;
+  const selected = Array.isArray(config.curation?.items)
+    ? config.curation.items
+    : Array.isArray(config.post_selection_options?.posts)
+      ? config.post_selection_options.posts
+      : [];
+  const rawTypes = config.source?.post_types ?? config.post_selection_options?.post_types;
+  const types = Array.isArray(rawTypes)
+    ? [
+        ...new Set(
+          rawTypes.map((type) => (typeof type === 'string' ? type : type?.value)).filter(Boolean),
+        ),
+      ]
+    : [];
+  const mode =
+    config.source?.mode ??
+    config.curation?.mode ??
+    config.post_selection_options?.mode ??
+    (selected.length ? 'manual' : types.length ? 'query' : undefined);
+  if (!['manual', 'query', 'hybrid'].includes(mode)) return null;
+  return { mode, types, selected: mode === 'manual' ? selected.filter(Boolean).length : null };
+}

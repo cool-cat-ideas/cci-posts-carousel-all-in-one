@@ -45,13 +45,15 @@ Declared compatibility: **WordPress 6.2 through 7.1.4** and **PHP 7.4 or later**
 
 For image previews, open **Design > Second image on hover**, enable the option and choose a source. It is off by default and included in the base plugin. Try [A second image on hover](https://wordpress-demo.coolcatideas.com/cci-posts-carousel-demo/#wpc-demo-carousel-image-hover-free).
 
-See the [user guide](docs/2.2.0/user-guide.md) for configuration and the [developer guide](docs/2.2.0/developer-guide.md) for extensions.
+See [Dashboard and Carousels](docs/2.2.2/dashboard-and-carousels.md) for managing saved definitions.
+
+See the [user guide](docs/2.2.2/getting-started.md) for configuration and the [developer guide](docs/2.2.2/developer-guide.md) for extensions.
 
 For two rows that move together, open **General > Rows** and choose **Two rows**.
 This layout is included in Free. Phone screens use one row by default; you can
-choose two and adjust the row gap. See the [two-row guide](docs/2.2.0/two-row-carousels.md).
+choose two and adjust the row gap. See the [two-row guide](docs/2.2.2/two-row-carousels.md).
 
-For updates from an older release, follow the [installation and upgrade guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.0/installation/).
+For updates from an older release, follow the [installation and upgrade guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.2/installation/).
 
 The [plugin readme](readme.txt) includes the changelog and explains marketplace requests, optional review submissions and icon CDN loading.
 
@@ -62,9 +64,9 @@ The admin screenshots show a demo installation with Pro active. Captions identif
 <details open>
 <summary>1. Carousel dashboard</summary>
 
-Manage saved carousels, copy their shortcodes and check publication status and product news.
+Return to five recently edited carousels from Dashboard. Content details below each title identify automatic sources or saved manual selections. Check publication status and update dates, open the editor or preview a saved carousel. Manage the full collection and copy shortcodes on the Carousels page.
 
-![CCI Posts Carousel All In One dashboard with saved carousels and publication status](.wordpress-org/screenshot-1.png)
+![CCI Posts Carousel All In One Dashboard with recent carousels, publication status and update dates](.wordpress-org/screenshot-1.png)
 
 </details>
 
@@ -116,7 +118,7 @@ Pin selected posts first and fill the remaining places automatically.
 <details>
 <summary>7. Card display settings</summary>
 
-Choose which card elements appear and set title and excerpt limits. The price and sale controls shown require Pro.
+Choose which card elements appear and set title and excerpt limits.
 
 ![Carousel card visibility controls and text length limits](.wordpress-org/screenshot-7.png)
 
@@ -132,119 +134,130 @@ Search for existing content or add a custom image slide, then arrange its positi
 </details>
 
 <details>
-<summary>9. Image on hover and advanced settings</summary>
+<summary>9. Frontend filters and publishing settings</summary>
 
-Enable an optional second image on mouse hover. The featured image remains the default.
+Configure frontend filters, performance options, field mapping and publishing behavior.
 
-![CCI Posts Carousel All In One — Image on hover and advanced settings](.wordpress-org/screenshot-9.png)
-
-</details>
-
-<details>
-<summary>10. Saved carousel shortcodes</summary>
-
-Each saved carousel has its own shortcode, publication status and last update date.
-
-![Saved carousel list with shortcodes, publication badges and update dates](.wordpress-org/screenshot-10.png)
+![CCI Posts Carousel All In One frontend filters and publishing settings](.wordpress-org/screenshot-9.png)
 
 </details>
 
+
+
 <details>
-<summary>11. Responsive carousel preview</summary>
+<summary>10. Responsive carousel preview</summary>
 
 Preview article cards and test the carousel at different widths.
 
-![CCI Posts Carousel All In One — Responsive carousel preview](.wordpress-org/screenshot-11.png)
+![CCI Posts Carousel All In One — Responsive carousel preview](.wordpress-org/screenshot-10.png)
 
 </details>
 
 <details>
-<summary>12. Pinned stories with fresh posts</summary>
+<summary>11. Pinned stories with fresh posts</summary>
 
 Two pinned posts lead this six-slide example. Four more are selected automatically; three cards are visible on desktop.
 
-![CCI Posts Carousel All In One — Pinned stories with fresh posts](.wordpress-org/screenshot-12.png)
+![CCI Posts Carousel All In One — Pinned stories with fresh posts](.wordpress-org/screenshot-11.png)
 
 </details>
 
 <details>
-<summary>13. Article cards</summary>
+<summary>12. Article cards</summary>
 
 Present WordPress articles as image cards with excerpts and links to the full posts.
 
-![Three article cards with featured images, excerpts and navigation arrows](.wordpress-org/screenshot-13.png)
+![Three article cards with featured images, excerpts and navigation arrows](.wordpress-org/screenshot-12.png)
 
 </details>
 
 <details>
-<summary>14. Aurora product cards</summary>
+<summary>13. Aurora product cards</summary>
 
 Aurora Cards is an optional template extension. The displayed prices, sale badges and Add to cart actions are supplied by Pro.
 
-![Aurora Cards product carousel with category badges, prices and cart buttons](.wordpress-org/screenshot-14.png)
+![Aurora Cards product carousel with category badges, prices and cart buttons](.wordpress-org/screenshot-13.png)
 
 </details>
 
 <details>
-<summary>15. Aurora editorial cards</summary>
+<summary>14. Aurora editorial cards</summary>
 
 The optional Aurora Cards extension presents article images, excerpts and navigation.
 
-![CCI Posts Carousel All In One — Aurora editorial cards](.wordpress-org/screenshot-15.png)
+![CCI Posts Carousel All In One — Aurora editorial cards](.wordpress-org/screenshot-14.png)
 
 </details>
 
 <details>
-<summary>16. A second image on hover</summary>
+<summary>15. A second image on hover</summary>
 
 The base plugin can show a second image on mouse hover. Touch screens retain the featured image.
 
-![CCI Posts Carousel All In One — A second image on hover](.wordpress-org/screenshot-16.png)
+![CCI Posts Carousel All In One — A second image on hover](.wordpress-org/screenshot-15.png)
 
 </details>
 
 <details>
-<summary>17. Story Commerce — Pro</summary>
+<summary>16. Story Commerce — Pro</summary>
 
 Story Commerce combines a wide opening slide and supporting cards into a numbered shopping story. Included in Pro.
 
-![Story Commerce carousel with numbered shopping guide steps](.wordpress-org/screenshot-17.png)
+![Story Commerce carousel with numbered shopping guide steps](.wordpress-org/screenshot-16.png)
 
 </details>
 
 <details>
-<summary>18. Video Showcase — Pro</summary>
+<summary>17. Video Showcase — Pro</summary>
 
 Video Showcase pairs the active video with a playlist of entries and timestamps. Included in Pro.
 
-![Video Showcase with a video player and chapter playlist](.wordpress-org/screenshot-18.png)
+![Video Showcase with a video player and chapter playlist](.wordpress-org/screenshot-17.png)
 
 </details>
 
 <details>
-<summary>19. Commerce Luxe — Pro</summary>
+<summary>18. Commerce Luxe — Pro</summary>
 
 Commerce Luxe presents product images, sale prices, quantity controls and Add to cart buttons on a dark carousel background. Included in Pro.
 
-![Commerce Luxe product cards with prices, quantity controls and Add to cart buttons](.wordpress-org/screenshot-19.png)
+![Commerce Luxe product cards with prices, quantity controls and Add to cart buttons](.wordpress-org/screenshot-18.png)
 
 </details>
 
 <details>
-<summary>20. Pinning posts in the editor</summary>
+<summary>19. Pinning posts in the editor</summary>
 
 Reorder pinned posts and let the query fill the remaining places without duplicate posts.
 
-![CCI Posts Carousel All In One — Pinning posts in the editor](.wordpress-org/screenshot-20.png)
+![CCI Posts Carousel All In One — Pinning posts in the editor](.wordpress-org/screenshot-19.png)
 
 </details>
 
 <details>
-<summary>21. Hover image URL and media library</summary>
+<summary>20. Hover image URL and media library</summary>
 
 Set a second image for a manual slide by pasting its URL or choosing it from the media library.
 
-![CCI Posts Carousel All In One — Hover image URL and media library](.wordpress-org/screenshot-21.png)
+![CCI Posts Carousel All In One — Hover image URL and media library](.wordpress-org/screenshot-20.png)
+
+</details>
+
+<details>
+<summary>21. Carousel management</summary>
+
+Sort the full collection by title, shortcode, publication status, update date or last editor. Copy shortcodes, preview saved carousels, duplicate or delete a carousel.
+
+![Carousel management with shortcodes, publication status and update details](.wordpress-org/screenshot-21.png)
+
+</details>
+
+<details>
+<summary>22. Creation and editing details</summary>
+
+The Information tab shows creation and update dates, the creator and the last recorded editor.
+
+![Carousel creation and editing details on the Information tab](.wordpress-org/screenshot-22.png)
 
 </details>
 

@@ -313,7 +313,10 @@ function syncMountNodeMetadata(mountNode, element) {
   }
 
   if (engine) {
-    classes.push(engine === 'owl-carousel' ? 'owl-carousel' : `cci-wpc-engine-${engine}`);
+    // A full React view does not mount Owl; its native class would keep some templates display:none.
+    const nativeOwl =
+      engine === 'owl-carousel' && !['full', 'render'].includes(element.dataset.wpcReactMode);
+    classes.push(nativeOwl ? 'owl-carousel' : `cci-wpc-engine-${engine}`);
   }
 
   mountNode.className = classes.join(' ');

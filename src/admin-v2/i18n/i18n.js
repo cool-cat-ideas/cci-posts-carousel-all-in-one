@@ -1,6 +1,8 @@
 import { pluginData } from '../api/api';
 
 export const __ = window.wp?.i18n?.__ || ((text) => text);
+export const _n =
+  window.wp?.i18n?._n || ((singular, plural, count) => (Number(count) === 1 ? singular : plural));
 
 export function licenseString(text) {
   if (text === 'License active') {

@@ -4,6 +4,7 @@ import {
   Eye,
   Gauge,
   ListPlus,
+  Info,
   Palette,
   PanelsTopLeft,
   Save,
@@ -32,6 +33,7 @@ import ImageSettings from './ImageSettings';
 import LoadingState from '../feedback/LoadingState';
 import PostSearch from './PostSearch';
 import SavedPreview from './SavedPreview';
+import CarouselDetails from './CarouselDetails';
 import TaxonomyFilters from './TaxonomyFilters';
 import TemplatePicker from './TemplatePicker';
 import { Button } from '../ui/button';
@@ -47,6 +49,7 @@ export default function VisualBuilder({ setNotice, confirmAction }) {
   const [savedId, setSavedId] = useState(id);
   const isEdit = Boolean(savedId);
   const [settings, setSettings] = useState(null);
+  const [metadata, setMetadata] = useState(null);
   const [form, setForm] = useState(carouselDefaults());
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -93,6 +96,7 @@ export default function VisualBuilder({ setNotice, confirmAction }) {
         const defaults = response.default_values || {};
         let values = defaults;
 
+        setMetadata(response.post?.metadata || null);
         if (response.post) {
           values = {
             ...defaults,
@@ -452,6 +456,7 @@ export default function VisualBuilder({ setNotice, confirmAction }) {
       body: JSON.stringify(form),
     })
       .then((response) => {
+        setMetadata(response.metadata || null);
         setNotice({
           type: 'success',
           message: __('Carousel was saved.', 'cci-posts-carousel'),
@@ -551,7 +556,7 @@ export default function VisualBuilder({ setNotice, confirmAction }) {
       <CardHeader>
         <div>
           <Button asChild variant="ghost" className="tw-font-semibold tw-text-cci-wpc-text">
-            <a href="admin.php?page=cci-posts-carousel">
+            <a href="admin.php?page=cci-posts-carousel&section=carousels">
               <ArrowLeft aria-hidden="true" />
               {__('Back to all carousels', 'cci-posts-carousel')}
             </a>
@@ -609,301 +614,358 @@ export default function VisualBuilder({ setNotice, confirmAction }) {
           <BuilderTab value="design" icon={Palette} label={__('Design', 'cci-posts-carousel')} />
           <BuilderTab value="content" icon={ListPlus} label={__('Slides', 'cci-posts-carousel')} />
           <BuilderTab value="advanced" icon={Gauge} label={__('Advanced', 'cci-posts-carousel')} />
+          <BuilderTab
+            value="information"
+            icon={Info}
+            label={__('Information', 'cci-posts-carousel')}
+          />
         </TabsList>
       </Tabs>
 
-      <div className="tw-p-4">
-        <div className="tw-grid tw-grid-cols-1 tw-gap-4 2xl:tw-grid-cols-[420px_minmax(0,1fr)]">
-          <section className="tw-min-w-0 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white">
-            <div className="tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-4">
-              <h2 className="tw-m-0 tw-text-lg tw-font-semibold tw-leading-tight tw-text-cci-wpc-text">
-                {panelCopy.title}
-              </h2>
-              <p className="tw-m-0 tw-mt-1 tw-text-sm tw-leading-5 tw-text-cci-wpc-muted">
-                {panelCopy.description}
-              </p>
-            </div>
-            <div className="tw-grid tw-gap-4 tw-p-4">
-              {activePanel === 'setup' && (
-                <>
-                  <Field label={__('Renderer', 'cci-posts-carousel')}>
-                    <Select
-                      value={engineRequiresReact ? 'react' : form.renderer || 'php'}
-                      onValueChange={(renderer) => setForm({ ...form, renderer })}
-                      options={(dictionaries.frontend_renderers || []).map((renderer) => ({
-                        value: renderer.name,
-                        label: renderer.label,
-                        disabled:
-                          !renderer.enabled || (engineRequiresReact && renderer.name !== 'react'),
-                      }))}
+      {activePanel === 'information' ? (
+        <div className="tw-p-4">
+          <CarouselDetails metadata={metadata} />
+        </div>
+      ) : (
+        <div className="tw-p-4">
+          <div className="tw-grid tw-grid-cols-1 tw-gap-4 2xl:tw-grid-cols-[420px_minmax(0,1fr)]">
+            <section className="tw-min-w-0 tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white">
+              <div className="tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-4">
+                <h2 className="tw-m-0 tw-text-lg tw-font-semibold tw-leading-tight tw-text-cci-wpc-text">
+                  {panelCopy.title}
+                </h2>
+                <p className="tw-m-0 tw-mt-1 tw-text-sm tw-leading-5 tw-text-cci-wpc-muted">
+                  {panelCopy.description}
+                </p>
+              </div>
+              <div className="tw-grid tw-gap-4 tw-p-4">
+                {activePanel === 'setup' && (
+                  <>
+                    <Field label={__('Renderer', 'cci-posts-carousel')}>
+                      <Select
+                        value={engineRequiresReact ? 'react' : form.renderer || 'php'}
+                        onValueChange={(renderer) => setForm({ ...form, renderer })}
+                        options={(dictionaries.frontend_renderers || []).map((renderer) => ({
+                          value: renderer.name,
+                          label: renderer.label,
+                          disabled:
+                            !renderer.enabled || (engineRequiresReact && renderer.name !== 'react'),
+                        }))}
+                      />
+                      {engineRequiresReact && (
+                        <small className="tw-text-xs tw-leading-5 tw-text-cci-wpc-muted">
+                          {__(
+                            'Swiper uses the React renderer on the frontend.',
+                            'cci-posts-carousel',
+                          )}
+                        </small>
+                      )}
+                      {!engineRequiresReact && form.renderer === 'react' && (
+                        <small className="tw-text-xs tw-leading-5 tw-text-cci-wpc-muted">
+                          {__(
+                            'Owl keeps the PHP carousel engine and React only adds enhancements.',
+                            'cci-posts-carousel',
+                          )}
+                        </small>
+                      )}
+                    </Field>
+
+                    <CarouselSettings
+                      carouselTypes={dictionaries.carousel_types || []}
+                      supportsTwoRows={(
+                        dictionaries.two_row_templates || ['default', 'light', 'simple']
+                      ).includes(normalizeTemplateName(form.template || 'default'))}
+                      value={form.carousel_type || 'owl-carousel'}
+                      options={form.carousel_options || {}}
+                      animations={dictionaries.animations || []}
+                      iconLibraries={dictionaries.icon_libraries || []}
+                      onTypeChange={(carouselType) =>
+                        setForm({
+                          ...form,
+                          carousel_type: carouselType,
+                          carousel_options: {
+                            ...form.carousel_options,
+                            direction:
+                              carouselType === 'swiper'
+                                ? form.carousel_options?.direction || 'horizontal'
+                                : 'horizontal',
+                          },
+                          renderer: carouselType === 'swiper' ? 'react' : form.renderer,
+                        })
+                      }
+                      onOptionsChange={(carouselOptions) =>
+                        setForm({
+                          ...form,
+                          carousel_options: carouselOptions,
+                        })
+                      }
+                      errors={validationErrors}
+                      confirmAction={confirmAction}
                     />
-                    {engineRequiresReact && (
-                      <small className="tw-text-xs tw-leading-5 tw-text-cci-wpc-muted">
+                  </>
+                )}
+
+                {activePanel === 'query' && (
+                  <>
+                    <Field label={__('Content selection', 'cci-posts-carousel')}>
+                      <Select
+                        value={selectionMode}
+                        onValueChange={changeSelectionMode}
+                        options={[
+                          { value: 'query', label: __('Query (automatic)', 'cci-posts-carousel') },
+                          { value: 'manual', label: __('Manual slides', 'cci-posts-carousel') },
+                          {
+                            value: 'hybrid',
+                            label: __('Pinned slides + automatic fill', 'cci-posts-carousel'),
+                          },
+                        ]}
+                      />
+                    </Field>
+                    {isManual && (
+                      <p className="tw-m-0 tw-text-sm tw-text-cci-wpc-muted">
                         {__(
-                          'Swiper uses the React renderer on the frontend.',
+                          'Manual slides keep a fixed selection. Choose Query for automatically updated posts.',
                           'cci-posts-carousel',
                         )}
-                      </small>
+                      </p>
                     )}
-                    {!engineRequiresReact && form.renderer === 'react' && (
-                      <small className="tw-text-xs tw-leading-5 tw-text-cci-wpc-muted">
+                    {isHybrid && (
+                      <p className="tw-m-0 tw-text-sm tw-text-cci-wpc-muted">
                         {__(
-                          'Owl keeps the PHP carousel engine and React only adds enhancements.',
+                          'Pinned slides appear first. Query results fill the remaining places without repeating pinned posts. The posts limit includes both.',
                           'cci-posts-carousel',
                         )}
-                      </small>
+                      </p>
                     )}
-                  </Field>
+                    <Field label={__('Post types', 'cci-posts-carousel')}>
+                      <div className="tw-grid tw-grid-cols-1 tw-gap-2 sm:tw-grid-cols-2">
+                        {(dictionaries.post_types || []).map((postType) => (
+                          <CheckboxField
+                            key={postType.value}
+                            checked={postTypes.includes(String(postType.value))}
+                            onCheckedChange={(checked) =>
+                              togglePostType(postType, Boolean(checked))
+                            }
+                          >
+                            {postType.label}
+                          </CheckboxField>
+                        ))}
+                      </div>
+                    </Field>
 
-                  <CarouselSettings
-                    carouselTypes={dictionaries.carousel_types || []}
-                    supportsTwoRows={(
-                      dictionaries.two_row_templates || ['default', 'light', 'simple']
-                    ).includes(normalizeTemplateName(form.template || 'default'))}
-                    value={form.carousel_type || 'owl-carousel'}
-                    options={form.carousel_options || {}}
-                    animations={dictionaries.animations || []}
-                    iconLibraries={dictionaries.icon_libraries || []}
-                    onTypeChange={(carouselType) =>
-                      setForm({
-                        ...form,
-                        carousel_type: carouselType,
-                        carousel_options: {
-                          ...form.carousel_options,
-                          direction: carouselType === 'swiper' ? form.carousel_options?.direction || 'horizontal' : 'horizontal',
-                        },
-                        renderer: carouselType === 'swiper' ? 'react' : form.renderer,
-                      })
-                    }
-                    onOptionsChange={(carouselOptions) =>
-                      setForm({
-                        ...form,
-                        carousel_options: carouselOptions,
-                      })
-                    }
-                    errors={validationErrors}
-                    confirmAction={confirmAction}
-                  />
-                </>
-              )}
+                    <Field label={__('Posts limit', 'cci-posts-carousel')}>
+                      <Input
+                        type="number"
+                        min="1"
+                        value={form.post_selection_options.all_items || 10}
+                        onChange={(event) =>
+                          updatePostSelection({ all_items: Number(event.target.value || 1) })
+                        }
+                      />
+                    </Field>
 
-              {activePanel === 'query' && (
-                <>
-                  <Field label={__('Content selection', 'cci-posts-carousel')}>
-                    <Select
-                      value={selectionMode}
-                      onValueChange={changeSelectionMode}
-                      options={[
-                        { value: 'query', label: __('Query (automatic)', 'cci-posts-carousel') },
-                        { value: 'manual', label: __('Manual slides', 'cci-posts-carousel') },
-                        {
-                          value: 'hybrid',
-                          label: __('Pinned slides + automatic fill', 'cci-posts-carousel'),
-                        },
-                      ]}
-                    />
-                  </Field>
-                  {isManual && (
-                    <p className="tw-m-0 tw-text-sm tw-text-cci-wpc-muted">
-                      {__(
-                        'Manual slides keep a fixed selection. Choose Query for automatically updated posts.',
-                        'cci-posts-carousel',
-                      )}
-                    </p>
-                  )}
-                  {isHybrid && (
-                    <p className="tw-m-0 tw-text-sm tw-text-cci-wpc-muted">
-                      {__(
-                        'Pinned slides appear first. Query results fill the remaining places without repeating pinned posts. The posts limit includes both.',
-                        'cci-posts-carousel',
-                      )}
-                    </p>
-                  )}
-                  <Field label={__('Post types', 'cci-posts-carousel')}>
-                    <div className="tw-grid tw-grid-cols-1 tw-gap-2 sm:tw-grid-cols-2">
-                      {(dictionaries.post_types || []).map((postType) => (
-                        <CheckboxField
-                          key={postType.value}
-                          checked={postTypes.includes(String(postType.value))}
-                          onCheckedChange={(checked) => togglePostType(postType, Boolean(checked))}
-                        >
-                          {postType.label}
-                        </CheckboxField>
-                      ))}
+                    <div className="tw-grid tw-grid-cols-1 tw-gap-3 sm:tw-grid-cols-2">
+                      <Field label={__('Order by', 'cci-posts-carousel')}>
+                        <Select
+                          value={form.post_selection_options.order_by || 'id'}
+                          onValueChange={(orderBy) => updatePostSelection({ order_by: orderBy })}
+                          options={dictionaries.order_by || []}
+                        />
+                      </Field>
+
+                      <Field label={__('Order', 'cci-posts-carousel')}>
+                        <Select
+                          value={form.post_selection_options.ordering || 'desc'}
+                          onValueChange={(ordering) => updatePostSelection({ ordering })}
+                          options={dictionaries.ordering || []}
+                        />
+                      </Field>
                     </div>
-                  </Field>
 
-                  <Field label={__('Posts limit', 'cci-posts-carousel')}>
-                    <Input
-                      type="number"
-                      min="1"
-                      value={form.post_selection_options.all_items || 10}
-                      onChange={(event) =>
-                        updatePostSelection({ all_items: Number(event.target.value || 1) })
+                    <TaxonomyFilters
+                      taxonomiesByPostType={dictionaries.taxonomies || {}}
+                      operators={dictionaries.operators || []}
+                      postTypes={postTypes}
+                      value={form.post_selection_options.taxonomies || []}
+                      relation={form.post_selection_options.relation || 'or'}
+                      onChange={(taxonomies) => updatePostSelection({ taxonomies })}
+                      onRelationChange={(relation) => updatePostSelection({ relation })}
+                      setNotice={setNotice}
+                    />
+                  </>
+                )}
+
+                {activePanel === 'design' && (
+                  <>
+                    <DisplaySettings
+                      definitions={dictionaries.display_options || {}}
+                      postTypes={postTypes}
+                      value={form.display_options || {}}
+                      imageSizeOverride={form.performance_options?.image_size}
+                      onChange={(displayOptions, { clearImageSizeOverride = false } = {}) =>
+                        setForm((current) => ({
+                          ...current,
+                          display_options: displayOptions,
+                          ...(clearImageSizeOverride
+                            ? {
+                                performance_options: {
+                                  ...current.performance_options,
+                                  image_size: 'inherit',
+                                },
+                              }
+                            : {}),
+                        }))
                       }
                     />
-                  </Field>
 
-                  <div className="tw-grid tw-grid-cols-1 tw-gap-3 sm:tw-grid-cols-2">
-                    <Field label={__('Order by', 'cci-posts-carousel')}>
-                      <Select
-                        value={form.post_selection_options.order_by || 'id'}
-                        onValueChange={(orderBy) => updatePostSelection({ order_by: orderBy })}
-                        options={dictionaries.order_by || []}
-                      />
-                    </Field>
+                    <ImageSettings
+                      form={form}
+                      onChange={(patch) => setForm((current) => ({ ...current, ...patch }))}
+                    />
 
-                    <Field label={__('Order', 'cci-posts-carousel')}>
-                      <Select
-                        value={form.post_selection_options.ordering || 'desc'}
-                        onValueChange={(ordering) => updatePostSelection({ ordering })}
-                        options={dictionaries.ordering || []}
-                      />
-                    </Field>
-                  </div>
+                    <TemplatePicker
+                      templates={dictionaries.templates || []}
+                      value={normalizeTemplateName(form.template || 'default')}
+                      onChange={(templateName) => setForm({ ...form, template: templateName })}
+                    />
+                  </>
+                )}
 
-                  <TaxonomyFilters
-                    taxonomiesByPostType={dictionaries.taxonomies || {}}
-                    operators={dictionaries.operators || []}
+                {activePanel === 'content' && (
+                  <>
+                    <PostSearch
+                      postTypes={postTypes}
+                      availablePostTypes={dictionaries.post_types || []}
+                      selectedPosts={posts}
+                      onAdd={addPost}
+                      setNotice={setNotice}
+                    />
+
+                    <CustomSlideForm onAdd={addPost} setNotice={setNotice} />
+                  </>
+                )}
+
+                {activePanel === 'advanced' && (
+                  <AdvancedSettings
+                    dictionaries={dictionaries}
                     postTypes={postTypes}
-                    value={form.post_selection_options.taxonomies || []}
-                    relation={form.post_selection_options.relation || 'or'}
-                    onChange={(taxonomies) => updatePostSelection({ taxonomies })}
-                    onRelationChange={(relation) => updatePostSelection({ relation })}
-                    setNotice={setNotice}
-                  />
-                </>
-              )}
-
-              {activePanel === 'design' && (
-                <>
-                  <DisplaySettings
-                    definitions={dictionaries.display_options || {}}
-                    postTypes={postTypes}
-                    value={form.display_options || {}}
-                    imageSizeOverride={form.performance_options?.image_size}
-                    onChange={(displayOptions, { clearImageSizeOverride = false } = {}) =>
+                    form={form}
+                    onChange={(patch) =>
                       setForm((current) => ({
                         ...current,
-                        display_options: displayOptions,
-                        ...(clearImageSizeOverride
-                          ? {
-                              performance_options: {
-                                ...current.performance_options,
-                                image_size: 'inherit',
-                              },
-                            }
-                          : {}),
+                        ...patch,
                       }))
                     }
                   />
+                )}
+              </div>
+            </section>
 
-                  <ImageSettings
-                    form={form}
-                    onChange={(patch) => setForm((current) => ({ ...current, ...patch }))}
-                  />
-
-                  <TemplatePicker
-                    templates={dictionaries.templates || []}
-                    value={normalizeTemplateName(form.template || 'default')}
-                    onChange={(templateName) => setForm({ ...form, template: templateName })}
-                  />
-                </>
-              )}
-
-              {activePanel === 'content' && (
-                <>
-                  <PostSearch
-                    postTypes={postTypes}
-                    availablePostTypes={dictionaries.post_types || []}
-                    selectedPosts={posts}
-                    onAdd={addPost}
-                    setNotice={setNotice}
-                  />
-
-                  <CustomSlideForm onAdd={addPost} setNotice={setNotice} />
-                </>
-              )}
-
-              {activePanel === 'advanced' && (
-                <AdvancedSettings
-                  dictionaries={dictionaries}
-                  postTypes={postTypes}
-                  form={form}
-                  onChange={(patch) =>
-                    setForm((current) => ({
-                      ...current,
-                      ...patch,
-                    }))
-                  }
-                />
-              )}
-            </div>
-          </section>
-
-          <section className="tw-min-w-0">
-            <div className="tw-min-w-0">
-              <div className="tw-grid tw-min-h-full tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white">
-                <div className="tw-flex tw-flex-col sm:tw-flex-row tw-items-start tw-justify-between tw-gap-4 tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-4">
-                  <div>
-                    <strong className="tw-inline-flex tw-items-center tw-gap-2 tw-text-lg tw-font-semibold tw-leading-tight tw-text-cci-wpc-text [&_svg]:tw-h-5 [&_svg]:tw-w-5 [&_svg]:tw-text-cci-wpc-brand">
-                      <PanelsTopLeft aria-hidden="true" />
-                      {isHybrid
-                        ? __('Pinned slides + automatic fill', 'cci-posts-carousel')
-                        : isManual
-                          ? __('Visual slide order', 'cci-posts-carousel')
-                          : __('Query preview', 'cci-posts-carousel')}
-                    </strong>
-                    <span className="tw-mt-1 tw-block tw-max-w-3xl tw-text-sm tw-leading-5 tw-text-cci-wpc-muted">
-                      {__(
-                        isHybrid
-                          ? 'Arrange your pinned slides first. New matching posts automatically fill the remaining places.'
+            <section className="tw-min-w-0">
+              <div className="tw-min-w-0">
+                <div className="tw-grid tw-min-h-full tw-rounded-md tw-border tw-border-solid tw-border-cci-wpc-border tw-bg-white">
+                  <div className="tw-flex tw-flex-col sm:tw-flex-row tw-items-start tw-justify-between tw-gap-4 tw-border-0 tw-border-b tw-border-solid tw-border-cci-wpc-border tw-px-4 tw-py-4">
+                    <div>
+                      <strong className="tw-inline-flex tw-items-center tw-gap-2 tw-text-lg tw-font-semibold tw-leading-tight tw-text-cci-wpc-text [&_svg]:tw-h-5 [&_svg]:tw-w-5 [&_svg]:tw-text-cci-wpc-brand">
+                        <PanelsTopLeft aria-hidden="true" />
+                        {isHybrid
+                          ? __('Pinned slides + automatic fill', 'cci-posts-carousel')
                           : isManual
-                            ? 'Drag slides to set the sequence. Use the pencil button to edit width, grouping and image offset.'
-                            : 'Matching posts update automatically. Save the carousel to apply these query rules to your site.',
-                        'cci-posts-carousel',
-                      )}
-                    </span>
+                            ? __('Visual slide order', 'cci-posts-carousel')
+                            : __('Query preview', 'cci-posts-carousel')}
+                      </strong>
+                      <span className="tw-mt-1 tw-block tw-max-w-3xl tw-text-sm tw-leading-5 tw-text-cci-wpc-muted">
+                        {__(
+                          isHybrid
+                            ? 'Arrange your pinned slides first. New matching posts automatically fill the remaining places.'
+                            : isManual
+                              ? 'Drag slides to set the sequence. Use the pencil button to edit width, grouping and image offset.'
+                              : 'Matching posts update automatically. Save the carousel to apply these query rules to your site.',
+                          'cci-posts-carousel',
+                        )}
+                      </span>
+                    </div>
+                    <div className="tw-flex tw-flex-wrap tw-items-center tw-gap-2">
+                      <span className="tw-inline-flex tw-items-center tw-rounded-full tw-border tw-border-solid tw-border-cci-wpc-brandBorder tw-bg-cci-wpc-brandSoft tw-px-3 tw-py-1.5 tw-text-xs tw-font-bold tw-text-cci-wpc-brandStrong">
+                        {isHybrid
+                          ? Math.min(
+                              posts.length + queryPosts.length,
+                              Number(form.post_selection_options.all_items) || 10,
+                            )
+                          : visiblePosts.length}{' '}
+                        {__('slides', 'cci-posts-carousel')}
+                      </span>
+                      <Button onClick={() => loadPreview()} disabled={previewLoading}>
+                        <Eye aria-hidden="true" />
+                        {previewLoading
+                          ? __('Loading preview...', 'cci-posts-carousel')
+                          : __('Open preview', 'cci-posts-carousel')}
+                      </Button>
+                    </div>
                   </div>
-                  <div className="tw-flex tw-flex-wrap tw-items-center tw-gap-2">
-                    <span className="tw-inline-flex tw-items-center tw-rounded-full tw-border tw-border-solid tw-border-cci-wpc-brandBorder tw-bg-cci-wpc-brandSoft tw-px-3 tw-py-1.5 tw-text-xs tw-font-bold tw-text-cci-wpc-brandStrong">
-                      {isHybrid
-                        ? Math.min(
-                            posts.length + queryPosts.length,
-                            Number(form.post_selection_options.all_items) || 10,
-                          )
-                        : visiblePosts.length}{' '}
-                      {__('slides', 'cci-posts-carousel')}
-                    </span>
-                    <Button onClick={() => loadPreview()} disabled={previewLoading}>
-                      <Eye aria-hidden="true" />
-                      {previewLoading
-                        ? __('Loading preview...', 'cci-posts-carousel')
-                        : __('Open preview', 'cci-posts-carousel')}
-                    </Button>
-                  </div>
-                </div>
 
-                <div className="tw-grid tw-gap-4 tw-p-4">
-                  {isManual && (
-                    <CompositionTools
-                      posts={posts}
-                      postTypes={postTypes}
-                      pattern={form.curation_pattern || {}}
-                      onPostsChange={(nextPosts) => updatePostSelection({ posts: nextPosts })}
-                      onPatternChange={updateCurationPattern}
-                      setNotice={setNotice}
-                    />
-                  )}
+                  <div className="tw-grid tw-gap-4 tw-p-4">
+                    {isManual && (
+                      <CompositionTools
+                        posts={posts}
+                        postTypes={postTypes}
+                        pattern={form.curation_pattern || {}}
+                        onPostsChange={(nextPosts) => updatePostSelection({ posts: nextPosts })}
+                        onPatternChange={updateCurationPattern}
+                        setNotice={setNotice}
+                      />
+                    )}
 
-                  {isHybrid && posts.length > 0 && (
+                    {isHybrid && posts.length > 0 && (
+                      <CompositionPreview
+                        title={__('Pinned slides', 'cci-posts-carousel')}
+                        description={__(
+                          'These slides stay at the beginning. Drag to change their order; remove a pin to let the post return to automatic results.',
+                          'cci-posts-carousel',
+                        )}
+                        posts={posts}
+                        selectedIndex={safeSelectedIndex}
+                        draggingIndex={draggingIndex}
+                        dragOverIndex={dragOverIndex}
+                        onSelect={setSelectedIndex}
+                        onUpdate={updatePost}
+                        onChooseImage={chooseCustomImage}
+                        onDragStart={startDragging}
+                        onDragEnter={setDragOverIndex}
+                        onDrop={reorder}
+                        onDragEnd={stopDragging}
+                        onRemove={removePost}
+                      />
+                    )}
+                    {isHybrid && posts.length >= Number(form.post_selection_options.all_items) && (
+                      <p role="status" className="tw-m-0 tw-text-sm tw-text-cci-wpc-muted">
+                        {__(
+                          'Pinned slides fill the posts limit. Increase the limit to include automatic results. Extra pins stay saved but are not shown.',
+                          'cci-posts-carousel',
+                        )}
+                      </p>
+                    )}
+                    {!isManual && queryLoading && (
+                      <LoadingState label={__('Loading matching posts...', 'cci-posts-carousel')} />
+                    )}
+                    {!isManual && queryError && (
+                      <p role="alert">
+                        {__(
+                          'Could not load matching posts. Change a query setting to try again.',
+                          'cci-posts-carousel',
+                        )}
+                      </p>
+                    )}
+                    {!isManual && !queryLoading && !queryError && (
+                      <Button onClick={() => changeSelectionMode('manual')}>
+                        {__('Use these posts as manual slides', 'cci-posts-carousel')}
+                      </Button>
+                    )}
                     <CompositionPreview
-                      title={__('Pinned slides', 'cci-posts-carousel')}
-                      description={__(
-                        'These slides stay at the beginning. Drag to change their order; remove a pin to let the post return to automatic results.',
-                        'cci-posts-carousel',
-                      )}
-                      posts={posts}
+                      title={isHybrid ? __('Automatic results', 'cci-posts-carousel') : undefined}
+                      onPin={!isManual ? pinPost : undefined}
+                      readOnly={!isManual}
+                      posts={visiblePosts}
                       selectedIndex={safeSelectedIndex}
                       draggingIndex={draggingIndex}
                       dragOverIndex={dragOverIndex}
@@ -916,68 +978,27 @@ export default function VisualBuilder({ setNotice, confirmAction }) {
                       onDragEnd={stopDragging}
                       onRemove={removePost}
                     />
-                  )}
-                  {isHybrid && posts.length >= Number(form.post_selection_options.all_items) && (
-                    <p role="status" className="tw-m-0 tw-text-sm tw-text-cci-wpc-muted">
-                      {__(
-                        'Pinned slides fill the posts limit. Increase the limit to include automatic results. Extra pins stay saved but are not shown.',
-                        'cci-posts-carousel',
-                      )}
-                    </p>
-                  )}
-                  {!isManual && queryLoading && (
-                    <LoadingState label={__('Loading matching posts...', 'cci-posts-carousel')} />
-                  )}
-                  {!isManual && queryError && (
-                    <p role="alert">
-                      {__(
-                        'Could not load matching posts. Change a query setting to try again.',
-                        'cci-posts-carousel',
-                      )}
-                    </p>
-                  )}
-                  {!isManual && !queryLoading && !queryError && (
-                    <Button onClick={() => changeSelectionMode('manual')}>
-                      {__('Use these posts as manual slides', 'cci-posts-carousel')}
-                    </Button>
-                  )}
-                  <CompositionPreview
-                    title={isHybrid ? __('Automatic results', 'cci-posts-carousel') : undefined}
-                    onPin={!isManual ? pinPost : undefined}
-                    readOnly={!isManual}
-                    posts={visiblePosts}
-                    selectedIndex={safeSelectedIndex}
-                    draggingIndex={draggingIndex}
-                    dragOverIndex={dragOverIndex}
-                    onSelect={setSelectedIndex}
-                    onUpdate={updatePost}
-                    onChooseImage={chooseCustomImage}
-                    onDragStart={startDragging}
-                    onDragEnter={setDragOverIndex}
-                    onDrop={reorder}
-                    onDragEnd={stopDragging}
-                    onRemove={removePost}
-                  />
 
-                  {visiblePosts.length === 0 &&
-                    !queryLoading &&
-                    !queryError &&
-                    (!isHybrid || posts.length === 0) && (
-                      <div className="tw-grid tw-min-h-40 tw-place-items-center tw-rounded-md tw-border tw-border-dashed tw-border-cci-wpc-border tw-p-6 tw-text-center tw-text-sm tw-text-cci-wpc-muted">
-                        {__(
-                          isManual
-                            ? 'Add manual slides to start arranging this carousel.'
-                            : 'No published posts match these query settings.',
-                          'cci-posts-carousel',
-                        )}
-                      </div>
-                    )}
+                    {visiblePosts.length === 0 &&
+                      !queryLoading &&
+                      !queryError &&
+                      (!isHybrid || posts.length === 0) && (
+                        <div className="tw-grid tw-min-h-40 tw-place-items-center tw-rounded-md tw-border tw-border-dashed tw-border-cci-wpc-border tw-p-6 tw-text-center tw-text-sm tw-text-cci-wpc-muted">
+                          {__(
+                            isManual
+                              ? 'Add manual slides to start arranging this carousel.'
+                              : 'No published posts match these query settings.',
+                            'cci-posts-carousel',
+                          )}
+                        </div>
+                      )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </div>
         </div>
-      </div>
+      )}
       <SavedPreview preview={preview} open={previewOpen} onClose={() => setPreviewOpen(false)} />
     </Card>
   );
