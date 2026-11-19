@@ -66,7 +66,7 @@ The admin screenshots show a demo installation with Pro active. Captions identif
 
 Return to five recently edited carousels from Dashboard. Content details below each title identify automatic sources or saved manual selections. Check publication status and update dates, open the editor or preview a saved carousel. Manage the full collection and copy shortcodes on the Carousels page.
 
-![CCI Posts Carousel All In One Dashboard with recent carousels, publication status and update dates](.wordpress-org/screenshot-1.png)
+![CCI Posts Carousel All In One Dashboard with recent carousels and a single version panel for both editions](.wordpress-org/screenshot-1.png)
 
 </details>
 
