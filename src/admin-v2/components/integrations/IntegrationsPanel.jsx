@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { CountBadge, reconcileCatalogItems } from '@cci/admin-ui';
+import { CountBadge, catalogIdentityKeys, reconcileCatalogItems } from '@cci/admin-ui';
 import { BadgeCheck, Plug, ShoppingBag } from 'lucide-react';
 import { apiFetch, pluginData } from '../../api/api';
 import { __ } from '../../i18n/i18n';
@@ -107,7 +107,24 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
     setActiveTab(nextTab);
   };
 
-  const activeItems = activeTab === installedTab ? installed : reconciledStoreIntegrations;
+  const installedWithCatalogCopy = useMemo(
+    () => installed.map((item) => {
+      const identity = catalogIdentityKeys(item);
+      const catalogItem = storeIntegrations.find((candidate) =>
+        Array.from(catalogIdentityKeys(candidate)).some((key) => identity.has(key)),
+      );
+
+      return catalogItem
+        ? {
+            ...item,
+            label: catalogItem.label || item.label,
+            description: catalogItem.description || item.description,
+          }
+        : item;
+    }),
+    [installed, storeIntegrations],
+  );
+  const activeItems = activeTab === installedTab ? installedWithCatalogCopy : reconciledStoreIntegrations;
   const storeLoading = storeFeed.loading;
   const loading = activeTab === installedTab ? installedLoading : storeLoading;
   const storeStatus = (
@@ -421,6 +438,7 @@ function integrationCatalogKeys(key) {
   const aliases = {
     aurora_cards: ['wp-posts-carousel-aurora-cards', 'cci-posts-carousel-aurora-cards'],
     popular_posts_integration: ['wordpress-popular-posts-integration'],
+    related_content_source: ['wp-posts-carousel-related-content'],
     woocommerce_advanced: ['woocommerce-merchandising-integration'],
   };
 
