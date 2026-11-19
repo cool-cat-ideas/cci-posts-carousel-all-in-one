@@ -1,6 +1,7 @@
 import { pluginData } from '../api/api';
 
 export const __ = window.wp?.i18n?.__ || ((text) => text);
+export const _x = window.wp?.i18n?._x || ((text) => text);
 export const _n =
   window.wp?.i18n?._n || ((singular, plural, count) => (Number(count) === 1 ? singular : plural));
 

@@ -2,7 +2,7 @@ import { ProductStatusPanel } from '@cci/admin-ui/product-panels';
 import React from 'react';
 import { ArrowRight, CheckCircle2, Crown } from 'lucide-react';
 import { pluginData } from '../../api/api';
-import { __ } from '../../i18n/i18n';
+import { __, _x } from '../../i18n/i18n';
 import { readableValue, useMarketplaceJson } from '../../catalog/marketplace';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
@@ -34,8 +34,9 @@ export default function LicensePanel({ license: controlledLicense }) {
     },
   };
   const labels = {
-    Installed: __('Installed version', 'cci-posts-carousel'),
-    Latest: __('Latest version', 'cci-posts-carousel'),
+    Installed: _x('Installed', 'version status', 'cci-posts-carousel'),
+    Latest: _x('Latest', 'version status', 'cci-posts-carousel'),
+    Version: __('Version', 'cci-posts-carousel'),
     'Congratulations, you are using the latest version.': __(
       'Congratulations, you are using the latest version.',
       'cci-posts-carousel',
