@@ -39,6 +39,21 @@ class WP_Posts_Carousel_Admin {
 		echo '<script>var wp_posts_carousel_url="' . esc_js( WP_POSTS_CAROUSEL_DIR_URL ) . '";</script>';
 	}
 
+	private function get_pro_version() {
+		if ( defined( 'WP_Posts_Carousel_Pro::VERSION' ) ) {
+			return WP_Posts_Carousel_Pro::VERSION;
+		}
+
+		$file = WP_PLUGIN_DIR . '/cci-posts-carousel-pro/cci-posts-carousel-pro.php';
+		if ( ! is_readable( $file ) ) {
+			return '';
+		}
+
+		$headers = get_file_data( $file, array( 'version' => 'Version' ) );
+
+		return $headers['version'];
+	}
+
 	/**
 	 * Register scripts and styles
 	 */
@@ -76,6 +91,7 @@ class WP_Posts_Carousel_Admin {
 				'assetsUrl'                => esc_url_raw( WP_POSTS_CAROUSEL_DIR_URL ),
 				'restRoot'                 => esc_url_raw( rest_url() ),
 				'pluginVersion'            => WP_POSTS_CAROUSEL_VERSION,
+				'proVersion'               => $this->get_pro_version(),
 				'adminDate'                => array(
 					'locale'         => function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale(),
 					'dateFormat'     => (string) get_option( 'date_format' ),

@@ -3861,3 +3861,24 @@ msgstr "Własna szerokość"
 #: src/admin-v2/components/builder/SavedPreview.jsx
 msgid "Width in pixels"
 msgstr "Szerokość w pikselach"
+
+msgid "Installed version is newer"
+msgstr "Zainstalowana wersja jest nowsza"
+
+msgid "The product catalog lists an older version."
+msgstr "Katalog produktów pokazuje starszą wersję."
+
+msgid "Pro is not installed"
+msgstr "Moduł Pro nie jest zainstalowany"
+
+msgid "Install Pro to use its features."
+msgstr "Zainstaluj moduł Pro, aby korzystać z jego funkcji."
+
+msgid "Not installed"
+msgstr "Nie zainstalowano"
+
+msgid "Installed version"
+msgstr "Zainstalowana wersja"
+
+msgid "Latest version"
+msgstr "Najnowsza wersja"

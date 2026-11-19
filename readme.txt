@@ -4,7 +4,7 @@ Tags: carousel, slider, posts, gutenberg, custom post types
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -180,6 +180,10 @@ Icons are local by default. Choosing **CDN** in compatibility settings loads Fon
 The plugin includes compiled JavaScript and CSS. The repositories above contain the readable sources and build tools; the product lockfile pins the shared UI packages.
 
 == Changelog ==
+
+= 2.2.3 =
+
+* Show installed and latest versions separately for the base plugin and Pro.
 
 = 2.2.2 =
 * Reduce repeated template checks on pages with several carousels while preserving template filters, theme overrides and license checks.
