@@ -2,7 +2,10 @@
 
 ## 2.2.3 - 2026-11-19
 
-- See the installed and latest versions of the base plugin and Pro separately on the Dashboard.
+- Compare the installed and latest versions of the base plugin and Pro in one Dashboard panel.
+- Update build dependencies.
+- Prepare the base plugin for the upcoming Pro release.
+
 ## 2.2.2 - 2026-11-10
 
 - Reduce repeated template checks when rendering carousels, especially on pages with several examples. Preserve theme overrides, template filters and license checks for the selected template.

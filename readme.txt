@@ -183,7 +183,9 @@ The plugin includes compiled JavaScript and CSS. The repositories above contain 
 
 = 2.2.3 =
 
-* Show installed and latest versions separately for the base plugin and Pro.
+* Compare the installed and latest versions of the base plugin and Pro in one Dashboard panel.
+* Update build dependencies.
+* Prepare the base plugin for the upcoming Pro release.
 
 = 2.2.2 =
 * Reduce repeated template checks on pages with several carousels while preserving template filters, theme overrides and license checks.
