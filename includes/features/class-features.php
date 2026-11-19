@@ -56,6 +56,16 @@ class WP_Posts_Carousel_Features {
 			),
 		);
 
+		// Aurora registers its template path directly, including in older packages.
+		if ( class_exists( 'WP_Posts_Carousel_Aurora_Cards_Addon', false ) ) {
+			$features['aurora_cards'] = self::feature(
+				'Aurora Cards for CCI Posts Carousel',
+				__( 'Adds the Aurora Cards template to the carousel editor.', 'cci-posts-carousel' ),
+				true,
+				'addon'
+			);
+		}
+
 		$base_features = $features;
 		$features      = apply_filters( 'wp_posts_carousel_features', $features );
 

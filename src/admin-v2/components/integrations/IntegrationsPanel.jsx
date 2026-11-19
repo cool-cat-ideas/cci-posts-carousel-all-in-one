@@ -64,7 +64,13 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
       'items',
     ]);
 
-    setStoreIntegrations(integrations.map(normalizeStoreIntegration).filter(Boolean));
+    const templatePackages = collectionFromResponse(storeFeed.data, ['templates']).filter(
+      (item) => item?.urls?.download || item?.urls?.marketplace || item?.downloadUrl || item?.marketplaceUrl,
+    );
+    const packages = [...integrations, ...templatePackages]
+      .map(normalizeStoreIntegration)
+      .filter((item) => item?.key);
+    setStoreIntegrations(Array.from(new Map(packages.map((item) => [item.key, item])).values()));
   }, [storeFeed.data]);
 
   const integrations = useMemo(() => normalizeIntegrations(features), [features]);
@@ -146,15 +152,15 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
           <ReviewPrompt section="integrations" setNotice={setNotice} />
 
           <Tabs value={activeTab} onValueChange={onTabChange}>
-            <TabsList aria-label={__('Integration sections', 'cci-posts-carousel')}>
+            <TabsList aria-label={__('Extension sections', 'cci-posts-carousel')}>
               <TabsTrigger value={installedTab}>
                 <BadgeCheck aria-hidden="true" />
-                {__('Installed products', 'cci-posts-carousel')}
+                {__('Installed extensions', 'cci-posts-carousel')}
                 <CountBadge>{installed.length}</CountBadge>
               </TabsTrigger>
               <TabsTrigger value={storeTab}>
                 <ShoppingBag aria-hidden="true" />
-                {__('Products in store', 'cci-posts-carousel')}
+                {__('Available in store', 'cci-posts-carousel')}
                 <CountBadge>{storeCount}</CountBadge>
               </TabsTrigger>
             </TabsList>
@@ -241,15 +247,15 @@ export default function IntegrationsPanel({ license, onLicenseChange, onOpenSett
         <ReviewPrompt section="integrations" setNotice={setNotice} />
 
         <Tabs value={activeTab} onValueChange={onTabChange}>
-          <TabsList aria-label={__('Integration sections', 'cci-posts-carousel')}>
+          <TabsList aria-label={__('Extension sections', 'cci-posts-carousel')}>
             <TabsTrigger value={installedTab}>
               <BadgeCheck aria-hidden="true" />
-              {__('Installed products', 'cci-posts-carousel')}
+              {__('Installed extensions', 'cci-posts-carousel')}
               <CountBadge>{installed.length}</CountBadge>
             </TabsTrigger>
             <TabsTrigger value={storeTab}>
               <ShoppingBag aria-hidden="true" />
-              {__('Products in store', 'cci-posts-carousel')}
+              {__('Available in store', 'cci-posts-carousel')}
               <CountBadge>{storeCount}</CountBadge>
             </TabsTrigger>
           </TabsList>
@@ -413,6 +419,7 @@ function normalizeIntegrations(features) {
 
 function integrationCatalogKeys(key) {
   const aliases = {
+    aurora_cards: ['wp-posts-carousel-aurora-cards', 'cci-posts-carousel-aurora-cards'],
     popular_posts_integration: ['wordpress-popular-posts-integration'],
     woocommerce_advanced: ['woocommerce-merchandising-integration'],
   };

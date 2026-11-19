@@ -7,7 +7,7 @@ import {
   LayoutDashboard,
   Layers3,
   LayoutTemplate,
-  Plug,
+  ShoppingBag,
   Settings,
 } from 'lucide-react';
 import { apiFetch, pluginData } from '../../api/api';
@@ -21,7 +21,7 @@ import { Button } from '../ui/button';
 const items = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, core: true },
   { id: 'carousels', label: 'Carousels', icon: Layers3 },
-  { id: 'integrations', label: 'Integrations', icon: Plug },
+  { id: 'integrations', label: 'Extensions', icon: ShoppingBag },
   { id: 'templates', label: 'Templates', icon: LayoutTemplate },
   { id: 'analytics', label: 'Analytics', icon: BarChart3 },
   { id: 'settings', label: 'Settings', icon: Settings, core: true },

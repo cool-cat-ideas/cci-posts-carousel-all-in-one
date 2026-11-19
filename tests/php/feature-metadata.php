@@ -36,3 +36,14 @@ if ( $features['paid_adapter']['enabled'] || $features['paid_adapter']['version'
 	throw new RuntimeException( 'Metadata changed paid feature gates.' );
 }
 echo "PASS Public add-on author and version survive normalization without changing feature gates.\n";
+if ( isset( $features['aurora_cards'] ) ) {
+    throw new RuntimeException( 'An inactive Aurora package was listed as installed.' );
+}
+if ( true ) {
+    class WP_Posts_Carousel_Aurora_Cards_Addon {}
+}
+$aurora = WP_Posts_Carousel_Features::public_data()['aurora_cards'] ?? [];
+if ( ( $aurora['source'] ?? null ) !== 'addon' || empty( $aurora['enabled'] ) || ! empty( $aurora['requiresPro'] ) ) {
+    throw new RuntimeException( 'The active Aurora package was not listed as a free add-on.' );
+}
+echo "PASS Aurora Cards appears in the installed extensions only while the add-on is active.\n";

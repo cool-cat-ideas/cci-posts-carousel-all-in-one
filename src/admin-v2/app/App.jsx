@@ -249,7 +249,7 @@ function getPageHeader(activeSection, hasProAnalytics) {
     dashboard: { title: __('Dashboard', 'cci-posts-carousel') },
     carousels: { title: __('Carousels', 'cci-posts-carousel') },
     integrations: {
-      title: __('Carousel data integrations', 'cci-posts-carousel'),
+      title: __('Extensions', 'cci-posts-carousel'),
       description: __(
         'Connect add-ons that extend carousel sources and ordering.',
         'cci-posts-carousel',

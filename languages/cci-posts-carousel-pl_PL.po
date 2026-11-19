@@ -3896,3 +3896,15 @@ msgstr "Najnowsza"
 
 msgid "Version"
 msgstr "Wersja"
+
+msgid "Extensions"
+msgstr "Rozszerzenia"
+
+msgid "Installed extensions"
+msgstr "Zainstalowane rozszerzenia"
+
+msgid "Extension sections"
+msgstr "Sekcje rozszerzeń"
+
+msgid "Adds the Aurora Cards template to the carousel editor."
+msgstr "Dodaje szablon Aurora Cards do edytora karuzeli."

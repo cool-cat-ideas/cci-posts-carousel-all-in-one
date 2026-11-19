@@ -3815,3 +3815,15 @@ msgstr ""
 #: src/admin-v2/components/builder/SavedPreview.jsx
 msgid "Width in pixels"
 msgstr ""
+
+msgid "Extensions"
+msgstr ""
+
+msgid "Installed extensions"
+msgstr ""
+
+msgid "Extension sections"
+msgstr ""
+
+msgid "Adds the Aurora Cards template to the carousel editor."
+msgstr ""
