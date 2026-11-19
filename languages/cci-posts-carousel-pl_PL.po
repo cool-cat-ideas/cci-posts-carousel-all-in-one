@@ -3882,3 +3882,6 @@ msgstr "Zainstalowana wersja"
 
 msgid "Latest version"
 msgstr "Najnowsza wersja"
+
+msgid "Congratulations, you are using the latest version."
+msgstr "Gratulacje, używasz najnowszej wersji."
