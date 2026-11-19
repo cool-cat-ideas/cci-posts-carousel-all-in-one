@@ -2,6 +2,7 @@
 
 ## 2.2.3 - 2026-11-19
 
+- Update build dependencies.
 - Prepare the base plugin for the upcoming Pro release.
 
 ## 2.2.2 - 2026-11-10

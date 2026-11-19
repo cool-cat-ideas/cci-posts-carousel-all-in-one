@@ -183,6 +183,7 @@ The plugin includes compiled JavaScript and CSS. The repositories above contain 
 
 = 2.2.3 =
 
+* Update build dependencies.
 * Prepare the base plugin for the upcoming Pro release.
 
 = 2.2.2 =
