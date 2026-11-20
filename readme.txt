@@ -18,6 +18,14 @@ Your latest articles, your favourite guides, the pages you wish more people woul
 
 **CCI Posts Carousel All In One** gives you a visual editor to choose your content, arrange your slides and preview the result. Add your saved carousel with a Gutenberg block or shortcode, then reuse it across your site. Change it once and every place using it stays in sync.
 
+= Build a post carousel in Gutenberg without Elementor =
+
+Start with a page of home office guides. Create a carousel in **CCI Posts Carousel**, select the posts and publish the carousel. In **General**, use two rows and three columns on desktop. Set **Rows on phones** to one.
+
+In the WordPress block editor, add **CCI Posts Carousel All In One** and choose the saved carousel. Preview the page on desktop and phone before publishing. The editor, the Gutenberg block and two-row layouts are included in the base plugin.
+
+[See the home office example](https://wordpress-demo.coolcatideas.com/cci-free-two-row-example/) | [Follow the two-row setup guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.2/two-row-carousels/)
+
 = Plenty to create with, right from the start =
 
 * **Two rows, one carousel.** Show two rows of cards that move together. Keep one row on phones or choose two, with the existing shortcode and responsive column counts.
