@@ -12,6 +12,8 @@ Create carousels for posts, pages and custom post types. Preview slides in the e
 
 == Description ==
 
+![CCI Posts Carousel All In One logo](https://raw.githubusercontent.com/cool-cat-ideas/cci-posts-carousel-all-in-one/main/assets/images/cci-posts-carousel-logo.png)
+
 Show recent articles on your homepage or bring selected guides together on a landing page. With **CCI Posts Carousel All In One**, you choose what appears, preview the cards and save the carousel for reuse. Add it to a WordPress page with a Gutenberg block or shortcode. When you edit the saved carousel, every page that uses it shows the updated version.
 
 [See the two-row example](https://wordpress-demo.coolcatideas.com/cci-free-two-row-example/) | [Browse live demos](https://wordpress-demo.coolcatideas.com/) | [Read the setup guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.2/)
@@ -32,11 +34,19 @@ The visual editor, Gutenberg block and two-row layout are included in this plugi
 * **Add context to cards.** Choose titles and excerpts, use ACF or post meta for card fields, and optionally show a second image on mouse hover. Touch screens keep the primary image.
 * **Help readers find more content.** Add category or tag filters above the carousel. Use popular post ordering if [WordPress Popular Posts](https://wordpress.org/plugins/wordpress-popular-posts/) is installed.
 
-= WooCommerce, Pro and extensions =
+The base plugin can show WooCommerce products as linked content cards.
 
-The base plugin can show WooCommerce products as linked content cards. The separate Pro plugin adds current prices, sale labels, ratings and Add to cart actions, plus bestsellers and top-rated products. It also includes Commerce Luxe, Story Commerce, Video Showcase, Elementor integration, engagement reports, autoplay progress indicators and Multisite tools. [Compare editions](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/).
+= Preview CCI Posts Carousel All In One Pro =
 
-[Aurora Cards](https://coolcatideas.com/products/cci-posts-carousel-aurora-cards/) adds a card template, and [Related Content](https://coolcatideas.com/products/cci-posts-carousel-related-content/) adds a source for related posts or products. They are optional extensions. Screenshots below identify examples that use Pro or an extension.
+Pro is currently in preview. See how shoppers can browse bestsellers or top-rated products with current WooCommerce prices, sale labels, ratings and Add to cart buttons. **Commerce Luxe** gives featured products their own layout, while **Story Commerce** lets you present products across a sequence of slides.
+
+**Video Showcase** pairs a video with a playlist. Pro also adds an Elementor widget for saved carousels, reports on carousel views and clicks, autoplay progress indicators and tools for copying carousels between licensed WordPress Multisite sites. These features are included in one separate Pro plugin.
+
+[Try Commerce Luxe](https://wordpress-demo.coolcatideas.com/cci-posts-carousel-demo/#wpc-demo-carousel-commerce-luxe-products) | [See Video Showcase](https://wordpress-demo.coolcatideas.com/cci-posts-carousel-demo/#wpc-demo-carousel-pro-video-showcase) | [Get notified when Pro goes on sale](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/#configurator)
+
+= Optional extensions =
+
+[Aurora Cards](https://coolcatideas.com/products/cci-posts-carousel-aurora-cards/) adds a card template, and [Related Content](https://coolcatideas.com/products/cci-posts-carousel-related-content/) adds a source for related posts or products. Screenshots below identify examples that use Pro or an extension.
 
 = Support and developer documentation =
 
