@@ -12,8 +12,6 @@ Create carousels for posts, pages and custom post types. Preview slides in the e
 
 == Description ==
 
-![CCI Posts Carousel All In One logo](https://raw.githubusercontent.com/cool-cat-ideas/cci-posts-carousel-all-in-one/main/assets/images/cci-posts-carousel-logo.png)
-
 Show recent articles on your homepage or bring selected guides together on a landing page. With **CCI Posts Carousel All In One**, you choose what appears, preview the cards and save the carousel for reuse. Add it to a WordPress page with a Gutenberg block or shortcode. When you edit the saved carousel, every page that uses it shows the updated version.
 
 [See the two-row example](https://wordpress-demo.coolcatideas.com/cci-free-two-row-example/) | [Browse live demos](https://wordpress-demo.coolcatideas.com/) | [Read the setup guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.2/)
