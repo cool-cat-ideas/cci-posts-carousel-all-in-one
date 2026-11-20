@@ -1,12 +1,14 @@
-<a href="https://coolcatideas.com/products/cci-posts-carousel-all-in-one">
-  <img src="assets/images/cci-posts-carousel-logo.png" alt="CCI Posts Carousel All In One" width="460">
-</a>
+<p align="center">
+  <a href="https://coolcatideas.com/products/cci-posts-carousel-all-in-one/">
+    <img src="docs/assets/readme-logo.png" alt="CCI Posts Carousel All In One" width="440">
+  </a>
+</p>
 
 # CCI Posts Carousel All In One
 
 Show selected articles, pages and product links together in a WordPress carousel. Choose items by hand or load them by rules, preview the cards in the visual editor and reuse the saved carousel across your site.
 
-[See it in action](https://wordpress-demo.coolcatideas.com/) · [Explore the product](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/) · [Read the guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/) · [Get help](https://github.com/cool-cat-ideas/cci-posts-carousel-all-in-one/issues)
+[Try a two-row carousel](https://wordpress-demo.coolcatideas.com/cci-free-two-row-example/) · [Browse live demos](https://wordpress-demo.coolcatideas.com/) · [Explore the product](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/) · [Read the guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/) · [Get help](https://github.com/cool-cat-ideas/cci-posts-carousel-all-in-one/issues)
 
 See the [changelog](CHANGELOG.md) for release history.
 
@@ -61,7 +63,7 @@ The [plugin readme](readme.txt) includes the changelog and explains marketplace 
 
 The admin screenshots show a demo installation with Pro active. Captions identify Pro features and optional extensions. Expand a screenshot to view it.
 
-<details open>
+<details>
 <summary>1. Carousel dashboard</summary>
 
 Return to five recently edited carousels from Dashboard. Content details below each title identify automatic sources or saved manual selections. Check publication status and update dates, open the editor or preview a saved carousel. Manage the full collection and copy shortcodes on the Carousels page.
@@ -153,7 +155,7 @@ Preview article cards and test the carousel at different widths.
 
 </details>
 
-<details>
+<details open>
 <summary>11. Pinned stories with fresh posts</summary>
 
 Two pinned posts lead this six-slide example. Four more are selected automatically; three cards are visible on desktop.

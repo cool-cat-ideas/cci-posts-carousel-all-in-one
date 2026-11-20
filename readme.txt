@@ -8,86 +8,50 @@ Stable tag: 2.2.3
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Give your content a place to shine. Create responsive carousels with a visual editor, live preview, templates and a Gutenberg block.
+Create carousels for posts, pages and custom post types. Preview slides in the editor and add them with a Gutenberg block or shortcode.
 
 == Description ==
 
-Your latest articles, your favourite guides, the pages you wish more people would discover. Bring them together in a carousel that invites visitors to keep exploring.
+Show recent articles on your homepage or bring selected guides together on a landing page. With **CCI Posts Carousel All In One**, you choose what appears, preview the cards and save the carousel for reuse. Add it to a WordPress page with a Gutenberg block or shortcode. When you edit the saved carousel, every page that uses it shows the updated version.
 
-[See it in action](https://wordpress-demo.coolcatideas.com/) | [Explore the product](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/) | [Read the guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.2/) | [Get help](https://github.com/cool-cat-ideas/cci-posts-carousel-all-in-one/issues)
+[See the two-row example](https://wordpress-demo.coolcatideas.com/cci-free-two-row-example/) | [Browse live demos](https://wordpress-demo.coolcatideas.com/) | [Read the setup guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.2/)
 
-**CCI Posts Carousel All In One** gives you a visual editor to choose your content, arrange your slides and preview the result. Add your saved carousel with a Gutenberg block or shortcode, then reuse it across your site. Change it once and every place using it stays in sync.
+= Build a two-row post carousel in Gutenberg =
 
-= Build a post carousel in Gutenberg without Elementor =
+1. On the plugin dashboard, click **New carousel** and select the articles you want to show.
+2. Open **General > Rows**, choose **Two rows** and set **Rows on phones** to **One row**. Check the desktop and phone previews, then save the carousel.
+3. In the WordPress block editor, add **CCI Posts Carousel All In One**, select the saved carousel and publish your page.
 
-Start with a page of home office guides. Create a carousel in **CCI Posts Carousel**, select the posts and publish the carousel. In **General**, use two rows and three columns on desktop. Set **Rows on phones** to one.
+The visual editor, Gutenberg block and two-row layout are included in this plugin. The [two-row guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.2/two-row-carousels/) shows how to set columns and spacing.
 
-In the WordPress block editor, add **CCI Posts Carousel All In One** and choose the saved carousel. Preview the page on desktop and phone before publishing. The editor, the Gutenberg block and two-row layouts are included in the base plugin.
+= Choose what your visitors can browse =
 
-[See the home office example](https://wordpress-demo.coolcatideas.com/cci-free-two-row-example/) | [Follow the two-row setup guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.2/two-row-carousels/)
+* **Keep recent posts in view.** Select post types, categories and tags. Pin key posts or custom slides first and let matching posts fill the remaining places without duplicates.
+* **Build a hand-picked collection.** Select posts or pages individually and drag them into order. Add your own image slides for featured links.
+* **Fit the carousel to the page.** Choose Default, Light or Simple. Set responsive columns, arrows and autoplay, and preview your changes with Owl Carousel or Swiper.
+* **Add context to cards.** Choose titles and excerpts, use ACF or post meta for card fields, and optionally show a second image on mouse hover. Touch screens keep the primary image.
+* **Help readers find more content.** Add category or tag filters above the carousel. Use popular post ordering if [WordPress Popular Posts](https://wordpress.org/plugins/wordpress-popular-posts/) is installed.
 
-= Plenty to create with, right from the start =
+= WooCommerce, Pro and extensions =
 
-* **Two rows, one carousel.** Show two rows of cards that move together. Keep one row on phones or choose two, with the existing shortcode and responsive column counts.
+The base plugin can show WooCommerce products as linked content cards. The separate Pro plugin adds current prices, sale labels, ratings and Add to cart actions, plus bestsellers and top-rated products. It also includes Commerce Luxe, Story Commerce, Video Showcase, Elementor integration, engagement reports, autoplay progress indicators and Multisite tools. [Compare editions](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/).
 
-* **Show a second image on hover.** Keep the featured image as primary and optionally preview another image from the content, WooCommerce gallery or your own selection. Off by default; touch screens keep the primary image.
-* **Keep selected slides first.** Pin articles, pages or custom slides, then automatically fill the remaining places from your query. Published posts appear once, and newly matching content can join without editing the carousel again.
-* **Your content, your selection.** Display posts, pages and custom post types. Pick categories and tags, or choose individual items for a hand-picked collection.
-* **A visual editor with a live preview.** Arrange slides by dragging them into place and check the result before publishing.
-* **Layouts for large and small screens.** Set responsive breakpoints and adjust how your carousel behaves at different widths.
-* **Templates you can make your own.** Start with Default, Light or Simple, then choose the card details, title lengths and excerpts that suit your page.
-* **Place it where it belongs.** Choose a saved carousel in the Gutenberg block or paste its shortcode. Create as many carousels as you need.
-* **Mix in your own slides.** Add custom image slides for announcements, featured links or an editorial sequence.
-* **Help visitors narrow their choices.** Add category or tag filters above a carousel.
-* **Put your custom fields to work.** Use post meta or ACF fields for badges, button labels, links and images.
-* **Bring popular posts back into view.** Use reading statistics from [WordPress Popular Posts](https://wordpress.org/plugins/wordpress-popular-posts/) when that plugin is installed.
-* **Choose how it runs.** Use Owl Carousel or Swiper, adjust navigation and autoplay, and control image loading and shared library compatibility.
+[Aurora Cards](https://coolcatideas.com/products/cci-posts-carousel-aurora-cards/) adds a card template, and [Related Content](https://coolcatideas.com/products/cci-posts-carousel-related-content/) adds a source for related posts or products. They are optional extensions. Screenshots below identify examples that use Pro or an extension.
 
-The features above are included in this plugin. No Pro license is needed to start building.
+= Support and developer documentation =
 
-= A few ideas for your first carousel =
+[Ask a question in the WordPress support forum](https://wordpress.org/support/plugin/wp-posts-carousel/) or [report an issue on GitHub](https://github.com/cool-cat-ideas/cci-posts-carousel-all-in-one/issues). Include what you tried and your WordPress and plugin versions. Keep license keys and account details private.
 
-Give your homepage a row of recent articles. Bring a set of useful guides together on a landing page. Create a hand-picked selection of pages for visitors who are new to your site. Or display WooCommerce products as linked content cards to help people browse your shop.
-
-[Browse the live examples](https://wordpress-demo.coolcatideas.com/) and find a starting point for your own site. Some examples use Pro features or optional extensions; the screenshots below identify them.
-
-= Take it further with Pro =
-
-When your carousel becomes part of the shopping experience, **CCI Posts Carousel All In One Pro** adds:
-
-* **WooCommerce shopping cards** with current prices, sale labels, ratings and Add to cart actions, plus bestseller and top-rated selections.
-* **Commerce Luxe and Story Commerce** for product presentations and shopping stories.
-* **Video Showcase** for a video player with an accompanying playlist.
-* **Elementor integration** to place carousels while building your pages.
-* **Engagement reports** to see how visitors interact with your carousels.
-* **Autoplay progress indicators** and tools for working across WordPress Multisite.
-
-These features come together in one Pro plugin, installed alongside this one. WooCommerce prices and buying actions require Pro; standard linked product cards do not.
-
-[Explore Pro and compare editions](https://coolcatideas.com/products/cci-posts-carousel-all-in-one/)
-
-= Made to grow with your ideas =
-
-Optional extensions can add more layouts and content sources. [Aurora Cards](https://coolcatideas.com/products/cci-posts-carousel-aurora-cards/) adds another card design, while [Related Content](https://coolcatideas.com/products/cci-posts-carousel-related-content/) finds posts or products related to the page being viewed. Both are separate, no-cost additions.
-
-For developers, the [documentation](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.2/) covers hooks and filters for your own queries, templates and integrations.
-
-= We'd love to hear from you =
-
-Need a hand, spotted a bug or have an idea? [Open an issue on GitHub](https://github.com/cool-cat-ideas/cci-posts-carousel-all-in-one/issues). Tell us what you're trying to build and include your WordPress and plugin versions so we can help. Please keep passwords, license keys and other private details out of public issues.
-
-For help with an agreed scope, [contact Cool Cat Ideas](https://coolcatideas.com/contact/) about a private support service.
+The [developer guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.2/) explains the hooks and filters for extending queries, templates and integrations. For help with a specific setup, [contact Cool Cat Ideas](https://coolcatideas.com/contact/).
 
 == Installation ==
 
 Requires WordPress 6.2 or later and PHP 7.4 or later.
 
-1. Open **Plugins > Add New > Upload Plugin**.
-2. Upload the ZIP and activate **CCI Posts Carousel All In One**.
-3. Open **CCI Posts Carousel All In One** and click **New carousel**.
-4. Choose your content and template, arrange the slides and check the preview.
-5. Save, then add the **CCI Posts Carousel All In One** block to a page and select your carousel. You can also paste its shortcode into a Shortcode block.
-6. Publish your page and enjoy your new carousel.
+1. In **Plugins > Add New**, search for **CCI Posts Carousel All In One**, install it and activate it. If you downloaded the ZIP, choose **Upload Plugin**.
+2. Open the plugin dashboard and click **New carousel**. Choose the content and a template, check the preview and save.
+3. Add the **CCI Posts Carousel All In One** block to your page and select the carousel. You can also paste its shortcode into a Shortcode block.
+4. Preview the page on desktop and mobile, then publish it.
 
 For a walkthrough, see the [getting started guide](https://coolcatideas.com/docs/cci-posts-carousel-all-in-one/2.2.2/).
 
@@ -95,7 +59,7 @@ For a walkthrough, see the [getting started guide](https://coolcatideas.com/docs
 
 = Can a slide show another image on hover? =
 
-Yes, in the base plugin. Open Advanced > Image on hover, enable Change image on hover and choose the content, WooCommerce gallery or manual source. The featured image stays primary. To override a slide, use Hover image URL in the slide editor. Paste an image URL or click Choose from media library. Save and check the page with a mouse. The second image loads on demand; touch screens and missing or failed images keep the primary image. This option is off by default.
+Yes, in the base plugin. Open **Design > Second image on hover**, enable **Show a second image on hover** and choose the content, WooCommerce gallery or manual source. The featured image stays primary. To override a slide, use Hover image URL in the slide editor. Paste an image URL or click Choose from media library. Save and check the page with a mouse. The second image loads on demand; touch screens and missing or failed images keep the primary image. This option is off by default.
 
 
 = Can I keep selected slides first and update the rest automatically? =
